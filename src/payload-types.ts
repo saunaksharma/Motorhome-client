@@ -73,6 +73,7 @@ export interface Config {
     'caravan-filter-options': CaravanFilterOption;
     'tour-filter-options': TourFilterOption;
     caravans: Caravan;
+    tours: Tour;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,6 +87,7 @@ export interface Config {
     'caravan-filter-options': CaravanFilterOptionsSelect<false> | CaravanFilterOptionsSelect<true>;
     'tour-filter-options': TourFilterOptionsSelect<false> | TourFilterOptionsSelect<true>;
     caravans: CaravansSelect<false> | CaravansSelect<true>;
+    tours: ToursSelect<false> | ToursSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -348,6 +350,110 @@ export interface Caravan {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tours".
+ */
+export interface Tour {
+  id: number;
+  name: string;
+  /**
+   * URL path. Auto-filled from the title if left blank.
+   */
+  slug: string;
+  heroImage?: (number | null) | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Used on cards.
+   */
+  shortDescription?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Shown on the card, e.g. "15 Days".
+   */
+  durationLabel?: string | null;
+  durationBand?: (number | null) | TourFilterOption;
+  /**
+   * e.g. "Delhi – Ladakh – Delhi".
+   */
+  routeLabel?: string | null;
+  location?: (number | null) | TourFilterOption;
+  preference?: (number | TourFilterOption)[] | null;
+  /**
+   * e.g. "May – September".
+   */
+  season?: string | null;
+  itinerary?:
+    | {
+        /**
+         * e.g. "Day 1: Delhi → Corbett".
+         */
+        dayTitle: string;
+        description?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  highlights?:
+    | {
+        /**
+         * e.g. "Fun Activities".
+         */
+        label: string;
+        thumbnail?: (number | null) | Media;
+        /**
+         * YouTube link or short clip URL.
+         */
+        videoUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  ctaLabel?: string | null;
+  ctaLink?: string | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -393,6 +499,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'caravans';
         value: number | Caravan;
+      } | null)
+    | ({
+        relationTo: 'tours';
+        value: number | Tour;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -550,6 +660,51 @@ export interface CaravansSelect<T extends boolean = true> {
   additionalExclusions?: T;
   addOns?: T;
   additionalAddOns?: T;
+  highlights?:
+    | T
+    | {
+        label?: T;
+        thumbnail?: T;
+        videoUrl?: T;
+        id?: T;
+      };
+  ctaLabel?: T;
+  ctaLink?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tours_select".
+ */
+export interface ToursSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  heroImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  shortDescription?: T;
+  description?: T;
+  durationLabel?: T;
+  durationBand?: T;
+  routeLabel?: T;
+  location?: T;
+  preference?: T;
+  season?: T;
+  itinerary?:
+    | T
+    | {
+        dayTitle?: T;
+        description?: T;
+        id?: T;
+      };
   highlights?:
     | T
     | {

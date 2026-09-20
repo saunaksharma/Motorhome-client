@@ -11,6 +11,7 @@ import { Features } from './collections/Features'
 import { CaravanFilterOptions } from './collections/CaravanFilterOptions'
 import { TourFilterOptions } from './collections/TourFilterOptions'
 import { Caravans } from './collections/Caravans'
+import { Tours } from './collections/Tours'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,6 +30,7 @@ export default buildConfig({
     CaravanFilterOptions,
     TourFilterOptions,
     Caravans,
+    Tours,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

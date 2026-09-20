@@ -77,14 +77,17 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 - ✅ **CaravanFilterOptions** — group: base-location / drive-type / berth-range / class.
 - ✅ **TourFilterOptions** — group: duration-band / location / preference.
 - ✅ **Caravans** — filters + feature tick-lists (+ per-section "additional") + gallery + highlights + CTA + slug + listingMeta. (Tales/Snaps intentionally deferred.)
+- ✅ **Tours** — filters + Route Map itinerary + highlights + CTA + slug + listingMeta. (Tales/Snaps deferred.)
 
-Commits: `scaffold → Features → filter options → Caravans`.
+Commits: `scaffold → Features → filter options → Caravans → Tours`.
+
+> Note: everything so far is **backend / data model only**. No front-end (design) pages
+> built yet — that starts at Phase 2 (blocked on the header decision).
 
 ---
 
 ## 5. Next up (Phase 1 remaining — in order)
 
-- [ ] **Tours** — filters + Route Map (day-by-day itinerary array) + highlights + CTA. (Tales/Snaps later.)
 - [ ] **Galleries** ("Snaps").
 - [ ] **BlogArticles** ("Tales") + **BlogCategories** (the "Featuring" list).
 - [ ] Wire **Tales/Snaps** relationships onto Tours (and Caravans if confirmed) once those exist.
