@@ -70,6 +70,8 @@ export interface Config {
     users: User;
     media: Media;
     features: Feature;
+    'caravan-filter-options': CaravanFilterOption;
+    'tour-filter-options': TourFilterOption;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +82,8 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     features: FeaturesSelect<false> | FeaturesSelect<true>;
+    'caravan-filter-options': CaravanFilterOptionsSelect<false> | CaravanFilterOptionsSelect<true>;
+    'tour-filter-options': TourFilterOptionsSelect<false> | TourFilterOptionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -190,6 +194,52 @@ export interface Feature {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "caravan-filter-options".
+ */
+export interface CaravanFilterOption {
+  id: number;
+  /**
+   * e.g. "Delhi", "Chauffeur Driven", "8–12 Berth", "Zenith".
+   */
+  name: string;
+  group: 'base-location' | 'drive-type' | 'berth-range' | 'class';
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-filter-options".
+ */
+export interface TourFilterOption {
+  id: number;
+  /**
+   * e.g. "Ladakh", "7–15 Days", "Riverside Caravanning".
+   */
+  name: string;
+  group: 'duration-band' | 'location' | 'preference';
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -223,6 +273,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'features';
         value: number | Feature;
+      } | null)
+    | ({
+        relationTo: 'caravan-filter-options';
+        value: number | CaravanFilterOption;
+      } | null)
+    | ({
+        relationTo: 'tour-filter-options';
+        value: number | TourFilterOption;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -315,6 +373,32 @@ export interface FeaturesSelect<T extends boolean = true> {
   name?: T;
   icon?: T;
   category?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "caravan-filter-options_select".
+ */
+export interface CaravanFilterOptionsSelect<T extends boolean = true> {
+  name?: T;
+  group?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-filter-options_select".
+ */
+export interface TourFilterOptionsSelect<T extends boolean = true> {
+  name?: T;
+  group?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;

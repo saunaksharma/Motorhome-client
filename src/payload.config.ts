@@ -8,6 +8,8 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Features } from './collections/Features'
+import { CaravanFilterOptions } from './collections/CaravanFilterOptions'
+import { TourFilterOptions } from './collections/TourFilterOptions'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -19,7 +21,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Features],
+  collections: [Users, Media, Features, CaravanFilterOptions, TourFilterOptions],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
