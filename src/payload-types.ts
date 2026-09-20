@@ -80,6 +80,8 @@ export interface Config {
     reviews: Review;
     'hero-slides': HeroSlide;
     tips: Tip;
+    enquiries: Enquiry;
+    subscribers: Subscriber;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -100,6 +102,8 @@ export interface Config {
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     'hero-slides': HeroSlidesSelect<false> | HeroSlidesSelect<true>;
     tips: TipsSelect<false> | TipsSelect<true>;
+    enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
+    subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -667,6 +671,38 @@ export interface Tip {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enquiries".
+ */
+export interface Enquiry {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  company?: string | null;
+  /**
+   * The caravan/tour being enquired about.
+   */
+  destination?: string | null;
+  preferredTravelDates?: string | null;
+  groupSize?: string | null;
+  budgetRange?: string | null;
+  requirements?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscribers".
+ */
+export interface Subscriber {
+  id: number;
+  email: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -740,6 +776,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tips';
         value: number | Tip;
+      } | null)
+    | ({
+        relationTo: 'enquiries';
+        value: number | Enquiry;
+      } | null)
+    | ({
+        relationTo: 'subscribers';
+        value: number | Subscriber;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1053,6 +1097,33 @@ export interface TipsSelect<T extends boolean = true> {
   sortOrder?: T;
   featured?: T;
   active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enquiries_select".
+ */
+export interface EnquiriesSelect<T extends boolean = true> {
+  firstName?: T;
+  lastName?: T;
+  email?: T;
+  phone?: T;
+  company?: T;
+  destination?: T;
+  preferredTravelDates?: T;
+  groupSize?: T;
+  budgetRange?: T;
+  requirements?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscribers_select".
+ */
+export interface SubscribersSelect<T extends boolean = true> {
+  email?: T;
   updatedAt?: T;
   createdAt?: T;
 }

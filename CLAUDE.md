@@ -80,8 +80,9 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 - ✅ **Tours** — filters + Route Map itinerary + highlights + CTA + slug + listingMeta + **Tales/Snaps** relationships.
 - ✅ **Galleries** ("Snaps"), **BlogCategories** ("Featuring"), **BlogArticles** ("Tales").
 - ✅ **Reviews** (testimonials), **HeroSlides** (carousel), **Tips** (accordion).
+- ✅ **Enquiries** (booking "Customer Data", public-create / admin-read) + **Subscribers** (newsletter). Public create verified; reads 403.
 
-Commits: `scaffold → Features → filters → Caravans → Tours → galleries+blog → reviews+hero+tips`.
+Commits: `scaffold → Features → filters → Caravans → Tours → galleries+blog → reviews+hero+tips → enquiries+subscribers`.
 
 > Note: everything so far is **backend / data model only**. No front-end (design) pages
 > built yet — that starts at Phase 2 (blocked on the header decision).
@@ -90,8 +91,7 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ## 5. Next up (Phase 1 remaining — in order)
 
-- [ ] **Enquiries** (booking form / "Customer Data"), **Subscribers** (newsletter).
-- [ ] **Innovations** (pending design — see open questions).
+- [ ] **Innovations** (pending design — DEFER to post-launch per 2-week scope).
 - [ ] **Globals**: Header, Footer, Homepage.
 - [ ] Access-control + admin polish pass (public read / admin-only writes; icons in relationship
       pickers; consider tabs on the big Caravan/Tour forms).
