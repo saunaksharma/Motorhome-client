@@ -34,6 +34,10 @@ links, sort/featured/active, unlimited child pages). Design page-53 spells this 
   - `npm run generate:importmap` — after adding custom admin components.
 - **Design source of truth:** `../SPEC.md` (pages + CMS-editable flags) and `../SCHEMA.md`
   (data model). Design images are in the project root. "page-N" = the Canva page number.
+- **Pixel reference — the finished OLD site:** `https://deepskyblue-wildcat-500319.hostingersite.com`
+  (index.html + `/cravans_explore.html?type=caravan&id=...`). Build the NEW Canva design, but
+  match this site's polish. Note: Innovations is a real homepage section there (caravan-style
+  cards with a category badge) — so it is NOT deferred; model it like Caravans.
 
 ---
 
@@ -58,9 +62,9 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 | Phase | Scope | Status |
 |---|---|---|
 | 0 · Setup | Scaffold, Neon, admin user, git | ✅ done |
-| 1 · Data model | All Payload collections + globals | ✅ done (Innovations deferred) |
-| 2 · Design system + shell | tokens, header, footer, newsletter, CTA button | 🔨 shell done (header responsive; needs seeded content + polish) |
-| 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | ⛔ blocked: tier copy + About content |
+| 1 · Data model | All Payload collections + globals | ✅ done (Innovations collection still to add — see Next up) |
+| 2 · Design system + shell | tokens, fonts, header, footer, newsletter, CTA | ✅ done |
+| 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | 👉 NEXT — only the tier block waits on tier-copy (Q2); rest is unblocked |
 | 4 · Caravans front-end | listing + filters + detail | ⬜ not started |
 | 5 · Tours front-end | listing + filters + detail + itinerary | ⬜ not started |
 | 6 · Blog + Gallery | listing + article + gallery | ⬜ blocked: missing designs |
@@ -83,9 +87,10 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 - ✅ **Enquiries** (booking "Customer Data", public-create / admin-read) + **Subscribers** (newsletter). Public create verified; reads 403.
 - ✅ **Globals**: Header (nav data), Footer (columns/socials/newsletter), Homepage (reviewsIntro, About sections, Footprint, Dream-Big CTA). All 200.
 
-**➡️ Phase 1 data model is COMPLETE** (except Innovations, deferred). The client can now
-enter all real content in the admin. Access control is MVP-correct: content = public read /
-admin write; submissions = public create / admin read.
+**➡️ Phase 1 data model is COMPLETE** (one small add-on left: the **Innovations** collection —
+un-deferred, since the old site has it as a real section; build it like Caravans during Phase 3).
+The client can now enter real content in the admin. Access control is MVP-correct: content =
+public read / admin write; submissions = public create / admin read.
 
 ### Phase 2 (design system + shell) — in progress
 - ✅ Design tokens in `src/app/(frontend)/styles.css`; 3 Google fonts via `next/font`.
@@ -95,23 +100,40 @@ admin write; submissions = public create / admin read.
 - ✅ **NewsletterForm** (client) → POST `/api/subscribers`; **CtaButton** (fills green on hover).
 - Verified in browser: green/cream/gold + fonts render; both nav states work.
 
-Commits: `… → globals → phase2-shell`.
-
-> Note: everything so far is **backend / data model only**. No front-end (design) pages
-> built yet — that starts at Phase 2 (blocked on the header decision).
+Commits: `scaffold → Features → filters → Caravans → Tours → galleries+blog → reviews+hero+tips → enquiries+subscribers → globals → phase2-shell`. (10 commits.)
 
 ---
 
-## 5. Next up
+## 4a. Session log
 
-**Phase 2 (front-end) — needs the header decision (page 18 vs 20) first:**
-- [ ] Design tokens → `globals.css` + the 3 Google fonts via `next/font`.
-- [ ] Header (chosen variant), Footer, newsletter, reusable CTA button.
+### 2026-09-20 (day 1)
+- Read all 59 design images + the finished OLD live site; wrote `../SPEC.md` + `../SCHEMA.md`.
+- Cloned Karpathy skills; set coding standard. Set 2-week deadline as a hard constraint.
+- **Phase 0**: scaffolded Payload 3.90.1 + Next 16 on Neon Postgres; admin user created; git init.
+- **Phase 1**: built ALL collections + globals (see Progress log). Data model complete & verified.
+- **Phase 2**: design tokens + 3 fonts + responsive header + footer + newsletter + CTA. Verified on screen.
+- Decisions: header = responsive both; Innovations = real section (un-deferred).
+- **Next session starts at Phase 3 (homepage).** See below.
 
-**Deferred / conditional (do NOT block Phase 2):**
-- [ ] **Innovations** collection — DEFER to post-launch (no design; 2-week scope).
+---
+
+## 5. Next up — Phase 3 (Homepage)
+
+Build order (each: build → seed a little content → verify on screen → commit):
+1. **Seed** a few real examples (hero slides, 3 caravans, 3 tours, reviews, tips, footprint, About) so sections render. Seed only if a collection is empty (never overwrite client data).
+2. **Primitives first:** `Section`, `SectionHeading` (gold swoosh), `Card`, `Badge`, `Carousel`, `IconFeatureList`, `Accordion`, `StatCard`, `MediaImage`, `RichText`.
+3. **Sections:** `HeroCarousel` → `FeaturedCaravans` → `FeaturedTours` → `InnovationsStrip` → `ReviewsCarousel` → `AboutSections` → `TipsAccordion` → `Footprint` → `DreamBigCta`.
+4. The **tier explainer block** waits on Q2 (page 30 vs 31 copy) — skip until answered.
+
+**Small data-model tasks (do alongside):**
+- [ ] Add **Innovations** collection (model like Caravans + a category badge; it's a real homepage section).
 - [ ] Wire **Tales/Snaps** onto **Caravans** — only if client confirms (open Q4).
-- [ ] Admin polish — icons in relationship pickers; tabs on the big Caravan/Tour forms.
+- [ ] Admin polish (optional) — icons in relationship pickers; tabs on big Caravan/Tour forms.
+
+**Then:** Phase 4 (Caravans FE) → 5 (Tours FE) → 6 (Blog/Gallery, needs designs) → 7 (Booking modal) → 8 (polish/deploy).
+
+**Goal: better than the old site** — faster (next/image + SSR), fully self-editable, mobile-first,
+tasteful motion (CSS-first), a11y + SEO. Keep motion lean for the deadline.
 
 ---
 
