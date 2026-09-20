@@ -59,7 +59,7 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 |---|---|---|
 | 0 · Setup | Scaffold, Neon, admin user, git | ✅ done |
 | 1 · Data model | All Payload collections + globals | ✅ done (Innovations deferred) |
-| 2 · Design system + shell | tokens, header, footer, newsletter, CTA button | 👉 NEXT — ⛔ blocked: header decision (page 18 vs 20) |
+| 2 · Design system + shell | tokens, header, footer, newsletter, CTA button | 🔨 shell done (header responsive; needs seeded content + polish) |
 | 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | ⛔ blocked: tier copy + About content |
 | 4 · Caravans front-end | listing + filters + detail | ⬜ not started |
 | 5 · Tours front-end | listing + filters + detail + itinerary | ⬜ not started |
@@ -87,7 +87,15 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 enter all real content in the admin. Access control is MVP-correct: content = public read /
 admin write; submissions = public create / admin read.
 
-Commits: `… → reviews+hero+tips → enquiries+subscribers → globals`.
+### Phase 2 (design system + shell) — in progress
+- ✅ Design tokens in `src/app/(frontend)/styles.css`; 3 Google fonts via `next/font`.
+- ✅ Layout shell fetches Header/Footer globals; renders `SiteHeader` + `SiteFooter`.
+- ✅ **SiteHeader** — responsive (desktop text nav / mobile hamburger). Header decision = "both" (industry standard). Falls back to default nav until the client fills the Header global.
+- ✅ **SiteFooter** — link columns + socials + newsletter block.
+- ✅ **NewsletterForm** (client) → POST `/api/subscribers`; **CtaButton** (fills green on hover).
+- Verified in browser: green/cream/gold + fonts render; both nav states work.
+
+Commits: `… → globals → phase2-shell`.
 
 > Note: everything so far is **backend / data model only**. No front-end (design) pages
 > built yet — that starts at Phase 2 (blocked on the header decision).
@@ -120,7 +128,7 @@ Every content collection carries `listingMeta` (sortOrder, featured, active).
 
 ## 7. Unanswered client questions (do NOT guess — get answers)
 
-1. **Header:** page 18 icon-only vs page 20 text-nav vs responsive both?
+1. ~~**Header:** page 18 vs 20~~ → **RESOLVED: responsive both** (desktop text nav, mobile hamburger).
 2. **Tier copy:** page 30 vs page 31 wording?
 3. **Parent-page count:** 5/6/7? Confirm About→Home redirect and Build/Buy→external.
 4. **Tales/Snaps on caravans** too, or tours-only? (page 45 shows the tabs on a caravan.)
