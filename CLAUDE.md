@@ -79,8 +79,9 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 - ✅ **Caravans** — filters + feature tick-lists (+ per-section "additional") + gallery + highlights + CTA + slug + listingMeta. (Tales/Snaps intentionally deferred.)
 - ✅ **Tours** — filters + Route Map itinerary + highlights + CTA + slug + listingMeta + **Tales/Snaps** relationships.
 - ✅ **Galleries** ("Snaps"), **BlogCategories** ("Featuring"), **BlogArticles** ("Tales").
+- ✅ **Reviews** (testimonials), **HeroSlides** (carousel), **Tips** (accordion).
 
-Commits: `scaffold → Features → filter options → Caravans → Tours → galleries+blog`.
+Commits: `scaffold → Features → filters → Caravans → Tours → galleries+blog → reviews+hero+tips`.
 
 > Note: everything so far is **backend / data model only**. No front-end (design) pages
 > built yet — that starts at Phase 2 (blocked on the header decision).
@@ -89,13 +90,12 @@ Commits: `scaffold → Features → filter options → Caravans → Tours → ga
 
 ## 5. Next up (Phase 1 remaining — in order)
 
-- [ ] **Reviews**, **HeroSlides**, **Tips**.
-- [ ] Wire **Tales/Snaps** onto **Caravans** too — only if the client confirms (open Q4).
 - [ ] **Enquiries** (booking form / "Customer Data"), **Subscribers** (newsletter).
 - [ ] **Innovations** (pending design — see open questions).
 - [ ] **Globals**: Header, Footer, Homepage.
 - [ ] Access-control + admin polish pass (public read / admin-only writes; icons in relationship
       pickers; consider tabs on the big Caravan/Tour forms).
+- [ ] Wire **Tales/Snaps** onto **Caravans** too — only if the client confirms (open Q4).
 
 ---
 

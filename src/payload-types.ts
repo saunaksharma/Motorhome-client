@@ -77,6 +77,9 @@ export interface Config {
     tours: Tour;
     galleries: Gallery;
     'blog-articles': BlogArticle;
+    reviews: Review;
+    'hero-slides': HeroSlide;
+    tips: Tip;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,6 +97,9 @@ export interface Config {
     tours: ToursSelect<false> | ToursSelect<true>;
     galleries: GalleriesSelect<false> | GalleriesSelect<true>;
     'blog-articles': BlogArticlesSelect<false> | BlogArticlesSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    'hero-slides': HeroSlidesSelect<false> | HeroSlidesSelect<true>;
+    tips: TipsSelect<false> | TipsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -562,6 +568,105 @@ export interface Gallery {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  reviewerName: string;
+  style?: ('quote' | 'featured') | null;
+  /**
+   * Star rating, 1–5.
+   */
+  rating?: number | null;
+  /**
+   * The review text.
+   */
+  quote?: string | null;
+  photo?: (number | null) | Media;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-slides".
+ */
+export interface HeroSlide {
+  id: number;
+  /**
+   * e.g. "CHOOSE YOUR".
+   */
+  headingLine1?: string | null;
+  /**
+   * Highlighted line, e.g. "HOME AWAY HOME".
+   */
+  headingLine2?: string | null;
+  backgroundImage?: (number | null) | Media;
+  /**
+   * e.g. "BOOK NOW" or "RENT NOW".
+   */
+  ctaLabel?: string | null;
+  ctaLink?: string | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tips".
+ */
+export interface Tip {
+  id: number;
+  title: string;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Optional YouTube / clip link.
+   */
+  videoUrl?: string | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -623,6 +728,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blog-articles';
         value: number | BlogArticle;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: number | Review;
+      } | null)
+    | ({
+        relationTo: 'hero-slides';
+        value: number | HeroSlide;
+      } | null)
+    | ({
+        relationTo: 'tips';
+        value: number | Tip;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -887,6 +1004,52 @@ export interface BlogArticlesSelect<T extends boolean = true> {
   body?: T;
   category?: T;
   publishedAt?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  reviewerName?: T;
+  style?: T;
+  rating?: T;
+  quote?: T;
+  photo?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-slides_select".
+ */
+export interface HeroSlidesSelect<T extends boolean = true> {
+  headingLine1?: T;
+  headingLine2?: T;
+  backgroundImage?: T;
+  ctaLabel?: T;
+  ctaLink?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tips_select".
+ */
+export interface TipsSelect<T extends boolean = true> {
+  title?: T;
+  body?: T;
+  videoUrl?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;

@@ -15,6 +15,9 @@ import { Tours } from './collections/Tours'
 import { Galleries } from './collections/Galleries'
 import { BlogCategories } from './collections/BlogCategories'
 import { BlogArticles } from './collections/BlogArticles'
+import { Reviews } from './collections/Reviews'
+import { HeroSlides } from './collections/HeroSlides'
+import { Tips } from './collections/Tips'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -37,6 +40,9 @@ export default buildConfig({
     Tours,
     Galleries,
     BlogArticles,
+    Reviews,
+    HeroSlides,
+    Tips,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
