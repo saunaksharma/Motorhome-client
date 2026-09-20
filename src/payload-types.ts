@@ -72,6 +72,7 @@ export interface Config {
     features: Feature;
     'caravan-filter-options': CaravanFilterOption;
     'tour-filter-options': TourFilterOption;
+    caravans: Caravan;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +85,7 @@ export interface Config {
     features: FeaturesSelect<false> | FeaturesSelect<true>;
     'caravan-filter-options': CaravanFilterOptionsSelect<false> | CaravanFilterOptionsSelect<true>;
     'tour-filter-options': TourFilterOptionsSelect<false> | TourFilterOptionsSelect<true>;
+    caravans: CaravansSelect<false> | CaravansSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -240,6 +242,112 @@ export interface TourFilterOption {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "caravans".
+ */
+export interface Caravan {
+  id: number;
+  name: string;
+  /**
+   * URL path. Auto-filled from the title if left blank.
+   */
+  slug: string;
+  heroImage?: (number | null) | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Used on cards.
+   */
+  shortDescription?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * e.g. "4–6 People".
+   */
+  sleeps?: string | null;
+  /**
+   * e.g. "Charges Start From Delhi".
+   */
+  chargesFrom?: string | null;
+  /**
+   * e.g. "Tata 4300 wb Chassis".
+   */
+  baseVehicle?: string | null;
+  baseLocation?: (number | null) | CaravanFilterOption;
+  driveType?: (number | null) | CaravanFilterOption;
+  berthRange?: (number | null) | CaravanFilterOption;
+  class?: (number | null) | CaravanFilterOption;
+  specifications?: (number | Feature)[] | null;
+  /**
+   * Anything not in the tick-list above (free text).
+   */
+  additionalSpecifications?: string | null;
+  uniqueFeatures?: (number | Feature)[] | null;
+  /**
+   * Anything not in the tick-list above (free text).
+   */
+  additionalUniqueFeatures?: string | null;
+  inclusions?: (number | Feature)[] | null;
+  /**
+   * Anything not in the tick-list above (free text).
+   */
+  additionalInclusions?: string | null;
+  exclusions?: (number | Feature)[] | null;
+  /**
+   * Anything not in the tick-list above (free text).
+   */
+  additionalExclusions?: string | null;
+  addOns?: (number | Feature)[] | null;
+  /**
+   * Anything not in the tick-list above (free text).
+   */
+  additionalAddOns?: string | null;
+  highlights?:
+    | {
+        /**
+         * e.g. "Walk Through".
+         */
+        label: string;
+        thumbnail?: (number | null) | Media;
+        /**
+         * YouTube link or short clip URL.
+         */
+        videoUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  ctaLabel?: string | null;
+  ctaLink?: string | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -281,6 +389,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tour-filter-options';
         value: number | TourFilterOption;
+      } | null)
+    | ({
+        relationTo: 'caravans';
+        value: number | Caravan;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -399,6 +511,55 @@ export interface CaravanFilterOptionsSelect<T extends boolean = true> {
 export interface TourFilterOptionsSelect<T extends boolean = true> {
   name?: T;
   group?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "caravans_select".
+ */
+export interface CaravansSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  heroImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  shortDescription?: T;
+  description?: T;
+  sleeps?: T;
+  chargesFrom?: T;
+  baseVehicle?: T;
+  baseLocation?: T;
+  driveType?: T;
+  berthRange?: T;
+  class?: T;
+  specifications?: T;
+  additionalSpecifications?: T;
+  uniqueFeatures?: T;
+  additionalUniqueFeatures?: T;
+  inclusions?: T;
+  additionalInclusions?: T;
+  exclusions?: T;
+  additionalExclusions?: T;
+  addOns?: T;
+  additionalAddOns?: T;
+  highlights?:
+    | T
+    | {
+        label?: T;
+        thumbnail?: T;
+        videoUrl?: T;
+        id?: T;
+      };
+  ctaLabel?: T;
+  ctaLink?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;
