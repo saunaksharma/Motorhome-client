@@ -1,1 +1,134 @@
 @AGENTS.md
+
+# Motorhome Adventures — Project Guide (living doc)
+
+> **Keep this file current every session.** When something ships, move it from
+> "Next up" to the "Progress log". When a phase completes, update its status. Never
+> let this drift from reality — it is the shared source of truth.
+
+---
+
+## 0. North star (why this project exists)
+
+The client must be able to **edit everything themselves — with no dependency on a
+developer**. The old backend "worked", but every change needed the original dev, and that
+failed. So: **when in doubt, make it CMS-editable** (hero slides, features, reviews, footer
+links, sort/featured/active, unlimited child pages). Design page-53 spells this out.
+
+---
+
+## 1. Stack & structure
+
+- **Next.js 16 + Payload 3.90.1** (Payload embedded in the Next app) · **Neon Postgres** · TypeScript.
+- Everything lives in **`motorhome-adventures/`**. `.env` is gitignored and holds
+  `DATABASE_URI` (Neon **direct** connection — Payload needs prepared statements) and `PAYLOAD_SECRET`.
+- Key paths:
+  - `src/payload.config.ts` — registers all collections/globals.
+  - `src/collections/*` — one file per collection.
+  - `src/fields/*` — shared field helpers (`listingMeta`, `slugField`).
+  - `src/app/(payload)/*` — Payload admin (auto-generated; do **not** hand-edit).
+  - `src/app/(frontend)/*` — the public website (Next).
+- Commands (run from `motorhome-adventures/`):
+  - `npm run dev` — start the app (http://localhost:3000, admin at `/admin`).
+  - `npm run generate:types` — regenerate `payload-types.ts` after any schema change.
+  - `npm run generate:importmap` — after adding custom admin components.
+- **Design source of truth:** `../SPEC.md` (pages + CMS-editable flags) and `../SCHEMA.md`
+  (data model). Design images are in the project root. "page-N" = the Canva page number.
+
+---
+
+## 2. Coding standards (Karpathy — see `andrej-karpathy-skills/`)
+
+1. **Think before coding** — state assumptions, present options, ask when unclear. Don't guess.
+2. **Simplicity first** — minimum code; no speculative abstractions, config, or fields.
+3. **Surgical changes** — touch only what's needed; match existing style; don't refactor unrelated code.
+4. **Goal-driven** — define a verifiable check per step and verify before moving on.
+5. **Clean & easy to understand** — small files, clear names, comments that state intent, no cleverness.
+6. **Verify** DB/schema work via the **app REST API** (`/api/<slug>` returns 200 + JSON),
+   not throwaway direct DB connections (Neon autosuspends and refuses them).
+7. One collection/piece at a time → verify → **commit** as its own clean diff → repeat.
+
+---
+
+## 3. Phases & the discipline rule
+
+**RULE: one phase at a time. Do NOT start the next phase's work until the current phase is
+complete and verified.** Within a phase, build one piece, verify, commit, then the next.
+
+| Phase | Scope | Status |
+|---|---|---|
+| 0 · Setup | Scaffold, Neon, admin user, git | ✅ done |
+| 1 · Data model | All Payload collections + globals | 🔨 in progress |
+| 2 · Design system + shell | tokens, header, footer, newsletter, CTA button | ⛔ blocked: header decision |
+| 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | ⛔ blocked: tier copy + About content |
+| 4 · Caravans front-end | listing + filters + detail | ⬜ not started |
+| 5 · Tours front-end | listing + filters + detail + itinerary | ⬜ not started |
+| 6 · Blog + Gallery | listing + article + gallery | ⬜ blocked: missing designs |
+| 7 · Forms | booking modal → Enquiries, newsletter → Subscribers | ⬜ not started |
+| 8 · Polish | responsive, animation, QA, deploy | ⬜ not started |
+
+---
+
+## 4. Progress log (done & verified)
+
+- ✅ **Phase 0** — Payload + Next + Neon scaffold; admin user (`saunaksharma@gmail.com`); git baseline.
+- ✅ Shared helpers — `listingMeta` (sortOrder/featured/active), `slugField` (auto-slug).
+- ✅ **Features** — name, icon (→media), category (spec/inclusion/exclusion/unique-feature/add-on).
+- ✅ **CaravanFilterOptions** — group: base-location / drive-type / berth-range / class.
+- ✅ **TourFilterOptions** — group: duration-band / location / preference.
+- ✅ **Caravans** — filters + feature tick-lists (+ per-section "additional") + gallery + highlights + CTA + slug + listingMeta. (Tales/Snaps intentionally deferred.)
+
+Commits: `scaffold → Features → filter options → Caravans`.
+
+---
+
+## 5. Next up (Phase 1 remaining — in order)
+
+- [ ] **Tours** — filters + Route Map (day-by-day itinerary array) + highlights + CTA. (Tales/Snaps later.)
+- [ ] **Galleries** ("Snaps").
+- [ ] **BlogArticles** ("Tales") + **BlogCategories** (the "Featuring" list).
+- [ ] Wire **Tales/Snaps** relationships onto Tours (and Caravans if confirmed) once those exist.
+- [ ] **Reviews**, **HeroSlides**, **Tips**.
+- [ ] **Enquiries** (booking form / "Customer Data"), **Subscribers** (newsletter).
+- [ ] **Innovations** (pending design — see open questions).
+- [ ] **Globals**: Header, Footer, Homepage.
+- [ ] Access-control + admin polish pass (public read / admin-only writes; icons in relationship
+      pickers; consider tabs on the big Caravan/Tour forms).
+
+---
+
+## 6. Data model (target — full detail in `../SCHEMA.md`)
+
+**Shared:** `features`, `caravan-filter-options`, `tour-filter-options`.
+**Content:** `caravans`, `tours`, `galleries`, `blog-articles`, `blog-categories`,
+`reviews`, `hero-slides`, `tips`, `innovations`.
+**System:** `users`, `media`, `enquiries`, `subscribers`.
+**Globals:** `header`, `footer`, `homepage`.
+Every content collection carries `listingMeta` (sortOrder, featured, active).
+
+---
+
+## 7. Unanswered client questions (do NOT guess — get answers)
+
+1. **Header:** page 18 icon-only vs page 20 text-nav vs responsive both?
+2. **Tier copy:** page 30 vs page 31 wording?
+3. **Parent-page count:** 5/6/7? Confirm About→Home redirect and Build/Buy→external.
+4. **Tales/Snaps on caravans** too, or tours-only? (page 45 shows the tabs on a caravan.)
+5. **Add-on sub-groups** (Sports/Lifestyle): real field or cosmetic?
+6. **Missing designs:** Our Innovations, Gallery/Snaps, Blog article page, footer legal pages.
+7. **Caravan base-vehicle / sleeps / base-location:** dedicated fields vs spec features?
+   (Currently added as dedicated text fields — revisit.)
+8. **"additional" free-text:** per-category (current) or one overall?
+9. **Typography mapping** across Racing Sans One / Oswald / Lato / Canva Sans / Rustic Printed.
+10. **Booking flow:** modal fields (name/email/phone/company/destination/dates/group/budget/notes)
+    → stored as Enquiries "Customer Data"?
+
+---
+
+## 8. Design tokens (sampled from the design pixels)
+
+- `--green: #0D473F` (one green only; darker = opacity over it) · `--gold: #C9A23E`
+  (logo ≈ `#C9A03B`, swoosh ≈ `#D0AC3F`) · `--cream: #FDFBF9` · `--card: #FFFFFF` ·
+  text `#0D473F` on cream / `#FFFFFF` on green · hero pill = green @ ~0.85 opacity.
+- Fonts (Google, via `next/font`): **display** Racing Sans One (italic) · **heading** Oswald
+  · **body** Lato. Fallback: sans-serif.
