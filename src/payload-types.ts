@@ -72,8 +72,11 @@ export interface Config {
     features: Feature;
     'caravan-filter-options': CaravanFilterOption;
     'tour-filter-options': TourFilterOption;
+    'blog-categories': BlogCategory;
     caravans: Caravan;
     tours: Tour;
+    galleries: Gallery;
+    'blog-articles': BlogArticle;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,8 +89,11 @@ export interface Config {
     features: FeaturesSelect<false> | FeaturesSelect<true>;
     'caravan-filter-options': CaravanFilterOptionsSelect<false> | CaravanFilterOptionsSelect<true>;
     'tour-filter-options': TourFilterOptionsSelect<false> | TourFilterOptionsSelect<true>;
+    'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
     caravans: CaravansSelect<false> | CaravansSelect<true>;
     tours: ToursSelect<false> | ToursSelect<true>;
+    galleries: GalleriesSelect<false> | GalleriesSelect<true>;
+    'blog-articles': BlogArticlesSelect<false> | BlogArticlesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -230,6 +236,25 @@ export interface TourFilterOption {
    */
   name: string;
   group: 'duration-band' | 'location' | 'preference';
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-categories".
+ */
+export interface BlogCategory {
+  id: number;
+  name: string;
   /**
    * Lower numbers show first.
    */
@@ -440,6 +465,89 @@ export interface Tour {
     | null;
   ctaLabel?: string | null;
   ctaLink?: string | null;
+  tales?: (number | null) | BlogArticle;
+  snaps?: (number | null) | Gallery;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-articles".
+ */
+export interface BlogArticle {
+  id: number;
+  title: string;
+  /**
+   * URL path. Auto-filled from the title if left blank.
+   */
+  slug: string;
+  coverImage?: (number | null) | Media;
+  /**
+   * Short summary for cards.
+   */
+  excerpt?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * The "Featuring" tags for this article.
+   */
+  category?: (number | BlogCategory)[] | null;
+  /**
+   * Used for the "Published Since" sort.
+   */
+  publishedAt?: string | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "galleries".
+ */
+export interface Gallery {
+  id: number;
+  title: string;
+  /**
+   * URL path. Auto-filled from the title if left blank.
+   */
+  slug: string;
+  images?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Lower numbers show first.
    */
@@ -497,12 +605,24 @@ export interface PayloadLockedDocument {
         value: number | TourFilterOption;
       } | null)
     | ({
+        relationTo: 'blog-categories';
+        value: number | BlogCategory;
+      } | null)
+    | ({
         relationTo: 'caravans';
         value: number | Caravan;
       } | null)
     | ({
         relationTo: 'tours';
         value: number | Tour;
+      } | null)
+    | ({
+        relationTo: 'galleries';
+        value: number | Gallery;
+      } | null)
+    | ({
+        relationTo: 'blog-articles';
+        value: number | BlogArticle;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -629,6 +749,18 @@ export interface TourFilterOptionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-categories_select".
+ */
+export interface BlogCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "caravans_select".
  */
 export interface CaravansSelect<T extends boolean = true> {
@@ -715,6 +847,46 @@ export interface ToursSelect<T extends boolean = true> {
       };
   ctaLabel?: T;
   ctaLink?: T;
+  tales?: T;
+  snaps?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "galleries_select".
+ */
+export interface GalleriesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-articles_select".
+ */
+export interface BlogArticlesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  coverImage?: T;
+  excerpt?: T;
+  body?: T;
+  category?: T;
+  publishedAt?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;

@@ -76,6 +76,20 @@ export const Tours: CollectionConfig = {
     { name: 'ctaLabel', type: 'text', defaultValue: 'RESERVE YOUR RIDE' },
     { name: 'ctaLink', type: 'text' },
 
+    // Tales & Snaps tabs (SPEC page 51): related blog article + related gallery
+    {
+      name: 'tales',
+      label: 'Tales (related article)',
+      type: 'relationship',
+      relationTo: 'blog-articles',
+    },
+    {
+      name: 'snaps',
+      label: 'Snaps (related gallery)',
+      type: 'relationship',
+      relationTo: 'galleries',
+    },
+
     ...listingMeta,
   ],
 }

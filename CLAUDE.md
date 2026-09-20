@@ -77,9 +77,10 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 - ✅ **CaravanFilterOptions** — group: base-location / drive-type / berth-range / class.
 - ✅ **TourFilterOptions** — group: duration-band / location / preference.
 - ✅ **Caravans** — filters + feature tick-lists (+ per-section "additional") + gallery + highlights + CTA + slug + listingMeta. (Tales/Snaps intentionally deferred.)
-- ✅ **Tours** — filters + Route Map itinerary + highlights + CTA + slug + listingMeta. (Tales/Snaps deferred.)
+- ✅ **Tours** — filters + Route Map itinerary + highlights + CTA + slug + listingMeta + **Tales/Snaps** relationships.
+- ✅ **Galleries** ("Snaps"), **BlogCategories** ("Featuring"), **BlogArticles** ("Tales").
 
-Commits: `scaffold → Features → filter options → Caravans → Tours`.
+Commits: `scaffold → Features → filter options → Caravans → Tours → galleries+blog`.
 
 > Note: everything so far is **backend / data model only**. No front-end (design) pages
 > built yet — that starts at Phase 2 (blocked on the header decision).
@@ -88,10 +89,8 @@ Commits: `scaffold → Features → filter options → Caravans → Tours`.
 
 ## 5. Next up (Phase 1 remaining — in order)
 
-- [ ] **Galleries** ("Snaps").
-- [ ] **BlogArticles** ("Tales") + **BlogCategories** (the "Featuring" list).
-- [ ] Wire **Tales/Snaps** relationships onto Tours (and Caravans if confirmed) once those exist.
 - [ ] **Reviews**, **HeroSlides**, **Tips**.
+- [ ] Wire **Tales/Snaps** onto **Caravans** too — only if the client confirms (open Q4).
 - [ ] **Enquiries** (booking form / "Customer Data"), **Subscribers** (newsletter).
 - [ ] **Innovations** (pending design — see open questions).
 - [ ] **Globals**: Header, Footer, Homepage.
