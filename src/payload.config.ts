@@ -20,6 +20,9 @@ import { HeroSlides } from './collections/HeroSlides'
 import { Tips } from './collections/Tips'
 import { Enquiries } from './collections/Enquiries'
 import { Subscribers } from './collections/Subscribers'
+import { Header } from './globals/Header'
+import { Footer } from './globals/Footer'
+import { Homepage } from './globals/Homepage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -48,6 +51,7 @@ export default buildConfig({
     Enquiries,
     Subscribers,
   ],
+  globals: [Header, Footer, Homepage],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

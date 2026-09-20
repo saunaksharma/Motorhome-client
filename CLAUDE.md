@@ -58,8 +58,8 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 | Phase | Scope | Status |
 |---|---|---|
 | 0 · Setup | Scaffold, Neon, admin user, git | ✅ done |
-| 1 · Data model | All Payload collections + globals | 🔨 in progress |
-| 2 · Design system + shell | tokens, header, footer, newsletter, CTA button | ⛔ blocked: header decision |
+| 1 · Data model | All Payload collections + globals | ✅ done (Innovations deferred) |
+| 2 · Design system + shell | tokens, header, footer, newsletter, CTA button | 👉 NEXT — ⛔ blocked: header decision (page 18 vs 20) |
 | 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | ⛔ blocked: tier copy + About content |
 | 4 · Caravans front-end | listing + filters + detail | ⬜ not started |
 | 5 · Tours front-end | listing + filters + detail + itinerary | ⬜ not started |
@@ -81,21 +81,29 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 - ✅ **Galleries** ("Snaps"), **BlogCategories** ("Featuring"), **BlogArticles** ("Tales").
 - ✅ **Reviews** (testimonials), **HeroSlides** (carousel), **Tips** (accordion).
 - ✅ **Enquiries** (booking "Customer Data", public-create / admin-read) + **Subscribers** (newsletter). Public create verified; reads 403.
+- ✅ **Globals**: Header (nav data), Footer (columns/socials/newsletter), Homepage (reviewsIntro, About sections, Footprint, Dream-Big CTA). All 200.
 
-Commits: `scaffold → Features → filters → Caravans → Tours → galleries+blog → reviews+hero+tips → enquiries+subscribers`.
+**➡️ Phase 1 data model is COMPLETE** (except Innovations, deferred). The client can now
+enter all real content in the admin. Access control is MVP-correct: content = public read /
+admin write; submissions = public create / admin read.
+
+Commits: `… → reviews+hero+tips → enquiries+subscribers → globals`.
 
 > Note: everything so far is **backend / data model only**. No front-end (design) pages
 > built yet — that starts at Phase 2 (blocked on the header decision).
 
 ---
 
-## 5. Next up (Phase 1 remaining — in order)
+## 5. Next up
 
-- [ ] **Innovations** (pending design — DEFER to post-launch per 2-week scope).
-- [ ] **Globals**: Header, Footer, Homepage.
-- [ ] Access-control + admin polish pass (public read / admin-only writes; icons in relationship
-      pickers; consider tabs on the big Caravan/Tour forms).
-- [ ] Wire **Tales/Snaps** onto **Caravans** too — only if the client confirms (open Q4).
+**Phase 2 (front-end) — needs the header decision (page 18 vs 20) first:**
+- [ ] Design tokens → `globals.css` + the 3 Google fonts via `next/font`.
+- [ ] Header (chosen variant), Footer, newsletter, reusable CTA button.
+
+**Deferred / conditional (do NOT block Phase 2):**
+- [ ] **Innovations** collection — DEFER to post-launch (no design; 2-week scope).
+- [ ] Wire **Tales/Snaps** onto **Caravans** — only if client confirms (open Q4).
+- [ ] Admin polish — icons in relationship pickers; tabs on the big Caravan/Tour forms.
 
 ---
 
