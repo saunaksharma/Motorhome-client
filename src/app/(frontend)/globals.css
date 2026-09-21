@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* ============================================================
+   Motorhome Adventures — brand theme (Tailwind v4 + shadcn/ui)
+   One green only; darker shades = opacity over it, never a new hex.
+   shadcn components read the --* vars below, so they inherit the
+   brand automatically.
+   ============================================================ */
+
+:root {
+  --radius: 0.75rem;
+
+  /* shadcn semantic tokens, mapped to the brand */
+  --background: #fdfbf9; /* cream */
+  --foreground: #0d473f; /* green */
+  --card: #ffffff;
+  --card-foreground: #0d473f;
+  --popover: #ffffff;
+  --popover-foreground: #0d473f;
+  --primary: #0d473f; /* green */
+  --primary-foreground: #ffffff;
+  --secondary: #c9a23e; /* gold */
+  --secondary-foreground: #0d473f;
+  --muted: #f1efe9;
+  --muted-foreground: #4b5a55;
+  --accent: #c9a23e; /* gold */
+  --accent-foreground: #0d473f;
+  --destructive: #b3261e;
+  --border: rgba(13, 71, 63, 0.15);
+  --input: rgba(13, 71, 63, 0.2);
+  --ring: #0d473f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* brand-named aliases: bg-green, text-gold, bg-cream, ... */
+  --color-green: #0d473f;
+  --color-gold: #c9a23e;
+  --color-cream: #fdfbf9;
+
+  /* fonts (variables set by next/font in layout.tsx) */
+  --font-display: var(--font-racing), sans-serif; /* hero + section headings (italic) */
+  --font-heading: var(--font-oswald), sans-serif; /* secondary headings, nav, buttons */
+  --font-body: var(--font-lato), sans-serif; /* body text */
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+}

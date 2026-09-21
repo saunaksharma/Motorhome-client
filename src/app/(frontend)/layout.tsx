@@ -5,7 +5,7 @@ import React from 'react'
 import config from '@/payload.config'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
-import './styles.css'
+import './globals.css'
 
 const racing = Racing_Sans_One({ weight: '400', subsets: ['latin'], variable: '--font-racing' })
 const oswald = Oswald({ subsets: ['latin'], variable: '--font-oswald' })

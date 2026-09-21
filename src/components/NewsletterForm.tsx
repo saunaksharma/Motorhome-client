@@ -33,7 +33,10 @@ export function NewsletterForm({ ctaLabel = 'SUBSCRIBE NOW' }: { ctaLabel?: stri
   }
 
   return (
-    <form className="newsletter-form" onSubmit={onSubmit}>
+    <form
+      onSubmit={onSubmit}
+      className="mx-auto mt-4 flex max-w-lg flex-wrap justify-center gap-2"
+    >
       <input
         type="email"
         required
@@ -41,12 +44,17 @@ export function NewsletterForm({ ctaLabel = 'SUBSCRIBE NOW' }: { ctaLabel?: stri
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         aria-label="Email address"
+        className="min-w-60 flex-1 rounded-full border border-white/40 bg-white/10 px-4 py-3 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-gold"
       />
-      <button className="cta-button cta-button--on-green" type="submit" disabled={busy}>
+      <button
+        type="submit"
+        disabled={busy}
+        className="rounded-full border-2 border-white px-8 py-3 font-heading font-semibold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-green disabled:opacity-60"
+      >
         {busy ? '…' : ctaLabel}
       </button>
       {msg && (
-        <p className="newsletter-form__msg" role="status">
+        <p className="mt-2.5 w-full text-center text-sm text-white/90" role="status">
           {msg}
         </p>
       )}

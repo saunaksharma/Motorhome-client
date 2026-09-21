@@ -20,6 +20,11 @@ links, sort/featured/active, unlimited child pages). Design page-53 spells this 
 ## 1. Stack & structure
 
 - **Next.js 16 + Payload 3.90.1** (Payload embedded in the Next app) · **Neon Postgres** · TypeScript.
+- **Frontend styling: Tailwind v4 + shadcn/ui** (brand theme in `(frontend)/globals.css`;
+  `cn()` in `src/lib/utils.ts`; shadcn config in `components.json`; components land in
+  `src/components/ui/`). We pull components from **21st.dev** (React + Tailwind + shadcn) and
+  adapt them to the brand tokens. **Tailwind loads only on the public site** — the Payload
+  admin keeps its own styling (verified). Icons: `lucide-react`.
 - Everything lives in **`motorhome-adventures/`**. `.env` is gitignored and holds
   `DATABASE_URI` (Neon **direct** connection — Payload needs prepared statements) and `PAYLOAD_SECRET`.
 - Key paths:
@@ -64,7 +69,8 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 | 0 · Setup | Scaffold, Neon, admin user, git | ✅ done |
 | 1 · Data model | All Payload collections + globals | ✅ done (Innovations collection still to add — see Next up) |
 | 2 · Design system + shell | tokens, fonts, header, footer, newsletter, CTA | ✅ done |
-| 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | 👉 NEXT — only the tier block waits on tier-copy (Q2); rest is unblocked |
+| 2.5 · Tailwind + shadcn | migrate shell to Tailwind v4 + shadcn; wire brand theme | ✅ done |
+| 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | 🔨 in progress — only the tier block waits on tier-copy (Q2); rest is unblocked |
 | 4 · Caravans front-end | listing + filters + detail | ⬜ not started |
 | 5 · Tours front-end | listing + filters + detail + itinerary | ⬜ not started |
 | 6 · Blog + Gallery | listing + article + gallery | ⬜ blocked: missing designs |
