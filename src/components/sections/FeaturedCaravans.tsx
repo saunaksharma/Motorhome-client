@@ -1,15 +1,12 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import { BedDouble, Info, MapPin, Users } from 'lucide-react'
 import React from 'react'
 
 import { SectionHeading } from '@/components/SectionHeading'
 import { CtaButton } from '@/components/CtaButton'
+import { ViewAllLink } from '@/components/ViewAllLink'
 import { getPayloadClient } from '@/lib/payload'
-
-// Reads the name off a populated relationship field (or returns null).
-const relName = (value: unknown): string | null =>
-  value && typeof value === 'object' && 'name' in value ? String((value as { name: string }).name) : null
+import { relName } from '@/lib/utils'
 
 export async function FeaturedCaravans() {
   const payload = await getPayloadClient()
@@ -88,14 +85,7 @@ export async function FeaturedCaravans() {
         })}
       </div>
 
-      <div className="mt-10 text-center">
-        <Link
-          href="/caravans"
-          className="inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3.5 font-heading font-semibold uppercase tracking-wider text-green transition hover:brightness-95"
-        >
-          View All Caravans →
-        </Link>
-      </div>
+      <ViewAllLink href="/caravans" label="View All Caravans" />
     </section>
   )
 }
