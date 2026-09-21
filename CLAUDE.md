@@ -74,8 +74,8 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 | 4 · Caravans front-end | listing + filters + detail + feature tick-list | ✅ done |
 | 5 · Tours front-end | listing + filters + detail + itinerary | ✅ done |
 | 6 · Blog + Gallery | blog listing + article + gallery + lightbox; Tales/Snaps linked | ✅ done |
-| 7 · Forms | booking modal → Enquiries (newsletter already wired) | 👉 NEXT |
-| 8 · Polish | responsive, animation, QA, deploy | ⬜ not started |
+| 7 · Forms | booking form → Enquiries (newsletter already wired) | ✅ done |
+| 8 · Polish | innovations pages + about/build + .gitattributes ✅; responsive/animation/deploy remain | 🔨 in progress |
 
 ---
 
@@ -138,7 +138,14 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - **Phase 6 (Blog + Gallery)** ✅: blog listing `/blog` (search + Featuring category + Published
   Since sort), article `/blog/[slug]`, gallery `/gallery` + `/gallery/[slug]` with lightbox.
   Seeded 8 categories + 3 articles + 1 gallery; linked Tales/Snaps onto the Ladakh tour (tabs live).
-- **Next: Phase 7 (Booking modal → Enquiries; wire the BOOK NOW / RENT NOW / RESERVE CTAs).**
+- **Phase 7 (Booking)** ✅: `BookingForm` → public `enquiries`; `/contact` page; caravan/tour
+  detail CTAs pass `?destination`. Verified a submission creates an enquiry.
+- **Phase 8 (polish, in progress):** built `/innovations` (+ `[slug]`), `/about` (redirects to
+  home), `/build` (placeholder — external URL pending); shared `InnovationCard`; added
+  `.gitattributes` (CRLF warnings gone). Investigated the `reading 'id'` TypeError — it was a
+  **transient hot-reload artifact** (does not recur on fresh loads); pages return 200.
+- **Remaining:** responsive/QA spot-check, optional animations (hero Ken-Burns zoom), SEO/OG
+  metadata, real content + logo from client, deploy to their domain.
 
 ### 2026-09-20 (day 1)
 - Read all 59 design images + the finished OLD live site; wrote `../SPEC.md` + `../SCHEMA.md`.
