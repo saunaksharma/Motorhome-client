@@ -52,10 +52,10 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
               fill
               priority={index === 0}
               sizes="100vw"
-              className="object-cover"
+              className="hero-zoom object-cover"
             />
           ) : (
-            <div className="pattern-green h-full w-full" />
+            <div className="pattern-green hero-zoom h-full w-full" />
           )}
           <div className="absolute inset-0 bg-black/35" />
         </div>

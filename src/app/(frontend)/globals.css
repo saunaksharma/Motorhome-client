@@ -84,3 +84,21 @@ body {
     cover;
   background-repeat: repeat, no-repeat;
 }
+
+/* Slow "Ken Burns" zoom for hero backgrounds — subtle premium motion. */
+@keyframes hero-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+.hero-zoom {
+  animation: hero-zoom 16s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-zoom {
+    animation: none;
+  }
+}
