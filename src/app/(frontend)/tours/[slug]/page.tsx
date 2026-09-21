@@ -85,7 +85,10 @@ export default async function TourDetailPage({ params }: { params: Params }) {
               tour.shortDescription && <p className="leading-relaxed">{tour.shortDescription}</p>
             )}
             <div className="mt-6">
-              <CtaButton href="/contact" label={tour.ctaLabel ?? 'Reserve Your Ride'} />
+              <CtaButton
+                href={`/contact?destination=${encodeURIComponent(tour.name)}`}
+                label={tour.ctaLabel ?? 'Reserve Your Ride'}
+              />
             </div>
           </div>
         </div>

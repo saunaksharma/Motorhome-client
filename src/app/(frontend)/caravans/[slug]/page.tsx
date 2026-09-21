@@ -84,7 +84,10 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
               </div>
             )}
             <div className="mt-6">
-              <CtaButton href="/contact" label="Go Caravanning!" />
+              <CtaButton
+                href={`/contact?destination=${encodeURIComponent(caravan.name)}`}
+                label="Go Caravanning!"
+              />
             </div>
           </div>
         </div>
