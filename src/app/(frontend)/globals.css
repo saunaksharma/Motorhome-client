@@ -72,3 +72,15 @@ body {
   color: var(--color-foreground);
   font-family: var(--font-body);
 }
+
+/* Green surface with the subtle camping line-art pattern + a soft sheen —
+   lifts the plain green banners so they read as designed, not flat blocks. */
+.pattern-green {
+  background-color: var(--color-green);
+  background-image: url('/camp-pattern.svg'),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 55%);
+  background-size:
+    240px 240px,
+    cover;
+  background-repeat: repeat, no-repeat;
+}

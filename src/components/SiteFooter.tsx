@@ -19,7 +19,7 @@ export function SiteFooter({ data }: { data: FooterData }) {
   const socials = (data?.socials ?? []).filter(Boolean) as { platform: string; url: string }[]
 
   return (
-    <footer className="mt-16 bg-green text-white">
+    <footer className="mt-16 pattern-green text-white">
       <div className="border-b border-white/15 px-4 py-12 text-center">
         <h2 className="font-display text-3xl italic">{nl.heading || 'Join The Caravan CLUB'}</h2>
         {nl.subtext && <p className="mt-2 text-white/85">{nl.subtext}</p>}

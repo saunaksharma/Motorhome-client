@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
+import { PageBanner } from '@/components/PageBanner'
 import { SectionHeading } from '@/components/SectionHeading'
 import { Tabs } from '@/components/Tabs'
 import { getPayloadClient } from '@/lib/payload'
@@ -55,12 +56,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
 
   return (
     <article>
-      <header className="bg-green py-12 text-center">
-        {location && (
-          <p className="font-heading uppercase tracking-widest text-white/80">{location}</p>
-        )}
-        <h1 className="mt-1 font-display text-5xl italic text-gold">{tour.name}</h1>
-      </header>
+      <PageBanner eyebrow={location} title={tour.name} />
 
       <div className="mx-auto max-w-[1100px] px-4 py-12">
         <div className="grid items-start gap-8 md:grid-cols-2">

@@ -55,7 +55,7 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
               className="object-cover"
             />
           ) : (
-            <div className="h-full w-full bg-gradient-to-br from-green to-[#08312b]" />
+            <div className="pattern-green h-full w-full" />
           )}
           <div className="absolute inset-0 bg-black/35" />
         </div>

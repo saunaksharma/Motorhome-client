@@ -5,6 +5,7 @@ import React from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
 import { IconFeatureList } from '@/components/IconFeatureList'
+import { PageBanner } from '@/components/PageBanner'
 import { Tabs } from '@/components/Tabs'
 import { getPayloadClient } from '@/lib/payload'
 import { relName } from '@/lib/utils'
@@ -56,12 +57,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
   return (
     <article>
-      <header className="bg-green py-12 text-center">
-        {className && (
-          <p className="font-heading uppercase tracking-widest text-white/80">Class — {className}</p>
-        )}
-        <h1 className="mt-1 font-display text-5xl italic text-gold">{caravan.name}</h1>
-      </header>
+      <PageBanner eyebrow={className ? `Class — ${className}` : undefined} title={caravan.name} />
 
       <div className="mx-auto max-w-[1100px] px-4 py-12">
         <div className="grid items-start gap-8 md:grid-cols-2">
