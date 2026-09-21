@@ -146,6 +146,24 @@ export const runSeed = async (payload: Payload) => {
     { name: 'Weekend Getaway to the Wild', durationLabel: '3 Days', durationBand: tfo['2-4 Days'], location: tfo['Uttarakhand'], routeLabel: 'Delhi - Corbett - Delhi', preference: [tfo['Riverside Caravanning'], tfo['Jungle Quest']], season: 'All Year Round', shortDescription: 'A quick riverside + jungle-safari escape from the city.', featured: true, sortOrder: 3 },
   ])
 
+  // 4a) Give one tour a description + Route Map so its detail page is demonstrable.
+  const ladakh = (await payload.find({ collection: 'tours', where: { name: { equals: 'The Adventures of Ladakh' } }, limit: 1 })).docs[0]
+  if (ladakh && !(ladakh.itinerary?.length)) {
+    await payload.update({
+      collection: 'tours',
+      id: ladakh.id,
+      data: {
+        description: rt('A 15-day Himalayan expedition from Delhi to Ladakh and back — Pangong, Khardung La and the highest passes, all from the comfort of your caravan.'),
+        itinerary: [
+          { dayTitle: 'Day 1: Delhi → Manali', description: rt('An overnight drive into the mountains to begin the adventure.') },
+          { dayTitle: 'Day 2: Manali → Leh', description: rt('Cross high passes and settle into Leh, acclimatising for the days ahead.') },
+          { dayTitle: 'Day 3: Pangong Lake', description: rt('Camp beside the famous blue lake — sunrise, stars, and stillness.') },
+        ],
+      },
+    })
+    console.log('  added Route Map to Ladakh tour')
+  }
+
   // 4b) Innovations — specialized vehicles ("Our Innovations")
   await seedIfEmpty(payload, 'innovations', [
     { name: 'Arcade on Wheels', category: 'Gaming', seats: '6', sleeps: '6 people', baseLocation: 'Delhi', shortDescription: 'A gaming lounge on wheels for parties and events.', featured: true, sortOrder: 1 },
