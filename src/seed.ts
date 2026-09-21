@@ -188,6 +188,47 @@ export const runSeed = async (payload: Payload) => {
     { title: 'Where to Get Fresh Water', body: rt('Chauffeur-driven? Staff know the refill spots. Self-drive? Use the pipe + pump; the meter alerts you when low.'), sortOrder: 5 },
   ])
 
+  // 6b) Blog categories ("Featuring") + articles ("Tales")
+  await seedIfEmpty(payload, 'blog-categories', [
+    { name: 'Caravans' },
+    { name: 'Tours' },
+    { name: 'Camping Trip Tips' },
+    { name: 'Camper Maintenance' },
+    { name: 'Camping Trip Reports' },
+    { name: 'Camping Accessories' },
+    { name: 'Overlanding & Boondocking' },
+    { name: 'Hiking & Biking' },
+  ])
+  const cats = await mapByName(payload, 'blog-categories')
+  await seedIfEmpty(payload, 'blog-articles', [
+    { title: 'How to Pack for a Caravan Trip', excerpt: 'Soft bags, essentials first, and packing smart.', body: rt('Carry a soft bag instead of a suitcase — it fits more and tucks anywhere. Pack essentials first, then build up based on trip days.'), category: [cats['Camping Trip Tips']], publishedAt: '2026-08-01T00:00:00.000Z', sortOrder: 1 },
+    { title: 'Our Ladakh Caravan Expedition', excerpt: 'Pangong, Khardung La, and the highest passes.', body: rt('A 15-day Himalayan expedition from Delhi to Ladakh and back, all from the comfort of a caravan.'), category: [cats['Camping Trip Reports'], cats['Tours']], publishedAt: '2026-07-15T00:00:00.000Z', sortOrder: 2 },
+    { title: 'Caravan Maintenance Basics', excerpt: 'Keep your home-on-wheels road-ready.', body: rt('From the black water tank to fresh water refills — the basics every caravanner should know before setting off.'), category: [cats['Camper Maintenance']], publishedAt: '2026-06-20T00:00:00.000Z', sortOrder: 3 },
+  ])
+
+  // 6c) A gallery ("Snaps") + link Tales/Snaps onto the Ladakh tour so those tabs are live.
+  const galleryCount = await payload.count({ collection: 'galleries' })
+  if (galleryCount.totalDocs === 0) {
+    const svg = Buffer.from(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="400" height="300" fill="#0d473f"/><text x="200" y="160" fill="#c9a23e" font-size="28" text-anchor="middle" font-family="sans-serif">Snap</text></svg>',
+    )
+    const img = await payload.create({
+      collection: 'media',
+      data: { alt: 'Gallery snap' },
+      file: { data: svg, mimetype: 'image/svg+xml', name: 'snap.svg', size: svg.length },
+    })
+    const gallery = await payload.create({
+      collection: 'galleries',
+      data: { title: 'Ladakh Expedition Snaps', images: [{ image: img.id }, { image: img.id }, { image: img.id }], sortOrder: 1 },
+    })
+    const ladakhTour = (await payload.find({ collection: 'tours', where: { name: { equals: 'The Adventures of Ladakh' } }, limit: 1 })).docs[0]
+    const ladakhArticle = (await payload.find({ collection: 'blog-articles', where: { title: { equals: 'Our Ladakh Caravan Expedition' } }, limit: 1 })).docs[0]
+    if (ladakhTour) {
+      await payload.update({ collection: 'tours', id: ladakhTour.id, data: { snaps: gallery.id, tales: ladakhArticle?.id } })
+    }
+    console.log('  seeded gallery + linked Tales/Snaps to Ladakh tour')
+  }
+
   // 7) Homepage global content (design pages 16, 24–28, 38, 39)
   const homepage = await payload.findGlobal({ slug: 'homepage' })
   if (!homepage?.aboutSections?.length) {

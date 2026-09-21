@@ -67,15 +67,14 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 | Phase | Scope | Status |
 |---|---|---|
 | 0 · Setup | Scaffold, Neon, admin user, git | ✅ done |
-| 1 · Data model | All Payload collections + globals | ✅ done (Innovations collection still to add — see Next up) |
+| 1 · Data model | All Payload collections + globals (incl. Innovations) | ✅ done |
 | 2 · Design system + shell | tokens, fonts, header, footer, newsletter, CTA | ✅ done |
 | 2.5 · Tailwind + shadcn | migrate shell to Tailwind v4 + shadcn; wire brand theme | ✅ done |
 | 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | ✅ done (tier block deferred → Q2) |
 | 4 · Caravans front-end | listing + filters + detail + feature tick-list | ✅ done |
-| 5 · Tours front-end | listing + filters + detail + itinerary | 👉 NEXT (TourCard extraction started) |
-| 5 · Tours front-end | listing + filters + detail + itinerary | ⬜ not started |
-| 6 · Blog + Gallery | listing + article + gallery | ⬜ blocked: missing designs |
-| 7 · Forms | booking modal → Enquiries, newsletter → Subscribers | ⬜ not started |
+| 5 · Tours front-end | listing + filters + detail + itinerary | ✅ done |
+| 6 · Blog + Gallery | blog listing + article + gallery + lightbox; Tales/Snaps linked | ✅ done |
+| 7 · Forms | booking modal → Enquiries (newsletter already wired) | 👉 NEXT |
 | 8 · Polish | responsive, animation, QA, deploy | ⬜ not started |
 
 ---
@@ -133,7 +132,13 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   feature field shows every category option as a **checkbox with its icon**; tick → shows on
   front-end, untick → hidden. The client's core ask, done. Registered via importMap.
 - **Connected GitHub** `github.com/saunaksharma/Motorhome-client` (main). Pushing after each commit.
-- **Next: Phase 5 (Tours FE)** — TourCard extraction was the next step.
+- **Phase 5 (Tours FE)** ✅: shared `TourCard`, listing `/tours` with Duration/Location/
+  Preference filters, detail `/tours/[slug]` with description + **Route Map** itinerary +
+  Tales/Snaps tabs. Seeded a 3-day Route Map on the Ladakh tour.
+- **Phase 6 (Blog + Gallery)** ✅: blog listing `/blog` (search + Featuring category + Published
+  Since sort), article `/blog/[slug]`, gallery `/gallery` + `/gallery/[slug]` with lightbox.
+  Seeded 8 categories + 3 articles + 1 gallery; linked Tales/Snaps onto the Ladakh tour (tabs live).
+- **Next: Phase 7 (Booking modal → Enquiries; wire the BOOK NOW / RENT NOW / RESERVE CTAs).**
 
 ### 2026-09-20 (day 1)
 - Read all 59 design images + the finished OLD live site; wrote `../SPEC.md` + `../SCHEMA.md`.
@@ -146,17 +151,18 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ---
 
-## 5. Next up — Phase 5 (Tours front-end)
+## 5. Next up — Phase 7 (Booking / Forms)
 
-1. **Extract `TourCard`** from `FeaturedTours` (mirror how `CaravanCard` was shared).
-2. **Tours listing** `/tours` — grid + `FilterBar` (Duration / Location / Preference).
-   Preference is hasMany → filter with `{ in: [id] }`, not `equals`.
-3. **Tour detail** `/tours/[slug]` — name header, image, description, **Route Map** (itinerary
-   day list), media highlights, Tales/Snaps tabs (`Tabs`), CTA.
-4. Then **Phase 6** (Blog/Gallery — needs designs), **7** (Booking modal → Enquiries),
-   **8** (polish/deploy: the `.gitattributes` CRLF fix, real content, deploy).
+1. **Booking modal / page** — the old "Reserve Your Adventure" form (First/Last name, Email,
+   Phone, Company, Destination, Travel dates, Group size, Budget, Requirements) → POST to the
+   public `enquiries` endpoint (mirror `NewsletterForm`). Pre-fill `destination` from the item.
+2. **Wire the CTAs** — every BOOK NOW / RENT NOW / RESERVE YOUR RIDE / GO CARAVANNING opens the
+   booking form (currently they point at `/contact`). Newsletter is already wired.
+3. Then **Phase 8** (polish: `.gitattributes` CRLF fix, responsive/QA pass, real content + logo
+   from client, animations where they earn it, deploy).
+4. **Still deferred:** tier block (Q2), Tales/Snaps on caravans (Q4) — see §7.
 
-**Reusable pieces already built:** `CaravanCard`, `FilterBar` (generic), `Tabs`,
+**Reusable pieces already built:** `CaravanCard`, `TourCard`, `FilterBar`, `Tabs`,
 `IconFeatureList`, `SectionHeading`, `ViewAllLink`, `CtaButton`, `FeatureTickList` (admin).
 
 **Deferred / conditional (do NOT block):**
@@ -164,8 +170,6 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - [ ] Wire **Tales/Snaps** onto **Caravans** — only if client confirms (open Q4).
 - [ ] Admin polish (optional) — icons in relationship pickers; tabs on big Caravan/Tour forms.
 - [ ] Client to provide real images/content + logo (see §7) — sections use gradient fallbacks until then.
-
-**Then:** Phase 4 (Caravans FE) → 5 (Tours FE) → 6 (Blog/Gallery, needs designs) → 7 (Booking modal) → 8 (polish/deploy).
 
 **Goal: better than the old site** — faster (next/image + SSR), fully self-editable, mobile-first,
 tasteful motion (CSS-first), a11y + SEO. Keep motion lean for the deadline.
