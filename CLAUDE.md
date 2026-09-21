@@ -186,6 +186,42 @@ tasteful motion (CSS-first), a11y + SEO. Keep motion lean for the deadline.
 
 ---
 
+## 5a. Resume playbook — what's coming (paused 2026-09-21)
+
+**Status: build is functionally complete + polished; paused for client content/answers.**
+All 13 routes 200. Git clean & pushed to `github.com/saunaksharma/Motorhome-client`.
+
+**To restart the dev server:** `npm --prefix motorhome-adventures run dev` → http://localhost:3000
+(admin `/admin`, login `saunaksharma@gmail.com`). Seed is idempotent — safe to re-run only via a
+temporary `/seed` route (see git history); it never overwrites existing rows.
+
+**When the client's ANSWERS arrive (see §7), do:**
+- **Q2 tier copy** → build the homepage "Which Caravan Tier" block (page 30/31 wording); the
+  class descriptions can live on `caravan-filter-options` (class) — add a `description` field there.
+- **Q4 Tales/Snaps on caravans** → if yes, uncomment/add `tales`+`snaps` relationships on
+  `Caravans` (mirror how `Tours` does it) + surface tabs on the caravan detail.
+- **Q5 add-on sub-groups** → add a `group` (sports/lifestyle) select to `features` if confirmed.
+- Small confirms (parent-page count, base-vehicle fields, "additional" field) → low-risk tweaks.
+
+**When the client's CONTENT arrives:**
+- Preferred path = client enters it themselves in the admin (that's the whole point). Guide them.
+- Or migrate from the old site (`deepskyblue-wildcat-500319.hostingersite.com`). The seed's sample
+  rows can be deleted once real content is in.
+- Real **logo** → set it on the Header + Footer globals. Real **images** → uploads replace the
+  gradient/pattern fallbacks everywhere automatically.
+
+**Deploy prep (when ready — needs the client's domain/hosting):**
+- Target: **Vercel** (Next + Payload deploy as one app). Env vars: `DATABASE_URI`, `PAYLOAD_SECRET`.
+- ⚠️ **Production DB connection:** serverless needs the Neon **pooled** connection string (not the
+  direct one we use in dev) — configure the postgres adapter for pooling/`pgbouncer` so prepared
+  statements don't break. Test the admin + a form submit on a preview deploy first.
+- Set `NEXT_PUBLIC_SERVER_URL` / CORS if needed; run a production build locally (`npm run build`)
+  to catch type errors before deploying.
+
+**Optional polish left:** per-page SEO/OG metadata; more animation only where it earns it.
+
+---
+
 ## 6. Data model (target — full detail in `../SCHEMA.md`)
 
 **Shared:** `features`, `caravan-filter-options`, `tour-filter-options`.
