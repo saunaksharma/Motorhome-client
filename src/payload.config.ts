@@ -18,6 +18,7 @@ import { BlogArticles } from './collections/BlogArticles'
 import { Reviews } from './collections/Reviews'
 import { HeroSlides } from './collections/HeroSlides'
 import { Tips } from './collections/Tips'
+import { Innovations } from './collections/Innovations'
 import { Enquiries } from './collections/Enquiries'
 import { Subscribers } from './collections/Subscribers'
 import { Header } from './globals/Header'
@@ -48,6 +49,7 @@ export default buildConfig({
     Reviews,
     HeroSlides,
     Tips,
+    Innovations,
     Enquiries,
     Subscribers,
   ],

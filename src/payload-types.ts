@@ -80,6 +80,7 @@ export interface Config {
     reviews: Review;
     'hero-slides': HeroSlide;
     tips: Tip;
+    innovations: Innovation;
     enquiries: Enquiry;
     subscribers: Subscriber;
     'payload-kv': PayloadKv;
@@ -102,6 +103,7 @@ export interface Config {
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     'hero-slides': HeroSlidesSelect<false> | HeroSlidesSelect<true>;
     tips: TipsSelect<false> | TipsSelect<true>;
+    innovations: InnovationsSelect<false> | InnovationsSelect<true>;
     enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -679,6 +681,71 @@ export interface Tip {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "innovations".
+ */
+export interface Innovation {
+  id: number;
+  name: string;
+  /**
+   * URL path. Auto-filled from the title if left blank.
+   */
+  slug: string;
+  /**
+   * Badge, e.g. "Gaming", "Beauty".
+   */
+  category?: string | null;
+  heroImage?: (number | null) | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Used on cards.
+   */
+  shortDescription?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * e.g. "6".
+   */
+  seats?: string | null;
+  /**
+   * e.g. "6 people".
+   */
+  sleeps?: string | null;
+  /**
+   * e.g. "Delhi".
+   */
+  baseLocation?: string | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "enquiries".
  */
 export interface Enquiry {
@@ -784,6 +851,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tips';
         value: number | Tip;
+      } | null)
+    | ({
+        relationTo: 'innovations';
+        value: number | Innovation;
       } | null)
     | ({
         relationTo: 'enquiries';
@@ -1102,6 +1173,32 @@ export interface TipsSelect<T extends boolean = true> {
   title?: T;
   body?: T;
   videoUrl?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "innovations_select".
+ */
+export interface InnovationsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  category?: T;
+  heroImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  shortDescription?: T;
+  description?: T;
+  seats?: T;
+  sleeps?: T;
+  baseLocation?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;

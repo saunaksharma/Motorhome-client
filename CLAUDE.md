@@ -70,8 +70,8 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 | 1 · Data model | All Payload collections + globals | ✅ done (Innovations collection still to add — see Next up) |
 | 2 · Design system + shell | tokens, fonts, header, footer, newsletter, CTA | ✅ done |
 | 2.5 · Tailwind + shadcn | migrate shell to Tailwind v4 + shadcn; wire brand theme | ✅ done |
-| 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | 🔨 in progress — only the tier block waits on tier-copy (Q2); rest is unblocked |
-| 4 · Caravans front-end | listing + filters + detail | ⬜ not started |
+| 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | ✅ done (tier block deferred → Q2) |
+| 4 · Caravans front-end | listing + filters + detail | 👉 NEXT |
 | 5 · Tours front-end | listing + filters + detail + itinerary | ⬜ not started |
 | 6 · Blog + Gallery | listing + article + gallery | ⬜ blocked: missing designs |
 | 7 · Forms | booking modal → Enquiries, newsletter → Subscribers | ⬜ not started |
@@ -93,10 +93,13 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 - ✅ **Enquiries** (booking "Customer Data", public-create / admin-read) + **Subscribers** (newsletter). Public create verified; reads 403.
 - ✅ **Globals**: Header (nav data), Footer (columns/socials/newsletter), Homepage (reviewsIntro, About sections, Footprint, Dream-Big CTA). All 200.
 
-**➡️ Phase 1 data model is COMPLETE** (one small add-on left: the **Innovations** collection —
-un-deferred, since the old site has it as a real section; build it like Caravans during Phase 3).
+**➡️ Phase 1 data model is COMPLETE** (incl. the **Innovations** collection, added day 2).
 The client can now enter real content in the admin. Access control is MVP-correct: content =
 public read / admin write; submissions = public create / admin read.
+
+**➡️ Phase 3 homepage is COMPLETE** (day 2) — Hero, Featured Caravans/Tours, Innovations,
+Reviews, About, Tips, Footprint, Dream Big. Tier block deferred (Q2). Content is seeded sample
+data (idempotent `runSeed`); client swaps in real content + images later.
 
 ### Phase 2 (design system + shell) — in progress
 - ✅ Design tokens in `src/app/(frontend)/styles.css`; 3 Google fonts via `next/font`.
@@ -112,6 +115,17 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ## 4a. Session log
 
+### 2026-09-21 (day 2)
+- Added **Tailwind v4 + shadcn/ui** (Phase 2.5); migrated the shell; brand theme in globals.css.
+- Pulled in the **21st.dev** component approach + the **ui-ux-pro-max** skill (cloned at repo root).
+- **Seeded** the filter taxonomy + sample caravans/tours/innovations/reviews/tips/hero/About
+  (idempotent `runSeed`; run via a temp `/seed` route since `payload run` is flaky here).
+- Built the **whole homepage** (Phase 3): Hero carousel, Featured Caravans/Tours, Innovations,
+  Reviews carousel, About, Tips accordion, Footprint, Dream Big CTA. Verified on screen; fast (~0.4s).
+- Added the **Innovations** collection. Only the tier block is deferred (Q2).
+- Client answers expected by evening — see §7.
+- **Next: Phase 4 (Caravans listing + filters + detail).**
+
 ### 2026-09-20 (day 1)
 - Read all 59 design images + the finished OLD live site; wrote `../SPEC.md` + `../SCHEMA.md`.
 - Cloned Karpathy skills; set coding standard. Set 2-week deadline as a hard constraint.
@@ -123,18 +137,22 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ---
 
-## 5. Next up — Phase 3 (Homepage)
+## 5. Next up — Phase 4 (Caravans front-end)
 
-Build order (each: build → seed a little content → verify on screen → commit):
-1. **Seed** a few real examples (hero slides, 3 caravans, 3 tours, reviews, tips, footprint, About) so sections render. Seed only if a collection is empty (never overwrite client data).
-2. **Primitives first:** `Section`, `SectionHeading` (gold swoosh), `Card`, `Badge`, `Carousel`, `IconFeatureList`, `Accordion`, `StatCard`, `MediaImage`, `RichText`.
-3. **Sections:** `HeroCarousel` → `FeaturedCaravans` → `FeaturedTours` → `InnovationsStrip` → `ReviewsCarousel` → `AboutSections` → `TipsAccordion` → `Footprint` → `DreamBigCta`.
-4. The **tier explainer block** waits on Q2 (page 30 vs 31 copy) — skip until answered.
+1. **Caravans listing** `/caravans` — grid of `active` caravans + filter bar (Base Location,
+   Drive Type, Berth, Class). Reuse the caravan card from `FeaturedCaravans` (extract a shared
+   `CaravanCard` if it helps readability).
+2. **Caravan detail** `/caravans/[slug]` — class + name header, image carousel, description,
+   media highlights, Overview tabs (Specs / Unique Features / Inclusions / Exclusions via
+   `IconFeatureList`), Add-Ons tab, Tales/Snaps tabs. Use shadcn `Tabs`.
+3. Then **Phase 5** (Tours FE: listing + detail + Route Map), **6** (Blog/Gallery), **7** (Booking
+   modal → Enquiries), **8** (polish/deploy).
 
-**Small data-model tasks (do alongside):**
-- [ ] Add **Innovations** collection (model like Caravans + a category badge; it's a real homepage section).
+**Deferred / conditional (do NOT block):**
+- [ ] **Tier explainer block** on the homepage — waits on Q2 (page 30 vs 31 copy).
 - [ ] Wire **Tales/Snaps** onto **Caravans** — only if client confirms (open Q4).
 - [ ] Admin polish (optional) — icons in relationship pickers; tabs on big Caravan/Tour forms.
+- [ ] Client to provide real images/content + logo (see §7) — sections use gradient fallbacks until then.
 
 **Then:** Phase 4 (Caravans FE) → 5 (Tours FE) → 6 (Blog/Gallery, needs designs) → 7 (Booking modal) → 8 (polish/deploy).
 

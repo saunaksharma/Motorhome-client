@@ -100,6 +100,13 @@ export const runSeed = async (payload: Payload) => {
     { name: 'Weekend Getaway to the Wild', durationLabel: '3 Days', durationBand: tfo['2-4 Days'], location: tfo['Uttarakhand'], routeLabel: 'Delhi - Corbett - Delhi', preference: [tfo['Riverside Caravanning'], tfo['Jungle Quest']], season: 'All Year Round', shortDescription: 'A quick riverside + jungle-safari escape from the city.', featured: true, sortOrder: 3 },
   ])
 
+  // 4b) Innovations — specialized vehicles ("Our Innovations")
+  await seedIfEmpty(payload, 'innovations', [
+    { name: 'Arcade on Wheels', category: 'Gaming', seats: '6', sleeps: '6 people', baseLocation: 'Delhi', shortDescription: 'A gaming lounge on wheels for parties and events.', featured: true, sortOrder: 1 },
+    { name: 'Vanity Van', category: 'Beauty', seats: '2', sleeps: '2 people', baseLocation: 'Delhi', shortDescription: 'A premium makeup & styling vanity van for shoots.', featured: true, sortOrder: 2 },
+    { name: 'Lounger on Wheels', category: 'Lounge', seats: '16', sleeps: '16 people', baseLocation: 'Delhi', shortDescription: 'A luxury lounge for groups on the move.', featured: true, sortOrder: 3 },
+  ])
+
   // 5) Reviews (design page 16)
   await seedIfEmpty(payload, 'reviews', [
     { reviewerName: 'IAS Rahul Yadav', style: 'quote', rating: 5, quote: 'My journey was to my native village around 1350 kms from Delhi. Great experience — the staff was positive, disciplined and cordial. Would look forward to another trip.', sortOrder: 1 },
