@@ -5,7 +5,9 @@ import { slugField } from '../fields/slugField'
 
 // --- small local helpers so each section reads as one line ---
 
-// A tick-list of Features limited to one category (icons come from the Feature).
+// A tick-list of Features limited to one category. The custom admin component
+// renders every option as a checkbox with its icon; the front-end shows only
+// the ticked ones. filterOptions is kept so validation stays category-scoped.
 const featureList = (name: string, label: string, category: string): Field => ({
   name,
   label,
@@ -13,6 +15,14 @@ const featureList = (name: string, label: string, category: string): Field => ({
   relationTo: 'features',
   hasMany: true,
   filterOptions: { category: { equals: category } },
+  admin: {
+    components: {
+      Field: {
+        path: '/components/admin/FeatureTickList#FeatureTickList',
+        clientProps: { category, label },
+      },
+    },
+  },
 })
 
 // The matching free-text "or write additional" box for a section (SPEC page 47).

@@ -71,7 +71,8 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 | 2 · Design system + shell | tokens, fonts, header, footer, newsletter, CTA | ✅ done |
 | 2.5 · Tailwind + shadcn | migrate shell to Tailwind v4 + shadcn; wire brand theme | ✅ done |
 | 3 · Homepage | hero, reviews, featured strips, About, tips, tiers, footprint, CTA | ✅ done (tier block deferred → Q2) |
-| 4 · Caravans front-end | listing + filters + detail | 👉 NEXT |
+| 4 · Caravans front-end | listing + filters + detail + feature tick-list | ✅ done |
+| 5 · Tours front-end | listing + filters + detail + itinerary | 👉 NEXT (TourCard extraction started) |
 | 5 · Tours front-end | listing + filters + detail + itinerary | ⬜ not started |
 | 6 · Blog + Gallery | listing + article + gallery | ⬜ blocked: missing designs |
 | 7 · Forms | booking modal → Enquiries, newsletter → Subscribers | ⬜ not started |
@@ -124,7 +125,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   Reviews carousel, About, Tips accordion, Footprint, Dream Big CTA. Verified on screen; fast (~0.4s).
 - Added the **Innovations** collection. Only the tier block is deferred (Q2).
 - Client answers expected by evening — see §7.
-- **Next: Phase 4 (Caravans listing + filters + detail).**
+- **Phase 4 (Caravans FE)** ✅: listing `/caravans` with URL-driven filters (Base Location /
+  Drive / Berth / Class), detail `/caravans/[slug]` with class header, image, rich-text
+  description, and the **Overview tabs** (Specs / Unique / Inclusions / Exclusions + Add-Ons
+  via `IconFeatureList`). Seeded 26 features (placeholder icon) linked to Willow.
+- **Feature checkbox tick-list** (custom admin component `FeatureTickList`): each caravan
+  feature field shows every category option as a **checkbox with its icon**; tick → shows on
+  front-end, untick → hidden. The client's core ask, done. Registered via importMap.
+- **Connected GitHub** `github.com/saunaksharma/Motorhome-client` (main). Pushing after each commit.
+- **Next: Phase 5 (Tours FE)** — TourCard extraction was the next step.
 
 ### 2026-09-20 (day 1)
 - Read all 59 design images + the finished OLD live site; wrote `../SPEC.md` + `../SCHEMA.md`.
@@ -137,16 +146,18 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ---
 
-## 5. Next up — Phase 4 (Caravans front-end)
+## 5. Next up — Phase 5 (Tours front-end)
 
-1. **Caravans listing** `/caravans` — grid of `active` caravans + filter bar (Base Location,
-   Drive Type, Berth, Class). Reuse the caravan card from `FeaturedCaravans` (extract a shared
-   `CaravanCard` if it helps readability).
-2. **Caravan detail** `/caravans/[slug]` — class + name header, image carousel, description,
-   media highlights, Overview tabs (Specs / Unique Features / Inclusions / Exclusions via
-   `IconFeatureList`), Add-Ons tab, Tales/Snaps tabs. Use shadcn `Tabs`.
-3. Then **Phase 5** (Tours FE: listing + detail + Route Map), **6** (Blog/Gallery), **7** (Booking
-   modal → Enquiries), **8** (polish/deploy).
+1. **Extract `TourCard`** from `FeaturedTours` (mirror how `CaravanCard` was shared).
+2. **Tours listing** `/tours` — grid + `FilterBar` (Duration / Location / Preference).
+   Preference is hasMany → filter with `{ in: [id] }`, not `equals`.
+3. **Tour detail** `/tours/[slug]` — name header, image, description, **Route Map** (itinerary
+   day list), media highlights, Tales/Snaps tabs (`Tabs`), CTA.
+4. Then **Phase 6** (Blog/Gallery — needs designs), **7** (Booking modal → Enquiries),
+   **8** (polish/deploy: the `.gitattributes` CRLF fix, real content, deploy).
+
+**Reusable pieces already built:** `CaravanCard`, `FilterBar` (generic), `Tabs`,
+`IconFeatureList`, `SectionHeading`, `ViewAllLink`, `CtaButton`, `FeatureTickList` (admin).
 
 **Deferred / conditional (do NOT block):**
 - [ ] **Tier explainer block** on the homepage — waits on Q2 (page 30 vs 31 copy).
