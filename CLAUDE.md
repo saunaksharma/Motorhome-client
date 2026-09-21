@@ -144,8 +144,11 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   home), `/build` (placeholder — external URL pending); shared `InnovationCard`; added
   `.gitattributes` (CRLF warnings gone). Investigated the `reading 'id'` TypeError — it was a
   **transient hot-reload artifact** (does not recur on fresh loads); pages return 200.
-- **Remaining:** responsive/QA spot-check, optional animations (hero Ken-Burns zoom), SEO/OG
-  metadata, real content + logo from client, deploy to their domain.
+- **Polish done:** camping line-art pattern on all green banners + `PageBanner` (fixes the
+  "flat rectangle" look), branded 404, hero Ken-Burns zoom (reduced-motion aware), and a
+  mobile responsive spot-check (header→hamburger, filters stack, cards single-column — good).
+- **Remaining:** SEO/OG metadata (optional), real content + logo from client, deploy to domain.
+  Site is functionally complete; all 13 routes 200.
 
 ### 2026-09-20 (day 1)
 - Read all 59 design images + the finished OLD live site; wrote `../SPEC.md` + `../SCHEMA.md`.
