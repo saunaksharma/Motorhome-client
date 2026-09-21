@@ -93,6 +93,52 @@ export const runSeed = async (payload: Payload) => {
     { name: 'Aurum', class: cfo['Ignite'], baseLocation: cfo['Hyderabad'], berthRange: cfo['4-8 Berth'], driveType: cfo['Self Driven'], sleeps: '5 People', chargesFrom: 'Charges Start From Hyderabad', shortDescription: 'A step above — a little more power and convenience.', featured: true, sortOrder: 3 },
   ])
 
+  // 3b) Features + link them to the "Willow" caravan (page-47 icon tick-lists).
+  // Uses one placeholder icon; the client replaces each feature's icon later.
+  const featureCount = await payload.count({ collection: 'features' })
+  if (featureCount.totalDocs === 0) {
+    const svg = Buffer.from(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#0d473f" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>',
+    )
+    const icon = await payload.create({
+      collection: 'media',
+      data: { alt: 'Feature icon' },
+      file: { data: svg, mimetype: 'image/svg+xml', name: 'feature-icon.svg', size: svg.length },
+    })
+
+    const make = async (name: string, category: string) =>
+      (await payload.create({ collection: 'features', data: { name, category, icon: icon.id } })).id
+
+    const build = async (names: string[], category: string) => {
+      const ids: number[] = []
+      for (const name of names) ids.push(await make(name, category))
+      return ids
+    }
+
+    const specifications = await build(['Diesel', 'Sleeps 4', 'Gas Geyser', 'Auto/Static AC', '30 L Fridge', 'Microwave'], 'spec')
+    const uniqueFeatures = await build(['2 Expandable Decks', 'Lift', 'Terrace', 'Drop Down Stage'], 'unique-feature')
+    const inclusions = await build(['Fuel', 'Driver & Helper', 'Linens', 'Blankets', 'Pillows', '5 Kg LPG'], 'inclusion')
+    const exclusions = await build(['Fuel post 250 kms', 'Tolls', 'Parking', 'GST', 'Permits & Permissions'], 'exclusion')
+    const addOns = await build(['Barbeque', 'Carrom', 'Yoga Mat', 'Badminton', 'Bonfire'], 'add-on')
+
+    const willow = (await payload.find({ collection: 'caravans', where: { name: { equals: 'Willow' } }, limit: 1 })).docs[0]
+    if (willow) {
+      await payload.update({
+        collection: 'caravans',
+        id: willow.id,
+        data: {
+          specifications,
+          uniqueFeatures,
+          inclusions,
+          exclusions,
+          addOns,
+          description: rt('All-in luxury motorhome with expandable decks, a terrace, and every comfort of home on wheels.'),
+        },
+      })
+    }
+    console.log('  seeded features + linked to Willow')
+  }
+
   // 4) Featured tours
   await seedIfEmpty(payload, 'tours', [
     { name: 'The Adventures of Ladakh', durationLabel: '15 Days', durationBand: tfo['15-30 Days'], location: tfo['Ladakh'], routeLabel: 'Delhi - Ladakh - Delhi', preference: [tfo['Mountain View']], season: 'May - September', shortDescription: 'A 15-day trip exploring prime places of Ladakh, Pangong, Khardungla etc.', featured: true, sortOrder: 1 },

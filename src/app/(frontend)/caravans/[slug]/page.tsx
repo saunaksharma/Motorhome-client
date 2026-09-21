@@ -1,0 +1,98 @@
+import { RichText } from '@payloadcms/richtext-lexical/react'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
+import React from 'react'
+
+import { CtaButton } from '@/components/CtaButton'
+import { IconFeatureList } from '@/components/IconFeatureList'
+import { Tabs } from '@/components/Tabs'
+import { getPayloadClient } from '@/lib/payload'
+import { relName } from '@/lib/utils'
+
+type Params = Promise<{ slug: string }>
+
+async function getCaravan(slug: string) {
+  const payload = await getPayloadClient()
+  // depth 2 so each linked feature's own icon is populated.
+  const { docs } = await payload.find({
+    collection: 'caravans',
+    where: { slug: { equals: slug }, active: { equals: true } },
+    depth: 2,
+    limit: 1,
+  })
+  return docs[0] ?? null
+}
+
+export default async function CaravanDetailPage({ params }: { params: Params }) {
+  const { slug } = await params
+  const caravan = await getCaravan(slug)
+  if (!caravan) notFound()
+
+  const className = relName(caravan.class)
+  const heroImage = typeof caravan.heroImage === 'object' ? caravan.heroImage : null
+
+  const overview = (
+    <div>
+      <IconFeatureList title="Specifications" features={caravan.specifications} />
+      <IconFeatureList title="Unique Features" features={caravan.uniqueFeatures} />
+      <IconFeatureList title="Inclusions" features={caravan.inclusions} />
+      <IconFeatureList title="Exclusions" features={caravan.exclusions} />
+    </div>
+  )
+
+  const addOns = (
+    <div>
+      <IconFeatureList title="Add-ons" features={caravan.addOns} />
+      <p className="mt-2 font-display text-lg italic text-green">
+        Please mention the add-on&apos;s you require at the time of booking
+      </p>
+    </div>
+  )
+
+  const tabs = [
+    { label: 'Overview', content: overview },
+    { label: 'Add Ons+', content: addOns },
+  ]
+
+  return (
+    <article>
+      <header className="bg-green py-12 text-center">
+        {className && (
+          <p className="font-heading uppercase tracking-widest text-white/80">Class — {className}</p>
+        )}
+        <h1 className="mt-1 font-display text-5xl italic text-gold">{caravan.name}</h1>
+      </header>
+
+      <div className="mx-auto max-w-[1100px] px-4 py-12">
+        <div className="grid items-start gap-8 md:grid-cols-2">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-green/10">
+            {heroImage?.url && (
+              <Image
+                src={heroImage.url}
+                alt={heroImage.alt ?? caravan.name}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            )}
+          </div>
+
+          <div>
+            {caravan.description && (
+              <div className="space-y-3 leading-relaxed">
+                <RichText data={caravan.description} />
+              </div>
+            )}
+            <div className="mt-6">
+              <CtaButton href="/contact" label="Go Caravanning!" />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-12">
+          <Tabs tabs={tabs} />
+        </div>
+      </div>
+    </article>
+  )
+}
