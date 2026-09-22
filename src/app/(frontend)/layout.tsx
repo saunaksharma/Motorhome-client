@@ -52,11 +52,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const nav = (header?.navItems?.length ? header.navItems : FALLBACK_NAV).map(
     (i: { label: string; link?: string | null }) => ({ label: i.label, link: i.link || '/' }),
   )
+  const headerLogo = typeof header?.logo === 'object' && header.logo ? header.logo.url : null
 
   return (
     <html lang="en" className={`${racing.variable} ${oswald.variable} ${lato.variable}`}>
       <body>
-        <SiteHeader brand="MOTORHOME ADVENTURES" nav={nav} />
+        <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
         <main>{children}</main>
         <SiteFooter data={footer} />
       </body>

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import React, { useState } from 'react'
@@ -8,14 +9,15 @@ type NavItem = { label: string; link: string }
 
 // Responsive header: logo + text nav on desktop; logo + hamburger that opens
 // the nav on mobile (reconciles design pages 18 and 20).
-export function SiteHeader({ brand, nav }: { brand: string; nav: NavItem[] }) {
+export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: string | null; nav: NavItem[] }) {
   const [open, setOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 bg-green/90 text-white backdrop-blur">
       <div className="mx-auto flex min-h-[72px] max-w-[1200px] items-center justify-between gap-4 px-4">
-        <Link href="/" className="font-display text-xl italic tracking-wide text-gold">
-          {brand}
+        <Link href="/" className="flex items-center gap-3">
+          {logoUrl && <Image src={logoUrl} alt="" width={48} height={48} className="h-11 w-11 object-contain" />}
+          <span className="font-display text-xl italic tracking-wide text-gold">{brand}</span>
         </Link>
 
         <nav className="hidden gap-6 font-heading text-sm uppercase tracking-wide lg:flex">

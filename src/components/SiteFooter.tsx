@@ -1,17 +1,27 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+import { cn } from '@/lib/utils'
 import { NewsletterForm } from './NewsletterForm'
 
+type Media = { url?: string | null; alt?: string | null }
 type FooterData = {
+  logo?: Media | number | null
+  backgroundImage?: Media | number | null
   columns?: ({ heading: string; links?: ({ label: string; link: string } | null)[] | null } | null)[] | null
   socials?: ({ platform: string; url: string } | null)[] | null
   newsletter?: { heading?: string | null; subtext?: string | null; ctaLabel?: string | null } | null
 }
 
-// Footer: newsletter block + editable link columns + socials (design pages 40, 48).
+const asMedia = (v: unknown): Media | null => (typeof v === 'object' && v !== null ? (v as Media) : null)
+
+// Footer: full-bleed photo background (client-editable) with a green scrim, the
+// newsletter block, editable link columns, socials and copyright (design pages 40, 48).
 export function SiteFooter({ data }: { data: FooterData }) {
   const nl = data?.newsletter ?? {}
+  const logo = asMedia(data?.logo)
+  const bg = asMedia(data?.backgroundImage)
   const columns = (data?.columns ?? []).filter(Boolean) as {
     heading: string
     links?: ({ label: string; link: string } | null)[] | null
@@ -19,50 +29,73 @@ export function SiteFooter({ data }: { data: FooterData }) {
   const socials = (data?.socials ?? []).filter(Boolean) as { platform: string; url: string }[]
 
   return (
-    <footer className="mt-16 pattern-green text-white">
-      <div className="border-b border-white/15 px-4 py-12 text-center">
-        <h2 className="font-display text-3xl italic">{nl.heading || 'Join The Caravan CLUB'}</h2>
-        {nl.subtext && <p className="mt-2 text-white/85">{nl.subtext}</p>}
-        <NewsletterForm ctaLabel={nl.ctaLabel || 'SUBSCRIBE NOW'} />
-      </div>
+    <footer className="relative mt-16 overflow-hidden text-white">
+      {/* Background photo (falls back to the camp line-art pattern when unset). */}
+      {bg?.url ? (
+        <Image src={bg.url} alt="" fill sizes="100vw" className="object-cover" />
+      ) : null}
+      <div className={cn('absolute inset-0', bg?.url ? 'bg-green/85' : 'pattern-green bg-green')} />
 
-      <div className="mx-auto max-w-[1200px] px-4">
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-8 py-12">
-          {columns.map((col) => (
-            <div key={col.heading}>
-              <h3 className="font-heading text-base uppercase tracking-wide text-gold">
-                {col.heading}
-              </h3>
-              <div className="mt-2 space-y-1">
-                {(col.links ?? []).filter(Boolean).map((l) => (
-                  <Link
-                    key={l!.label}
-                    href={l!.link || '#'}
-                    className="block text-white/90 transition-colors hover:text-gold"
-                  >
-                    {l!.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))}
+      <div className="relative">
+        {/* Newsletter */}
+        <div className="border-b border-white/15 px-4 py-12 text-center">
+          <h2 className="font-display text-3xl italic">{nl.heading || 'Join The Caravan CLUB'}</h2>
+          {nl.subtext && <p className="mt-2 text-white/85">{nl.subtext}</p>}
+          <NewsletterForm ctaLabel={nl.ctaLabel || 'SUBSCRIBE NOW'} />
         </div>
 
-        {socials.length > 0 && (
-          <div className="flex justify-center gap-5 pb-8">
-            {socials.map((s) => (
-              <a
-                key={s.platform}
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/90 transition-colors hover:text-gold"
-              >
-                {s.platform}
-              </a>
+        <div className="mx-auto max-w-[1200px] px-4">
+          {/* Logo + link columns */}
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-8 py-12">
+            <div>
+              {logo?.url ? (
+                <Image src={logo.url} alt="Motorhome Adventures" width={120} height={120} className="h-20 w-auto" />
+              ) : (
+                <span className="font-display text-2xl italic text-gold">Motorhome Adventures</span>
+              )}
+              <p className="mt-4 max-w-[26ch] text-sm text-white/75">
+                Home away home, on wheels — pioneering caravan travel in India since 1993.
+              </p>
+            </div>
+
+            {columns.map((col) => (
+              <div key={col.heading}>
+                <h3 className="font-heading text-base uppercase tracking-wide text-gold">{col.heading}</h3>
+                <div className="mt-3 space-y-1.5">
+                  {(col.links ?? []).filter(Boolean).map((l) => (
+                    <Link
+                      key={l!.label}
+                      href={l!.link || '#'}
+                      className="block text-sm text-white/90 transition-colors hover:text-gold"
+                    >
+                      {l!.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
-        )}
+
+          {socials.length > 0 && (
+            <div className="flex justify-center gap-5 border-t border-white/15 py-6">
+              {socials.map((s) => (
+                <a
+                  key={s.platform}
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-heading text-sm uppercase tracking-wide text-white/90 transition-colors hover:text-gold"
+                >
+                  {s.platform}
+                </a>
+              ))}
+            </div>
+          )}
+
+          <p className="border-t border-white/15 py-6 text-center text-sm text-white/70">
+            © {new Date().getFullYear()} Motorhome Adventures. All rights reserved.
+          </p>
+        </div>
       </div>
     </footer>
   )
