@@ -21,6 +21,7 @@ import { Tips } from './collections/Tips'
 import { Innovations } from './collections/Innovations'
 import { Enquiries } from './collections/Enquiries'
 import { Subscribers } from './collections/Subscribers'
+import { Pages } from './collections/Pages'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { Homepage } from './globals/Homepage'
@@ -60,6 +61,7 @@ export default buildConfig({
     Innovations,
     Enquiries,
     Subscribers,
+    Pages,
   ],
   globals: [Header, Footer, Homepage, About],
   editor: lexicalEditor(),

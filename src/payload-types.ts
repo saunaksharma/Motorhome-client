@@ -83,6 +83,7 @@ export interface Config {
     innovations: Innovation;
     enquiries: Enquiry;
     subscribers: Subscriber;
+    pages: Page;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -106,6 +107,7 @@ export interface Config {
     innovations: InnovationsSelect<false> | InnovationsSelect<true>;
     enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -808,6 +810,36 @@ export interface Subscriber {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * URL path. Auto-filled from the title if left blank.
+   */
+  slug: string;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -893,6 +925,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'subscribers';
         value: number | Subscriber;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -1275,6 +1311,18 @@ export interface EnquiriesSelect<T extends boolean = true> {
  */
 export interface SubscribersSelect<T extends boolean = true> {
   email?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  body?: T;
+  active?: T;
   updatedAt?: T;
   createdAt?: T;
 }
