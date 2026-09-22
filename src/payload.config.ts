@@ -29,11 +29,11 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 // The app's own origin. Set SERVER_URL in production (e.g. https://yourdomain.com).
-// CORS/CSRF are locked to this so the API can't be called from other sites.
+// Used to lock CORS/CSRF. We intentionally do NOT set Payload's `serverURL` so
+// media URLs stay relative (keeps next/image happy without a remote whitelist).
 const serverURL = process.env.SERVER_URL || 'http://localhost:3000'
 
 export default buildConfig({
-  serverURL,
   cors: [serverURL],
   csrf: [serverURL],
   admin: {

@@ -115,7 +115,32 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ## 4a. Session log
 
-### 2026-09-22 (day 3) — security + deploy-readiness
+### 2026-09-22 (day 3, cont.) — real tour content + hero polish
+- **Hero redesigned to match the reference/Canva exactly:** removed dots + prev/next arrows,
+  autoplay-only crossfade (1s ease), gradient scrim; "HOME AWAY HOME" is now **gold text in a
+  gold-bordered green pill**, CTA is a **gold-outline** pill (added a `gold` variant to
+  `CtaButton`). Client's real hero photos render.
+- **Imported the client's 24 real tour itineraries** (from `../itenaries/*.docx`). Built a
+  defensive docx parser (`scratchpad/parse_itineraries.py`): joins the doc, splits on `Day N`
+  markers globally, preserves "→" routes, folds drive/overnight meta into each day. 23/24 parsed
+  with exact day counts (Jibhi's source doc is missing its Day 1 heading — client adds it). Then
+  a temp `/import-tours` route upserted them via the local API: name, durationLabel + band, route,
+  season, one-liner→shortDescription, full Route-Map itinerary (Lexical), location mapped by
+  keyword. Added **8 new Location options** (Nepal, Bhutan, Meghalaya, Goa, Kerala, Nilgiris,
+  Madhya Pradesh, Bihar) → 12 total. Featured: Ladakh, Spiti, Mukteshwar. Verified `/tours` (24
+  cards) + `/tours/the-spiti-sojourn` (16-day Route Map renders). Temp route + `tmp-tours.json`
+  deleted. **Real content is now live** — the CMS's whole purpose, demonstrated.
+
+### 2026-09-22 (day 3, cont.) — client photos + the original 2022 brief
+- **Fixed hero images not rendering.** Root cause: setting Payload's `serverURL` made media
+  URLs **absolute** (`http://localhost:3000/...`), which next/image rejected (400) even with
+  `remotePatterns`; the relative path optimized fine (200). Fix = **do not set `serverURL`** in
+  buildConfig (kept `cors`/`csrf` as explicit arrays), so media URLs are relative again →
+  next/image works via `localPatterns`. Reverted the now-unneeded `remotePatterns`. Verified:
+  all 7 hero slides render the client's real photos on screen.
+- **Read the client's original 2022 brief** (`WEB WORK 2022  MA.pdf`, 14 pages). Our
+  architecture matches it well and is more self-editable. It **resolves open questions** and
+  surfaces real gaps — see §7 (updated) and §9 (new gap list).
 - **Security pass:** git audit → **no secrets ever committed** (.env untracked; no Neon
   password/connection string in git). Removed dead `test.env`. **CORS/CSRF locked to
   `SERVER_URL`** (env-driven). **Admin login lockout** (5 attempts → 10-min lock).
@@ -251,7 +276,8 @@ Every content collection carries `listingMeta` (sortOrder, featured, active).
 1. ~~**Header:** page 18 vs 20~~ → **RESOLVED: responsive both** (desktop text nav, mobile hamburger).
 2. **Tier copy:** page 30 vs page 31 wording?
 3. **Parent-page count:** 5/6/7? Confirm About→Home redirect and Build/Buy→external.
-4. **Tales/Snaps on caravans** too, or tours-only? (page 45 shows the tabs on a caravan.)
+4. ~~**Tales/Snaps on caravans**~~ → **RESOLVED by 2022 brief (p.3): YES** — caravans have
+   "Videos Related" (≤3) + "Articles Related" (≤4). Mirror how Tours does it.
 5. **Add-on sub-groups** (Sports/Lifestyle): real field or cosmetic?
 6. **Missing designs:** Our Innovations, Gallery/Snaps, Blog article page, footer legal pages.
 7. **Caravan base-vehicle / sleeps / base-location:** dedicated fields vs spec features?
@@ -270,3 +296,42 @@ Every content collection carries `listingMeta` (sortOrder, featured, active).
   text `#0D473F` on cream / `#FFFFFF` on green · hero pill = green @ ~0.85 opacity.
 - Fonts (Google, via `next/font`): **display** Racing Sans One (italic) · **heading** Oswald
   · **body** Lato. Fallback: sans-serif.
+
+---
+
+## 9. Gap analysis vs the client's original 2022 brief (`WEB WORK 2022  MA.pdf`)
+
+The brief is the client's full wishlist (14 pages). Our architecture matches it and is more
+self-editable. Tracked so we don't lose the client's intent. **Not all of this ships for launch**
+— the brief itself ends with "what can/can't be done" questions, so it's aspirational.
+
+**✅ Matches or better:** hero slider, featured "NEW" strip, Innovations ("This just in"),
+reviews/testimonials, tips ("How-to's"), caravans listing + filters, caravan detail w/ tabs +
+feature tick-list, tours listing + filters (**exact** taxonomy match), tour detail + day-by-day
+itinerary, blog, gallery, booking→enquiries, newsletter. All CMS-editable (their #1 need).
+
+**🟡 Partial (have the bones, brief wants more):**
+- Caravan detail: brief wants **Related Videos (≤3) + Related Articles (≤4)** [= Tales/Snaps, Q4
+  now YES], **FAQ per caravan**, **video walk-through**, **floor-plan link**, WhatsApp-catalog
+  gallery w/ captions, dedicated base-vehicle / caravan-type / chargeable-from / capacity fields.
+- Booking form: brief wants itinerary builder (Location 1/2/3 + add-more), "no fixed date yet",
+  month/days-of-travel, returning-customer & influencer paths. Ours is a single simpler form.
+- Filter **values**: confirm our seed matches brief exactly — Caravan RENTAL TYPE (Self Driven /
+  Chauffeur), CAPACITY (2-4/4-6/6-8/8-12/12+), LOCATION (Delhi/Bangalore/MP/Rajasthan); Tour
+  DURATION (2-4/4-7/7-15/15-30/30+), LOCATION (Himachal/Uttarakhand/Rajasthan/Ladakh),
+  PREFERENCE (Riverside/Waterfall/Beachside/Jungle quest/Mountain view/City View).
+- Gallery: brief wants **year + trip name** on folder cards + video-of-trip + caravan/tour
+  cross-link. Confirm our galleries carry these fields.
+
+**❌ Missing (new scope to decide on):**
+- **Newsletter segmentation** — 2 parent options → sub-options → tagged email lists (brief p.10).
+- **Programme / legal pages** — Returning Customer benefits, Influencer/Collaborator, Partner,
+  B2B, Terms, Privacy, FAQ (footer "USEFUL PAGES"). Content pages — could be blog/dedicated.
+- **Rich About page** — team photo w/ "who is who", video, hiring (LinkedIn), IG grid, YT preview.
+  (Currently About→Home redirect; was deferred pending design.)
+- **"What to check first?" guided homepage intro** (arrows → Caravans/Trips/Gallery).
+- **Tour questionnaire popup** (Days/Kind/Places → Tours pre-filtered) + caravan→tour carry-over.
+
+**Recommendation:** ship the current build; add the 🟡 caravan detail fields (Related Videos/
+Articles, FAQ) since Q4 is now resolved and they're cheap; defer ❌ items to post-launch phases
+or confirm with the client. Do them one-at-a-time per the discipline rule.

@@ -8,6 +8,9 @@ const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
   images: {
+    // Media is served same-origin at /api/media/file/** (relative URLs), so a
+    // localPattern is all next/image needs. In production, media will move to
+    // cloud storage (S3/R2) and its CDN host gets added to remotePatterns.
     localPatterns: [
       {
         pathname: '/api/media/file/**',

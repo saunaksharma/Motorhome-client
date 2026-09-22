@@ -9,6 +9,7 @@ export type TourCardData = {
   name: string
   slug?: string | null
   heroImage?: unknown
+  category?: string | null
   durationLabel?: string | null
   routeLabel?: string | null
   season?: string | null
@@ -32,6 +33,11 @@ export function TourCard({ tour }: { tour: TourCardData }) {
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-green/15 to-gold/15" />
+        )}
+        {tour.category && (
+          <span className="absolute left-3 top-3 rounded-full bg-gold px-3 py-1 text-xs font-semibold uppercase tracking-wide text-green shadow">
+            {tour.category}
+          </span>
         )}
       </div>
 

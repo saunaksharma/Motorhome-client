@@ -412,6 +412,10 @@ export interface Tour {
       }[]
     | null;
   /**
+   * Theme badge shown on the tour card.
+   */
+  category?: ('Adventure' | 'Wildlife' | 'Nature' | 'Cultural' | 'Spiritual' | 'Beach') | null;
+  /**
    * Used on cards.
    */
   shortDescription?: string | null;
@@ -1062,6 +1066,7 @@ export interface ToursSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  category?: T;
   shortDescription?: T;
   description?: T;
   durationLabel?: T;

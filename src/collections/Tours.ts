@@ -37,6 +37,19 @@ export const Tours: CollectionConfig = {
     },
 
     // Copy
+    {
+      name: 'category',
+      type: 'select',
+      admin: { description: 'Theme badge shown on the tour card.' },
+      options: [
+        { label: 'Adventure', value: 'Adventure' },
+        { label: 'Wildlife', value: 'Wildlife' },
+        { label: 'Nature', value: 'Nature' },
+        { label: 'Cultural', value: 'Cultural' },
+        { label: 'Spiritual', value: 'Spiritual' },
+        { label: 'Beach', value: 'Beach' },
+      ],
+    },
     { name: 'shortDescription', type: 'textarea', admin: { description: 'Used on cards.' } },
     { name: 'description', type: 'richText' },
 
