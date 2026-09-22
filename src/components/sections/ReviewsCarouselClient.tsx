@@ -7,6 +7,7 @@ export type Review = {
   reviewerName: string
   rating?: number | null
   quote?: string | null
+  photoUrl?: string | null
 }
 
 // Swipeable testimonials row (native scroll-snap) with arrow controls.
@@ -35,7 +36,17 @@ export function ReviewsCarouselClient({ reviews }: { reviews: Review[] }) {
               ))}
             </div>
             {review.quote && <p className="mt-3 text-sm text-white/90">“{review.quote}”</p>}
-            <p className="mt-4 font-heading uppercase tracking-wide text-gold">— {review.reviewerName}</p>
+            <div className="mt-4 flex items-center gap-3">
+              {review.photoUrl && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={review.photoUrl}
+                  alt={review.reviewerName}
+                  className="size-10 rounded-full object-cover ring-2 ring-gold"
+                />
+              )}
+              <p className="font-heading uppercase tracking-wide text-gold">— {review.reviewerName}</p>
+            </div>
           </article>
         ))}
       </div>

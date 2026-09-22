@@ -14,13 +14,15 @@ import { DreamBigCta } from '@/components/sections/DreamBigCta'
 export const revalidate = 60
 
 export default function HomePage() {
+  // Section order mirrors the client's reference site:
+  // Hero → Reviews → Tours → Caravans → Innovations → About story → (our extras).
   return (
     <>
       <HeroCarousel />
-      <FeaturedCaravans />
-      <FeaturedTours />
-      <InnovationsStrip />
       <ReviewsCarousel />
+      <FeaturedTours />
+      <FeaturedCaravans />
+      <InnovationsStrip />
       <AboutSections />
       <TipsAccordion />
       <Footprint />
