@@ -130,6 +130,24 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   Madhya Pradesh, Bihar) → 12 total. Featured: Ladakh, Spiti, Mukteshwar. Verified `/tours` (24
   cards) + `/tours/the-spiti-sojourn` (16-day Route Map renders). Temp route + `tmp-tours.json`
   deleted. **Real content is now live** — the CMS's whole purpose, demonstrated.
+- **Tour category badges + polished card copy:** added a `category` select to Tours
+  (Adventure/Wildlife/Nature/Cultural/Spiritual/Beach), shown as a gold badge on `TourCard`,
+  and set each tour's `shortDescription` to the client's own marketing copy from their live
+  reference site. `/tours` now matches the reference cards (minus photos). tsc clean; pushed.
+- **Audited the reference site** (`deepskyblue-wildcat-500319.hostingersite.com/index.html`).
+  Homepage order there: Hero → **HONEST REVIEWS** (testimonials + "Share Your Experience") →
+  OUR TOURS → OUR CARAVANS → OUR INNOVATION → **HOW IT ALL BEGAN** (origin story) → footer. We
+  have all these sections; reviews sit right under the hero there (ours has featured strips
+  first — possible reorder). Remaining gaps tracked in §9.
+
+### 2026-09-22 (day 3, cont.) — real photos across the site
+- **Pulled the client's real photos** from their live reference site (`/images/*`) and assigned
+  them via a temp `/import-media` route (idempotent — reuses Media by filename): **24 tour hero
+  images** (mapped by keyword), **3 caravans** (Willow → real Willow slider; Kástro/Aurum → real
+  exteriors), **3 innovations** (Lounger/Arcade/Vanity-Van), **4 review avatars** (by
+  reviewerName). 42 Media docs total, no dupes, 0 broken on screen. Verified `/tours` + homepage
+  (caravans/tours/innovations) all show real photos. Temp route + `tmp-refimg/` deleted.
+  ⚠️ Media files live on the local filesystem — production still needs S3/R2 (see §5a).
 
 ### 2026-09-22 (day 3, cont.) — client photos + the original 2022 brief
 - **Fixed hero images not rendering.** Root cause: setting Payload's `serverURL` made media
