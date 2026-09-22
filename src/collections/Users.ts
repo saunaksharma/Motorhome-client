@@ -5,7 +5,11 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
   },
-  auth: true,
+  // Brute-force protection: lock an account for 10 minutes after 5 failed logins.
+  auth: {
+    maxLoginAttempts: 5,
+    lockTime: 10 * 60 * 1000,
+  },
   fields: [
     // Email added by default
     // Add more fields as needed
