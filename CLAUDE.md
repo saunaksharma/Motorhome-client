@@ -75,7 +75,8 @@ complete and verified.** Within a phase, build one piece, verify, commit, then t
 | 5 · Tours front-end | listing + filters + detail + itinerary | ✅ done |
 | 6 · Blog + Gallery | blog listing + article + gallery + lightbox; Tales/Snaps linked | ✅ done |
 | 7 · Forms | booking form → Enquiries (newsletter already wired) | ✅ done |
-| 8 · Polish | innovations pages + about/build + .gitattributes ✅; responsive/animation/deploy remain | 🔨 in progress |
+| 8 · Polish | innovations + real photos + hero + caravan detail (FAQ/videos/articles) + reviews-under-hero + real About page + Pages collection (legal/programme) | ✅ done |
+| 9 · Launch-prep | favicon ✅, prod build green ✅, responsive ✅; deploy + cloud media remain | 🔨 in progress |
 
 ---
 
@@ -139,6 +140,22 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   OUR TOURS → OUR CARAVANS → OUR INNOVATION → **HOW IT ALL BEGAN** (origin story) → footer. We
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
+
+### 2026-09-22 (day 3, cont.) — Phases 8a–9 (grind through remaining backlog)
+- **8a Caravan detail parity:** added `faqs`, `relatedVideos` (≤3), `relatedArticles` to Caravans
+  + reusable `RelatedContent` (native <details> FAQ accordion, video link cards, BlogCard grid).
+- **8b Homepage → reference order:** Hero → Reviews → Tours → Caravans → Innovations → About.
+  Reviewer avatars in testimonial cards + "Share Your Experience" CTA.
+- **8c Real About page:** new `about` global (intro/team/hiring/socials); /about renders it
+  (was a redirect). Seeded the client's origin story.
+- **8d Pages collection:** generic `pages` (title/slug/body/active) at `/<slug>` via catch-all;
+  seeded Terms, Privacy, FAQ, Returning-Customer, Influencer, Partner, B2B (programme pages carry
+  the 2022 brief's real copy) + a "Useful Pages" footer column.
+- **9 Launch-prep:** SVG favicon; **`npm run build` passes clean**; mobile responsive spot-check
+  good. All committed + pushed to main.
+- **Still needed for launch (client):** see §7/§9 — real logo, remaining photos, domain/hosting,
+  cloud media (S3/R2), form spam protection. Deferred features (need client answers): newsletter
+  segmentation, tour questionnaire popup, booking itinerary-builder, tier block (Q2).
 
 ### 2026-09-22 (day 3, cont.) — real photos across the site
 - **Pulled the client's real photos** from their live reference site (`/images/*`) and assigned
