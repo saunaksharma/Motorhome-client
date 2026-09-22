@@ -5,7 +5,7 @@ import React from 'react'
 import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
 
-export const metadata = { title: 'Gallery — Motorhome Adventures' }
+export const metadata = { title: 'Gallery' }
 
 // Refresh from the CMS at most once a minute in production.
 export const revalidate = 60

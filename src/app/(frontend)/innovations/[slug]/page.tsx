@@ -2,7 +2,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import Image from 'next/image'
 import { BedDouble, MapPin, Users } from 'lucide-react'
 import { notFound } from 'next/navigation'
-import React from 'react'
+import React, { cache } from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
 import { PageBanner } from '@/components/PageBanner'
@@ -10,7 +10,7 @@ import { getPayloadClient } from '@/lib/payload'
 
 type Params = Promise<{ slug: string }>
 
-async function getInnovation(slug: string) {
+const getInnovation = cache(async (slug: string) => {
   const payload = await getPayloadClient()
   const { docs } = await payload.find({
     collection: 'innovations',
@@ -19,6 +19,13 @@ async function getInnovation(slug: string) {
     limit: 1,
   })
   return docs[0] ?? null
+})
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const { slug } = await params
+  const item = await getInnovation(slug)
+  if (!item) return {}
+  return { title: item.name, description: item.shortDescription ?? undefined }
 }
 
 export default async function InnovationDetailPage({ params }: { params: Params }) {

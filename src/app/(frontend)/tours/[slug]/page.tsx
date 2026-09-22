@@ -2,7 +2,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import React from 'react'
+import React, { cache } from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
 import { PageBanner } from '@/components/PageBanner'
@@ -13,7 +13,7 @@ import { relName } from '@/lib/utils'
 
 type Params = Promise<{ slug: string }>
 
-async function getTour(slug: string) {
+const getTour = cache(async (slug: string) => {
   const payload = await getPayloadClient()
   const { docs } = await payload.find({
     collection: 'tours',
@@ -22,6 +22,13 @@ async function getTour(slug: string) {
     limit: 1,
   })
   return docs[0] ?? null
+})
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const { slug } = await params
+  const tour = await getTour(slug)
+  if (!tour) return {}
+  return { title: tour.name, description: tour.shortDescription ?? undefined }
 }
 
 export default async function TourDetailPage({ params }: { params: Params }) {

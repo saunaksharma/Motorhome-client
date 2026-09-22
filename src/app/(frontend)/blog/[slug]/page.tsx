@@ -1,13 +1,13 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import React from 'react'
+import React, { cache } from 'react'
 
 import { getPayloadClient } from '@/lib/payload'
 
 type Params = Promise<{ slug: string }>
 
-async function getArticle(slug: string) {
+const getArticle = cache(async (slug: string) => {
   const payload = await getPayloadClient()
   const { docs } = await payload.find({
     collection: 'blog-articles',
@@ -16,6 +16,13 @@ async function getArticle(slug: string) {
     limit: 1,
   })
   return docs[0] ?? null
+})
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const { slug } = await params
+  const article = await getArticle(slug)
+  if (!article) return {}
+  return { title: article.title, description: article.excerpt ?? undefined }
 }
 
 export default async function BlogArticlePage({ params }: { params: Params }) {

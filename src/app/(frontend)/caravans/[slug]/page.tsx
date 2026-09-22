@@ -1,7 +1,7 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import React from 'react'
+import React, { cache } from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
 import { IconFeatureList } from '@/components/IconFeatureList'
@@ -12,7 +12,8 @@ import { relName } from '@/lib/utils'
 
 type Params = Promise<{ slug: string }>
 
-async function getCaravan(slug: string) {
+// cache() dedupes the fetch across generateMetadata + the page render.
+const getCaravan = cache(async (slug: string) => {
   const payload = await getPayloadClient()
   // depth 2 so each linked feature's own icon is populated.
   const { docs } = await payload.find({
@@ -22,6 +23,13 @@ async function getCaravan(slug: string) {
     limit: 1,
   })
   return docs[0] ?? null
+})
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const { slug } = await params
+  const caravan = await getCaravan(slug)
+  if (!caravan) return {}
+  return { title: caravan.name, description: caravan.shortDescription ?? undefined }
 }
 
 export default async function CaravanDetailPage({ params }: { params: Params }) {

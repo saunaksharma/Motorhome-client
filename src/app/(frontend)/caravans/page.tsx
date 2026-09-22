@@ -13,7 +13,7 @@ type SearchParams = Promise<{
   class?: string
 }>
 
-export const metadata = { title: 'Caravans — Motorhome Adventures' }
+export const metadata = { title: 'Caravans' }
 
 export default async function CaravansPage({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams

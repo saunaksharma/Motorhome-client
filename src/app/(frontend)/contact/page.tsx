@@ -5,7 +5,7 @@ import { SectionHeading } from '@/components/SectionHeading'
 
 type SearchParams = Promise<{ destination?: string }>
 
-export const metadata = { title: 'Reserve Your Adventure — Motorhome Adventures' }
+export const metadata = { title: 'Reserve Your Adventure' }
 
 export default async function ContactPage({ searchParams }: { searchParams: SearchParams }) {
   const { destination } = await searchParams

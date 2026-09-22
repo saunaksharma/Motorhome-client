@@ -5,7 +5,7 @@ import { SectionHeading } from '@/components/SectionHeading'
 
 // "Build Your Own" — the design links this to an external site. Until the
 // client provides that URL, this is a simple placeholder page.
-export const metadata = { title: 'Build Your Own — Motorhome Adventures' }
+export const metadata = { title: 'Build Your Own' }
 
 export default function BuildPage() {
   return (

@@ -9,7 +9,7 @@ import { getPayloadClient } from '@/lib/payload'
 
 type SearchParams = Promise<{ q?: string; category?: string; sort?: string }>
 
-export const metadata = { title: 'Blog — Motorhome Adventures' }
+export const metadata = { title: 'Blog' }
 
 export default async function BlogPage({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams

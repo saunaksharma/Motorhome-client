@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { Lato, Oswald, Racing_Sans_One } from 'next/font/google'
 import { getPayload } from 'payload'
 import React from 'react'
@@ -11,9 +12,23 @@ const racing = Racing_Sans_One({ weight: '400', subsets: ['latin'], variable: '-
 const oswald = Oswald({ subsets: ['latin'], variable: '--font-oswald' })
 const lato = Lato({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-lato' })
 
-export const metadata = {
-  title: 'Motorhome Adventures',
-  description: 'Caravan & motorhome rentals, tours, and custom builds across India.',
+const serverURL = process.env.SERVER_URL || 'http://localhost:3000'
+const description =
+  'Caravan & motorhome rentals, guided tours, and custom builds across India. Home away home, on wheels.'
+
+export const metadata: Metadata = {
+  metadataBase: new URL(serverURL),
+  title: {
+    default: 'Motorhome Adventures — Caravan & Motorhome Rentals in India',
+    template: '%s | Motorhome Adventures',
+  },
+  description,
+  openGraph: {
+    type: 'website',
+    siteName: 'Motorhome Adventures',
+    title: 'Motorhome Adventures',
+    description,
+  },
 }
 
 // Shown until the client fills in the Header global's nav items.

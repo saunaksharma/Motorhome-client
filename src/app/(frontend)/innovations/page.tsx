@@ -4,7 +4,7 @@ import { InnovationCard } from '@/components/InnovationCard'
 import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
 
-export const metadata = { title: 'Our Innovations — Motorhome Adventures' }
+export const metadata = { title: 'Our Innovations' }
 
 // Refresh from the CMS at most once a minute in production.
 export const revalidate = 60
