@@ -104,6 +104,38 @@ export const Caravans: CollectionConfig = {
       ],
     },
 
+    // Related content (2022 brief, caravan detail page): FAQs + up to 3 videos + related articles.
+    {
+      name: 'faqs',
+      label: "FAQ's",
+      type: 'array',
+      labels: { singular: 'FAQ', plural: 'FAQs' },
+      fields: [
+        { name: 'question', type: 'text', required: true },
+        { name: 'answer', type: 'textarea', required: true },
+      ],
+    },
+    {
+      name: 'relatedVideos',
+      label: 'Related videos',
+      type: 'array',
+      maxRows: 3,
+      labels: { singular: 'Video', plural: 'Videos' },
+      admin: { description: 'Up to 3 YouTube vlog / walk-through links.' },
+      fields: [
+        { name: 'title', type: 'text' },
+        { name: 'url', type: 'text', required: true, admin: { description: 'YouTube link or playlist URL.' } },
+      ],
+    },
+    {
+      name: 'relatedArticles',
+      label: 'Related articles',
+      type: 'relationship',
+      relationTo: 'blog-articles',
+      hasMany: true,
+      admin: { description: 'Pick from existing blog articles (the first 4 show on the page).' },
+    },
+
     // Call to action
     { name: 'ctaLabel', type: 'text', defaultValue: 'GO CARAVANNING!' },
     { name: 'ctaLink', type: 'text' },

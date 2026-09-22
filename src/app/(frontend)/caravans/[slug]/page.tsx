@@ -6,6 +6,7 @@ import React, { cache } from 'react'
 import { CtaButton } from '@/components/CtaButton'
 import { IconFeatureList } from '@/components/IconFeatureList'
 import { PageBanner } from '@/components/PageBanner'
+import { RelatedContent } from '@/components/RelatedContent'
 import { Tabs } from '@/components/Tabs'
 import { getPayloadClient } from '@/lib/payload'
 import { relName } from '@/lib/utils'
@@ -98,6 +99,18 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
         <div className="mt-12">
           <Tabs tabs={tabs} />
+        </div>
+
+        <div className="mt-16">
+          <RelatedContent
+            faqs={Array.isArray(caravan.faqs) ? caravan.faqs : []}
+            videos={Array.isArray(caravan.relatedVideos) ? caravan.relatedVideos : []}
+            articles={
+              (Array.isArray(caravan.relatedArticles) ? caravan.relatedArticles : []).filter(
+                (a): a is NonNullable<typeof a> & object => typeof a === 'object' && a !== null,
+              )
+            }
+          />
         </div>
       </div>
     </article>

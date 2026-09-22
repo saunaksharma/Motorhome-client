@@ -379,8 +379,83 @@ export interface Caravan {
         id?: string | null;
       }[]
     | null;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Up to 3 YouTube vlog / walk-through links.
+   */
+  relatedVideos?:
+    | {
+        title?: string | null;
+        /**
+         * YouTube link or playlist URL.
+         */
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Pick from existing blog articles (the first 4 show on the page).
+   */
+  relatedArticles?: (number | BlogArticle)[] | null;
   ctaLabel?: string | null;
   ctaLink?: string | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-articles".
+ */
+export interface BlogArticle {
+  id: number;
+  title: string;
+  /**
+   * URL path. Auto-filled from the title if left blank.
+   */
+  slug: string;
+  coverImage?: (number | null) | Media;
+  /**
+   * Short summary for cards.
+   */
+  excerpt?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * The "Featuring" tags for this article.
+   */
+  category?: (number | BlogCategory)[] | null;
+  /**
+   * Used for the "Published Since" sort.
+   */
+  publishedAt?: string | null;
   /**
    * Lower numbers show first.
    */
@@ -491,57 +566,6 @@ export interface Tour {
   ctaLink?: string | null;
   tales?: (number | null) | BlogArticle;
   snaps?: (number | null) | Gallery;
-  /**
-   * Lower numbers show first.
-   */
-  sortOrder?: number | null;
-  featured?: boolean | null;
-  /**
-   * Uncheck to hide from the site.
-   */
-  active?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-articles".
- */
-export interface BlogArticle {
-  id: number;
-  title: string;
-  /**
-   * URL path. Auto-filled from the title if left blank.
-   */
-  slug: string;
-  coverImage?: (number | null) | Media;
-  /**
-   * Short summary for cards.
-   */
-  excerpt?: string | null;
-  body?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * The "Featuring" tags for this article.
-   */
-  category?: (number | BlogCategory)[] | null;
-  /**
-   * Used for the "Published Since" sort.
-   */
-  publishedAt?: string | null;
   /**
    * Lower numbers show first.
    */
@@ -1044,6 +1068,21 @@ export interface CaravansSelect<T extends boolean = true> {
         videoUrl?: T;
         id?: T;
       };
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  relatedVideos?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        id?: T;
+      };
+  relatedArticles?: T;
   ctaLabel?: T;
   ctaLink?: T;
   sortOrder?: T;
