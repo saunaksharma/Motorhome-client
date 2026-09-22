@@ -119,11 +119,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     homepage: Homepage;
+    about: About;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
+    about: AboutSelect<false> | AboutSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1443,6 +1445,69 @@ export interface Homepage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about".
+ */
+export interface About {
+  id: number;
+  headline?: string | null;
+  /**
+   * The opening story / who we are.
+   */
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Optional intro video or photo.
+   */
+  video?: (number | null) | Media;
+  team?:
+    | {
+        name: string;
+        /**
+         * e.g. "Founder", "Head Driver".
+         */
+        role?: string | null;
+        photo?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  hiring?: {
+    heading?: string | null;
+    /**
+     * A line about working with the team.
+     */
+    text?: string | null;
+    ctaLabel?: string | null;
+    /**
+     * Link to your LinkedIn hiring section.
+     */
+    ctaLink?: string | null;
+  };
+  /**
+   * Instagram profile URL.
+   */
+  instagramUrl?: string | null;
+  /**
+   * YouTube channel URL.
+   */
+  youtubeUrl?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1531,6 +1596,36 @@ export interface HomepageSelect<T extends boolean = true> {
         ctaLabel?: T;
         ctaLink?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about_select".
+ */
+export interface AboutSelect<T extends boolean = true> {
+  headline?: T;
+  intro?: T;
+  video?: T;
+  team?:
+    | T
+    | {
+        name?: T;
+        role?: T;
+        photo?: T;
+        id?: T;
+      };
+  hiring?:
+    | T
+    | {
+        heading?: T;
+        text?: T;
+        ctaLabel?: T;
+        ctaLink?: T;
+      };
+  instagramUrl?: T;
+  youtubeUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
