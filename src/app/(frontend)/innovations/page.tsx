@@ -6,6 +6,9 @@ import { getPayloadClient } from '@/lib/payload'
 
 export const metadata = { title: 'Our Innovations — Motorhome Adventures' }
 
+// Refresh from the CMS at most once a minute in production.
+export const revalidate = 60
+
 export default async function InnovationsPage() {
   const payload = await getPayloadClient()
   const { docs } = await payload.find({

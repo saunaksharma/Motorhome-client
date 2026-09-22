@@ -10,6 +10,9 @@ import { TipsAccordion } from '@/components/sections/TipsAccordion'
 import { Footprint } from '@/components/sections/Footprint'
 import { DreamBigCta } from '@/components/sections/DreamBigCta'
 
+// Rebuild this page at most once a minute so CMS edits show up in production.
+export const revalidate = 60
+
 export default function HomePage() {
   return (
     <>

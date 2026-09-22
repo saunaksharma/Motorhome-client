@@ -1,5 +1,7 @@
 import type { Payload } from 'payload'
 
+type FeatureCategory = 'spec' | 'inclusion' | 'exclusion' | 'unique-feature' | 'add-on'
+
 // Idempotent content seed. Invoke by importing `runSeed(payload)`.
 // Minimal Lexical rich-text value from a plain paragraph string.
 const rt = (text: string) => ({
@@ -106,10 +108,10 @@ export const runSeed = async (payload: Payload) => {
       file: { data: svg, mimetype: 'image/svg+xml', name: 'feature-icon.svg', size: svg.length },
     })
 
-    const make = async (name: string, category: string) =>
-      (await payload.create({ collection: 'features', data: { name, category, icon: icon.id } })).id
+    const make = async (name: string, category: FeatureCategory) =>
+      (await payload.create({ collection: 'features', data: { name, category, icon: Number(icon.id) } })).id
 
-    const build = async (names: string[], category: string) => {
+    const build = async (names: string[], category: FeatureCategory) => {
       const ids: number[] = []
       for (const name of names) ids.push(await make(name, category))
       return ids
@@ -219,7 +221,7 @@ export const runSeed = async (payload: Payload) => {
     })
     const gallery = await payload.create({
       collection: 'galleries',
-      data: { title: 'Ladakh Expedition Snaps', images: [{ image: img.id }, { image: img.id }, { image: img.id }], sortOrder: 1 },
+      data: { title: 'Ladakh Expedition Snaps', slug: 'ladakh-expedition-snaps', images: [{ image: Number(img.id) }, { image: Number(img.id) }, { image: Number(img.id) }], sortOrder: 1 },
     })
     const ladakhTour = (await payload.find({ collection: 'tours', where: { name: { equals: 'The Adventures of Ladakh' } }, limit: 1 })).docs[0]
     const ladakhArticle = (await payload.find({ collection: 'blog-articles', where: { title: { equals: 'Our Ladakh Caravan Expedition' } }, limit: 1 })).docs[0]

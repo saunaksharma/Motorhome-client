@@ -25,10 +25,11 @@ export default async function GalleryDetailPage({ params }: { params: Params }) 
 
   const images: GalleryImage[] = (Array.isArray(gallery.images) ? gallery.images : [])
     .map((row) => {
-      const image = row && typeof row.image === 'object' ? row.image : null
-      return image?.url ? { url: image.url, alt: image.alt ?? undefined, caption: row.caption ?? undefined } : null
+      const image = row && typeof row.image === 'object' ? (row.image as { url?: string; alt?: string }) : null
+      if (!image?.url) return null
+      return { url: image.url, alt: image.alt ?? undefined, caption: row.caption ?? undefined }
     })
-    .filter((v): v is GalleryImage => v !== null)
+    .filter((v) => v !== null) as GalleryImage[]
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">

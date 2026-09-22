@@ -25,8 +25,8 @@ export default async function BlogArticlePage({ params }: { params: Params }) {
 
   const image = typeof article.coverImage === 'object' ? article.coverImage : null
   const categories = (Array.isArray(article.category) ? article.category : []).filter(
-    (c): c is { id: number | string; name: string } => typeof c === 'object' && c !== null,
-  )
+    (c) => typeof c === 'object' && c !== null,
+  ) as { id: number | string; name: string }[]
   const date = article.publishedAt
     ? new Date(article.publishedAt).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })
     : null
