@@ -115,6 +115,19 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ## 4a. Session log
 
+### 2026-09-22 (day 3) — security + deploy-readiness
+- **Security pass:** git audit → **no secrets ever committed** (.env untracked; no Neon
+  password/connection string in git). Removed dead `test.env`. **CORS/CSRF locked to
+  `SERVER_URL`** (env-driven). **Admin login lockout** (5 attempts → 10-min lock).
+  ⚠️ Still to add before launch: form spam protection (captcha/honeypot) — Payload 3 has no
+  built-in `rateLimit` config, so do it at the edge or with a captcha.
+- **Production build (`npm run build`) now passes clean (exit 0).** It caught **6 real type
+  errors** dev mode hid (blog/gallery relationship narrowing, seed `FeatureCategory` + gallery
+  slug) — all fixed. Run `npm run build` before every deploy.
+- **ISR:** added `revalidate = 60` to the static CMS pages (home/gallery/innovations) so client
+  edits appear in production within a minute. (Enhancement later: on-demand revalidation via
+  Payload `afterChange` hooks → `revalidatePath` for instant updates.)
+
 ### 2026-09-21 (day 2)
 - Added **Tailwind v4 + shadcn/ui** (Phase 2.5); migrated the shell; brand theme in globals.css.
 - Pulled in the **21st.dev** component approach + the **ui-ux-pro-max** skill (cloned at repo root).
