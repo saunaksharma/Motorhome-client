@@ -26,7 +26,7 @@ export function BlogCard({ article }: { article: BlogCardData }) {
   return (
     <Link
       href={article.slug ? `/blog/${article.slug}` : '#'}
-      className="spotlight reveal group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-[translate,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+      className="reveal group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-[translate,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-xl"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         {image?.url ? (
