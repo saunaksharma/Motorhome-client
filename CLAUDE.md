@@ -141,6 +141,20 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-23 (day 4, cont.) — feature lists redesign + Tales & Snaps
+- **Feature lists** (`IconFeatureList` + `featureIcon.ts`), after Airbnb amenities / Adria highlights:
+  each feature gets a meaningful Lucide icon picked from its name (keyword → icon map, e.g. bath →
+  Bath, AC → AirVent); a real uploaded icon still wins over the shared placeholder. Specs / unique
+  features / add-ons = icon **tiles**; included / not included = two-column **list**, exclusions
+  muted + struck through.
+- **Tales & Snaps** (`components/TalesAndSnaps.tsx`, the 2022 brief's naming): one shared section on
+  tour AND caravan pages — tabs "Tales (n)" = article cards, "Snaps (n)" = each album's photos
+  (lightbox) + "View album". Empty tab hidden; whole section hidden when both empty.
+  Caravans got a new `snaps` field (→ galleries, many); `relatedArticles` relabelled "Tales".
+  `RelatedContent` now only does FAQs + videos. Sample Ladakh album's placeholder SVGs swapped
+  for the client's 3 real Ladakh photos. Verified on `/tours/the-adventures-of-ladakh` + Willow.
+- Gotcha: `curl` treats `[ ]` in URLs as globs — use `curl -g` for `?where[slug][equals]=…`.
+
 ### 2026-09-23 (day 4, cont.) — polish round 2: cards, feature icons, reviews (ref: adria-mobil.com)
 - User flagged the cards as "rectangle / cheap". Reference: **Adria Mobil** (big calm tinted product
   cards, 2-up, left-aligned, 2 pill actions, no icon clutter).
@@ -355,8 +369,9 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ## 5. WHERE WE ARE — read this first (updated 2026-09-23, end of day 4)
 
-**Status:** site + admin are feature-complete, real content is in, polished, fast, and fully
-checked. Remaining work = Tales & Snaps, a few design upgrades, the client's content/answers, launch.
+**Status:** site + admin are feature-complete (incl. Tales & Snaps + redesigned feature lists),
+real content is in, polished, fast, and fully checked. Remaining work = a few design upgrades,
+the client's content/answers, launch.
 
 **Running it — two servers side by side:**
 - **Preview for others (production, port 3000):** `npm run build`, then `npm start`. The public
@@ -384,13 +399,12 @@ delete on all 15 collections + all 5 globals + accent-safe auto-slug → **0 fai
 Check-up scripts: `scratchpad/crawl.py` (pages/links/images) and `scratchpad/chunks.py` (JS/CSS).
 
 **Next up (in order):**
-1. **Tales & Snaps** — proper tabs on tour + caravan pages (Tales = article cards, Snaps = photo
-   grid), hidden when empty. Caravans need `tales`/`snaps` fields (Tours already have them).
-2. **Feature lists redesign** — user finds the gold-tick rows cheap; research premium caravan /
-   hotel amenity layouts and redesign `IconFeatureList`.
-3. Detail pages: full-width photo header + Adria-style highlights row (Sleeps / Drive / Base / Class).
-4. Route Map → numbered day timeline; filters → styled pill dropdowns; one consistent button style.
-5. Launch: domain, Vercel + Neon **pooled** connection string, S3/R2 media storage, SMTP env vars.
+1. ~~Tales & Snaps~~ ✅ · ~~Feature lists redesign~~ ✅ (see session log).
+2. Detail pages: full-width photo header + Adria-style highlights row (Sleeps / Drive / Base / Class).
+3. Route Map → numbered day timeline; filters → styled pill dropdowns; one consistent button style.
+4. Launch: domain, Vercel + Neon **pooled** connection string, S3/R2 media storage, SMTP env vars.
+- Content note: the 3 sample blog posts (Tales) have no cover photos and are seed filler — client
+  should write real ones (or delete them) before launch.
 
 **Waiting on the client:** see §7 (contact details, feature lists for 6 caravans, 2 data conflicts,
 Terms/Privacy text, Instagram export, LinkedIn URL, decisions). Launch checklist artifact:
@@ -409,8 +423,7 @@ route. Staging folders are `/tmp-*/` (gitignored). Never leave temp routes in th
 **When the client's ANSWERS arrive (see §7), do:**
 - **Q2 tier copy** → build the homepage "Which Caravan Tier" block (page 30/31 wording); the
   class descriptions can live on `caravan-filter-options` (class) — add a `description` field there.
-- **Tales/Snaps on caravans** (Q4 resolved YES) → add `tales`+`snaps` relationships on `Caravans`
-  (mirror `Tours`) + surface tabs on the caravan detail — see §5 "Next up" #1.
+- ~~Tales/Snaps on caravans~~ ✅ done (Caravans `relatedArticles` + `snaps`, shared `TalesAndSnaps`).
 - **Q5 add-on sub-groups** → add a `group` (sports/lifestyle) select to `features` if confirmed.
 - Small confirms (parent-page count, base-vehicle fields, "additional" field) → low-risk tweaks.
 
