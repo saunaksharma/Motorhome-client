@@ -353,45 +353,64 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ---
 
-## 5. Next up — Phase 7 (Booking / Forms)
+## 5. WHERE WE ARE — read this first (updated 2026-09-23, end of day 4)
 
-1. **Booking modal / page** — the old "Reserve Your Adventure" form (First/Last name, Email,
-   Phone, Company, Destination, Travel dates, Group size, Budget, Requirements) → POST to the
-   public `enquiries` endpoint (mirror `NewsletterForm`). Pre-fill `destination` from the item.
-2. **Wire the CTAs** — every BOOK NOW / RENT NOW / RESERVE YOUR RIDE / GO CARAVANNING opens the
-   booking form (currently they point at `/contact`). Newsletter is already wired.
-3. Then **Phase 8** (polish: `.gitattributes` CRLF fix, responsive/QA pass, real content + logo
-   from client, animations where they earn it, deploy).
-4. **Still deferred:** tier block (Q2), Tales/Snaps on caravans (Q4) — see §7.
+**Status:** site + admin are feature-complete, real content is in, polished, fast, and fully
+checked. Remaining work = Tales & Snaps, a few design upgrades, the client's content/answers, launch.
 
-**Reusable pieces already built:** `CaravanCard`, `TourCard`, `FilterBar`, `Tabs`,
-`IconFeatureList`, `SectionHeading`, `ViewAllLink`, `CtaButton`, `FeatureTickList` (admin).
+**Running it — two servers side by side:**
+- **Preview for others (production, port 3000):** `npm run build`, then `npm start`. The public
+  link comes from the tunnel: `D:\Motor Home Client\tools\cloudflared.exe tunnel --url http://localhost:3000`
+  (a random `*.trycloudflare.com` URL on every start — put it in `.env` as `EXTRA_ORIGINS=` so admin
+  logins work through it; the PC must stay on).
+- **Working copy (dev, port 3001):** `npx next dev --port 3001` (writes to `.next/dev`, so it never
+  disturbs port 3000). After changes, rebuild + restart port 3000 so the preview link shows them.
+- Admin login: `saunaksharma@gmail.com` (the owner's password; sessions expire after 2 hours).
 
-**Deferred / conditional (do NOT block):**
-- [ ] **Tier explainer block** on the homepage — waits on Q2 (page 30 vs 31 copy).
-- [ ] Wire **Tales/Snaps** onto **Caravans** — only if client confirms (open Q4).
-- [ ] Admin polish (optional) — icons in relationship pickers; tabs on big Caravan/Tour forms.
-- [ ] Client to provide real images/content + logo (see §7) — sections use gradient fallbacks until then.
+**⚠️ Hard-won rules:**
+- **Stop the port-3000 server BEFORE `npm run build`.** Building while it runs lets the old server
+  regenerate pages (ISR) with old file names into the new build → a page with missing CSS/JS
+  (happened to the homepage on 2026-09-23; fixed by a clean stop → build → start).
+- **Never write file content through a shell command** (backticks inside a bash string get
+  EXECUTED). Use the Edit/Write tools.
+- In Git Bash, arguments starting with `/` get rewritten to Windows paths — use `MSYS_NO_PATHCONV=1`.
 
-**Goal: better than the old site** — faster (next/image + SSR), fully self-editable, mobile-first,
-tasteful motion (CSS-first), a11y + SEO. Keep motion lean for the deadline.
+**Last full check-up (2026-09-23):** crawl of 59 pages / 100 internal links / 138 images → 0 broken
+images, 1 bad link (fixed). Real-interaction tests passed: nav, mobile menu (now with backdrop),
+filters + shared filter links, caravan tabs / FAQ / lightbox / video link, reviews arrows + Read more,
+booking form (destination pre-fill) + newsletter (test rows deleted). Backend: create/read/update/
+delete on all 15 collections + all 5 globals + accent-safe auto-slug → **0 failures**. Build green,
+66 pre-built pages, every public page ~0.01s first byte, every page's JS/CSS files verified.
+Check-up scripts: `scratchpad/crawl.py` (pages/links/images) and `scratchpad/chunks.py` (JS/CSS).
+
+**Next up (in order):**
+1. **Tales & Snaps** — proper tabs on tour + caravan pages (Tales = article cards, Snaps = photo
+   grid), hidden when empty. Caravans need `tales`/`snaps` fields (Tours already have them).
+2. **Feature lists redesign** — user finds the gold-tick rows cheap; research premium caravan /
+   hotel amenity layouts and redesign `IconFeatureList`.
+3. Detail pages: full-width photo header + Adria-style highlights row (Sleeps / Drive / Base / Class).
+4. Route Map → numbered day timeline; filters → styled pill dropdowns; one consistent button style.
+5. Launch: domain, Vercel + Neon **pooled** connection string, S3/R2 media storage, SMTP env vars.
+
+**Waiting on the client:** see §7 (contact details, feature lists for 6 caravans, 2 data conflicts,
+Terms/Privacy text, Instagram export, LinkedIn URL, decisions). Launch checklist artifact:
+https://claude.ai/artifact/5VHND4Z3eCP4zSNnK8vRoj
+
+**How data fixes/imports are done (temp-route pattern):** write `src/app/(frontend)/tmp-*/route.ts`
+using the local API, curl it on port 3001 (retry once — the first hit compiles), then DELETE the
+route. Staging folders are `/tmp-*/` (gitignored). Never leave temp routes in the tree.
 
 ---
 
-## 5a. Resume playbook — what's coming (paused 2026-09-21)
+## 5a. Playbooks — client answers, client content, deploy
 
-**Status: build is functionally complete + polished; paused for client content/answers.**
-All 13 routes 200. Git clean & pushed to `github.com/saunaksharma/Motorhome-client`.
-
-**To restart the dev server:** `npm --prefix motorhome-adventures run dev` → http://localhost:3000
-(admin `/admin`, login `saunaksharma@gmail.com`). Seed is idempotent — safe to re-run only via a
-temporary `/seed` route (see git history); it never overwrites existing rows.
+(Running/restarting the servers: see §5.)
 
 **When the client's ANSWERS arrive (see §7), do:**
 - **Q2 tier copy** → build the homepage "Which Caravan Tier" block (page 30/31 wording); the
   class descriptions can live on `caravan-filter-options` (class) — add a `description` field there.
-- **Q4 Tales/Snaps on caravans** → if yes, uncomment/add `tales`+`snaps` relationships on
-  `Caravans` (mirror how `Tours` does it) + surface tabs on the caravan detail.
+- **Tales/Snaps on caravans** (Q4 resolved YES) → add `tales`+`snaps` relationships on `Caravans`
+  (mirror `Tours`) + surface tabs on the caravan detail — see §5 "Next up" #1.
 - **Q5 add-on sub-groups** → add a `group` (sports/lifestyle) select to `features` if confirmed.
 - Small confirms (parent-page count, base-vehicle fields, "additional" field) → low-risk tweaks.
 
