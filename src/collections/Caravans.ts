@@ -130,13 +130,22 @@ export const Caravans: CollectionConfig = {
         { name: 'url', type: 'text', required: true, admin: { description: 'YouTube link or playlist URL.' } },
       ],
     },
+    // "Tales & Snaps" (2022 brief): stories + photo albums from trips with this caravan.
     {
       name: 'relatedArticles',
-      label: 'Related articles',
+      label: 'Tales (related articles)',
       type: 'relationship',
       relationTo: 'blog-articles',
       hasMany: true,
-      admin: { description: 'Pick from existing blog articles (the first 4 show on the page).' },
+      admin: { description: 'Stories/blog posts about this caravan. Shown in the "Tales" tab.' },
+    },
+    {
+      name: 'snaps',
+      label: 'Snaps (photo albums)',
+      type: 'relationship',
+      relationTo: 'galleries',
+      hasMany: true,
+      admin: { description: 'Photo albums from trips with this caravan. Shown in the "Snaps" tab.' },
     },
 
     // Call to action

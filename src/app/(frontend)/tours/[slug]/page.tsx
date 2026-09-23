@@ -1,13 +1,12 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
 import { PageBanner } from '@/components/PageBanner'
 import { SectionHeading } from '@/components/SectionHeading'
-import { Tabs } from '@/components/Tabs'
+import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
@@ -45,27 +44,6 @@ export default async function TourDetailPage({ params }: { params: Params }) {
   const heroImage = typeof tour.heroImage === 'object' ? tour.heroImage : null
   const location = relName(tour.location)
   const itinerary = Array.isArray(tour.itinerary) ? tour.itinerary : []
-
-  const tales = tour.tales && typeof tour.tales === 'object' ? tour.tales : null
-  const snaps = tour.snaps && typeof tour.snaps === 'object' ? tour.snaps : null
-  const tabs = [
-    tales && {
-      label: 'Tales',
-      content: (
-        <Link href={`/blog/${tales.slug}`} className="text-green underline">
-          Read the story: {tales.title}
-        </Link>
-      ),
-    },
-    snaps && {
-      label: 'Snaps',
-      content: (
-        <Link href={`/gallery/${snaps.slug}`} className="text-green underline">
-          View the gallery: {snaps.title}
-        </Link>
-      ),
-    },
-  ].filter(Boolean) as { label: string; content: React.ReactNode }[]
 
   return (
     <article>
@@ -120,11 +98,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
           </div>
         )}
 
-        {tabs.length > 0 && (
-          <div className="mt-12">
-            <Tabs tabs={tabs} />
-          </div>
-        )}
+        <TalesAndSnaps tales={tour.tales ? [tour.tales] : []} snaps={tour.snaps ? [tour.snaps] : []} />
       </div>
     </article>
   )

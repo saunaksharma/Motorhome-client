@@ -1,27 +1,17 @@
 import { Play } from 'lucide-react'
 import React from 'react'
 
-import { BlogCard, type BlogCardData } from '@/components/BlogCard'
 import { SectionHeading } from '@/components/SectionHeading'
 
 export type Faq = { question?: string | null; answer?: string | null }
 export type RelatedVideo = { title?: string | null; url?: string | null }
 
-// FAQs + related videos + related articles, shown at the foot of a detail page.
-// Native <details> gives an accessible accordion with no client JS.
-export function RelatedContent({
-  faqs = [],
-  videos = [],
-  articles = [],
-}: {
-  faqs?: Faq[]
-  videos?: RelatedVideo[]
-  articles?: BlogCardData[]
-}) {
+// FAQs + related videos, shown near the foot of a caravan page (related articles
+// live in the "Tales & Snaps" section). Native <details> = accordion with no JS.
+export function RelatedContent({ faqs = [], videos = [] }: { faqs?: Faq[]; videos?: RelatedVideo[] }) {
   const hasFaqs = faqs.some((f) => f.question)
   const hasVideos = videos.some((v) => v.url)
-  const hasArticles = articles.length > 0
-  if (!hasFaqs && !hasVideos && !hasArticles) return null
+  if (!hasFaqs && !hasVideos) return null
 
   return (
     <div className="space-y-12">
@@ -61,17 +51,6 @@ export function RelatedContent({
                 </span>
                 <span className="font-heading font-semibold">{video.title || `Video ${index + 1}`}</span>
               </a>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {hasArticles && (
-        <section>
-          <SectionHeading title="Related Articles" />
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {articles.slice(0, 4).map((article) => (
-              <BlogCard key={article.id} article={article} />
             ))}
           </div>
         </section>

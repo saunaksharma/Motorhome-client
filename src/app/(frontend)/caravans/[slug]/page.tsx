@@ -9,6 +9,7 @@ import { PageBanner } from '@/components/PageBanner'
 import { PhotoGallery } from '@/components/PhotoGallery'
 import { RelatedContent } from '@/components/RelatedContent'
 import { Tabs } from '@/components/Tabs'
+import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
@@ -112,15 +113,15 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
         <PhotoGallery cover={caravan.heroImage} gallery={caravan.gallery} />
 
+        <TalesAndSnaps
+          tales={Array.isArray(caravan.relatedArticles) ? caravan.relatedArticles : []}
+          snaps={Array.isArray(caravan.snaps) ? caravan.snaps : []}
+        />
+
         <div className="mt-16">
           <RelatedContent
             faqs={Array.isArray(caravan.faqs) ? caravan.faqs : []}
             videos={Array.isArray(caravan.relatedVideos) ? caravan.relatedVideos : []}
-            articles={
-              (Array.isArray(caravan.relatedArticles) ? caravan.relatedArticles : []).filter(
-                (a): a is NonNullable<typeof a> & object => typeof a === 'object' && a !== null,
-              )
-            }
           />
         </div>
       </div>

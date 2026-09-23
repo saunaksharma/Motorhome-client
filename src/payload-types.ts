@@ -554,9 +554,13 @@ export interface Caravan {
       }[]
     | null;
   /**
-   * Pick from existing blog articles (the first 4 show on the page).
+   * Stories/blog posts about this caravan. Shown in the "Tales" tab.
    */
   relatedArticles?: (number | BlogArticle)[] | null;
+  /**
+   * Photo albums from trips with this caravan. Shown in the "Snaps" tab.
+   */
+  snaps?: (number | Gallery)[] | null;
   ctaLabel?: string | null;
   ctaLink?: string | null;
   /**
@@ -1161,6 +1165,7 @@ export interface CaravansSelect<T extends boolean = true> {
         id?: T;
       };
   relatedArticles?: T;
+  snaps?: T;
   ctaLabel?: T;
   ctaLink?: T;
   sortOrder?: T;
