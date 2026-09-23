@@ -141,6 +141,25 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-23 (day 4, cont.) — design upgrades: detail headers, Route Map, filters
+- **`DetailHero`** on caravan / tour / innovation pages (Adria-style): big rounded photo with the
+  name over it + a white quick-facts bar overlapping its foot (caravan: Sleeps / Drive / Based in /
+  Base vehicle; tour: Duration / Best season / Style / Route; innovation: Seats / Sleeps / Based in)
+  with the main CTA. Empty facts skipped. Body below = description only (photo not repeated).
+  `PageBanner` is still used by /about and CMS pages.
+- **Route Map** = dot-and-line timeline: gold dot per day on one thin line, day title exactly as
+  typed. **User said: no numbering** (tried numbered circles, removed).
+- **FilterBar** = one white pill panel of labelled native selects, active one tinted, "Clear".
+  **Bug fixed:** /blog filters server-side but FilterBar only rewrote the URL in the browser →
+  picking a category did nothing. `serverFiltered` prop → router.replace (blog only).
+  SearchBox restyled to match. Blog cards without a cover show the gold emblem (was a book icon;
+  plain `<img>` since `/brand/` isn't in next/image `localPatterns`).
+- Buttons left as-is on purpose: one system already (outline pill that fills green on hover =
+  the client's design note).
+- Gotcha: brand-new Tailwind classes can be missing from the dev CSS until a reload — check
+  computed styles before assuming a code bug.
+- Verified: tsc, build, 8 key pages' JS/CSS + tunnel, crawl 59 pages / 0 broken links / 0 broken images.
+
 ### 2026-09-23 (day 4, cont.) — feature lists redesign + Tales & Snaps
 - **Feature lists** (`IconFeatureList` + `featureIcon.ts`), after Airbnb amenities / Adria highlights:
   each feature gets a meaningful Lucide icon picked from its name (keyword → icon map, e.g. bath →
@@ -369,9 +388,9 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ## 5. WHERE WE ARE — read this first (updated 2026-09-23, end of day 4)
 
-**Status:** site + admin are feature-complete (incl. Tales & Snaps + redesigned feature lists),
-real content is in, polished, fast, and fully checked. Remaining work = a few design upgrades,
-the client's content/answers, launch.
+**Status:** site + admin are feature-complete and all planned design work is done (Tales & Snaps,
+feature lists, photo detail headers, Route Map timeline, filter panel). Real content is in, fast,
+fully checked. Remaining = the client's content/answers + launch (hosting/domain/storage/email).
 
 **Running it — two servers side by side:**
 - **Preview for others (production, port 3000):** `npm run build`, then `npm start`. The public
@@ -399,10 +418,11 @@ delete on all 15 collections + all 5 globals + accent-safe auto-slug → **0 fai
 Check-up scripts: `scratchpad/crawl.py` (pages/links/images) and `scratchpad/chunks.py` (JS/CSS).
 
 **Next up (in order):**
-1. ~~Tales & Snaps~~ ✅ · ~~Feature lists redesign~~ ✅ (see session log).
-2. Detail pages: full-width photo header + Adria-style highlights row (Sleeps / Drive / Base / Class).
-3. Route Map → numbered day timeline; filters → styled pill dropdowns; one consistent button style.
-4. Launch: domain, Vercel + Neon **pooled** connection string, S3/R2 media storage, SMTP env vars.
+1. ~~Tales & Snaps~~ ✅ · ~~Feature lists~~ ✅ · ~~Detail headers~~ ✅ · ~~Route Map timeline~~ ✅ ·
+   ~~Filter pills~~ ✅ (see session log). **All planned build/design work is done.**
+2. Launch (needs the client): domain, Vercel + Neon **pooled** connection string, S3/R2 media
+   storage (media is on local disk today), SMTP env vars, remove `EXTRA_ORIGINS`.
+3. Client content/answers (§7). Anything new = only on user request, one change at a time.
 - Content note: the 3 sample blog posts (Tales) have no cover photos and are seed filler — client
   should write real ones (or delete them) before launch.
 
