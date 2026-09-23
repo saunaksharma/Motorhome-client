@@ -16,7 +16,7 @@ export default function BuildPage() {
         and our team will craft it for you.
       </p>
       <div className="mt-8">
-        <CtaButton href="/contact?destination=Custom Build" label="Start Your Build" />
+        <CtaButton href="/contact?destination=Custom%20Build" label="Start Your Build" />
       </div>
     </div>
   )

@@ -29,12 +29,29 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
   // Close the mobile menu after navigating.
   useEffect(() => setOpen(false), [pathname])
 
+  // While the mobile menu is open, the page behind it can't scroll.
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
+
   const solid = !isHome || scrolled || open
   const isActive = (link: string) => (link === '/' ? pathname === '/' : pathname.startsWith(link))
   const [word1, ...rest] = brand.split(' ')
 
   return (
     <>
+      {/* Backdrop behind the open mobile menu: a tap outside closes the menu
+          instead of hitting whatever is underneath. */}
+      {open && (
+        <div
+          aria-hidden
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[1px] lg:hidden"
+        />
+      )}
       <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4">
         <div
           className={cn(
