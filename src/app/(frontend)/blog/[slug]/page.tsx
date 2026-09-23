@@ -73,7 +73,7 @@ export default async function BlogArticlePage({ params }: { params: Params }) {
       )}
 
       {article.body && (
-        <div className="mt-8 space-y-4 leading-relaxed">
+        <div className="rich-text mt-8 space-y-4 leading-relaxed">
           <RichText data={article.body} />
         </div>
       )}

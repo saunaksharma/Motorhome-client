@@ -34,7 +34,7 @@ export async function TipsAccordion() {
                 <ChevronDown className="size-5 shrink-0 transition-transform group-open:rotate-180" />
               </summary>
               {tip.body && (
-                <div className="space-y-3 px-5 pb-5 leading-relaxed text-white/90">
+                <div className="rich-text space-y-3 px-5 pb-5 leading-relaxed text-white/90">
                   <RichText data={tip.body} />
                 </div>
               )}

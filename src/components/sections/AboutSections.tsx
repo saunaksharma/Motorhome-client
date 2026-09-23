@@ -42,7 +42,7 @@ export async function AboutSections() {
               </h2>
               <div className="mt-4 h-1 w-24 rounded bg-gold" />
               {section.body && (
-                <div className="mt-4 space-y-3 leading-relaxed">
+                <div className="rich-text mt-4 space-y-3 leading-relaxed">
                   <RichText data={section.body} />
                 </div>
               )}

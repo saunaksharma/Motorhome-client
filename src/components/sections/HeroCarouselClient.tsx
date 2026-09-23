@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
-import { CtaButton } from '@/components/CtaButton'
+import { ShimmerLink } from '@/components/ui/shimmer-link'
 import { cn } from '@/lib/utils'
 
 export type HeroSlide = {
@@ -33,7 +33,7 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
   const active = slides[current]
 
   return (
-    <section className="relative h-[88vh] min-h-[560px] w-full overflow-hidden">
+    <section className="relative h-[100svh] max-h-[1000px] min-h-[600px] w-full overflow-hidden">
       {/* Backgrounds crossfade on their own; no controls — a calm, hands-off slideshow.
           First slide is priority-loaded for a fast first paint. */}
       {slides.map((slide, index) => (
@@ -62,8 +62,11 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
       {/* Soft top-to-bottom scrim: keeps the text crisp without hiding the photo. */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/55" />
 
-      {/* Foreground text for the active slide */}
-      <div className="relative z-10 flex h-full flex-col items-center justify-center gap-7 px-4 text-center text-white">
+      {/* Foreground text for the active slide — keyed so it rises in on every change. */}
+      <div
+        key={current}
+        className="rise-in relative z-10 flex h-full flex-col items-center justify-center gap-8 px-4 pt-16 text-center text-white"
+      >
         <h1 className="font-display text-4xl italic drop-shadow-md sm:text-6xl md:text-7xl">
           {active.headingLine1}
           {active.headingLine2 && (
@@ -75,9 +78,7 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
             </>
           )}
         </h1>
-        {active.ctaLabel && (
-          <CtaButton href={active.ctaLink ?? '#'} label={active.ctaLabel} gold />
-        )}
+        {active.ctaLabel && <ShimmerLink href={active.ctaLink ?? '#'} label={active.ctaLabel} />}
       </div>
     </section>
   )

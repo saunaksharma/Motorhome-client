@@ -93,7 +93,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
           <div>
             {caravan.description && (
-              <div className="space-y-3 leading-relaxed">
+              <div className="rich-text space-y-3 leading-relaxed">
                 <RichText data={caravan.description} />
               </div>
             )}

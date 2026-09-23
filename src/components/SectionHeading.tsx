@@ -2,7 +2,8 @@ import React from 'react'
 
 import { cn } from '@/lib/utils'
 
-// Italic display title + the gold swoosh underline used across the site.
+// Section title used across the site: italic display heading, a gold
+// line-diamond-line ornament that draws in on scroll, and a spaced-caps subtitle.
 // `light` = for sections on a green background.
 export function SectionHeading({
   title,
@@ -14,13 +15,29 @@ export function SectionHeading({
   light?: boolean
 }) {
   return (
-    <div className="text-center">
-      <h2 className={cn('font-display text-4xl italic sm:text-5xl', light ? 'text-white' : 'text-green')}>
+    <div className="reveal text-center">
+      <h2
+        className={cn(
+          'font-display text-4xl italic tracking-tight text-balance sm:text-5xl lg:text-6xl',
+          light ? 'text-white' : 'text-green',
+        )}
+      >
         {title}
       </h2>
-      <div className="mx-auto mt-3 h-1 w-40 rounded bg-gold" />
+      <div aria-hidden className="reveal-bar mx-auto mt-4 flex w-fit items-center gap-3">
+        <span className="h-px w-14 bg-gradient-to-r from-transparent to-gold sm:w-20" />
+        <span className="size-2 rotate-45 bg-gold" />
+        <span className="h-px w-14 bg-gradient-to-l from-transparent to-gold sm:w-20" />
+      </div>
       {subtitle && (
-        <p className={cn('mt-4', light ? 'text-white/80' : 'text-muted-foreground')}>{subtitle}</p>
+        <p
+          className={cn(
+            'mx-auto mt-4 max-w-xl font-heading text-sm uppercase tracking-[0.28em]',
+            light ? 'text-white/75' : 'text-green/60',
+          )}
+        >
+          {subtitle}
+        </p>
       )}
     </div>
   )

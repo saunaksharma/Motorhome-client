@@ -87,7 +87,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
 
           <div>
             {tour.description ? (
-              <div className="space-y-3 leading-relaxed">
+              <div className="rich-text space-y-3 leading-relaxed">
                 <RichText data={tour.description} />
               </div>
             ) : (
@@ -110,7 +110,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
                 <div key={index} className="border-l-2 border-gold pl-4">
                   <h3 className="font-display text-lg italic text-green">{day.dayTitle}</h3>
                   {day.description && (
-                    <div className="mt-1 text-sm leading-relaxed">
+                    <div className="rich-text mt-1 text-sm leading-relaxed">
                       <RichText data={day.description} />
                     </div>
                   )}

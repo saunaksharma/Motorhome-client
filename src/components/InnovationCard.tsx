@@ -20,15 +20,15 @@ export function InnovationCard({ item }: { item: InnovationCardData }) {
   const image = typeof item.heroImage === 'object' ? (item.heroImage as { url?: string; alt?: string }) : null
 
   return (
-    <article className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-      <div className="relative aspect-[4/3]">
+    <article className="spotlight reveal group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-[translate,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-xl">
+      <div className="relative aspect-[4/3] overflow-hidden">
         {image?.url ? (
           <Image
             src={image.url}
             alt={image.alt ?? item.name}
             fill
             sizes="(max-width: 1024px) 100vw, 33vw"
-            className="object-cover"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-green/15 to-gold/15" />

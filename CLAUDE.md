@@ -141,6 +141,32 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-23 (day 4, cont.) — visual polish, round 1 (header, headings, hero, story photos)
+- **Header** (`SiteHeader`): floating glass bar after 21st.dev's "resizable navbar" pattern — see-through
+  over the homepage hero, solid green once scrolled / on other pages (spacer div pushes content below
+  it). Bigger logo lockup (emblem + "MOTORHOME" gold italic / "ADVENTURES" spaced caps), gold
+  hover-underline + active-page state, gold "Book Now" pill (xl+), animated mobile panel.
+- **SectionHeading**: gold line–diamond–line ornament that draws in on scroll + spaced-caps subtitle.
+- **Hero**: full-screen (100svh) under the floating header; headline rises in per slide;
+  CTA is Magic UI's **Shimmer Button** as a link (`components/ui/shimmer-link.tsx`).
+  Cropped a baked-in Canva footer strip off `hero-home-away-home` (now `-v2.jpg`, new filename = no stale cache).
+- **Cards** (tour/caravan/innovation/blog): scroll reveal, hover lift, slow photo zoom, spotlight glow classes.
+- **Effects CSS** (`globals.css`): Magic UI shimmer keyframes; Blur-Fade-style `.reveal` using native
+  scroll-driven animation (zero JS); `.spotlight`, `.border-beam`, `.rise-in`; all off under reduced motion.
+  Decided against `motion` dependency (~35 KB) — effects rebuilt in CSS for speed.
+- **Rejected by user, removed:** destinations marquee strip + hero scroll-cue arrow ("looks cheap").
+- **Homepage story** (Homepage global `aboutSections`): now 4 blocks with the client's real photos + full
+  copy from the old site — How It All Began (their first motorhome in Ladakh), The People Behind the
+  Wheel (2004 group photo), NEW From Backseat Guides to Frontseat Creators (Saini family), Why Travel
+  With Us (Harper night photo). About page got the Ladakh photo + real Instagram/YouTube links.
+- **Rich text fix:** paragraphs from the editor ran together (renderer wraps them, parent space-y can't
+  reach) → `.rich-text` class spaces paragraphs and restores list bullets; applied to all 9 renderers.
+- **`(frontend)/loading.tsx`:** instant loading indicator on navigation. Root cause of "links not
+  clicking": dev server compiles each page on first visit (seconds, no feedback) + my browser automation
+  holding the pane. Verified real clicks navigate. Production (pre-built) is instant.
+- Dev on **port 3001** (`next dev --port 3001`, outputs to `.next/dev`) runs alongside the prod server on
+  3000 that the tunnel serves — so work never disturbs the preview link.
+
 ### 2026-09-23 (day 4, cont.) — speed, preview tunnel, SSL warning
 - **SSL warning fixed:** `DATABASE_URI` now uses `sslmode=verify-full` (was `require`, which pg
   warns will weaken in v9). Same in `.env.example`. DB verified working.

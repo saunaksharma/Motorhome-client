@@ -85,6 +85,28 @@ body {
   background-repeat: repeat, no-repeat;
 }
 
+/* Text written in the admin's rich-text editor. The renderer wraps paragraphs in
+   its own element, so a parent's space-y doesn't reach them — space them here, and
+   restore list bullets that Tailwind's reset removes. */
+.rich-text p + p,
+.rich-text ul,
+.rich-text ol,
+.rich-text h2,
+.rich-text h3 {
+  margin-top: 0.8em;
+}
+.rich-text ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.rich-text ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+.rich-text a {
+  text-decoration: underline;
+}
+
 /* Slow "Ken Burns" zoom for hero backgrounds — subtle premium motion. */
 @keyframes hero-zoom {
   from {
@@ -100,5 +122,176 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .hero-zoom {
     animation: none;
+  }
+}
+
+/* ============================================================
+   Motion & effects. Shimmer is Magic UI (21st.dev) keyframes;
+   Reveal / Spotlight / Beam are Magic UI's Blur-Fade, Magic-Card and
+   Border-Beam effects rebuilt in plain CSS (no `motion` dependency) to keep
+   the site fast. Everything switches off under prefers-reduced-motion.
+   ============================================================ */
+
+@theme {
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+
+  @keyframes shimmer-slide {
+    to {
+      transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
+  @keyframes spin-around {
+    0% {
+      transform: translateZ(0) rotate(0);
+    }
+    15%,
+    35% {
+      transform: translateZ(0) rotate(90deg);
+    }
+    65%,
+    85% {
+      transform: translateZ(0) rotate(270deg);
+    }
+    100% {
+      transform: translateZ(0) rotate(360deg);
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reveal: fade + rise + un-blur as an element scrolls into view. Uses native
+   scroll-driven animation — no JS; browsers without support just show content. */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@keyframes draw-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 22%;
+    }
+    .reveal-bar {
+      transform-origin: center;
+      animation: draw-x linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 30%;
+    }
+  }
+}
+
+/* Spotlight (Magic Card): a gold glow + glowing border that follow the pointer.
+   --mx/--my are set by <SpotlightTracker />; without it the glow simply stays hidden. */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before,
+.spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 2;
+}
+.spotlight::before {
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(201 162 62 / 0.18), transparent 60%);
+}
+.spotlight::after {
+  padding: 1.5px;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--color-gold), transparent 70%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+@media (hover: hover) {
+  .spotlight:hover::before,
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Border beam: a gold light travelling around a rounded element's border. */
+@property --beam-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes beam-spin {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+.border-beam {
+  position: relative;
+  isolation: isolate;
+}
+.border-beam::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  pointer-events: none;
+  background: conic-gradient(from var(--beam-angle), transparent 0 75%, var(--color-gold) 88%, #fff3cf 93%, transparent 100%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: beam-spin 6s linear infinite;
+}
+
+/* Hero headline entrance, replayed on each slide change (keyed in React). */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise-in {
+  animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-shimmer-slide,
+  .animate-spin-around,
+  .border-beam::after,
+  .rise-in {
+    animation: none !important;
   }
 }

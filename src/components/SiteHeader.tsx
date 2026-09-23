@@ -2,56 +2,141 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+
+import { cn } from '@/lib/utils'
 
 type NavItem = { label: string; link: string }
 
-// Responsive header: logo + text nav on desktop; logo + hamburger that opens
-// the nav on mobile (reconciles design pages 18 and 20).
+// Floating glass navbar (after 21st.dev's "resizable navbar" pattern). On the
+// homepage it starts see-through over the hero photo and turns solid on scroll;
+// elsewhere it's solid, with a spacer so page content starts below it.
 export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: string | null; nav: NavItem[] }) {
+  const pathname = usePathname()
+  const isHome = pathname === '/'
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Close the mobile menu after navigating.
+  useEffect(() => setOpen(false), [pathname])
+
+  const solid = !isHome || scrolled || open
+  const isActive = (link: string) => (link === '/' ? pathname === '/' : pathname.startsWith(link))
+  const [word1, ...rest] = brand.split(' ')
 
   return (
-    <header className="sticky top-0 z-50 bg-green/90 text-white backdrop-blur">
-      <div className="mx-auto flex min-h-[72px] max-w-[1200px] items-center justify-between gap-4 px-4">
-        <Link href="/" className="flex items-center gap-3">
-          {logoUrl && <Image src={logoUrl} alt="" width={48} height={48} className="h-11 w-11 object-contain" />}
-          <span className="font-display text-xl italic tracking-wide text-gold">{brand}</span>
-        </Link>
-
-        <nav className="hidden gap-6 font-heading text-sm uppercase tracking-wide lg:flex">
-          {nav.map((item) => (
-            <Link key={item.label} href={item.link} className="transition-colors hover:text-gold">
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <button
-          className="lg:hidden"
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
+    <>
+      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4">
+        <div
+          className={cn(
+            'mx-auto max-w-[1240px] rounded-2xl border transition-all duration-500',
+            solid
+              ? 'border-gold/25 bg-green/90 shadow-[0_10px_30px_-10px_rgb(0_0_0/0.45)] backdrop-blur-md'
+              : 'border-white/15 bg-black/15 backdrop-blur-[2px]',
+          )}
         >
-          {open ? <X /> : <Menu />}
-        </button>
-      </div>
-
-      {open && (
-        <nav className="flex flex-col pb-4 font-heading uppercase tracking-wide lg:hidden">
-          {nav.map((item) => (
-            <Link
-              key={item.label}
-              href={item.link}
-              onClick={() => setOpen(false)}
-              className="border-t border-white/10 px-4 py-2.5 transition-colors hover:text-gold"
-            >
-              {item.label}
+          <div className={cn('flex items-center justify-between gap-4 px-4 transition-all duration-500', solid ? 'h-16' : 'h-20')}>
+            {/* Logo lockup */}
+            <Link href="/" className="flex shrink-0 items-center gap-3" aria-label={`${brand} — home`}>
+              {logoUrl && (
+                <Image
+                  src={logoUrl}
+                  alt=""
+                  width={148}
+                  height={80}
+                  priority
+                  className={cn('w-auto object-contain transition-all duration-500', solid ? 'h-9' : 'h-11')}
+                />
+              )}
+              <span className="flex flex-col leading-none">
+                <span className="font-display text-xl italic tracking-wide text-gold sm:text-2xl">{word1}</span>
+                <span className="mt-1 font-heading text-[10px] uppercase tracking-[0.42em] text-white/85">{rest.join(' ')}</span>
+              </span>
             </Link>
-          ))}
-        </nav>
-      )}
-    </header>
+
+            {/* Desktop nav */}
+            <nav className="hidden items-center gap-1 lg:flex">
+              {nav.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.link}
+                  className={cn(
+                    'group relative px-2.5 py-2 font-heading text-[13px] uppercase tracking-[0.12em] transition-colors',
+                    isActive(item.link) ? 'text-gold' : 'text-white/90 hover:text-gold',
+                  )}
+                >
+                  {item.label}
+                  <span
+                    className={cn(
+                      'absolute inset-x-2.5 -bottom-0.5 h-px origin-center bg-gold transition-transform duration-300',
+                      isActive(item.link) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
+                    )}
+                  />
+                </Link>
+              ))}
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <Link
+                href="/contact"
+                className="hidden rounded-full bg-gold px-5 py-2 font-heading text-[13px] font-semibold uppercase tracking-wider text-green transition hover:bg-[#d8b457] hover:shadow-[0_0_20px_rgb(201_162_62/0.45)] xl:inline-block"
+              >
+                Book Now
+              </Link>
+              <button
+                className="rounded-full p-2 text-white transition hover:bg-white/10 lg:hidden"
+                aria-label={open ? 'Close menu' : 'Open menu'}
+                aria-expanded={open}
+                onClick={() => setOpen((v) => !v)}
+              >
+                {open ? <X /> : <Menu />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile menu */}
+          <div
+            className={cn(
+              'grid transition-[grid-template-rows] duration-300 ease-out lg:hidden',
+              open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+            )}
+          >
+            <nav className="overflow-hidden">
+              <div className="flex flex-col gap-1 border-t border-white/10 px-3 pb-4 pt-2">
+                {nav.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.link}
+                    className={cn(
+                      'rounded-xl px-3 py-2.5 font-heading uppercase tracking-[0.12em] transition-colors',
+                      isActive(item.link) ? 'bg-white/10 text-gold' : 'text-white/90 hover:bg-white/5 hover:text-gold',
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                <Link
+                  href="/contact"
+                  className="mt-2 rounded-full bg-gold px-5 py-3 text-center font-heading font-semibold uppercase tracking-wider text-green"
+                >
+                  Book Now
+                </Link>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
+      {/* Pages other than home start below the floating bar. */}
+      {!isHome && <div aria-hidden className="h-[92px]" />}
+    </>
   )
 }

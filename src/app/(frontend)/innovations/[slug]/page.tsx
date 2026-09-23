@@ -83,7 +83,7 @@ export default async function InnovationDetailPage({ params }: { params: Params 
             </ul>
 
             {item.description && (
-              <div className="mt-4 space-y-3 leading-relaxed">
+              <div className="rich-text mt-4 space-y-3 leading-relaxed">
                 <RichText data={item.description} />
               </div>
             )}
