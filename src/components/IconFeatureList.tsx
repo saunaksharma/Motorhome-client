@@ -1,8 +1,8 @@
-import { Check, X } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 
 import { cn } from '@/lib/utils'
+import { featureIcon } from './featureIcon'
 
 type Feature = {
   id: number | string
@@ -11,23 +11,28 @@ type Feature = {
 }
 
 // The shared stand-in icon every feature starts with (from the initial seed). Features
-// still using it show a clean tick instead; once the client uploads a real icon for a
-// feature in the admin, that icon is shown.
+// still using it get a meaningful icon picked from their name (see featureIcon);
+// once the client uploads a real icon for a feature in the admin, that is shown.
 const PLACEHOLDER_ICON = 'feature-icon.svg'
 
-// A titled grid of feature rows (Specs / Inclusions / Exclusions / Add-ons). `extra` is
-// the admin's free-text "Additional …" box — comma- or line-separated items.
-// `exclude` = things NOT included: shown with a muted ✕ rather than a tick.
+// A titled set of features, in the style of premium listings (Airbnb amenities,
+// Adria highlights):
+//   variant "tiles" — highlight tiles (icon above label) for specs / unique features
+//   variant "list"  — two-column icon list for inclusions / add-ons
+//   exclude         — "not included" items: muted and struck through
+// `extra` is the admin's free-text "Additional …" box (comma- or line-separated).
 export function IconFeatureList({
   title,
   features,
   extra,
   exclude = false,
+  variant = 'list',
 }: {
   title: string
   features?: unknown
   extra?: string | null
   exclude?: boolean
+  variant?: 'tiles' | 'list'
 }) {
   const list = (Array.isArray(features) ? features : []).filter(
     (f): f is Feature => typeof f === 'object' && f !== null,
@@ -47,30 +52,42 @@ export function IconFeatureList({
     ...extraItems.map((name) => ({ key: `x-${name}`, name, customIcon: null as string | null })),
   ]
 
+  const renderIcon = (row: (typeof rows)[number], size: string) => {
+    if (row.customIcon) return <Image src={row.customIcon} alt="" width={28} height={28} className={size} />
+    const Icon = featureIcon(row.name)
+    return <Icon className={size} strokeWidth={1.5} aria-hidden />
+  }
+
   return (
-    <div className="mb-10">
-      <h3 className="font-heading text-lg uppercase tracking-[0.18em] text-green">{title}</h3>
-      <ul className="mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
-        {rows.map((row) => (
-          <li key={row.key} className="flex items-center gap-3 text-sm">
-            <span
-              className={cn(
-                'grid size-7 shrink-0 place-items-center rounded-full',
-                exclude ? 'bg-green/[0.06] text-green/40' : 'bg-gold/15 text-gold',
-              )}
+    <section className="mb-12">
+      <h3 className="font-heading text-sm uppercase tracking-[0.25em] text-green/60">{title}</h3>
+
+      {variant === 'tiles' ? (
+        <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          {rows.map((row) => (
+            <li
+              key={row.key}
+              className="flex flex-col gap-4 rounded-2xl border border-green/10 bg-white p-5 transition-colors hover:border-gold/60"
             >
-              {row.customIcon && !exclude ? (
-                <Image src={row.customIcon} alt="" width={16} height={16} />
-              ) : exclude ? (
-                <X className="size-3.5" />
-              ) : (
-                <Check className="size-3.5" />
-              )}
-            </span>
-            <span className={exclude ? 'text-green/60' : 'text-green'}>{row.name}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+              <span className="text-green">{renderIcon(row, 'size-8')}</span>
+              <span className="text-[15px] font-medium leading-snug text-green">{row.name}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <ul className="mt-5 grid gap-x-10 sm:grid-cols-2">
+          {rows.map((row) => (
+            <li key={row.key} className="flex items-center gap-4 border-b border-green/[0.07] py-3.5">
+              <span className={cn('shrink-0', exclude ? 'text-green/35' : 'text-green')}>
+                {renderIcon(row, 'size-6')}
+              </span>
+              <span className={cn('text-[15px]', exclude ? 'text-green/50 line-through decoration-green/30' : 'text-green')}>
+                {row.name}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   )
 }

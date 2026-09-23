@@ -50,16 +50,16 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
   const overview = (
     <div>
-      <IconFeatureList title="Specifications" features={caravan.specifications} extra={caravan.additionalSpecifications} />
-      <IconFeatureList title="Unique Features" features={caravan.uniqueFeatures} extra={caravan.additionalUniqueFeatures} />
-      <IconFeatureList title="Inclusions" features={caravan.inclusions} extra={caravan.additionalInclusions} />
-      <IconFeatureList title="Exclusions" features={caravan.exclusions} extra={caravan.additionalExclusions} exclude />
+      <IconFeatureList title="Specifications" variant="tiles" features={caravan.specifications} extra={caravan.additionalSpecifications} />
+      <IconFeatureList title="Unique features" variant="tiles" features={caravan.uniqueFeatures} extra={caravan.additionalUniqueFeatures} />
+      <IconFeatureList title="What's included" features={caravan.inclusions} extra={caravan.additionalInclusions} />
+      <IconFeatureList title="Not included" features={caravan.exclusions} extra={caravan.additionalExclusions} exclude />
     </div>
   )
 
   const addOns = (
     <div>
-      <IconFeatureList title="Add-ons" features={caravan.addOns} extra={caravan.additionalAddOns} />
+      <IconFeatureList title="Add-ons" variant="tiles" features={caravan.addOns} extra={caravan.additionalAddOns} />
       <p className="mt-2 font-display text-lg italic text-green">
         Please mention the add-on&apos;s you require at the time of booking
       </p>
