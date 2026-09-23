@@ -6,6 +6,7 @@ import React, { cache } from 'react'
 import { CtaButton } from '@/components/CtaButton'
 import { IconFeatureList } from '@/components/IconFeatureList'
 import { PageBanner } from '@/components/PageBanner'
+import { PhotoGallery } from '@/components/PhotoGallery'
 import { RelatedContent } from '@/components/RelatedContent'
 import { Tabs } from '@/components/Tabs'
 import { getPayloadClient } from '@/lib/payload'
@@ -44,25 +45,27 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
   const overview = (
     <div>
-      <IconFeatureList title="Specifications" features={caravan.specifications} />
-      <IconFeatureList title="Unique Features" features={caravan.uniqueFeatures} />
-      <IconFeatureList title="Inclusions" features={caravan.inclusions} />
-      <IconFeatureList title="Exclusions" features={caravan.exclusions} />
+      <IconFeatureList title="Specifications" features={caravan.specifications} extra={caravan.additionalSpecifications} />
+      <IconFeatureList title="Unique Features" features={caravan.uniqueFeatures} extra={caravan.additionalUniqueFeatures} />
+      <IconFeatureList title="Inclusions" features={caravan.inclusions} extra={caravan.additionalInclusions} />
+      <IconFeatureList title="Exclusions" features={caravan.exclusions} extra={caravan.additionalExclusions} />
     </div>
   )
 
   const addOns = (
     <div>
-      <IconFeatureList title="Add-ons" features={caravan.addOns} />
+      <IconFeatureList title="Add-ons" features={caravan.addOns} extra={caravan.additionalAddOns} />
       <p className="mt-2 font-display text-lg italic text-green">
         Please mention the add-on&apos;s you require at the time of booking
       </p>
     </div>
   )
 
+  // Only show the Add Ons tab when this caravan actually offers some.
+  const hasAddOns = (Array.isArray(caravan.addOns) && caravan.addOns.length > 0) || Boolean(caravan.additionalAddOns)
   const tabs = [
     { label: 'Overview', content: overview },
-    { label: 'Add Ons+', content: addOns },
+    ...(hasAddOns ? [{ label: 'Add Ons+', content: addOns }] : []),
   ]
 
   return (
@@ -101,6 +104,8 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
         <div className="mt-12">
           <Tabs tabs={tabs} />
         </div>
+
+        <PhotoGallery cover={caravan.heroImage} gallery={caravan.gallery} />
 
         <div className="mt-16">
           <RelatedContent

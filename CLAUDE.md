@@ -141,6 +141,35 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-23 (day 4, cont.) — imported the previous site's backend
+- **Source:** old admin `deepskyblue-wildcat-500319.hostingersite.com/admin/` (client logged in; we
+  read only). Its data comes from **public, unauthenticated** JSON endpoints — no login needed:
+  `/api/listings.php?section=caravans|innovation`, `/api/tours.php`, `/api/blog.php`,
+  `/api/hero-slides.php`, `/api/reviews.php`, `/api/content.php` (all `?page=1&limit=200`).
+  Photos live at `/images/<file>`. Messages/appointments (customer PII) were NOT touched.
+- **Imported (real data):** caravans 3 → **8** (Willow, Harper, Kástro, Aurum, Rambler, Shiloh,
+  Reisender Rogue, Aégis) with class/berths/base/drive type, cover + full galleries (92 photos),
+  Willow & Harper descriptions + real spec/unique/inclusion/exclusion ticks + **real YouTube
+  walk-throughs** (replaced my placeholder demo videos). Innovations 3 → **6** (+Club on Wheels,
+  Food Fusion Express, Election Express) with galleries. Reviews 4 → **7** (+Akon, Varun Sood,
+  Mandira Bedi) in the old display order. Tour **#25** Sun, Sand & Sea: Bangalore to Goa (7 days).
+  18 new Features created (reused matches, e.g. "Permits & Permission" ≈ existing), new filter
+  options Himachal/Bangalore/"Self & Chauffeur Driven". Featured caravans: Willow/Harper/Kástro.
+- **Skipped as the previous dev's filler:** fake contact block ("123 Adventure Street", "+91 98765
+  43210"), 6 two-line placeholder blog posts, template About/FAQ/Safety copy.
+- Mapping script: `scratchpad/oldsite/prepare_import.py` → `import.json` (inspected before import);
+  temp `/import-oldsite` route (idempotent upserts, Media reused by filename), deleted after.
+- **Front-end fixes found while importing:** (1) the admin's "Additional …" free-text boxes were never
+  rendered — `IconFeatureList` now takes `extra`; (2) new `PhotoGallery` (reuses `GalleryGrid`
+  lightbox) on caravan + innovation pages; (3) Add Ons tab hidden when a caravan has none;
+  (4) reviews with style "featured" now show the guest's photo full-card (Akon/Mandira had no text);
+  (5) `slugField` strips accents ("Kástro" → `kastro`, was `k-stro`); (6) cleared invented
+  innovation "sleeps" values from my day-2 seed.
+- Gotcha: my download list's last line had no trailing newline → `while read` silently skipped it
+  (Lounger photo). Always verify against the import file, not the downloader's count.
+- Verified: 8/6/7/25 records, 0 duplicates, 0 broken images on home/listings, lightbox works,
+  `npm run build` exit 0.
+
 ### 2026-09-23 (day 4) — branded admin + backend completion
 - **Admin branding:** gold emblem logo (login + sidebar, static `public/brand/emblem.png`),
   tab title "· Motorhome Adventures", light theme, green sidebar/buttons (`(payload)/custom.css`),
@@ -346,6 +375,14 @@ Every content collection carries `listingMeta` (sortOrder, featured, active).
 9. **Typography mapping** across Racing Sans One / Oswald / Lato / Canva Sans / Rustic Printed.
 10. **Booking flow:** modal fields (name/email/phone/company/destination/dates/group/budget/notes)
     → stored as Enquiries "Customer Data"?
+11. **Old-data conflicts (followed the public card; confirm):** Aégis card says "Self Driven" but its
+    drive-type field says "Chauffeur Driven". Shiloh is based in Delhi but "Charges Start From Kota".
+12. **6 caravans have no spec/inclusion lists** in the old backend (only Willow & Harper do) — client
+    to tick their features in the admin. All features share one placeholder icon — client to upload icons.
+13. **Old customer messages (13) + appointments (11)** in the previous backend were not migrated
+    (personal data). Does the client want them copied into Enquiries?
+14. **Contact details:** only WhatsApp is real so far; phone/email/address still needed (the old
+    backend's contact block was fake filler).
 
 ---
 

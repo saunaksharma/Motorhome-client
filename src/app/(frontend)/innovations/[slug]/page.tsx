@@ -6,6 +6,7 @@ import React, { cache } from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
 import { PageBanner } from '@/components/PageBanner'
+import { PhotoGallery } from '@/components/PhotoGallery'
 import { getPayloadClient } from '@/lib/payload'
 import { pageMetadata } from '@/lib/seo'
 
@@ -55,6 +56,9 @@ export default async function InnovationDetailPage({ params }: { params: Params 
           </div>
 
           <div>
+            {item.shortDescription && (
+              <p className="mb-4 font-heading text-lg text-green">{item.shortDescription}</p>
+            )}
             <ul className="space-y-2 text-sm">
               {item.seats && (
                 <li className="flex items-center gap-2">
@@ -83,6 +87,8 @@ export default async function InnovationDetailPage({ params }: { params: Params 
             </div>
           </div>
         </div>
+
+        <PhotoGallery cover={item.heroImage} gallery={item.gallery} />
       </div>
     </article>
   )

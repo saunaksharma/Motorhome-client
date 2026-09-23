@@ -7,8 +7,17 @@ export type Review = {
   reviewerName: string
   rating?: number | null
   quote?: string | null
+  style?: 'quote' | 'featured' | null
   photoUrl?: string | null
 }
+
+const Stars = ({ count }: { count?: number | null }) => (
+  <div className="flex gap-1">
+    {Array.from({ length: count ?? 5 }).map((_, star) => (
+      <Star key={star} className="size-4 fill-gold text-gold" />
+    ))}
+  </div>
+)
 
 // Swipeable testimonials row (native scroll-snap) with arrow controls.
 export function ReviewsCarouselClient({ reviews }: { reviews: Review[] }) {
@@ -25,16 +34,27 @@ export function ReviewsCarouselClient({ reviews }: { reviews: Review[] }) {
         ref={track}
         className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {reviews.map((review, index) => (
+        {reviews.map((review, index) =>
+          // "Featured" reviews (e.g. celebrity guests) show their photo large.
+          review.style === 'featured' && review.photoUrl ? (
+            <article
+              key={index}
+              className="relative min-h-60 shrink-0 basis-[85%] snap-start overflow-hidden rounded-2xl bg-green text-white sm:basis-[45%] lg:basis-[31%]"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={review.photoUrl} alt={review.reviewerName} className="absolute inset-0 size-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-green via-green/30 to-transparent" />
+              <div className="relative flex h-full flex-col justify-end p-6">
+                <Stars count={review.rating} />
+                <p className="mt-2 font-heading uppercase tracking-wide text-gold">{review.reviewerName}</p>
+              </div>
+            </article>
+          ) : (
           <article
             key={index}
             className="shrink-0 basis-[85%] snap-start rounded-2xl bg-green p-6 text-white sm:basis-[45%] lg:basis-[31%]"
           >
-            <div className="flex gap-1">
-              {Array.from({ length: review.rating ?? 5 }).map((_, star) => (
-                <Star key={star} className="size-4 fill-gold text-gold" />
-              ))}
-            </div>
+            <Stars count={review.rating} />
             {review.quote && <p className="mt-3 text-sm text-white/90">“{review.quote}”</p>}
             <div className="mt-4 flex items-center gap-3">
               {review.photoUrl && (
@@ -48,7 +68,8 @@ export function ReviewsCarouselClient({ reviews }: { reviews: Review[] }) {
               <p className="font-heading uppercase tracking-wide text-gold">— {review.reviewerName}</p>
             </div>
           </article>
-        ))}
+          ),
+        )}
       </div>
 
       <button

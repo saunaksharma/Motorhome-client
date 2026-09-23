@@ -2,6 +2,8 @@ import type { Field } from 'payload'
 
 const toSlug = (value: string): string =>
   value
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '') // "Kástro" → "Kastro", "Aégis" → "Aegis"
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)+/g, '')
