@@ -1,10 +1,8 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
-import { CtaButton } from '@/components/CtaButton'
-import { PageBanner } from '@/components/PageBanner'
+import { DetailHero } from '@/components/DetailHero'
 import { SectionHeading } from '@/components/SectionHeading'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { getPayloadClient } from '@/lib/payload'
@@ -41,43 +39,33 @@ export default async function TourDetailPage({ params }: { params: Params }) {
   const tour = await getTour(slug)
   if (!tour) notFound()
 
-  const heroImage = typeof tour.heroImage === 'object' ? tour.heroImage : null
   const location = relName(tour.location)
   const itinerary = Array.isArray(tour.itinerary) ? tour.itinerary : []
 
   return (
     <article>
-      <PageBanner eyebrow={location} title={tour.name} />
+      <DetailHero
+        image={tour.heroImage}
+        eyebrow={location}
+        title={tour.name}
+        highlights={[
+          { label: 'Duration', value: tour.durationLabel },
+          { label: 'Best season', value: tour.season },
+          { label: 'Style', value: tour.category },
+          { label: 'Route', value: tour.routeLabel },
+        ]}
+        cta={{ href: `/contact?destination=${encodeURIComponent(tour.name)}`, label: tour.ctaLabel ?? 'Reserve Your Ride' }}
+      />
 
       <div className="mx-auto max-w-[1100px] px-4 py-12">
-        <div className="grid items-start gap-8 md:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-green/10">
-            {heroImage?.url && (
-              <Image
-                src={heroImage.url}
-                alt={heroImage.alt ?? tour.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-              />
-            )}
-          </div>
-
-          <div>
-            {tour.description ? (
-              <div className="rich-text space-y-3 leading-relaxed">
-                <RichText data={tour.description} />
-              </div>
-            ) : (
-              tour.shortDescription && <p className="leading-relaxed">{tour.shortDescription}</p>
-            )}
-            <div className="mt-6">
-              <CtaButton
-                href={`/contact?destination=${encodeURIComponent(tour.name)}`}
-                label={tour.ctaLabel ?? 'Reserve Your Ride'}
-              />
+        <div className="mx-auto max-w-[760px] text-lg leading-relaxed">
+          {tour.description ? (
+            <div className="rich-text space-y-3">
+              <RichText data={tour.description} />
             </div>
-          </div>
+          ) : (
+            tour.shortDescription && <p>{tour.shortDescription}</p>
+          )}
         </div>
 
         {itinerary.length > 0 && (

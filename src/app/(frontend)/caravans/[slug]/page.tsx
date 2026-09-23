@@ -1,11 +1,9 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
-import { CtaButton } from '@/components/CtaButton'
+import { DetailHero } from '@/components/DetailHero'
 import { IconFeatureList } from '@/components/IconFeatureList'
-import { PageBanner } from '@/components/PageBanner'
 import { PhotoGallery } from '@/components/PhotoGallery'
 import { RelatedContent } from '@/components/RelatedContent'
 import { Tabs } from '@/components/Tabs'
@@ -47,7 +45,6 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
   if (!caravan) notFound()
 
   const className = relName(caravan.class)
-  const heroImage = typeof caravan.heroImage === 'object' ? caravan.heroImage : null
 
   const overview = (
     <div>
@@ -76,36 +73,25 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
   return (
     <article>
-      <PageBanner eyebrow={className ? `Class — ${className}` : undefined} title={caravan.name} />
+      <DetailHero
+        image={caravan.heroImage}
+        eyebrow={className ? `${className} class` : undefined}
+        title={caravan.name}
+        highlights={[
+          { label: 'Sleeps', value: caravan.sleeps },
+          { label: 'Drive', value: relName(caravan.driveType) },
+          { label: 'Based in', value: relName(caravan.baseLocation) },
+          { label: 'Base vehicle', value: caravan.baseVehicle },
+        ]}
+        cta={{ href: `/contact?destination=${encodeURIComponent(caravan.name)}`, label: 'Go Caravanning!' }}
+      />
 
       <div className="mx-auto max-w-[1100px] px-4 py-12">
-        <div className="grid items-start gap-8 md:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-green/10">
-            {heroImage?.url && (
-              <Image
-                src={heroImage.url}
-                alt={heroImage.alt ?? caravan.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-              />
-            )}
+        {caravan.description && (
+          <div className="rich-text mx-auto max-w-[760px] space-y-3 text-lg leading-relaxed">
+            <RichText data={caravan.description} />
           </div>
-
-          <div>
-            {caravan.description && (
-              <div className="rich-text space-y-3 leading-relaxed">
-                <RichText data={caravan.description} />
-              </div>
-            )}
-            <div className="mt-6">
-              <CtaButton
-                href={`/contact?destination=${encodeURIComponent(caravan.name)}`}
-                label="Go Caravanning!"
-              />
-            </div>
-          </div>
-        </div>
+        )}
 
         <div className="mt-12">
           <Tabs tabs={tabs} />
