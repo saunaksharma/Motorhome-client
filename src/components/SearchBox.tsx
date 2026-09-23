@@ -20,18 +20,22 @@ export function SearchBox({ placeholder = 'Search…' }: { placeholder?: string 
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex items-center gap-2">
+    // Same white pill panel as FilterBar, so the two sit together as one toolbar.
+    <form
+      onSubmit={onSubmit}
+      className="flex items-center gap-2 rounded-full bg-white p-1.5 pl-5 shadow-[0_12px_32px_-18px_rgb(13_71_63/0.35)] ring-1 ring-green/10"
+    >
       <input
         name="q"
         defaultValue={params.get('q') ?? ''}
         placeholder={placeholder}
         aria-label="Search"
-        className="min-w-56 rounded-full border border-border bg-card px-4 py-2 text-sm"
+        className="min-w-52 bg-transparent font-heading text-sm tracking-wide text-green outline-none placeholder:text-green/40"
       />
       <button
         type="submit"
         aria-label="Search"
-        className="rounded-full bg-green p-2.5 text-white transition hover:bg-green/90"
+        className="grid size-10 place-items-center rounded-full bg-green text-gold transition hover:bg-green/90"
       >
         <Search className="size-4" />
       </button>

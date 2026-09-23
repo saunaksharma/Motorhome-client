@@ -40,9 +40,10 @@ export default async function BlogPage({ searchParams }: { searchParams: SearchP
     <div className="mx-auto max-w-[1200px] px-4 py-12">
       <SectionHeading title="BLOGS" />
 
-      <div className="mt-8 flex flex-wrap items-end justify-center gap-4">
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <SearchBox placeholder="Search articles…" />
         <FilterBar
+          serverFiltered
           filters={[
             { label: 'Featuring', param: 'category', options: categories.map((c) => ({ id: c.id, name: c.name })) },
             {

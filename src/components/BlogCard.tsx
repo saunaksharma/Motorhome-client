@@ -1,4 +1,3 @@
-import { BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -39,9 +38,10 @@ export function BlogCard({ article }: { article: BlogCardData }) {
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         ) : (
-          // No cover photo yet: a branded panel instead of an empty box.
+          // No cover photo yet: a branded panel (gold emblem) instead of an empty box.
           <div className="pattern-green grid h-full w-full place-items-center">
-            <BookOpen className="size-10 text-gold/70" />
+            {/* eslint-disable-next-line @next/next/no-img-element -- tiny static decoration, no optimisation needed */}
+            <img src="/brand/emblem.png" alt="" width={112} height={61} loading="lazy" className="opacity-90 drop-shadow-lg" />
           </div>
         )}
         {categories[0] && (
