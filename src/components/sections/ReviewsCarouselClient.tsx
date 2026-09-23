@@ -1,7 +1,7 @@
 'use client'
 
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 
 export type Review = {
   reviewerName: string
@@ -18,9 +18,20 @@ const Stars = ({ count }: { count?: number | null }) => (
   </div>
 )
 
+// Quotes longer than this get clamped to 4 lines with a "Read more" toggle.
+const LONG_QUOTE = 180
+
 // Swipeable testimonials row (native scroll-snap) with arrow controls.
 export function ReviewsCarouselClient({ reviews }: { reviews: Review[] }) {
   const track = useRef<HTMLDivElement>(null)
+  const [expanded, setExpanded] = useState<Set<number>>(new Set())
+  const toggle = (index: number) =>
+    setExpanded((prev) => {
+      const next = new Set(prev)
+      if (next.has(index)) next.delete(index)
+      else next.add(index)
+      return next
+    })
 
   const scroll = (direction: number) => {
     const el = track.current
@@ -46,13 +57,28 @@ export function ReviewsCarouselClient({ reviews }: { reviews: Review[] }) {
             ) : (
               <div className="pattern-green absolute inset-0" />
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-green via-green/55 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-green via-green/60 to-transparent" />
+            {/* Every card reserves the same quote space, so stars and names line up. */}
             <div className="relative flex h-full flex-col justify-end p-6">
               <Stars count={review.rating} />
-              {review.quote && (
-                <p className="mt-3 line-clamp-5 text-sm leading-relaxed text-white/90">“{review.quote}”</p>
-              )}
-              <p className="mt-4 font-heading uppercase tracking-[0.15em] text-gold">{review.reviewerName}</p>
+              <div className="mt-3 min-h-[5.7rem] text-sm leading-relaxed">
+                {review.quote ? (
+                  <p className={expanded.has(index) ? 'text-white/90' : 'line-clamp-4 text-white/90'}>“{review.quote}”</p>
+                ) : (
+                  <p className="italic text-white/70">Travelled with Motorhome Adventures</p>
+                )}
+              </div>
+              <div className="mt-3 flex items-center justify-between gap-3">
+                <p className="font-heading uppercase tracking-[0.15em] text-gold">{review.reviewerName}</p>
+                {review.quote && review.quote.length > LONG_QUOTE && (
+                  <button
+                    onClick={() => toggle(index)}
+                    className="shrink-0 font-heading text-xs uppercase tracking-wider text-white/80 underline-offset-4 hover:text-white hover:underline"
+                  >
+                    {expanded.has(index) ? 'Show less' : 'Read more'}
+                  </button>
+                )}
+              </div>
             </div>
           </article>
         ))}

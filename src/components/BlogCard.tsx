@@ -1,3 +1,4 @@
+import { BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -26,7 +27,7 @@ export function BlogCard({ article }: { article: BlogCardData }) {
   return (
     <Link
       href={article.slug ? `/blog/${article.slug}` : '#'}
-      className="reveal group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-[translate,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+      className="reveal group flex flex-col overflow-hidden rounded-3xl bg-green/[0.06] transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgb(13_71_63/0.45)]"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         {image?.url ? (
@@ -38,18 +39,23 @@ export function BlogCard({ article }: { article: BlogCardData }) {
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         ) : (
-          <div className="h-full w-full bg-gradient-to-br from-green/15 to-gold/15" />
+          // No cover photo yet: a branded panel instead of an empty box.
+          <div className="pattern-green grid h-full w-full place-items-center">
+            <BookOpen className="size-10 text-gold/70" />
+          </div>
         )}
         {categories[0] && (
-          <span className="absolute left-3 top-3 rounded-full bg-gold px-3 py-1 text-xs font-semibold text-green">
+          <span className="absolute left-4 top-4 rounded-full bg-black/35 px-3 py-1 font-heading text-[11px] uppercase tracking-[0.2em] text-white backdrop-blur-sm">
             {categories[0].name}
           </span>
         )}
       </div>
-      <div className="p-5">
-        <h3 className="font-display text-xl italic text-green">{article.title}</h3>
-        {article.excerpt && <p className="mt-2 text-sm text-muted-foreground">{article.excerpt}</p>}
-        {date && <p className="mt-3 text-xs uppercase tracking-wide text-muted-foreground">{date}</p>}
+      <div className="flex flex-1 flex-col p-6">
+        <h3 className="font-heading text-xl font-semibold leading-snug tracking-wide text-green">{article.title}</h3>
+        {article.excerpt && <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-green/70">{article.excerpt}</p>}
+        {date && (
+          <p className="mt-auto pt-4 font-heading text-xs uppercase tracking-[0.15em] text-green/50">{date}</p>
+        )}
       </div>
     </Link>
   )
