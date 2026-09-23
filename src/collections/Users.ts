@@ -4,6 +4,7 @@ export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
     useAsTitle: 'email',
+    group: 'Media & Accounts',
   },
   // Brute-force protection: lock an account for 10 minutes after 5 failed logins.
   auth: {

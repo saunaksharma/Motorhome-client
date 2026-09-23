@@ -9,7 +9,9 @@ export const Galleries: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'active'],
-    group: 'Content',
+    group: 'Website Content',
+    // "Preview" button in the editor opens the live page.
+    preview: (doc) => `/gallery/${doc.slug}`,
   },
   access: {
     read: () => true,

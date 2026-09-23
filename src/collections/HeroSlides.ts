@@ -9,8 +9,9 @@ export const HeroSlides: CollectionConfig = {
   slug: 'hero-slides',
   admin: {
     useAsTitle: 'headingLine2',
-    defaultColumns: ['headingLine2', 'ctaLabel', 'active'],
-    group: 'Content',
+    defaultColumns: ['headingLine2', 'headingLine1', 'sortOrder', 'active'],
+    group: 'Homepage',
+    description: 'The big photo slideshow at the top of the homepage.',
   },
   access: {
     read: () => true,

@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react'
 
+import { Honeypot } from './Honeypot'
+
 const inputClass = 'w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm'
 
 // One labelled field wrapper.
@@ -59,7 +61,8 @@ export function BookingForm({ destination = '' }: { destination?: string }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={onSubmit} className="relative grid gap-4 sm:grid-cols-2">
+      <Honeypot />
       <Field label="First Name" required>
         <input name="firstName" required className={inputClass} />
       </Field>

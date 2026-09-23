@@ -13,7 +13,7 @@ export const BlogCategories: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'active'],
-    group: 'Shared',
+    group: 'Lists & Settings',
   },
   access: {
     read: () => true,

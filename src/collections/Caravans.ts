@@ -46,8 +46,11 @@ export const Caravans: CollectionConfig = {
   slug: 'caravans',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'class', 'active', 'featured'],
-    group: 'Content',
+    defaultColumns: ['name', 'class', 'driveType', 'baseLocation', 'featured'],
+    group: 'Website Content',
+    // "Preview" button in the editor opens the live page.
+    preview: (doc) => `/caravans/${doc.slug}`,
+    description: 'Your caravans. Tick the features each one has; only ticked ones show on the site.',
   },
   access: {
     read: () => true,

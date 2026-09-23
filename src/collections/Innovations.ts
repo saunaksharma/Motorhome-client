@@ -10,7 +10,10 @@ export const Innovations: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'active', 'featured'],
-    group: 'Content',
+    group: 'Website Content',
+    // "Preview" button in the editor opens the live page.
+    preview: (doc) => `/innovations/${doc.slug}`,
+    description: 'Specialised vehicles (arcade, lounger, vanity van...).',
   },
   access: {
     read: () => true,

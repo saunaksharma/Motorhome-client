@@ -13,7 +13,9 @@ export const BlogArticles: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'publishedAt', 'active'],
-    group: 'Content',
+    group: 'Website Content',
+    // "Preview" button in the editor opens the live page.
+    preview: (doc) => `/blog/${doc.slug}`,
   },
   access: {
     read: () => true,

@@ -141,6 +141,31 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-23 (day 4) — branded admin + backend completion
+- **Admin branding:** gold emblem logo (login + sidebar, static `public/brand/emblem.png`),
+  tab title "· Motorhome Adventures", light theme, green sidebar/buttons (`(payload)/custom.css`),
+  **Welcome dashboard** (`components/admin/Welcome.tsx`: "Welcome back, Admin", new-enquiry
+  count, 3×2 quick-action shortcuts). Sidebar regrouped: Website Content / Homepage / Inbox /
+  Lists & Settings / Media & Accounts / Site Settings; plain-English descriptions per section.
+- **Data fixes:** all 24 tour routes rewritten as short accurate lines (parser had left garbage
+  like "Rivers – The"); The Great Wild West → Rajasthan (keyword "wild" had matched Uttarakhand).
+- **Enquiry lead tracking:** `status` (New/Contacted/Quote sent/Booked/Closed) + private `notes`,
+  both field-access-locked so the public form can't set them (verified: forced "booked" → saved "new").
+- **Preview button** on tours/caravans/innovations/blog/galleries/pages + Homepage/About globals.
+- **Instant updates:** `hooks/revalidateSite.ts` — any content save runs `revalidatePath('/', 'layout')`.
+- **Business Details global** (`business`): phone/WhatsApp/email/address/map/hours/enquiry-alert email.
+  Feeds footer "Reach Us" column + floating **WhatsApp button** (pre-filled 919871063984 from old site).
+  Footer socials pre-filled (IG/YT/FB, real URLs) and shown as icons (`SocialIcon`). Menu saved to
+  Header global incl. **Tours** (was missing from the fallback nav).
+- **Email:** `@payloadcms/email-nodemailer` switches on only when `SMTP_*` env vars exist (see
+  `.env.example`); `notifyNewEnquiry` hook emails each new enquiry (verified via console log).
+- **SEO:** `@payloadcms/plugin-seo` (tabbed Content/SEO, auto-generate title/description/image,
+  Google preview) on all page types; `lib/seo.ts` `pageMetadata()` used by every detail page.
+- **Spam:** honeypot field `website` on both forms + `rejectBots` beforeOperation hook (verified 400).
+- Removed all QA/test records (inbox = 0). `npm run build` exit 0. npm audit: 5 moderate, all
+  pre-existing dev-only (esbuild via drizzle-kit), none from new packages.
+- Admin password was reset via Payload `forgotPassword` (local temp route, deleted) — no email adapter yet.
+
 ### 2026-09-22 (day 3, cont.) — Phases 8a–9 (grind through remaining backlog)
 - **8a Caravan detail parity:** added `faqs`, `relatedVideos` (≤3), `relatedArticles` to Caravans
   + reusable `RelatedContent` (native <details> FAQ accordion, video link cards, BlogCard grid).

@@ -7,6 +7,7 @@ import React, { cache } from 'react'
 import { CtaButton } from '@/components/CtaButton'
 import { PageBanner } from '@/components/PageBanner'
 import { getPayloadClient } from '@/lib/payload'
+import { pageMetadata } from '@/lib/seo'
 
 type Params = Promise<{ slug: string }>
 
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const item = await getInnovation(slug)
   if (!item) return {}
-  return { title: item.name, description: item.shortDescription ?? undefined }
+  return pageMetadata(item.meta, { title: item.name, description: item.shortDescription, image: item.heroImage })
 }
 
 export default async function InnovationDetailPage({ params }: { params: Params }) {

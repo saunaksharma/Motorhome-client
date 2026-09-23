@@ -1,0 +1,245 @@
+/* Motorhome Adventures — admin branding.
+   Only the admin loads this file; the public site is unaffected. */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap');
+
+:root {
+  --ma-green: #0d473f;
+  --ma-green-hover: #135a50;
+  --ma-green-deep: #0a3832;
+  --ma-gold: #c9a23e;
+  --ma-cream: #fdfbf9;
+  --ma-display: 'Oswald', 'Arial Narrow', sans-serif;
+}
+
+/* ---------- Buttons ---------- */
+.btn--style-primary {
+  --bg-color: var(--ma-green);
+  --hover-bg: var(--ma-green-hover);
+  --color: #fff;
+  --hover-color: #fff;
+}
+
+/* ---------- Sidebar ---------- */
+.nav {
+  background: var(--ma-green);
+  border-right-color: var(--ma-green-deep);
+  color: rgba(255, 255, 255, 0.86);
+}
+.nav a,
+.nav__link {
+  color: rgba(255, 255, 255, 0.86);
+}
+.nav__link:hover,
+.nav__link.active,
+.nav__link:has(.nav__link-indicator) {
+  color: var(--ma-gold);
+}
+.nav__link-indicator {
+  background: var(--ma-gold);
+}
+.nav-group__toggle,
+.nav__label {
+  color: var(--ma-gold);
+  font-family: var(--ma-display);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.nav svg .stroke,
+.nav-group__indicator svg .stroke {
+  stroke: rgba(255, 255, 255, 0.7);
+}
+.nav svg .fill {
+  fill: rgba(255, 255, 255, 0.7);
+}
+
+/* ---------- Brand marks ---------- */
+.ma-icon {
+  display: block;
+  width: 40px;
+  height: auto;
+}
+.ma-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+.ma-logo__emblem {
+  width: 150px;
+  height: auto;
+  margin-bottom: 6px;
+}
+.ma-logo__name {
+  font-family: var(--ma-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ma-green);
+}
+.ma-logo__sub {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ma-gold);
+}
+
+/* ---------- Login screen ---------- */
+.template-minimal {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(201, 162, 62, 0.12), transparent 40%),
+    linear-gradient(180deg, var(--ma-cream), #f1ece0);
+}
+.template-minimal .template-minimal__wrap {
+  background: #fff;
+  border-radius: 16px;
+  border-top: 4px solid var(--ma-gold);
+  box-shadow: 0 12px 40px rgba(13, 71, 63, 0.12);
+  padding: 36px 32px;
+}
+
+/* ---------- Dashboard cards ---------- */
+.card--has-onclick:hover {
+  border-color: var(--ma-gold);
+}
+
+/* ---------- Welcome panel ---------- */
+.ma-welcome {
+  margin-bottom: 40px;
+}
+.ma-welcome__hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 28px 30px;
+  border-radius: 16px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(201, 162, 62, 0.28), transparent 45%),
+    var(--ma-green);
+}
+.ma-welcome__eyebrow {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ma-gold);
+}
+.ma-welcome__title {
+  margin: 6px 0 8px;
+  font-family: var(--ma-display);
+  font-size: 34px;
+  line-height: 1.1;
+  color: #fff;
+}
+.ma-welcome__text {
+  margin: 0;
+  max-width: 56ch;
+  color: rgba(255, 255, 255, 0.85);
+}
+.ma-welcome__site {
+  padding: 10px 18px;
+  border: 2px solid var(--ma-gold);
+  border-radius: 999px;
+  color: var(--ma-gold);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ma-welcome__site:hover {
+  background: var(--ma-gold);
+  color: var(--ma-green);
+}
+
+.ma-welcome__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.ma-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 18px;
+  border: 1px solid var(--theme-elevation-100);
+  border-radius: 12px;
+  background: var(--theme-elevation-0);
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+}
+.ma-stat:hover {
+  border-color: var(--ma-gold);
+}
+.ma-stat__value {
+  font-family: var(--ma-display);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--ma-green);
+  font-variant-numeric: tabular-nums;
+}
+.ma-stat__label {
+  font-size: 13px;
+  color: var(--theme-elevation-500);
+}
+
+.ma-welcome__heading {
+  margin: 28px 0 12px;
+  font-family: var(--ma-display);
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--theme-elevation-500);
+}
+.ma-welcome__shortcuts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 6 shortcuts = a tidy 3 x 2 */
+  gap: 12px;
+}
+@media (max-width: 900px) {
+  .ma-welcome__shortcuts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  .ma-welcome__shortcuts {
+    grid-template-columns: 1fr;
+  }
+}
+.ma-shortcut {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--theme-elevation-100);
+  border-left: 4px solid var(--ma-gold);
+  background: var(--theme-elevation-0);
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.ma-shortcut:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(13, 71, 63, 0.1);
+}
+.ma-shortcut__label {
+  font-weight: 700;
+  color: var(--ma-green);
+}
+.ma-shortcut__hint {
+  font-size: 13px;
+  color: var(--theme-elevation-500);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ma-shortcut {
+    transition: none;
+  }
+  .ma-shortcut:hover {
+    transform: none;
+  }
+}

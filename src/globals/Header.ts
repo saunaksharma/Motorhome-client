@@ -5,6 +5,7 @@ import type { GlobalConfig } from 'payload'
 // concern handled in Phase 2, so this is variant-independent.
 export const Header: GlobalConfig = {
   slug: 'header',
+  admin: { group: 'Site Settings' },
   access: {
     read: () => true,
   },

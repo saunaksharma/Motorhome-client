@@ -17,8 +17,11 @@ export const Tours: CollectionConfig = {
   slug: 'tours',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'location', 'active', 'featured'],
-    group: 'Content',
+    defaultColumns: ['name', 'category', 'durationLabel', 'location', 'featured'],
+    group: 'Website Content',
+    // "Preview" button in the editor opens the live page.
+    preview: (doc) => `/tours/${doc.slug}`,
+    description: 'Your tour packages. Tick "Featured" to show a tour on the homepage.',
   },
   access: {
     read: () => true,

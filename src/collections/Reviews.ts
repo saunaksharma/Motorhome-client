@@ -9,7 +9,8 @@ export const Reviews: CollectionConfig = {
   admin: {
     useAsTitle: 'reviewerName',
     defaultColumns: ['reviewerName', 'rating', 'active', 'featured'],
-    group: 'Content',
+    group: 'Homepage',
+    description: 'Customer testimonials shown under the homepage slideshow.',
   },
   access: {
     read: () => true,

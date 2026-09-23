@@ -13,7 +13,7 @@ export const CaravanFilterOptions: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'group', 'active'],
-    group: 'Shared',
+    group: 'Lists & Settings',
   },
   access: {
     read: () => true,

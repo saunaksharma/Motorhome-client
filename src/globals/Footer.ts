@@ -5,6 +5,7 @@ import type { GlobalConfig } from 'payload'
 // "Footer Link and content edit option").
 export const Footer: GlobalConfig = {
   slug: 'footer',
+  admin: { group: 'Site Settings' },
   access: {
     read: () => true,
   },

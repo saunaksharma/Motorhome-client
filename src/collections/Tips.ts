@@ -9,7 +9,7 @@ export const Tips: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'active'],
-    group: 'Content',
+    group: 'Homepage',
   },
   access: {
     read: () => true,

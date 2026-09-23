@@ -6,6 +6,7 @@ import React from 'react'
 import config from '@/payload.config'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
+import { WhatsAppButton } from '@/components/WhatsAppButton'
 import './globals.css'
 
 const racing = Racing_Sans_One({ weight: '400', subsets: ['latin'], variable: '--font-racing' })
@@ -34,7 +35,8 @@ export const metadata: Metadata = {
 // Shown until the client fills in the Header global's nav items.
 const FALLBACK_NAV = [
   { label: 'Home', link: '/' },
-  { label: 'About Us', link: '/' },
+  { label: 'About Us', link: '/about' },
+  { label: 'Tours', link: '/tours' },
   { label: 'Caravans', link: '/caravans' },
   { label: 'Innovations', link: '/innovations' },
   { label: 'Blogs', link: '/blog' },
@@ -44,9 +46,10 @@ const FALLBACK_NAV = [
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const payload = await getPayload({ config: await config })
-  const [header, footer] = await Promise.all([
+  const [header, footer, business] = await Promise.all([
     payload.findGlobal({ slug: 'header', depth: 1 }),
     payload.findGlobal({ slug: 'footer', depth: 1 }),
+    payload.findGlobal({ slug: 'business', depth: 0 }),
   ])
 
   const nav = (header?.navItems?.length ? header.navItems : FALLBACK_NAV).map(
@@ -59,7 +62,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
         <main>{children}</main>
-        <SiteFooter data={footer} />
+        <SiteFooter data={footer} business={business} />
+        <WhatsAppButton number={business?.whatsapp} />
       </body>
     </html>
   )

@@ -4,8 +4,17 @@ import React from 'react'
 
 import { cn } from '@/lib/utils'
 import { NewsletterForm } from './NewsletterForm'
+import { SocialIcon } from './SocialIcon'
 
 type Media = { url?: string | null; alt?: string | null }
+export type Business = {
+  phone?: string | null
+  whatsapp?: string | null
+  email?: string | null
+  address?: string | null
+  mapUrl?: string | null
+  hours?: string | null
+}
 type FooterData = {
   logo?: Media | number | null
   backgroundImage?: Media | number | null
@@ -18,7 +27,8 @@ const asMedia = (v: unknown): Media | null => (typeof v === 'object' && v !== nu
 
 // Footer: full-bleed photo background (client-editable) with a green scrim, the
 // newsletter block, editable link columns, socials and copyright (design pages 40, 48).
-export function SiteFooter({ data }: { data: FooterData }) {
+export function SiteFooter({ data, business }: { data: FooterData; business?: Business | null }) {
+  const hasContact = Boolean(business?.phone || business?.email || business?.address || business?.whatsapp)
   const nl = data?.newsletter ?? {}
   const logo = asMedia(data?.logo)
   const bg = asMedia(data?.backgroundImage)
@@ -74,19 +84,56 @@ export function SiteFooter({ data }: { data: FooterData }) {
                 </div>
               </div>
             ))}
+
+            {/* Contact details — edited in Site Settings → Business Details. */}
+            {hasContact && (
+              <div>
+                <h3 className="font-heading text-base uppercase tracking-wide text-gold">Reach Us</h3>
+                <div className="mt-3 space-y-1.5 text-sm text-white/90">
+                  {business?.phone && (
+                    <a href={`tel:${business.phone.replace(/[^\d+]/g, '')}`} className="block hover:text-gold">
+                      {business.phone}
+                    </a>
+                  )}
+                  {business?.whatsapp && (
+                    <a
+                      href={`https://wa.me/${business.whatsapp.replace(/\D/g, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block hover:text-gold"
+                    >
+                      WhatsApp us
+                    </a>
+                  )}
+                  {business?.email && (
+                    <a href={`mailto:${business.email}`} className="block hover:text-gold">
+                      {business.email}
+                    </a>
+                  )}
+                  {business?.address && <p className="whitespace-pre-line text-white/75">{business.address}</p>}
+                  {business?.mapUrl && (
+                    <a href={business.mapUrl} target="_blank" rel="noopener noreferrer" className="block hover:text-gold">
+                      Find us on Google Maps ↗
+                    </a>
+                  )}
+                  {business?.hours && <p className="text-white/75">{business.hours}</p>}
+                </div>
+              </div>
+            )}
           </div>
 
           {socials.length > 0 && (
-            <div className="flex justify-center gap-5 border-t border-white/15 py-6">
+            <div className="flex justify-center gap-6 border-t border-white/15 py-6">
               {socials.map((s) => (
                 <a
                   key={s.platform}
                   href={s.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-heading text-sm uppercase tracking-wide text-white/90 transition-colors hover:text-gold"
+                  aria-label={s.platform}
+                  className="text-white/90 transition-colors hover:text-gold"
                 >
-                  {s.platform}
+                  <SocialIcon platform={s.platform} className="size-7" />
                 </a>
               ))}
             </div>

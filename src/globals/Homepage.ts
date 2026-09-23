@@ -8,6 +8,7 @@ import type { GlobalConfig } from 'payload'
 // The "Which tier" block is deferred until the client picks the copy (page 30 vs 31).
 export const Homepage: GlobalConfig = {
   slug: 'homepage',
+  admin: { group: 'Site Settings', preview: () => '/' },
   access: {
     read: () => true,
   },

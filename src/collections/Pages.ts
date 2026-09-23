@@ -10,7 +10,10 @@ export const Pages: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'active'],
-    group: 'Content',
+    group: 'Website Content',
+    // "Preview" button in the editor opens the live page.
+    preview: (doc) => `/${doc.slug}`,
+    description: 'Extra pages like Terms, Privacy, FAQ. Each one lives at yoursite.com/<slug>.',
   },
   access: {
     read: () => true,

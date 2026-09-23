@@ -4,6 +4,7 @@ import type { GlobalConfig } from 'payload'
 // a growing-family / hiring block, and social embeds. All client-editable.
 export const About: GlobalConfig = {
   slug: 'about',
+  admin: { group: 'Site Settings', preview: () => '/about' },
   access: {
     read: () => true,
   },

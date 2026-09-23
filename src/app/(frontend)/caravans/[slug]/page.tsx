@@ -9,6 +9,7 @@ import { PageBanner } from '@/components/PageBanner'
 import { RelatedContent } from '@/components/RelatedContent'
 import { Tabs } from '@/components/Tabs'
 import { getPayloadClient } from '@/lib/payload'
+import { pageMetadata } from '@/lib/seo'
 import { relName } from '@/lib/utils'
 
 type Params = Promise<{ slug: string }>
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const caravan = await getCaravan(slug)
   if (!caravan) return {}
-  return { title: caravan.name, description: caravan.shortDescription ?? undefined }
+  return pageMetadata(caravan.meta, { title: caravan.name, description: caravan.shortDescription, image: caravan.heroImage })
 }
 
 export default async function CaravanDetailPage({ params }: { params: Params }) {

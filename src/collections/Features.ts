@@ -10,7 +10,8 @@ export const Features: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'category', 'active'],
-    group: 'Shared',
+    group: 'Lists & Settings',
+    description: 'The master list of features you can tick on each caravan.',
   },
   access: {
     read: () => true,

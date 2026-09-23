@@ -2,21 +2,24 @@
 
 import React, { useState } from 'react'
 
+import { Honeypot } from './Honeypot'
+
 // "Join The Caravan CLUB" signup — posts to the public Subscribers endpoint.
 export function NewsletterForm({ ctaLabel = 'SUBSCRIBE NOW' }: { ctaLabel?: string }) {
   const [email, setEmail] = useState('')
   const [msg, setMsg] = useState('')
   const [busy, setBusy] = useState(false)
 
-  async function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    const website = new FormData(e.currentTarget).get('website') // honeypot
     setBusy(true)
     setMsg('')
     try {
       const res = await fetch('/api/subscribers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, website }),
       })
       if (res.ok) {
         setMsg("Thanks — you're on the list!")
@@ -35,8 +38,9 @@ export function NewsletterForm({ ctaLabel = 'SUBSCRIBE NOW' }: { ctaLabel?: stri
   return (
     <form
       onSubmit={onSubmit}
-      className="mx-auto mt-4 flex max-w-lg flex-wrap justify-center gap-2"
+      className="relative mx-auto mt-4 flex max-w-lg flex-wrap justify-center gap-2"
     >
+      <Honeypot />
       <input
         type="email"
         required

@@ -67,23 +67,23 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
-    media: Media;
+    tours: Tour;
+    caravans: Caravan;
+    innovations: Innovation;
+    'blog-articles': BlogArticle;
+    galleries: Gallery;
+    pages: Page;
+    'hero-slides': HeroSlide;
+    reviews: Review;
+    tips: Tip;
+    enquiries: Enquiry;
+    subscribers: Subscriber;
     features: Feature;
     'caravan-filter-options': CaravanFilterOption;
     'tour-filter-options': TourFilterOption;
     'blog-categories': BlogCategory;
-    caravans: Caravan;
-    tours: Tour;
-    galleries: Gallery;
-    'blog-articles': BlogArticle;
-    reviews: Review;
-    'hero-slides': HeroSlide;
-    tips: Tip;
-    innovations: Innovation;
-    enquiries: Enquiry;
-    subscribers: Subscriber;
-    pages: Page;
+    media: Media;
+    users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -91,23 +91,23 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    tours: ToursSelect<false> | ToursSelect<true>;
+    caravans: CaravansSelect<false> | CaravansSelect<true>;
+    innovations: InnovationsSelect<false> | InnovationsSelect<true>;
+    'blog-articles': BlogArticlesSelect<false> | BlogArticlesSelect<true>;
+    galleries: GalleriesSelect<false> | GalleriesSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    'hero-slides': HeroSlidesSelect<false> | HeroSlidesSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    tips: TipsSelect<false> | TipsSelect<true>;
+    enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
+    subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     features: FeaturesSelect<false> | FeaturesSelect<true>;
     'caravan-filter-options': CaravanFilterOptionsSelect<false> | CaravanFilterOptionsSelect<true>;
     'tour-filter-options': TourFilterOptionsSelect<false> | TourFilterOptionsSelect<true>;
     'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
-    caravans: CaravansSelect<false> | CaravansSelect<true>;
-    tours: ToursSelect<false> | ToursSelect<true>;
-    galleries: GalleriesSelect<false> | GalleriesSelect<true>;
-    'blog-articles': BlogArticlesSelect<false> | BlogArticlesSelect<true>;
-    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
-    'hero-slides': HeroSlidesSelect<false> | HeroSlidesSelect<true>;
-    tips: TipsSelect<false> | TipsSelect<true>;
-    innovations: InnovationsSelect<false> | InnovationsSelect<true>;
-    enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
-    subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
-    pages: PagesSelect<false> | PagesSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -118,12 +118,14 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
+    business: Business;
     header: Header;
     footer: Footer;
     homepage: Homepage;
     about: About;
   };
   globalsSelect: {
+    business: BusinessSelect<false> | BusinessSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
@@ -158,32 +160,128 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Your tour packages. Tick "Featured" to show a tour on the homepage.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "tours".
  */
-export interface User {
+export interface Tour {
   id: number;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  resetPasswordRequestedAt?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
+  name: string;
+  /**
+   * URL path. Auto-filled from the title if left blank.
+   */
+  slug: string;
+  heroImage?: (number | null) | Media;
+  gallery?:
     | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
+        image: number | Media;
+        id?: string | null;
       }[]
     | null;
-  password?: string | null;
-  collection: 'users';
+  /**
+   * Theme badge shown on the tour card.
+   */
+  category?: ('Adventure' | 'Wildlife' | 'Nature' | 'Cultural' | 'Spiritual' | 'Beach') | null;
+  /**
+   * Used on cards.
+   */
+  shortDescription?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Shown on the card, e.g. "15 Days".
+   */
+  durationLabel?: string | null;
+  durationBand?: (number | null) | TourFilterOption;
+  /**
+   * e.g. "Delhi – Ladakh – Delhi".
+   */
+  routeLabel?: string | null;
+  location?: (number | null) | TourFilterOption;
+  preference?: (number | TourFilterOption)[] | null;
+  /**
+   * e.g. "May – September".
+   */
+  season?: string | null;
+  itinerary?:
+    | {
+        /**
+         * e.g. "Day 1: Delhi → Corbett".
+         */
+        dayTitle: string;
+        description?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  highlights?:
+    | {
+        /**
+         * e.g. "Fun Activities".
+         */
+        label: string;
+        thumbnail?: (number | null) | Media;
+        /**
+         * YouTube link or short clip URL.
+         */
+        videoUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  ctaLabel?: string | null;
+  ctaLink?: string | null;
+  tales?: (number | null) | BlogArticle;
+  snaps?: (number | null) | Gallery;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
+ * Every photo used on the website. Upload here, then pick it on any page.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -201,53 +299,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "features".
- */
-export interface Feature {
-  id: number;
-  name: string;
-  /**
-   * Icon shown next to this feature on the site.
-   */
-  icon: number | Media;
-  category: 'spec' | 'inclusion' | 'exclusion' | 'unique-feature' | 'add-on';
-  /**
-   * Lower numbers show first.
-   */
-  sortOrder?: number | null;
-  featured?: boolean | null;
-  /**
-   * Uncheck to hide from the site.
-   */
-  active?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "caravan-filter-options".
- */
-export interface CaravanFilterOption {
-  id: number;
-  /**
-   * e.g. "Delhi", "Chauffeur Driven", "8–12 Berth", "Zenith".
-   */
-  name: string;
-  group: 'base-location' | 'drive-type' | 'berth-range' | 'class';
-  /**
-   * Lower numbers show first.
-   */
-  sortOrder?: number | null;
-  featured?: boolean | null;
-  /**
-   * Uncheck to hide from the site.
-   */
-  active?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -274,6 +325,65 @@ export interface TourFilterOption {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-articles".
+ */
+export interface BlogArticle {
+  id: number;
+  title: string;
+  /**
+   * URL path. Auto-filled from the title if left blank.
+   */
+  slug: string;
+  coverImage?: (number | null) | Media;
+  /**
+   * Short summary for cards.
+   */
+  excerpt?: string | null;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * The "Featuring" tags for this article.
+   */
+  category?: (number | BlogCategory)[] | null;
+  /**
+   * Used for the "Published Since" sort.
+   */
+  publishedAt?: string | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "blog-categories".
  */
 export interface BlogCategory {
@@ -292,6 +402,46 @@ export interface BlogCategory {
   createdAt: string;
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "galleries".
+ */
+export interface Gallery {
+  id: number;
+  title: string;
+  /**
+   * URL path. Auto-filled from the title if left blank.
+   */
+  slug: string;
+  images?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Your caravans. Tick the features each one has; only ticked ones show on the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "caravans".
  */
@@ -418,48 +568,28 @@ export interface Caravan {
    * Uncheck to hide from the site.
    */
   active?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-articles".
+ * via the `definition` "caravan-filter-options".
  */
-export interface BlogArticle {
+export interface CaravanFilterOption {
   id: number;
-  title: string;
   /**
-   * URL path. Auto-filled from the title if left blank.
+   * e.g. "Delhi", "Chauffeur Driven", "8–12 Berth", "Zenith".
    */
-  slug: string;
-  coverImage?: (number | null) | Media;
-  /**
-   * Short summary for cards.
-   */
-  excerpt?: string | null;
-  body?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * The "Featuring" tags for this article.
-   */
-  category?: (number | BlogCategory)[] | null;
-  /**
-   * Used for the "Published Since" sort.
-   */
-  publishedAt?: string | null;
+  name: string;
+  group: 'base-location' | 'drive-type' | 'berth-range' | 'class';
   /**
    * Lower numbers show first.
    */
@@ -473,103 +603,19 @@ export interface BlogArticle {
   createdAt: string;
 }
 /**
+ * The master list of features you can tick on each caravan.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tours".
+ * via the `definition` "features".
  */
-export interface Tour {
+export interface Feature {
   id: number;
   name: string;
   /**
-   * URL path. Auto-filled from the title if left blank.
+   * Icon shown next to this feature on the site.
    */
-  slug: string;
-  heroImage?: (number | null) | Media;
-  gallery?:
-    | {
-        image: number | Media;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Theme badge shown on the tour card.
-   */
-  category?: ('Adventure' | 'Wildlife' | 'Nature' | 'Cultural' | 'Spiritual' | 'Beach') | null;
-  /**
-   * Used on cards.
-   */
-  shortDescription?: string | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Shown on the card, e.g. "15 Days".
-   */
-  durationLabel?: string | null;
-  durationBand?: (number | null) | TourFilterOption;
-  /**
-   * e.g. "Delhi – Ladakh – Delhi".
-   */
-  routeLabel?: string | null;
-  location?: (number | null) | TourFilterOption;
-  preference?: (number | TourFilterOption)[] | null;
-  /**
-   * e.g. "May – September".
-   */
-  season?: string | null;
-  itinerary?:
-    | {
-        /**
-         * e.g. "Day 1: Delhi → Corbett".
-         */
-        dayTitle: string;
-        description?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        id?: string | null;
-      }[]
-    | null;
-  highlights?:
-    | {
-        /**
-         * e.g. "Fun Activities".
-         */
-        label: string;
-        thumbnail?: (number | null) | Media;
-        /**
-         * YouTube link or short clip URL.
-         */
-        videoUrl?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  ctaLabel?: string | null;
-  ctaLink?: string | null;
-  tales?: (number | null) | BlogArticle;
-  snaps?: (number | null) | Gallery;
+  icon: number | Media;
+  category: 'spec' | 'inclusion' | 'exclusion' | 'unique-feature' | 'add-on';
   /**
    * Lower numbers show first.
    */
@@ -583,135 +629,8 @@ export interface Tour {
   createdAt: string;
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "galleries".
- */
-export interface Gallery {
-  id: number;
-  title: string;
-  /**
-   * URL path. Auto-filled from the title if left blank.
-   */
-  slug: string;
-  images?:
-    | {
-        image: number | Media;
-        caption?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Lower numbers show first.
-   */
-  sortOrder?: number | null;
-  featured?: boolean | null;
-  /**
-   * Uncheck to hide from the site.
-   */
-  active?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reviews".
- */
-export interface Review {
-  id: number;
-  reviewerName: string;
-  style?: ('quote' | 'featured') | null;
-  /**
-   * Star rating, 1–5.
-   */
-  rating?: number | null;
-  /**
-   * The review text.
-   */
-  quote?: string | null;
-  photo?: (number | null) | Media;
-  /**
-   * Lower numbers show first.
-   */
-  sortOrder?: number | null;
-  featured?: boolean | null;
-  /**
-   * Uncheck to hide from the site.
-   */
-  active?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "hero-slides".
- */
-export interface HeroSlide {
-  id: number;
-  /**
-   * e.g. "CHOOSE YOUR".
-   */
-  headingLine1?: string | null;
-  /**
-   * Highlighted line, e.g. "HOME AWAY HOME".
-   */
-  headingLine2?: string | null;
-  backgroundImage?: (number | null) | Media;
-  /**
-   * e.g. "BOOK NOW" or "RENT NOW".
-   */
-  ctaLabel?: string | null;
-  ctaLink?: string | null;
-  /**
-   * Lower numbers show first.
-   */
-  sortOrder?: number | null;
-  featured?: boolean | null;
-  /**
-   * Uncheck to hide from the site.
-   */
-  active?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tips".
- */
-export interface Tip {
-  id: number;
-  title: string;
-  body?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Optional YouTube / clip link.
-   */
-  videoUrl?: string | null;
-  /**
-   * Lower numbers show first.
-   */
-  sortOrder?: number | null;
-  featured?: boolean | null;
-  /**
-   * Uncheck to hide from the site.
-   */
-  active?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
+ * Specialised vehicles (arcade, lounger, vanity van...).
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "innovations".
  */
@@ -773,42 +692,20 @@ export interface Innovation {
    * Uncheck to hide from the site.
    */
   active?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "enquiries".
- */
-export interface Enquiry {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  company?: string | null;
-  /**
-   * The caravan/tour being enquired about.
-   */
-  destination?: string | null;
-  preferredTravelDates?: string | null;
-  groupSize?: string | null;
-  budgetRange?: string | null;
-  requirements?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "subscribers".
- */
-export interface Subscriber {
-  id: number;
-  email: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
+ * Extra pages like Terms, Privacy, FAQ. Each one lives at yoursite.com/<slug>.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
@@ -835,8 +732,189 @@ export interface Page {
     [k: string]: unknown;
   } | null;
   active?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * The big photo slideshow at the top of the homepage.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-slides".
+ */
+export interface HeroSlide {
+  id: number;
+  /**
+   * e.g. "CHOOSE YOUR".
+   */
+  headingLine1?: string | null;
+  /**
+   * Highlighted line, e.g. "HOME AWAY HOME".
+   */
+  headingLine2?: string | null;
+  backgroundImage?: (number | null) | Media;
+  /**
+   * e.g. "BOOK NOW" or "RENT NOW".
+   */
+  ctaLabel?: string | null;
+  ctaLink?: string | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Customer testimonials shown under the homepage slideshow.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  reviewerName: string;
+  style?: ('quote' | 'featured') | null;
+  /**
+   * Star rating, 1–5.
+   */
+  rating?: number | null;
+  /**
+   * The review text.
+   */
+  quote?: string | null;
+  photo?: (number | null) | Media;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tips".
+ */
+export interface Tip {
+  id: number;
+  title: string;
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Optional YouTube / clip link.
+   */
+  videoUrl?: string | null;
+  /**
+   * Lower numbers show first.
+   */
+  sortOrder?: number | null;
+  featured?: boolean | null;
+  /**
+   * Uncheck to hide from the site.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Booking requests sent from the website forms. Update the status as you follow up.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enquiries".
+ */
+export interface Enquiry {
+  id: number;
+  /**
+   * Where this lead stands.
+   */
+  status?: ('new' | 'contacted' | 'quoted' | 'booked' | 'closed') | null;
+  /**
+   * Private notes — never shown on the website.
+   */
+  notes?: string | null;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  company?: string | null;
+  /**
+   * The caravan/tour being enquired about.
+   */
+  destination?: string | null;
+  preferredTravelDates?: string | null;
+  groupSize?: string | null;
+  budgetRange?: string | null;
+  requirements?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * People who joined the newsletter (Join The Caravan CLUB).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscribers".
+ */
+export interface Subscriber {
+  id: number;
+  email: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -863,12 +941,48 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'tours';
+        value: number | Tour;
       } | null)
     | ({
-        relationTo: 'media';
-        value: number | Media;
+        relationTo: 'caravans';
+        value: number | Caravan;
+      } | null)
+    | ({
+        relationTo: 'innovations';
+        value: number | Innovation;
+      } | null)
+    | ({
+        relationTo: 'blog-articles';
+        value: number | BlogArticle;
+      } | null)
+    | ({
+        relationTo: 'galleries';
+        value: number | Gallery;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'hero-slides';
+        value: number | HeroSlide;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: number | Review;
+      } | null)
+    | ({
+        relationTo: 'tips';
+        value: number | Tip;
+      } | null)
+    | ({
+        relationTo: 'enquiries';
+        value: number | Enquiry;
+      } | null)
+    | ({
+        relationTo: 'subscribers';
+        value: number | Subscriber;
       } | null)
     | ({
         relationTo: 'features';
@@ -887,48 +1001,12 @@ export interface PayloadLockedDocument {
         value: number | BlogCategory;
       } | null)
     | ({
-        relationTo: 'caravans';
-        value: number | Caravan;
+        relationTo: 'media';
+        value: number | Media;
       } | null)
     | ({
-        relationTo: 'tours';
-        value: number | Tour;
-      } | null)
-    | ({
-        relationTo: 'galleries';
-        value: number | Gallery;
-      } | null)
-    | ({
-        relationTo: 'blog-articles';
-        value: number | BlogArticle;
-      } | null)
-    | ({
-        relationTo: 'reviews';
-        value: number | Review;
-      } | null)
-    | ({
-        relationTo: 'hero-slides';
-        value: number | HeroSlide;
-      } | null)
-    | ({
-        relationTo: 'tips';
-        value: number | Tip;
-      } | null)
-    | ({
-        relationTo: 'innovations';
-        value: number | Innovation;
-      } | null)
-    | ({
-        relationTo: 'enquiries';
-        value: number | Enquiry;
-      } | null)
-    | ({
-        relationTo: 'subscribers';
-        value: number | Subscriber;
-      } | null)
-    | ({
-        relationTo: 'pages';
-        value: number | Page;
+        relationTo: 'users';
+        value: number | User;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -974,94 +1052,56 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "tours_select".
  */
-export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  resetPasswordRequestedAt?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
+export interface ToursSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  heroImage?: T;
+  gallery?:
     | T
     | {
+        image?: T;
         id?: T;
-        createdAt?: T;
-        expiresAt?: T;
       };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "features_select".
- */
-export interface FeaturesSelect<T extends boolean = true> {
-  name?: T;
-  icon?: T;
   category?: T;
+  shortDescription?: T;
+  description?: T;
+  durationLabel?: T;
+  durationBand?: T;
+  routeLabel?: T;
+  location?: T;
+  preference?: T;
+  season?: T;
+  itinerary?:
+    | T
+    | {
+        dayTitle?: T;
+        description?: T;
+        id?: T;
+      };
+  highlights?:
+    | T
+    | {
+        label?: T;
+        thumbnail?: T;
+        videoUrl?: T;
+        id?: T;
+      };
+  ctaLabel?: T;
+  ctaLink?: T;
+  tales?: T;
+  snaps?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "caravan-filter-options_select".
- */
-export interface CaravanFilterOptionsSelect<T extends boolean = true> {
-  name?: T;
-  group?: T;
-  sortOrder?: T;
-  featured?: T;
-  active?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tour-filter-options_select".
- */
-export interface TourFilterOptionsSelect<T extends boolean = true> {
-  name?: T;
-  group?: T;
-  sortOrder?: T;
-  featured?: T;
-  active?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-categories_select".
- */
-export interface BlogCategoriesSelect<T extends boolean = true> {
-  name?: T;
-  sortOrder?: T;
-  featured?: T;
-  active?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1126,138 +1166,13 @@ export interface CaravansSelect<T extends boolean = true> {
   sortOrder?: T;
   featured?: T;
   active?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tours_select".
- */
-export interface ToursSelect<T extends boolean = true> {
-  name?: T;
-  slug?: T;
-  heroImage?: T;
-  gallery?:
+  meta?:
     | T
     | {
-        image?: T;
-        id?: T;
-      };
-  category?: T;
-  shortDescription?: T;
-  description?: T;
-  durationLabel?: T;
-  durationBand?: T;
-  routeLabel?: T;
-  location?: T;
-  preference?: T;
-  season?: T;
-  itinerary?:
-    | T
-    | {
-        dayTitle?: T;
+        title?: T;
         description?: T;
-        id?: T;
-      };
-  highlights?:
-    | T
-    | {
-        label?: T;
-        thumbnail?: T;
-        videoUrl?: T;
-        id?: T;
-      };
-  ctaLabel?: T;
-  ctaLink?: T;
-  tales?: T;
-  snaps?: T;
-  sortOrder?: T;
-  featured?: T;
-  active?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "galleries_select".
- */
-export interface GalleriesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  images?:
-    | T
-    | {
         image?: T;
-        caption?: T;
-        id?: T;
       };
-  sortOrder?: T;
-  featured?: T;
-  active?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-articles_select".
- */
-export interface BlogArticlesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  coverImage?: T;
-  excerpt?: T;
-  body?: T;
-  category?: T;
-  publishedAt?: T;
-  sortOrder?: T;
-  featured?: T;
-  active?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reviews_select".
- */
-export interface ReviewsSelect<T extends boolean = true> {
-  reviewerName?: T;
-  style?: T;
-  rating?: T;
-  quote?: T;
-  photo?: T;
-  sortOrder?: T;
-  featured?: T;
-  active?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "hero-slides_select".
- */
-export interface HeroSlidesSelect<T extends boolean = true> {
-  headingLine1?: T;
-  headingLine2?: T;
-  backgroundImage?: T;
-  ctaLabel?: T;
-  ctaLink?: T;
-  sortOrder?: T;
-  featured?: T;
-  active?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tips_select".
- */
-export interface TipsSelect<T extends boolean = true> {
-  title?: T;
-  body?: T;
-  videoUrl?: T;
-  sortOrder?: T;
-  featured?: T;
-  active?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1284,6 +1199,130 @@ export interface InnovationsSelect<T extends boolean = true> {
   sortOrder?: T;
   featured?: T;
   active?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-articles_select".
+ */
+export interface BlogArticlesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  coverImage?: T;
+  excerpt?: T;
+  body?: T;
+  category?: T;
+  publishedAt?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "galleries_select".
+ */
+export interface GalleriesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  body?: T;
+  active?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-slides_select".
+ */
+export interface HeroSlidesSelect<T extends boolean = true> {
+  headingLine1?: T;
+  headingLine2?: T;
+  backgroundImage?: T;
+  ctaLabel?: T;
+  ctaLink?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  reviewerName?: T;
+  style?: T;
+  rating?: T;
+  quote?: T;
+  photo?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tips_select".
+ */
+export interface TipsSelect<T extends boolean = true> {
+  title?: T;
+  body?: T;
+  videoUrl?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1292,6 +1331,8 @@ export interface InnovationsSelect<T extends boolean = true> {
  * via the `definition` "enquiries_select".
  */
 export interface EnquiriesSelect<T extends boolean = true> {
+  status?: T;
+  notes?: T;
   firstName?: T;
   lastName?: T;
   email?: T;
@@ -1316,15 +1357,96 @@ export interface SubscribersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages_select".
+ * via the `definition` "features_select".
  */
-export interface PagesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  body?: T;
+export interface FeaturesSelect<T extends boolean = true> {
+  name?: T;
+  icon?: T;
+  category?: T;
+  sortOrder?: T;
+  featured?: T;
   active?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "caravan-filter-options_select".
+ */
+export interface CaravanFilterOptionsSelect<T extends boolean = true> {
+  name?: T;
+  group?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-filter-options_select".
+ */
+export interface TourFilterOptionsSelect<T extends boolean = true> {
+  name?: T;
+  group?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-categories_select".
+ */
+export interface BlogCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  sortOrder?: T;
+  featured?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  resetPasswordRequestedAt?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1365,6 +1487,39 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Contact details shown across the website. Change them here and they update everywhere.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business".
+ */
+export interface Business {
+  id: number;
+  /**
+   * Shown in the footer and contact page, e.g. "+91 98710 63984".
+   */
+  phone?: string | null;
+  /**
+   * Number with country code, digits only (e.g. 919871063984). Powers the green chat button. Leave empty to hide it.
+   */
+  whatsapp?: string | null;
+  email?: string | null;
+  /**
+   * Office / garage address.
+   */
+  address?: string | null;
+  mapUrl?: string | null;
+  /**
+   * e.g. "Mon–Sat, 10am–7pm".
+   */
+  hours?: string | null;
+  /**
+   * Every new booking enquiry is emailed here (once email sending is set up).
+   */
+  enquiryNotifyEmail?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1553,6 +1708,22 @@ export interface About {
   youtubeUrl?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business_select".
+ */
+export interface BusinessSelect<T extends boolean = true> {
+  phone?: T;
+  whatsapp?: T;
+  email?: T;
+  address?: T;
+  mapUrl?: T;
+  hours?: T;
+  enquiryNotifyEmail?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

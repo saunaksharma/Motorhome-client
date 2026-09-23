@@ -9,6 +9,7 @@ import { PageBanner } from '@/components/PageBanner'
 import { SectionHeading } from '@/components/SectionHeading'
 import { Tabs } from '@/components/Tabs'
 import { getPayloadClient } from '@/lib/payload'
+import { pageMetadata } from '@/lib/seo'
 import { relName } from '@/lib/utils'
 
 type Params = Promise<{ slug: string }>
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const tour = await getTour(slug)
   if (!tour) return {}
-  return { title: tour.name, description: tour.shortDescription ?? undefined }
+  return pageMetadata(tour.meta, { title: tour.name, description: tour.shortDescription, image: tour.heroImage })
 }
 
 export default async function TourDetailPage({ params }: { params: Params }) {

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
 import { getPayloadClient } from '@/lib/payload'
+import { pageMetadata } from '@/lib/seo'
 
 type Params = Promise<{ slug: string }>
 
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const article = await getArticle(slug)
   if (!article) return {}
-  return { title: article.title, description: article.excerpt ?? undefined }
+  return pageMetadata(article.meta, { title: article.title, description: article.excerpt, image: article.coverImage })
 }
 
 export default async function BlogArticlePage({ params }: { params: Params }) {
