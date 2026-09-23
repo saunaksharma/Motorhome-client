@@ -2,6 +2,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -34,16 +35,40 @@ import { withGlobalRevalidation, withSiteRevalidation } from './hooks/revalidate
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// On Vercel these hostnames are set automatically (production + this deployment/branch).
+const vercelOrigins = [
+  process.env.VERCEL_PROJECT_PRODUCTION_URL,
+  process.env.VERCEL_BRANCH_URL,
+  process.env.VERCEL_URL,
+]
+  .filter(Boolean)
+  .map((host) => `https://${host}`)
+
 // The app's own origin. Set SERVER_URL in production (e.g. https://yourdomain.com).
 // Used to lock CORS/CSRF. We intentionally do NOT set Payload's `serverURL` so
 // media URLs stay relative (keeps next/image happy without a remote whitelist).
-const serverURL = process.env.SERVER_URL || 'http://localhost:3000'
+const serverURL = process.env.SERVER_URL || vercelOrigins[0] || 'http://localhost:3000'
 // Extra addresses allowed to use the admin/API (e.g. a temporary preview tunnel),
 // comma-separated in EXTRA_ORIGINS. Everything else stays locked out.
 const allowedOrigins = [
-  serverURL,
-  ...(process.env.EXTRA_ORIGINS ?? '').split(',').map((o) => o.trim()).filter(Boolean),
+  ...new Set([
+    serverURL,
+    ...vercelOrigins,
+    ...(process.env.EXTRA_ORIGINS ?? '').split(',').map((o) => o.trim()).filter(Boolean),
+  ]),
 ]
+
+// Uploaded files go to Vercel Blob when its token is set (on Vercel it is added
+// automatically when a Blob store is connected); otherwise to the local /media folder.
+// alwaysInsertFields keeps the database schema identical either way. clientUploads
+// sends big photos straight from the browser to storage (Vercel caps requests at 4.5 MB).
+const storage = vercelBlobStorage({
+  enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
+  token: process.env.BLOB_READ_WRITE_TOKEN,
+  collections: { media: true },
+  alwaysInsertFields: true,
+  clientUploads: true,
+})
 
 // Email turns on only when SMTP details are in .env (works with Gmail app passwords,
 // Zoho, etc.). Without them Payload just logs emails to the console — nothing breaks.
@@ -86,7 +111,7 @@ const seo = seoPlugin({
 })
 
 export default buildConfig({
-  plugins: [seo],
+  plugins: [seo, storage],
   cors: allowedOrigins,
   csrf: allowedOrigins,
   email,
