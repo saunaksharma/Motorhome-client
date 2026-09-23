@@ -4,9 +4,14 @@ import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
 import { getPayloadClient } from '@/lib/payload'
+import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
 
 type Params = Promise<{ slug: string }>
+
+// Pre-built for every active entry (instant); saving in the admin refreshes it.
+export const revalidate = 60
+export const generateStaticParams = slugParams('blog-articles')
 
 const getArticle = cache(async (slug: string) => {
   const payload = await getPayloadClient()

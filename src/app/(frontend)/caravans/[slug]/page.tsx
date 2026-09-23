@@ -10,10 +10,15 @@ import { PhotoGallery } from '@/components/PhotoGallery'
 import { RelatedContent } from '@/components/RelatedContent'
 import { Tabs } from '@/components/Tabs'
 import { getPayloadClient } from '@/lib/payload'
+import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
 import { relName } from '@/lib/utils'
 
 type Params = Promise<{ slug: string }>
+
+// Pre-built for every active entry (instant); saving in the admin refreshes it.
+export const revalidate = 60
+export const generateStaticParams = slugParams('caravans')
 
 // cache() dedupes the fetch across generateMetadata + the page render.
 const getCaravan = cache(async (slug: string) => {

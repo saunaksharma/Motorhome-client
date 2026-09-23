@@ -4,6 +4,7 @@ import React, { cache } from 'react'
 
 import { PageBanner } from '@/components/PageBanner'
 import { getPayloadClient } from '@/lib/payload'
+import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
 
 // Renders a client-authored content page at /<slug> (Terms, Privacy, FAQ, ...).
@@ -11,6 +12,7 @@ import { pageMetadata } from '@/lib/seo'
 type Params = Promise<{ slug: string }>
 
 export const revalidate = 60
+export const generateStaticParams = slugParams('pages')
 
 const getPage = cache(async (slug: string) => {
   const payload = await getPayloadClient()

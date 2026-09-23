@@ -141,6 +141,27 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-23 (day 4, cont.) — speed, preview tunnel, SSL warning
+- **SSL warning fixed:** `DATABASE_URI` now uses `sslmode=verify-full` (was `require`, which pg
+  warns will weaken in v9). Same in `.env.example`. DB verified working.
+- **Preview for others (Option 1 — Cloudflare quick tunnel):** `D:\Motor Home Client\tools\cloudflared.exe`
+  (official, v2026.9.1, outside the repo). Run the prod server (`npm run build && npm start`), then
+  `cloudflared tunnel --url http://localhost:3000` → prints a random `https://*.trycloudflare.com` URL
+  (changes every restart; PC must stay on). Admin logins from that URL need it in `.env`
+  `EXTRA_ORIGINS=` (new, comma-separated; appended to CORS/CSRF in payload.config). Verified: login
+  via tunnel returns 401 on bad password (not a 403 CSRF block). Remove EXTRA_ORIGINS after testing.
+- **Speed — every public page is now pre-built (static/SSG), was server-rendered per visit.**
+  Measured first-byte: /tours 3.2s → 0.009s, /caravans 2.3s → 0.008s, detail pages ~1–2s → ~0.008s.
+  Cause was per-visit DB round-trips to Neon in **Singapore** (ap-southeast-1).
+  - Listings (/tours, /caravans) render ALL cards; `FilteredGrid` (client) filters in the browser from
+    URL params; `FilterBar` updates the URL with `history.replaceState` (no server hit, still shareable).
+    Cards are tagged via `relIds()` (lib/utils). Separate Suspense boundaries avoid layout jump.
+  - Detail pages: `generateStaticParams = slugParams('<collection>')` (lib/staticParams) + `revalidate = 60`.
+  - /contact is static; `BookingForm` pre-fills Destination from `?destination=` in the browser.
+  - Freshness unchanged: saving in the admin still revalidates the whole site instantly.
+  - Only /blog (search) remains dynamic. Build shows 66 pre-built pages.
+  - Verified in browser: filters, combined filters, reset, shared filtered links, destination pre-fill.
+
 ### 2026-09-23 (day 4, cont.) — imported the previous site's backend
 - **Source:** old admin `deepskyblue-wildcat-500319.hostingersite.com/admin/` (client logged in; we
   read only). Its data comes from **public, unauthenticated** JSON endpoints — no login needed:

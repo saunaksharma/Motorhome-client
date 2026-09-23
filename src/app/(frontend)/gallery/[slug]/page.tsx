@@ -4,9 +4,14 @@ import React, { cache } from 'react'
 import { GalleryGrid, type GalleryImage } from '@/components/GalleryGrid'
 import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
+import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
 
 type Params = Promise<{ slug: string }>
+
+// Pre-built for every active entry (instant); saving in the admin refreshes it.
+export const revalidate = 60
+export const generateStaticParams = slugParams('galleries')
 
 // cache() dedupes the fetch across generateMetadata + the page render.
 const getGallery = cache(async (slug: string) => {

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { Honeypot } from './Honeypot'
 
@@ -20,8 +20,18 @@ function Field({ label, required, children }: { label: string; required?: boolea
 }
 
 // "Reserve Your Adventure" booking form → public Enquiries endpoint.
-export function BookingForm({ destination = '' }: { destination?: string }) {
+export function BookingForm() {
+  const destinationRef = useRef<HTMLInputElement>(null)
   const [sending, setSending] = useState(false)
+
+  // Pre-fill "Destination" from the link (e.g. /contact?destination=Willow) in the
+  // browser, so the page itself can be pre-built and load instantly.
+  useEffect(() => {
+    const destination = new URLSearchParams(window.location.search).get('destination')
+    if (destination && destinationRef.current && !destinationRef.current.value) {
+      destinationRef.current.value = destination
+    }
+  }, [])
   const [done, setDone] = useState(false)
   const [error, setError] = useState('')
 
@@ -79,7 +89,7 @@ export function BookingForm({ destination = '' }: { destination?: string }) {
         <input name="company" className={inputClass} />
       </Field>
       <Field label="Destination">
-        <input name="destination" defaultValue={destination} className={inputClass} />
+        <input ref={destinationRef} name="destination" className={inputClass} />
       </Field>
       <Field label="Preferred Travel Dates">
         <input name="preferredTravelDates" placeholder="e.g. March 2027" className={inputClass} />

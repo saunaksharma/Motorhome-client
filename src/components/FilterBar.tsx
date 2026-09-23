@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import React from 'react'
 
 export type FilterOption = { id: number | string; name: string }
@@ -15,15 +15,16 @@ function FilterSelect({
   param: string
   options: FilterOption[]
 }) {
-  const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()
 
+  // Update the URL in place (no server request) — FilteredGrid reacts instantly,
+  // and the link stays shareable.
   const onChange = (value: string) => {
     const next = new URLSearchParams(params.toString())
     if (value) next.set(param, value)
     else next.delete(param)
-    router.push(next.toString() ? `${pathname}?${next.toString()}` : pathname)
+    window.history.replaceState(null, '', next.toString() ? `${pathname}?${next.toString()}` : pathname)
   }
 
   return (
@@ -45,8 +46,8 @@ function FilterSelect({
   )
 }
 
-// The caravans/tours listing filter bar. Each field maps to a URL param so
-// results are server-rendered and shareable.
+// The caravans/tours listing filter bar. Each field maps to a URL param, so a
+// filtered view is shareable; FilteredGrid does the filtering in the browser.
 export function FilterBar({ filters }: { filters: { label: string; param: string; options: FilterOption[] }[] }) {
   return (
     <div className="flex flex-wrap justify-center gap-4">

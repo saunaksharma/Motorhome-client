@@ -9,10 +9,15 @@ import { PageBanner } from '@/components/PageBanner'
 import { SectionHeading } from '@/components/SectionHeading'
 import { Tabs } from '@/components/Tabs'
 import { getPayloadClient } from '@/lib/payload'
+import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
 import { relName } from '@/lib/utils'
 
 type Params = Promise<{ slug: string }>
+
+// Pre-built for every active entry (instant); saving in the admin refreshes it.
+export const revalidate = 60
+export const generateStaticParams = slugParams('tours')
 
 const getTour = cache(async (slug: string) => {
   const payload = await getPayloadClient()

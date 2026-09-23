@@ -8,9 +8,14 @@ import { CtaButton } from '@/components/CtaButton'
 import { PageBanner } from '@/components/PageBanner'
 import { PhotoGallery } from '@/components/PhotoGallery'
 import { getPayloadClient } from '@/lib/payload'
+import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
 
 type Params = Promise<{ slug: string }>
+
+// Pre-built for every active entry (instant); saving in the admin refreshes it.
+export const revalidate = 60
+export const generateStaticParams = slugParams('innovations')
 
 const getInnovation = cache(async (slug: string) => {
   const payload = await getPayloadClient()
