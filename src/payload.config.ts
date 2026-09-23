@@ -38,6 +38,12 @@ const dirname = path.dirname(filename)
 // Used to lock CORS/CSRF. We intentionally do NOT set Payload's `serverURL` so
 // media URLs stay relative (keeps next/image happy without a remote whitelist).
 const serverURL = process.env.SERVER_URL || 'http://localhost:3000'
+// Extra addresses allowed to use the admin/API (e.g. a temporary preview tunnel),
+// comma-separated in EXTRA_ORIGINS. Everything else stays locked out.
+const allowedOrigins = [
+  serverURL,
+  ...(process.env.EXTRA_ORIGINS ?? '').split(',').map((o) => o.trim()).filter(Boolean),
+]
 
 // Email turns on only when SMTP details are in .env (works with Gmail app passwords,
 // Zoho, etc.). Without them Payload just logs emails to the console — nothing breaks.
@@ -81,8 +87,8 @@ const seo = seoPlugin({
 
 export default buildConfig({
   plugins: [seo],
-  cors: [serverURL],
-  csrf: [serverURL],
+  cors: allowedOrigins,
+  csrf: allowedOrigins,
   email,
   admin: {
     user: Users.slug,
