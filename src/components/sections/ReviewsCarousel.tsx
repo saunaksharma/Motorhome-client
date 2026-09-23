@@ -21,7 +21,6 @@ export async function ReviewsCarousel() {
     reviewerName: r.reviewerName,
     rating: r.rating,
     quote: r.quote,
-    style: r.style,
     photoUrl: typeof r.photo === 'object' && r.photo ? (r.photo.url ?? null) : null,
   }))
 

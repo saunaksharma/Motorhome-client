@@ -45,7 +45,7 @@ export default async function CaravansPage() {
   }))
 
   const allCards = (
-    <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="mt-10 grid gap-6 md:grid-cols-2">
       {items.map((item) => (
         <React.Fragment key={item.id}>{item.card}</React.Fragment>
       ))}
@@ -71,7 +71,7 @@ export default async function CaravansPage() {
         </Suspense>
       </div>
       <Suspense fallback={allCards}>
-        <FilteredGrid items={items} params={['location', 'drive', 'berth', 'class']} emptyText="No caravans match these filters." />
+        <FilteredGrid items={items} params={['location', 'drive', 'berth', 'class']} emptyText="No caravans match these filters." gridClassName="md:grid-cols-2" />
       </Suspense>
     </div>
   )

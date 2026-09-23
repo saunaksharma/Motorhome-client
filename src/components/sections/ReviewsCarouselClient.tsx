@@ -7,7 +7,6 @@ export type Review = {
   reviewerName: string
   rating?: number | null
   quote?: string | null
-  style?: 'quote' | 'featured' | null
   photoUrl?: string | null
 }
 
@@ -34,42 +33,29 @@ export function ReviewsCarouselClient({ reviews }: { reviews: Review[] }) {
         ref={track}
         className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {reviews.map((review, index) =>
-          // "Featured" reviews (e.g. celebrity guests) show their photo large.
-          review.style === 'featured' && review.photoUrl ? (
-            <article
-              key={index}
-              className="relative min-h-60 shrink-0 basis-[85%] snap-start overflow-hidden rounded-2xl bg-green text-white sm:basis-[45%] lg:basis-[31%]"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={review.photoUrl} alt={review.reviewerName} className="absolute inset-0 size-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-green via-green/30 to-transparent" />
-              <div className="relative flex h-full flex-col justify-end p-6">
-                <Stars count={review.rating} />
-                <p className="mt-2 font-heading uppercase tracking-wide text-gold">{review.reviewerName}</p>
-              </div>
-            </article>
-          ) : (
+        {reviews.map((review, index) => (
+          // One card for every review: the guest's photo fills it, and stars, quote
+          // and name sit on a dark fade at the bottom — so the row always looks even.
           <article
             key={index}
-            className="shrink-0 basis-[85%] snap-start rounded-2xl bg-green p-6 text-white sm:basis-[45%] lg:basis-[31%]"
+            className="relative h-[440px] shrink-0 basis-[85%] snap-start overflow-hidden rounded-3xl bg-green text-white sm:basis-[45%] lg:basis-[31%]"
           >
-            <Stars count={review.rating} />
-            {review.quote && <p className="mt-3 text-sm text-white/90">“{review.quote}”</p>}
-            <div className="mt-4 flex items-center gap-3">
-              {review.photoUrl && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={review.photoUrl}
-                  alt={review.reviewerName}
-                  className="size-10 rounded-full object-cover ring-2 ring-gold"
-                />
+            {review.photoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={review.photoUrl} alt={review.reviewerName} className="absolute inset-0 size-full object-cover" />
+            ) : (
+              <div className="pattern-green absolute inset-0" />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-green via-green/55 to-transparent" />
+            <div className="relative flex h-full flex-col justify-end p-6">
+              <Stars count={review.rating} />
+              {review.quote && (
+                <p className="mt-3 line-clamp-5 text-sm leading-relaxed text-white/90">“{review.quote}”</p>
               )}
-              <p className="font-heading uppercase tracking-wide text-gold">— {review.reviewerName}</p>
+              <p className="mt-4 font-heading uppercase tracking-[0.15em] text-gold">{review.reviewerName}</p>
             </div>
           </article>
-          ),
-        )}
+        ))}
       </div>
 
       <button

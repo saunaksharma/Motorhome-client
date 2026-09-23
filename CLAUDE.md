@@ -141,6 +141,24 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-23 (day 4, cont.) — polish round 2: cards, feature icons, reviews (ref: adria-mobil.com)
+- User flagged the cards as "rectangle / cheap". Reference: **Adria Mobil** (big calm tinted product
+  cards, 2-up, left-aligned, 2 pill actions, no icon clutter).
+- **CaravanCard** rebuilt Adria-style: tinted rounded panel, 16:10 photo, glass "<Class> class" tag,
+  upright Oswald name, 2-line description, one compact spec line (Sleeps · Drive · Base, gold dots),
+  **Explore** (solid) + **Enquire** (→ /contact?destination=Name). /caravans is now 2 per row
+  (`FilteredGrid` got a `gridClassName` prop); homepage featured stays 3-up.
+- **TourCard** rebuilt as a travel-magazine photo card: 4:5 photo, category + duration tags, name /
+  route / season on a dark fade, description + "Explore →" slide up on hover (always shown on mobile);
+  whole card is one link.
+- **InnovationCard** matches the caravan card style.
+- Cleared the 6 caravan card lines I generated at import ("Sleeps N · …") — they duplicated the spec line.
+- **IconFeatureList:** the seed's shared 2×2 placeholder (`feature-icon.svg`) now shows a clean gold
+  tick; real uploaded icons still win. **Exclusions** now show a muted ✕ (a tick implied "included").
+- **Reviews:** all 7 photos WERE imported, but quote reviews showed them as 40px avatars. Now one
+  uniform 440px photo card per review (stars / quote / name on a dark fade) — row always even.
+  The Reviews `style` field is no longer used by the front end.
+
 ### 2026-09-23 (day 4, cont.) — visual polish, round 1 (header, headings, hero, story photos)
 - **Header** (`SiteHeader`): floating glass bar after 21st.dev's "resizable navbar" pattern — see-through
   over the homepage hero, solid green once scrolled / on other pages (spacer div pushes content below
