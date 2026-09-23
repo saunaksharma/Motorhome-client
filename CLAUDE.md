@@ -141,6 +141,32 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5) — LIVE on Vercel + phone swipe rows + Footprint
+- **Hosted on Vercel** (project `motorhome-client`, team `saunak`, Hobby plan, connected to the GitHub
+  repo → every push to main auto-deploys). Site https://motorhome-client.vercel.app, admin `/admin`.
+  Functions in **sin1** (`vercel.json`) next to Neon. Env vars on Vercel: DATABASE_URI, PAYLOAD_SECRET,
+  BLOB_READ_WRITE_TOKEN (+ placeholder SERVER_URL / SMTP_* / EXTRA_ORIGINS the user copied from
+  .env.example — harmless, tidy before launch). Cloudflare tunnel + its URL are retired.
+- **Media → Vercel Blob** (`@payloadcms/storage-vercel-blob` 3.90.1, store `motorhome-media`, Public,
+  sin1). Plugin is ON wherever `BLOB_READ_WRITE_TOKEN` is set — now also in local `.env`, so local and
+  live share ONE database AND ONE storage. The 144 existing files were copied to the store root with
+  `tmp-blob/upload-media.mjs` (gitignored; re-runnable). Vercel's new UI connects stores via OIDC and
+  does NOT create the rw token automatically — the user had to add it by hand (plugin needs it).
+- ⚠️ **Plugin quirk:** when enabled it drops the `prefix` column unless a prefix is set → dev asked
+  "delete prefix column (144 items)? (y/N)". NEVER accept schema-push prompts; fixed with
+  `collections: { media: { prefix: '' } }`.
+- Vercel CLI is logged in on this PC and linked (`.vercel/`, `.env.local` with an OIDC token — both
+  gitignored). `npx vercel redeploy https://motorhome-client.vercel.app --target production` works.
+- **`SwipeRow`** (homepage Tours / Caravans / Innovations): on phones a full-bleed snap carousel —
+  82%-wide cards (next one peeks), centred card in focus / sides scale .9 + fade via CSS
+  `animation-timeline: view(inline)` (`.swipe-slide`), gold progress line + "02 / 06" counter.
+  `.reveal` is disabled inside the row (its block-axis timeline would bind to the sideways row).
+  From `sm` up it's the same grid as before. Phone homepage 14,815px → 10,245px tall.
+- **Footprint** on phones: one compact green panel with gold dividers instead of 3 stacked domes
+  (840 → ~390px); arches unchanged from `sm` up.
+- Gotcha (again): the dev server's Tailwind sometimes doesn't generate new classes. Verify with
+  `npm run build` + grep `.next/static/chunks/*.css` (use `grep -F`) before assuming a code bug.
+
 ### 2026-09-23 (day 4, cont.) — design upgrades: detail headers, Route Map, filters
 - **`DetailHero`** on caravan / tour / innovation pages (Adria-style): big rounded photo with the
   name over it + a white quick-facts bar overlapping its foot (caravan: Sleeps / Drive / Based in /
@@ -392,13 +418,14 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 feature lists, photo detail headers, Route Map timeline, filter panel). Real content is in, fast,
 fully checked. Remaining = the client's content/answers + launch (hosting/domain/storage/email).
 
-**Running it — two servers side by side:**
-- **Preview for others (production, port 3000):** `npm run build`, then `npm start`. The public
-  link comes from the tunnel: `D:\Motor Home Client\tools\cloudflared.exe tunnel --url http://localhost:3000`
-  (a random `*.trycloudflare.com` URL on every start — put it in `.env` as `EXTRA_ORIGINS=` so admin
-  logins work through it; the PC must stay on).
-- **Working copy (dev, port 3001):** `npx next dev --port 3001` (writes to `.next/dev`, so it never
-  disturbs port 3000). After changes, rebuild + restart port 3000 so the preview link shows them.
+**LIVE:** https://motorhome-client.vercel.app (admin `/admin`) — auto-deploys on every push to
+main (Vercel, sin1). Photos live in Vercel Blob. See the 2026-09-24 session log.
+
+**Running it locally:**
+- **Working copy (dev, port 3001):** `npx next dev --port 3001` (writes to `.next/dev`).
+- **Local production check (port 3000):** stop it, `npm run build`, `npm start`.
+- Local and live share the same database and photo storage — local edits are real edits.
+- (The Cloudflare tunnel preview is retired; `tools/cloudflared.exe` is still there if ever needed.)
 - Admin login: `saunaksharma@gmail.com` (the owner's password; sessions expire after 2 hours).
 
 **⚠️ Hard-won rules:**
@@ -420,8 +447,9 @@ Check-up scripts: `scratchpad/crawl.py` (pages/links/images) and `scratchpad/chu
 **Next up (in order):**
 1. ~~Tales & Snaps~~ ✅ · ~~Feature lists~~ ✅ · ~~Detail headers~~ ✅ · ~~Route Map timeline~~ ✅ ·
    ~~Filter pills~~ ✅ (see session log). **All planned build/design work is done.**
-2. Launch (needs the client): domain, Vercel + Neon **pooled** connection string, S3/R2 media
-   storage (media is on local disk today), SMTP env vars, remove `EXTRA_ORIGINS`.
+2. Launch (needs the client): their domain → Vercel; move the project + Blob store to the
+   client's own Vercel account (Hobby is non-commercial → Pro); Neon **pooled** connection string;
+   real SMTP env vars; delete the placeholder SERVER_URL/SMTP_*/EXTRA_ORIGINS on Vercel.
 3. Client content/answers (§7). Anything new = only on user request, one change at a time.
 - Content note: the 3 sample blog posts (Tales) have no cover photos and are seed filler — client
   should write real ones (or delete them) before launch.

@@ -51,3 +51,6 @@ node_modules/
 
 # Temporary import staging folders
 /tmp-*/
+
+.vercel
+.env*

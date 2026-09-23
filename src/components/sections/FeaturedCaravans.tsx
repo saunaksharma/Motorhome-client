@@ -2,6 +2,7 @@ import React from 'react'
 
 import { CaravanCard } from '@/components/CaravanCard'
 import { SectionHeading } from '@/components/SectionHeading'
+import { SwipeRow } from '@/components/SwipeRow'
 import { ViewAllLink } from '@/components/ViewAllLink'
 import { getPayloadClient } from '@/lib/payload'
 
@@ -21,11 +22,11 @@ export async function FeaturedCaravans() {
     <section className="mx-auto max-w-[1200px] px-4 py-16">
       <SectionHeading title="CARAVANS" subtitle="Discover our featured caravans" />
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <SwipeRow label="Featured caravans">
         {docs.map((caravan) => (
           <CaravanCard key={caravan.id} caravan={caravan} />
         ))}
-      </div>
+      </SwipeRow>
 
       <ViewAllLink href="/caravans" label="View All Caravans" />
     </section>

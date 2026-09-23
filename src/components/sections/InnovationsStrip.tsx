@@ -2,6 +2,7 @@ import React from 'react'
 
 import { InnovationCard } from '@/components/InnovationCard'
 import { SectionHeading } from '@/components/SectionHeading'
+import { SwipeRow } from '@/components/SwipeRow'
 import { ViewAllLink } from '@/components/ViewAllLink'
 import { getPayloadClient } from '@/lib/payload'
 
@@ -21,11 +22,11 @@ export async function InnovationsStrip() {
     <section className="mx-auto max-w-[1200px] px-4 py-16">
       <SectionHeading title="OUR INNOVATIONS" subtitle="Specialized vehicles for unique experiences" />
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <SwipeRow label="Our innovations">
         {docs.map((item) => (
           <InnovationCard key={item.id} item={item} />
         ))}
-      </div>
+      </SwipeRow>
 
       <ViewAllLink href="/innovations" label="View More Innovations" />
     </section>

@@ -200,6 +200,41 @@ html {
   }
 }
 
+/* Phone swipe rows (SwipeRow): hidden scrollbar; the card at the centre is in
+   focus and cards sliding away shrink/fade (scroll-driven, no JS). The vertical
+   `.reveal` fade is switched off inside the row — its timeline would track the
+   row (which only scrolls sideways) and could leave cards invisible. */
+.swipe-track {
+  scrollbar-width: none;
+}
+.swipe-track::-webkit-scrollbar {
+  display: none;
+}
+@keyframes swipe-focus {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  50% {
+    transform: none;
+    opacity: 1;
+  }
+}
+@media (max-width: 639px) {
+  .swipe-track .reveal {
+    animation: none;
+  }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .swipe-slide {
+        animation: swipe-focus linear both;
+        animation-timeline: view(inline);
+      }
+    }
+  }
+}
+
 /* Hero headline entrance, replayed on each slide change (keyed in React). */
 @keyframes rise-in {
   from {

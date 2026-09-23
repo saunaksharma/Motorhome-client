@@ -60,12 +60,14 @@ const allowedOrigins = [
 
 // Uploaded files go to Vercel Blob when its token is set (on Vercel it is added
 // automatically when a Blob store is connected); otherwise to the local /media folder.
-// alwaysInsertFields keeps the database schema identical either way. clientUploads
+// alwaysInsertFields keeps the database schema identical either way — but when the
+// plugin is ON it only keeps the `prefix` column if a prefix is set, hence the explicit
+// empty prefix (files stay at the store root, where they were uploaded). clientUploads
 // sends big photos straight from the browser to storage (Vercel caps requests at 4.5 MB).
 const storage = vercelBlobStorage({
   enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
   token: process.env.BLOB_READ_WRITE_TOKEN,
-  collections: { media: true },
+  collections: { media: { prefix: '' } },
   alwaysInsertFields: true,
   clientUploads: true,
 })
