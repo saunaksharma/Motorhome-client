@@ -71,18 +71,20 @@ export default async function TourDetailPage({ params }: { params: Params }) {
         {itinerary.length > 0 && (
           <div className="mt-12">
             <SectionHeading title="Route Map" />
-            <div className="mt-8 space-y-6">
+            {/* Day timeline: a gold dot per day on one connecting line (titles as the client wrote them). */}
+            <ol className="mx-auto mt-10 max-w-[820px]">
               {itinerary.map((day, index) => (
-                <div key={index} className="border-l-2 border-gold pl-4">
-                  <h3 className="font-display text-lg italic text-green">{day.dayTitle}</h3>
+                <li key={index} className="relative border-l border-gold/40 pb-10 pl-8 last:border-transparent last:pb-0">
+                  <span aria-hidden className="absolute -left-[6px] top-1.5 size-3 rounded-full bg-gold ring-4 ring-cream" />
+                  <h3 className="font-heading text-xl font-semibold tracking-wide text-green">{day.dayTitle}</h3>
                   {day.description && (
-                    <div className="rich-text mt-1 text-sm leading-relaxed">
+                    <div className="rich-text mt-2 text-[15px] leading-relaxed text-green/80">
                       <RichText data={day.description} />
                     </div>
                   )}
-                </div>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         )}
 
