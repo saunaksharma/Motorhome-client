@@ -155,6 +155,16 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — Our Story on white; swipeable hero
+- Client prefers **white** over the dark stage: Our Story now `bg-white`, green text, green dot grid
+  (12%), soft green/gold glows, gold beam/nodes/outlined year kept, light glass photo frame with a
+  green shadow. Same behaviour (verified again in headless Chrome, laptop + phone).
+- **Homepage hero is swipeable** — no arrows/dots (client rule): pointer events on the section,
+  |dx| > 50px = next/prev (finger on phones, click-drag on laptops), `touch-pan-y` keeps vertical
+  scrolling, `select-none` + `draggable={false}` on images; autoplay is now a per-slide
+  `setTimeout` so a swipe restarts the countdown. Tested via CDP (`scratchpad/test-swipe.mjs`):
+  mouse drag + touch swipe both change slides both ways, no sideways page scroll.
+
 ### 2026-09-24 (day 5, cont.) — "Our Story" redesigned (futuristic, client request)
 - `AboutSections` (homepage "How It All Began" chapters) → after 21st.dev "Sticky Scroll Reveal" +
   "Timeline": dark stage `#060a09` with a masked dot grid + green/gold aurora blurs; desktop =
