@@ -62,7 +62,7 @@ export function CaravanCard({ caravan, split = false }: { caravan: CaravanCardDa
         )}
       </Link>
 
-      <div className={cn('flex flex-1 flex-col p-6 sm:p-7', split && 'sm:justify-center sm:p-7')}>
+      <div className={cn('flex flex-1 flex-col p-5 sm:p-7', split && 'sm:justify-center sm:p-7')}>
         <h3 className="font-display text-2xl text-green sm:text-3xl">
           <Link href={href} className="hover:text-green/80">
             {caravan.name}
@@ -82,16 +82,18 @@ export function CaravanCard({ caravan, split = false }: { caravan: CaravanCardDa
           </p>
         )}
 
-        <div className="mt-auto flex gap-3 pt-6">
+        {/* Phones: compact buttons that fit side by side down to ~340px (e.g. 360px Android);
+            narrower or with large system text they wrap to two rows instead of being cut off. */}
+        <div className="mt-auto flex flex-wrap gap-2 pt-6 sm:gap-3">
           <Link
             href={href}
-            className="inline-flex flex-1 items-center justify-center gap-1 rounded-full bg-green px-5 py-3 font-heading text-sm uppercase tracking-wider text-white transition-colors hover:bg-green/90"
+            className="inline-flex min-w-[6.75rem] flex-1 items-center justify-center gap-1 whitespace-nowrap rounded-full bg-green px-3 py-3 font-heading text-[13px] uppercase tracking-wide text-white sm:px-5 sm:text-sm sm:tracking-wider transition-colors hover:bg-green/90"
           >
             Explore <ChevronRight className="size-4" />
           </Link>
           <Link
             href={`/contact?destination=${encodeURIComponent(caravan.name)}`}
-            className="inline-flex flex-1 items-center justify-center gap-1 rounded-full border border-green/30 px-5 py-3 font-heading text-sm uppercase tracking-wider text-green transition-colors hover:border-green hover:bg-green hover:text-white"
+            className="inline-flex min-w-[6.75rem] flex-1 items-center justify-center gap-1 whitespace-nowrap rounded-full border border-green/30 px-3 py-3 font-heading text-[13px] uppercase tracking-wide text-green sm:px-5 sm:text-sm sm:tracking-wider transition-colors hover:border-green hover:bg-green hover:text-white"
           >
             Enquire <ChevronRight className="size-4" />
           </Link>

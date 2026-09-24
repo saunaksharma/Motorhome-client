@@ -155,6 +155,16 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — card buttons cut off on Android
+- On 360px Android phones (iPhones are 390) the homepage row cards' "ENQUIRE" button ran ~20px
+  past the card edge (also /caravans at 320px). Caravan + Innovation cards: phone-only compact
+  buttons (`px-3 text-[13px] tracking-wide`, `whitespace-nowrap`, `min-w-[6.75rem]`), card padding
+  `p-5` on phones, and the button row `flex-wrap` so extra-narrow / large-system-text phones get
+  two stacked buttons instead of a cut one. sm+ unchanged.
+- Test: `scratchpad/test-cutoff.mjs` (CDP, real mobile viewport; `BIGTEXT=1` = +12.5% root text
+  like Android large font) → 0 cut buttons at 320/360/390/412 on /, /caravans, /innovations, /build.
+  Run node scripts with `MSYS_NO_PATHCONV=1` or Git Bash rewrites "/" args into Windows paths.
+
 ### 2026-09-24 (day 5, cont.) — Our Story on white; swipeable hero
 - Client prefers **white** over the dark stage: Our Story now `bg-white`, green text, green dot grid
   (12%), soft green/gold glows, gold beam/nodes/outlined year kept, light glass photo frame with a
