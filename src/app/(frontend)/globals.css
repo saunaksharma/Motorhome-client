@@ -83,6 +83,12 @@ body {
    normal case. Covers headings typed in the admin's rich-text editor too. In the base
    layer so utility classes (font-heading, tracking-*) still win where set. */
 @layer base {
+  /* Keyboard users see where they are: a gold ring, only for keyboard focus
+     (mouse clicks and taps don't show it). */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
   h1,
   h2,
   h3,

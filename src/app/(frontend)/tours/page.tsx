@@ -7,7 +7,12 @@ import { TourCard } from '@/components/TourCard'
 import { getPayloadClient } from '@/lib/payload'
 import { relIds } from '@/lib/utils'
 
-export const metadata = { title: 'Tours' }
+export const metadata = {
+  title: 'Tours',
+  description:
+    'Caravan tours with day-by-day route maps — filter by duration, location and preference to find your next road trip.',
+  alternates: { canonical: '/tours' },
+}
 // Pre-built and cached (fast); saving in the admin refreshes it immediately.
 export const revalidate = 60
 
@@ -52,7 +57,7 @@ export default async function ToursPage() {
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">
-      <SectionHeading title="TOURS" />
+      <SectionHeading as="h1" title="TOURS" />
 
       {/* The filters read the URL in the browser (Suspense); until then the
           pre-built page shows a same-height placeholder and every tour. */}

@@ -2,8 +2,10 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
+import { ClosingCta } from '@/components/ClosingCta'
 import { DetailHero } from '@/components/DetailHero'
 import { IconFeatureList } from '@/components/IconFeatureList'
+import { JsonLd } from '@/components/JsonLd'
 import { PhotoGallery } from '@/components/PhotoGallery'
 import { RelatedContent } from '@/components/RelatedContent'
 import { Tabs } from '@/components/Tabs'
@@ -37,7 +39,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const caravan = await getCaravan(slug)
   if (!caravan) return {}
-  return pageMetadata(caravan.meta, { title: caravan.name, description: caravan.shortDescription, image: caravan.heroImage })
+  return pageMetadata(caravan.meta, { title: caravan.name, path: `/caravans/${slug}`, description: caravan.shortDescription, image: caravan.heroImage })
 }
 
 export default async function CaravanDetailPage({ params }: { params: Params }) {
@@ -77,8 +79,23 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
     ...(hasAddOns ? [{ label: 'Add Ons+', content: addOns }] : []),
   ]
 
+  // Search engines: the FAQ answers shown on this page (only when there are some).
+  const faqs = Array.isArray(caravan.faqs) ? caravan.faqs : []
+  const faqLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+  }
+
+  const enquire = `/contact?destination=${encodeURIComponent(caravan.name)}`
+
   return (
     <article>
+      {faqs.length > 0 && <JsonLd data={faqLd} />}
       <DetailHero
         image={caravan.heroImage}
         eyebrow={className ? `${className} class` : undefined}
@@ -89,7 +106,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
           { label: 'Based in', value: relName(caravan.baseLocation) },
           { label: 'Base vehicle', value: caravan.baseVehicle },
         ]}
-        cta={{ href: `/contact?destination=${encodeURIComponent(caravan.name)}`, label: 'Go Caravanning!' }}
+        cta={{ href: enquire, label: 'Go Caravanning!' }}
       />
 
       {caravan.description && (
@@ -127,11 +144,12 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
         <div className="mt-16">
           <RelatedContent
-            faqs={Array.isArray(caravan.faqs) ? caravan.faqs : []}
+            faqs={faqs}
             videos={Array.isArray(caravan.relatedVideos) ? caravan.relatedVideos : []}
           />
         </div>
       </div>
+      <ClosingCta name={caravan.name} href={enquire} label="Go Caravanning!" />
     </article>
   )
 }

@@ -1,8 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 import { getPayloadClient } from '@/lib/payload'
-
-const serverURL = process.env.SERVER_URL || 'http://localhost:3000'
+import { siteURL as serverURL } from '@/lib/siteUrl'
 
 // Detail collections and the URL path they live under.
 const detailCollections = [

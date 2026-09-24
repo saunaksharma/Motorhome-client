@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const article = await getArticle(slug)
   if (!article) return {}
-  return pageMetadata(article.meta, { title: article.title, description: article.excerpt, image: article.coverImage })
+  return pageMetadata(article.meta, { title: article.title, path: `/blog/${slug}`, description: article.excerpt, image: article.coverImage })
 }
 
 export default async function BlogArticlePage({ params }: { params: Params }) {

@@ -6,7 +6,12 @@ import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
 import { focalPosition } from '@/lib/utils'
 
-export const metadata = { title: 'Gallery' }
+export const metadata = {
+  title: 'Gallery',
+  description:
+    'Snaps from the road — photo albums from Motorhome Adventures trips.',
+  alternates: { canonical: '/gallery' },
+}
 
 // Refresh from the CMS at most once a minute in production.
 export const revalidate = 60
@@ -23,7 +28,7 @@ export default async function GalleryPage() {
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">
-      <SectionHeading title="GALLERY" subtitle="Snaps from the road" />
+      <SectionHeading as="h1" title="GALLERY" subtitle="Snaps from the road" />
 
       {docs.length > 0 ? (
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

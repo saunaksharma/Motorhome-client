@@ -2,12 +2,15 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
+import { ClosingCta } from '@/components/ClosingCta'
 import { DetailHero } from '@/components/DetailHero'
+import { JsonLd } from '@/components/JsonLd'
 import { SectionHeading } from '@/components/SectionHeading'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
+import { siteURL } from '@/lib/siteUrl'
 import { relName } from '@/lib/utils'
 
 type Params = Promise<{ slug: string }>
@@ -31,7 +34,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const tour = await getTour(slug)
   if (!tour) return {}
-  return pageMetadata(tour.meta, { title: tour.name, description: tour.shortDescription, image: tour.heroImage })
+  return pageMetadata(tour.meta, { title: tour.name, path: `/tours/${slug}`, description: tour.shortDescription, image: tour.heroImage })
 }
 
 export default async function TourDetailPage({ params }: { params: Params }) {
@@ -42,8 +45,33 @@ export default async function TourDetailPage({ params }: { params: Params }) {
   const location = relName(tour.location)
   const itinerary = Array.isArray(tour.itinerary) ? tour.itinerary : []
 
+  // Search engines: this page describes a trip, with its day-by-day plan.
+  const heroUrl = typeof tour.heroImage === 'object' ? tour.heroImage?.url : null
+  const tripLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TouristTrip',
+    name: tour.name,
+    url: `${siteURL}/tours/${slug}`,
+    ...(tour.shortDescription && { description: tour.shortDescription }),
+    ...(heroUrl && { image: `${siteURL}${heroUrl}` }),
+    ...(itinerary.length > 0 && {
+      itinerary: {
+        '@type': 'ItemList',
+        itemListElement: itinerary.map((day, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: day.dayTitle,
+        })),
+      },
+    }),
+    provider: { '@type': 'TravelAgency', name: 'Motorhome Adventures', url: siteURL },
+  }
+
+  const enquire = `/contact?destination=${encodeURIComponent(tour.name)}`
+
   return (
     <article>
+      <JsonLd data={tripLd} />
       <DetailHero
         image={tour.heroImage}
         eyebrow={location}
@@ -54,7 +82,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
           { label: 'Style', value: tour.category },
           { label: 'Route', value: tour.routeLabel },
         ]}
-        cta={{ href: `/contact?destination=${encodeURIComponent(tour.name)}`, label: tour.ctaLabel ?? 'Reserve Your Ride' }}
+        cta={{ href: enquire, label: tour.ctaLabel ?? 'Reserve Your Ride' }}
       />
 
       <div className="mx-auto max-w-[1100px] px-4 py-12">
@@ -90,6 +118,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
 
         <TalesAndSnaps tales={tour.tales ? [tour.tales] : []} snaps={tour.snaps ? [tour.snaps] : []} />
       </div>
+      <ClosingCta name={tour.name} href={enquire} label={tour.ctaLabel ?? 'Reserve Your Ride'} />
     </article>
   )
 }

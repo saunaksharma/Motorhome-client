@@ -2,6 +2,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
+import { ClosingCta } from '@/components/ClosingCta'
 import { DetailHero } from '@/components/DetailHero'
 import { PhotoGallery } from '@/components/PhotoGallery'
 import { getPayloadClient } from '@/lib/payload'
@@ -29,13 +30,15 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const item = await getInnovation(slug)
   if (!item) return {}
-  return pageMetadata(item.meta, { title: item.name, description: item.shortDescription, image: item.heroImage })
+  return pageMetadata(item.meta, { title: item.name, path: `/innovations/${slug}`, description: item.shortDescription, image: item.heroImage })
 }
 
 export default async function InnovationDetailPage({ params }: { params: Params }) {
   const { slug } = await params
   const item = await getInnovation(slug)
   if (!item) notFound()
+
+  const enquire = `/contact?destination=${encodeURIComponent(item.name)}`
 
   return (
     <article>
@@ -48,7 +51,7 @@ export default async function InnovationDetailPage({ params }: { params: Params 
           { label: 'Sleeps', value: item.sleeps },
           { label: 'Based in', value: item.baseLocation },
         ]}
-        cta={{ href: `/contact?destination=${encodeURIComponent(item.name)}`, label: 'Enquire Now' }}
+        cta={{ href: enquire, label: 'Enquire Now' }}
       />
 
       <div className="mx-auto max-w-[1100px] px-4 py-12">
@@ -63,6 +66,7 @@ export default async function InnovationDetailPage({ params }: { params: Params 
 
         <PhotoGallery cover={item.heroImage} gallery={item.gallery} />
       </div>
+      <ClosingCta name={item.name} href={enquire} label="Enquire Now" />
     </article>
   )
 }

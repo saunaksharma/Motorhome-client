@@ -8,7 +8,12 @@ import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
 
 export const revalidate = 60
-export const metadata = { title: 'About Us' }
+export const metadata = {
+  title: 'About Us',
+  description:
+    'Meet the people behind Motorhome Adventures and how our caravan journeys began.',
+  alternates: { canonical: '/about' },
+}
 
 export default async function AboutPage() {
   const payload = await getPayloadClient()

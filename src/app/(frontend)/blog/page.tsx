@@ -9,7 +9,12 @@ import { getPayloadClient } from '@/lib/payload'
 
 type SearchParams = Promise<{ q?: string; category?: string; sort?: string }>
 
-export const metadata = { title: 'Blog' }
+export const metadata = {
+  title: 'Blog',
+  description:
+    'Tales from the road — travel stories, caravan tips and trip reports from Motorhome Adventures.',
+  alternates: { canonical: '/blog' },
+}
 
 export default async function BlogPage({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams
@@ -38,7 +43,7 @@ export default async function BlogPage({ searchParams }: { searchParams: SearchP
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">
-      <SectionHeading title="BLOGS" />
+      <SectionHeading as="h1" title="BLOGS" />
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <SearchBox placeholder="Search articles…" />

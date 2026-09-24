@@ -5,7 +5,7 @@ import React, { cache } from 'react'
 import { PageBanner } from '@/components/PageBanner'
 import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
-import { pageMetadata } from '@/lib/seo'
+import { pageMetadata, plainText } from '@/lib/seo'
 
 // Renders a client-authored content page at /<slug> (Terms, Privacy, FAQ, ...).
 // Named routes (caravans, tours, about, ...) take precedence over this catch-all.
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const page = await getPage(slug)
   if (!page) return {}
-  return pageMetadata(page.meta, { title: page.title })
+  return pageMetadata(page.meta, { title: page.title, path: `/${slug}`, description: plainText(page.body) })
 }
 
 export default async function ContentPage({ params }: { params: Params }) {

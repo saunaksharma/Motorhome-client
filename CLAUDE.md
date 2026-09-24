@@ -116,6 +116,20 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 
 ## 4a. Session log
 
+### 2026-09-24 (day 5, cloud session) — senior review: SEO + contact page
+- Branch `claude/gifted-pascal-tqzoa6` (not main). Cloud container has no `.env`/DB and can't reach
+  vercel.app → verified with tsc + eslint (baseline: 1 pre-existing error in `SiteHeader.tsx`), no build.
+- **`lib/siteUrl`**: Vercel's SERVER_URL is likely the `.env.example` localhost placeholder → share
+  previews / sitemap / robots pointed at localhost. Now falls back to `VERCEL_PROJECT_PRODUCTION_URL`
+  when SERVER_URL is localhost on Vercel. (CORS in payload.config untouched.)
+- **robots.txt** allows `/api/media/file/` (all photos live there; `/api` was blocking Google Images).
+- **Contact page** shows Business Details (phone/WhatsApp/email/hours/address→map); empty ones hidden.
+- **Booking form**: `type="tel"` + autocomplete hints. **Reviews** photos → next/image.
+- **JSON-LD** `TravelAgency` in the layout from Business Details + footer socials.
+- Review backlog (not done, need client/decisions): Build Your Own is a placeholder; 3 filler blog
+  posts; no default share image; no prices on cards; no analytics; "Share Your Experience" opens the
+  booking form; footer tagline hardcodes "since 1993" (`SiteFooter.tsx`) — confirm with client.
+
 ### 2026-09-22 (day 3, cont.) — real tour content + hero polish
 - **Hero redesigned to match the reference/Canva exactly:** removed dots + prev/next arrows,
   autoplay-only crossfade (1s ease), gradient scrim; "HOME AWAY HOME" is now **gold text in a
