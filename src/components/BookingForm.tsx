@@ -74,19 +74,19 @@ export function BookingForm() {
     <form onSubmit={onSubmit} className="relative grid gap-4 sm:grid-cols-2">
       <Honeypot />
       <Field label="First Name" required>
-        <input name="firstName" required className={inputClass} />
+        <input name="firstName" required autoComplete="given-name" className={inputClass} />
       </Field>
       <Field label="Last Name" required>
-        <input name="lastName" required className={inputClass} />
+        <input name="lastName" required autoComplete="family-name" className={inputClass} />
       </Field>
       <Field label="Email" required>
-        <input name="email" type="email" required className={inputClass} />
+        <input name="email" type="email" required autoComplete="email" className={inputClass} />
       </Field>
       <Field label="Phone Number" required>
-        <input name="phone" required className={inputClass} />
+        <input name="phone" type="tel" required autoComplete="tel" className={inputClass} />
       </Field>
       <Field label="Company">
-        <input name="company" className={inputClass} />
+        <input name="company" autoComplete="organization" className={inputClass} />
       </Field>
       <Field label="Destination">
         <input ref={destinationRef} name="destination" className={inputClass} />
