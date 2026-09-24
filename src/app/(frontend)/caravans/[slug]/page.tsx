@@ -8,6 +8,7 @@ import { PhotoGallery } from '@/components/PhotoGallery'
 import { RelatedContent } from '@/components/RelatedContent'
 import { Tabs } from '@/components/Tabs'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
+import { ZoomCollage } from '@/components/ZoomCollage'
 import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
@@ -45,6 +46,11 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
   if (!caravan) notFound()
 
   const className = relName(caravan.class)
+
+  // Cover first, then every gallery photo — used by the zoom-out collage.
+  const photos = [caravan.heroImage, ...(caravan.gallery ?? []).map((row) => row?.image)]
+    .map((m) => (typeof m === 'object' && m !== null ? (m as { url?: string | null; alt?: string | null }) : null))
+    .filter((m): m is { url: string; alt?: string | null } => Boolean(m?.url))
 
   const overview = (
     <div>
@@ -86,18 +92,32 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
         cta={{ href: `/contact?destination=${encodeURIComponent(caravan.name)}`, label: 'Go Caravanning!' }}
       />
 
-      <div className="mx-auto max-w-[1100px] px-4 py-12">
-        {caravan.description && (
+      {caravan.description && (
+        <div className="mx-auto max-w-[1100px] px-4 pt-12">
           <div className="rich-text mx-auto max-w-[760px] space-y-3 text-lg leading-relaxed">
             <RichText data={caravan.description} />
           </div>
-        )}
+        </div>
+      )}
 
-        <div className="mt-12">
+      {/* Full-bleed scroll moment: the cover photo zooms out into a collage of this caravan's photos. */}
+      <div className="mt-12">
+        <ZoomCollage
+          title={caravan.name}
+          text={caravan.shortDescription}
+          photos={photos}
+          cta={{ href: '#photos', label: 'See all photos' }}
+        />
+      </div>
+
+      <div className="mx-auto max-w-[1100px] px-4 py-12">
+        <div className="mt-4">
           <Tabs tabs={tabs} />
         </div>
 
-        <PhotoGallery cover={caravan.heroImage} gallery={caravan.gallery} />
+        <div id="photos" className="scroll-mt-28">
+          <PhotoGallery cover={caravan.heroImage} gallery={caravan.gallery} />
+        </div>
 
         <TalesAndSnaps
           tales={Array.isArray(caravan.relatedArticles) ? caravan.relatedArticles : []}

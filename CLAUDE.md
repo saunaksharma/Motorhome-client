@@ -141,6 +141,20 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — Rivian-style zoom-out collage on caravan pages
+- User loved rivian.com/r1t's scroll moment (inspected live): a full-screen photo is pinned, zooms
+  OUT into the centre tile of a photo grid, which darkens while a headline + button rise in.
+- **`ZoomCollage`** (caravan page, between description and the Overview tabs, full-bleed): cover
+  photo = centre tile, 8 surrounding tiles from the caravan's gallery (repeat if fewer; hidden if
+  < 4 photos). Title = caravan name, text = its short description (admin-editable, no invented
+  copy), button "See all photos" → `#photos` (Photo Gallery wrapper, `scroll-mt-28`).
+- Pure CSS scroll-driven animation (`.collage*` in globals.css): section is a named view timeline
+  (`view-timeline-name: --collage`, 260vh tall), sticky 100svh stage; grid `scale(3.5)→1` over
+  `contain 0–60%`, shade `45–75%`, text `55–85%`. No support / reduced motion → one-screen static
+  finished collage. Verified by wheel-scrolling on desktop 1280 and phone 375.
+- Review gotcha: with the browser pane hidden, JS layout reads are 0 — test scroll effects with
+  real wheel scrolls + screenshots (those force a render).
+
 ### 2026-09-24 (day 5, cont.) — Adria feel: row headers, split caravan cards, phone hero; Footprint
 - Studied adria-mobil.com live (desktop + 375px): product rows = title left + "all products"
   link right, split cards (photo left / text right, 2 per view, next peeks), ‹ › under the row;

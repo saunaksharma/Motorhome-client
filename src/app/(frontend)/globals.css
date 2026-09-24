@@ -229,6 +229,67 @@ html {
   }
 }
 
+/* ZoomCollage (caravan page, after Rivian's R1T page). The section is a named view
+   timeline; while it scrolls past, its sticky stage stays pinned and the 3×3 photo grid
+   zooms from "centre tile fills the screen" (scale 3.5) down to the full collage, then
+   the shade and the title/button fade in. Without scroll-timeline support (or with
+   reduced motion) the section is one screen tall and shows the finished state. */
+.collage {
+  view-timeline-name: --collage;
+}
+@keyframes collage-zoom {
+  from {
+    transform: scale(3.5);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes collage-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes collage-rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .collage {
+      height: 260vh;
+    }
+    .collage-stage {
+      position: sticky;
+      top: 0;
+    }
+    .collage-grid {
+      animation: collage-zoom linear both;
+      animation-timeline: --collage;
+      animation-range: contain 0% contain 60%;
+    }
+    .collage-shade {
+      animation: collage-fade linear both;
+      animation-timeline: --collage;
+      animation-range: contain 45% contain 75%;
+    }
+    .collage-text {
+      animation: collage-rise linear both;
+      animation-timeline: --collage;
+      animation-range: contain 55% contain 85%;
+    }
+  }
+}
+
 /* Hero headline entrance, replayed on each slide change (keyed in React). */
 @keyframes rise-in {
   from {
