@@ -63,7 +63,7 @@ export function CaravanCard({ caravan, split = false }: { caravan: CaravanCardDa
       </Link>
 
       <div className={cn('flex flex-1 flex-col p-6 sm:p-7', split && 'sm:justify-center sm:p-7')}>
-        <h3 className="font-display text-2xl tracking-wide text-green sm:text-3xl">
+        <h3 className="font-display text-2xl text-green sm:text-3xl">
           <Link href={href} className="hover:text-green/80">
             {caravan.name}
           </Link>

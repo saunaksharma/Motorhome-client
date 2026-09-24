@@ -55,7 +55,7 @@ export default async function GalleryPage() {
                   <p className="font-heading text-xs uppercase tracking-[0.25em] text-gold">
                     {photos.length} {photos.length === 1 ? 'photo' : 'photos'}
                   </p>
-                  <h3 className="mt-1 font-display text-2xl tracking-wide text-white">{gallery.title}</h3>
+                  <h3 className="mt-1 font-display text-2xl text-white">{gallery.title}</h3>
                 </div>
               </Link>
             )

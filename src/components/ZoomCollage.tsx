@@ -60,7 +60,7 @@ export function ZoomCollage({
         {/* Opening title card — decorative (the real heading is below). */}
         <div aria-hidden className="collage-intro pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
           {eyebrow && <p className="font-heading text-xs uppercase tracking-[0.35em] text-white/80">{eyebrow}</p>}
-          <p className="mt-3 text-balance font-display text-5xl uppercase tracking-wide drop-shadow-lg sm:text-8xl">{title}</p>
+          <p className="mt-3 text-balance font-display text-5xl uppercase drop-shadow-lg sm:text-8xl">{title}</p>
           <p className="mt-8 font-heading text-[11px] uppercase tracking-[0.4em] text-white/60">Scroll to explore</p>
         </div>
 

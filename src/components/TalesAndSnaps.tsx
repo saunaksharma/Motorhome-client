@@ -45,7 +45,7 @@ export function TalesAndSnaps({ tales = [], snaps = [] }: { tales?: unknown[]; s
         return (
           <div key={album.id}>
             <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
-              <h3 className="font-display text-xl tracking-wide text-green">{album.title}</h3>
+              <h3 className="font-display text-xl text-green">{album.title}</h3>
               {album.slug && (
                 <Link
                   href={`/gallery/${album.slug}`}

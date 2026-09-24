@@ -141,6 +141,18 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — TYPOGRAPHY: Cinzel headings site-wide (client's choice)
+- Asked the user to pick (after Racing Sans One → Russo One flip-flops): **Cinzel everywhere** for
+  headings/titles (same font as the old site's MOTORHOME ADVENTURES), **Lato** for everything else.
+  FINAL — don't change fonts again without asking.
+- One Cinzel load (500–800, `--font-cinzel`) serves `--font-display` and `--font-brand`; Russo One
+  removed. Base layer: h1–h6 = Cinzel 700, uppercase, letter-spacing .06em, line-height 1.15;
+  `.font-display` (non-heading display text) = 700 + .06em; body line-height 1.65; `html *`
+  font-style normal. Removed 11 `tracking-wide/-tight` overrides on display-font elements so
+  every heading shares one spacing.
+- Verified: 16 pages × 6 widths (375 → 1280): no page overflow, no text spill, header fits;
+  headings compute to "Cinzel 700 normal".
+
 ### 2026-09-24 (day 5, cont.) — footer copied 1:1 from the old site
 - `SiteFooter` rebuilt from the old `includes/footer.html` measurements: same photo (our
   footer-bg.jpg == old FOOTER.png, compared) under `bg-black/40`, `#1a4d3e` fallback,

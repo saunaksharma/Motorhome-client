@@ -55,7 +55,7 @@ export function TourCard({ tour }: { tour: TourCardData }) {
 
       {/* Text on the photo */}
       <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-        <h3 className="font-display text-2xl leading-tight tracking-wide text-balance">{tour.name}</h3>
+        <h3 className="font-display text-2xl leading-tight text-balance">{tour.name}</h3>
         {tour.routeLabel && <p className="mt-2 line-clamp-1 text-sm text-white/80">{tour.routeLabel}</p>}
         {tour.season && (
           <p className="mt-1 flex items-center gap-1.5 text-xs text-white/70">

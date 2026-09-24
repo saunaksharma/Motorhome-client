@@ -28,7 +28,7 @@ export async function Footprint() {
           <div key={index} className="text-center">
             <div className="flex min-h-[150px] flex-col items-center justify-center rounded-b-xl rounded-t-full bg-green px-2 pb-4 pt-9 text-white ring-1 ring-green/25 ring-offset-4 ring-offset-background sm:min-h-[230px] sm:rounded-b-2xl sm:px-6 sm:pb-10 sm:pt-16 sm:ring-offset-8">
               {lines(stat.value).map((line) => (
-                <div key={line} className="font-display text-[15px] leading-tight uppercase tracking-wide text-gold sm:text-2xl">
+                <div key={line} className="font-display text-[15px] leading-tight uppercase text-gold sm:text-2xl">
                   {line}
                 </div>
               ))}

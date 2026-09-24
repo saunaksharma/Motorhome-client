@@ -18,7 +18,7 @@ export function SectionHeading({
     <div className="reveal text-center">
       <h2
         className={cn(
-          'font-display text-4xl tracking-tight text-balance sm:text-5xl lg:text-6xl',
+          'font-display text-4xl text-balance sm:text-5xl lg:text-6xl',
           light ? 'text-white' : 'text-green',
         )}
       >

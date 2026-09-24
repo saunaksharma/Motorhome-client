@@ -51,7 +51,7 @@ export function BlogCard({ article }: { article: BlogCardData }) {
         )}
       </div>
       <div className="flex flex-1 flex-col p-6">
-        <h3 className="font-display text-xl leading-snug tracking-wide text-green">{article.title}</h3>
+        <h3 className="font-display text-xl leading-snug text-green">{article.title}</h3>
         {article.excerpt && <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-green/70">{article.excerpt}</p>}
         {date && (
           <p className="mt-auto pt-4 font-heading text-xs uppercase tracking-[0.15em] text-green/50">{date}</p>

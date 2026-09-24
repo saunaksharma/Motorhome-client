@@ -58,13 +58,12 @@
   --color-cream: #fdfbf9;
 
   /* fonts (variables set by next/font in layout.tsx) */
-  /* Russo One (upright, sporty — replaces the old site's forward-leaning Racing Sans One)
-     for headings + titles; Lato (as on the old site) for body, and bold/uppercase Lato for
-     nav, buttons, labels. */
-  --font-display: var(--font-display-face), sans-serif; /* headings + titles */
+  /* Client's choice: Cinzel (the old site's brand-name font) for every heading + title;
+     Lato (as on the old site) for body, and bold/uppercase Lato for nav, buttons, labels. */
+  --font-display: var(--font-cinzel), serif; /* headings + titles */
   --font-heading: var(--font-lato), sans-serif; /* nav, buttons, small uppercase labels */
   --font-body: var(--font-lato), sans-serif; /* body text */
-  --font-brand: var(--font-brand-face), serif; /* the MOTORHOME ADVENTURES name (old site: Cinzel) */
+  --font-brand: var(--font-cinzel), serif; /* the MOTORHOME ADVENTURES name (old site: Cinzel) */
   --color-brand-gold: #d4af37; /* the old site's gold for the brand name */
 
   --radius-lg: var(--radius);
@@ -76,6 +75,7 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-body);
+  line-height: 1.65;
 }
 
 /* Like the old site (and Adria's calm feel): every heading and accordion question is in
@@ -90,8 +90,15 @@ body {
   h5,
   h6 {
     font-family: var(--font-display);
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    line-height: 1.15;
+  }
+  /* Any other text set in the display font (hero lines, stats, title cards) matches. */
+  .font-display {
+    font-weight: 700;
+    letter-spacing: 0.06em;
   }
   summary {
     text-transform: uppercase;
