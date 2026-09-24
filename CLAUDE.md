@@ -141,6 +141,24 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — upright heading font; cinematic collage v3
+- **Font: Russo One replaces Racing Sans One** for headings/titles/brand. Racing Sans One LEANS
+  FORWARD BY DESIGN (it's an oblique display face), so even with every `italic` removed the user
+  still saw slanted headings/"MOTORHOME". Russo One = same bold sporty/automotive feel, upright.
+  Variable `--font-display-face` (layout.tsx) → `--font-display`. Plus `@layer base { html * {
+  font-style: normal } }` so nothing renders slanted, even admin rich-text italics.
+  Verified: 0 elements with non-normal font-style across 12 pages × 4 widths.
+- `RowHeading` link shows "View all" on phones (the wider font pushed "CARAVANS" + "VIEW ALL
+  CARAVANS →" 9px past 375px).
+- **Collage v3 (user: "black film", not "full black with a small image"; refs 21st.dev "Zoom
+  Parallax" / "Scroll media expansion hero"):** starts with the cover FULL-SCREEN under a black
+  film (tint heavier top/bottom + SVG feTurbulence grain — also masks the soft 600–1024px photos)
+  with a title card (class · NAME · "Scroll to explore"); intro fades up 0–25%, grid zooms
+  1→0.29 over 15–65%, film lifts to 0.5, shade 50–75%, final title/button 60–88%. Section 280vh.
+  v2's dark stage + small card + veil was dropped.
+- ⚠️ Browser-pane testing: a BACKGROUND tab doesn't repaint after scrolling (blank captures) —
+  front your own test tab (`tabs_select`) instead of driving the user's tab.
+
 ### 2026-09-24 (day 5, cont.) — Rivian-style zoom-out collage on caravan pages
 - User loved rivian.com/r1t's scroll moment (inspected live): a full-screen photo is pinned, zooms
   OUT into the centre tile of a photo grid, which darkens while a headline + button rise in.

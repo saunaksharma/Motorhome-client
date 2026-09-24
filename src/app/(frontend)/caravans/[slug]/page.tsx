@@ -103,6 +103,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
       {/* Full-bleed scroll moment: the cover photo zooms out into a collage of this caravan's photos. */}
       <div className="mt-12">
         <ZoomCollage
+          eyebrow={className ? `${className} class` : undefined}
           title={caravan.name}
           text={caravan.shortDescription}
           photos={photos}

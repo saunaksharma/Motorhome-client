@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Lato, Racing_Sans_One } from 'next/font/google'
+import { Lato, Russo_One } from 'next/font/google'
 import { getPayload } from 'payload'
 import React from 'react'
 
@@ -9,8 +9,10 @@ import { SiteFooter } from '@/components/SiteFooter'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import './globals.css'
 
-// Same two fonts as the client's previous site: Racing Sans One for headings, Lato for everything else.
-const racing = Racing_Sans_One({ weight: '400', subsets: ['latin'], variable: '--font-racing' })
+// Headings: Russo One — the bold, sporty feel of the old site's Racing Sans One but UPRIGHT
+// (Racing Sans One leans forward by design; the client wants no slanted text anywhere).
+// Everything else: Lato, as on the old site.
+const display = Russo_One({ weight: '400', subsets: ['latin'], variable: '--font-display-face' })
 const lato = Lato({ weight: ['300', '400', '700', '900'], subsets: ['latin'], variable: '--font-lato' })
 
 const serverURL = process.env.SERVER_URL || 'http://localhost:3000'
@@ -58,7 +60,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const headerLogo = typeof header?.logo === 'object' && header.logo ? header.logo.url : null
 
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${racing.variable} ${lato.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${display.variable} ${lato.variable}`}>
       <body>
         <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
         <main>{children}</main>

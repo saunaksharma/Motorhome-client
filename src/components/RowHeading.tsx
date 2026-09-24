@@ -18,7 +18,7 @@ export function RowHeading({
 }) {
   return (
     <div className="reveal flex items-end justify-between gap-4">
-      <div>
+      <div className="min-w-0">
         <h2 className="font-display text-3xl text-green sm:text-4xl lg:text-5xl">{title}</h2>
         {subtitle && (
           <p className="mt-2 font-heading text-xs uppercase tracking-[0.25em] text-green/55 sm:text-sm">{subtitle}</p>
@@ -28,7 +28,9 @@ export function RowHeading({
         href={href}
         className="group inline-flex shrink-0 items-center gap-1.5 pb-1 font-heading text-xs font-bold uppercase tracking-[0.18em] text-green transition-colors hover:text-gold sm:text-sm"
       >
-        {linkLabel}
+        {/* Phones: just "View all" so title + link fit on one line at 375px. */}
+        <span className="sm:hidden">View all</span>
+        <span className="hidden sm:inline">{linkLabel}</span>
         <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
       </Link>
     </div>

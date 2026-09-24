@@ -58,9 +58,10 @@
   --color-cream: #fdfbf9;
 
   /* fonts (variables set by next/font in layout.tsx) */
-  /* Matches the client's previous site: Racing Sans One (upright, never italic) for
-     headings + titles; Lato for body, and bold/uppercase Lato for nav, buttons, labels. */
-  --font-display: var(--font-racing), sans-serif; /* headings + titles */
+  /* Russo One (upright, sporty — replaces the old site's forward-leaning Racing Sans One)
+     for headings + titles; Lato (as on the old site) for body, and bold/uppercase Lato for
+     nav, buttons, labels. */
+  --font-display: var(--font-display-face), sans-serif; /* headings + titles */
   --font-heading: var(--font-lato), sans-serif; /* nav, buttons, small uppercase labels */
   --font-body: var(--font-lato), sans-serif; /* body text */
 
@@ -92,6 +93,11 @@ body {
   }
   summary {
     text-transform: uppercase;
+  }
+  /* The client wants no slanted text anywhere — including italics typed in the admin's
+     rich-text editor (<em>, <i>). */
+  html * {
+    font-style: normal;
   }
 }
 
@@ -229,13 +235,13 @@ html {
   }
 }
 
-/* ZoomCollage (caravan page, after Rivian's R1T page). The section is a named view
-   timeline; while it scrolls past, its sticky stage stays pinned and the 3×3 photo grid
-   zooms out from "centre tile fills the screen" to the full collage, then the shade and
-   the title/button fade in. The grid is LAID OUT huge (3.3× the screen, so the centre
-   tile is naturally full-screen and sharp) and SHRUNK to 0.29 — enlarging a small grid
-   instead made the photos blurry. Without scroll-timeline support (or with reduced
-   motion) the section is one screen tall and shows the finished (shrunk) collage. */
+/* ZoomCollage (caravan page) — cinematic scroll moment. The section is a named view
+   timeline; while it scrolls past, its sticky stage stays pinned. The 3×3 grid is LAID OUT
+   huge (3.3× the screen, so the centre photo is full-screen at scale 1) and only ever
+   SHRUNK to 0.29 — enlarging a small grid looked blurry. Order along the scroll:
+   title card fades up (0–25%) → film lifts + grid zooms out (15–65%) → shade (50–75%) →
+   final title/button (60–88%). Without scroll-timeline support (or with reduced motion)
+   the section is one screen tall and shows the finished collage (no intro). */
 .collage {
   view-timeline-name: --collage;
 }
@@ -248,6 +254,23 @@ html {
   column-gap: 1.5%;
   row-gap: 1.5%;
   transform: translate(-50%, -50%) scale(0.29);
+}
+/* Black film: dark tint (heavier top/bottom) + fine film grain. Lifts to half as the
+   collage forms. */
+.collage-film {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E"),
+    linear-gradient(to bottom, rgb(0 0 0 / 0.6), rgb(0 0 0 / 0.3) 45%, rgb(0 0 0 / 0.65));
+  opacity: 0.5;
+}
+/* Sheen: glossy light from the top + vignetted edges. */
+.collage-sheen {
+  background:
+    radial-gradient(120% 70% at 50% -10%, rgb(255 255 255 / 0.12), transparent 60%),
+    radial-gradient(110% 110% at 50% 50%, transparent 55%, rgb(0 0 0 / 0.7) 100%);
+}
+.collage-intro {
+  opacity: 0;
 }
 @keyframes collage-zoom {
   from {
@@ -265,6 +288,24 @@ html {
     opacity: 1;
   }
 }
+@keyframes collage-film-lift {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+@keyframes collage-intro-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-70px);
+  }
+}
 @keyframes collage-rise {
   from {
     opacity: 0;
@@ -278,26 +319,36 @@ html {
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .collage {
-      height: 260vh;
+      height: 280vh;
     }
     .collage-stage {
       position: sticky;
       top: 0;
     }
+    .collage-intro {
+      animation: collage-intro-out linear both;
+      animation-timeline: --collage;
+      animation-range: contain 0% contain 25%;
+    }
     .collage-grid {
       animation: collage-zoom linear both;
       animation-timeline: --collage;
-      animation-range: contain 0% contain 60%;
+      animation-range: contain 15% contain 65%;
+    }
+    .collage-film {
+      animation: collage-film-lift linear both;
+      animation-timeline: --collage;
+      animation-range: contain 15% contain 60%;
     }
     .collage-shade {
       animation: collage-fade linear both;
       animation-timeline: --collage;
-      animation-range: contain 45% contain 75%;
+      animation-range: contain 50% contain 75%;
     }
     .collage-text {
       animation: collage-rise linear both;
       animation-timeline: --collage;
-      animation-range: contain 55% contain 85%;
+      animation-range: contain 60% contain 88%;
     }
   }
 }
