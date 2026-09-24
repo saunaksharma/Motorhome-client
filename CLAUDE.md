@@ -155,6 +155,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — add-ons on every caravan (data)
+- Only Willow had add-ons (the 5 from the Canva design: Barbeque, Carrom, Yoga Mat, Badminton,
+  Bonfire — seeded day 2); the old site had no add-on data. They're fleet-wide activities, so all
+  5 were ticked on the other 7 caravans (temp route, deleted) → every caravan page now shows the
+  "Add Ons+" tab. The tab still hides for a caravan with none; client unticks per caravan in admin.
+- Cloud-session branch `claude/gifted-pascal-tqzoa6` (14 commits: SEO/siteUrl fix, JSON-LD,
+  error page w/ Next 16 `retry`, contact details, Build showcase, ClosingCta, a11y) reviewed and
+  merged into main (9a087a1); hero CTA kept solid gold but its shadow removed (client asked).
+
 ### 2026-09-24 (day 5, cont.) — heroes fill the first screen; header gap bug
 - **Bug:** a cream 92px strip sat above the homepage hero on the LIVE site, so the see-through
   bar showed on cream and looked washed out. Cause: `SiteHeader` rendered its spacer only when
