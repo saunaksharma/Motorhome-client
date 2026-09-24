@@ -141,6 +141,16 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — footer like the old site (black film)
+- Old footer (`includes/footer.html`): FOOTER.png under `rgba(0,0,0,.4)`, centred logo + Cinzel gold
+  MOTORHOME ADVENTURES, columns with bold white uppercase h3 + `border-bottom: 2px #D4AF37`, white
+  uppercase links (hover gold + translateX 5px), socials, copyright.
+- `SiteFooter` now matches: green scrim → **black film** gradient (black/75 → /50 → /80) + soft top
+  sheen; centred logo + brand (Cinzel, brand-gold, tracking .2em); `FOOTER_HEADING` / `FOOTER_LINK`
+  constants for the old column style. Newsletter block + all admin-editable parts unchanged.
+- Note: Claude's app window minimised → the pane can't paint screenshots; verified via computed
+  styles instead.
+
 ### 2026-09-24 (day 5, cont.) — brand name in Cinzel (like the old site)
 - The old site's "MOTORHOME ADVENTURES" (header include `includes/header.html` + footer) is
   **Cinzel**, gold `#D4AF37`, uppercase (footer: tracking .2em). Ours now matches: `Cinzel`

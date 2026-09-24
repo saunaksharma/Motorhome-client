@@ -25,8 +25,16 @@ type FooterData = {
 
 const asMedia = (v: unknown): Media | null => (typeof v === 'object' && v !== null ? (v as Media) : null)
 
-// Footer: full-bleed photo background (client-editable) with a green scrim, the
-// newsletter block, editable link columns, socials and copyright (design pages 40, 48).
+// Old-site column style: bold white capitals over a 2px gold rule; links white capitals
+// that turn gold and nudge right on hover.
+const FOOTER_HEADING = 'border-b-2 border-brand-gold pb-2.5 font-heading text-base font-bold uppercase tracking-wide text-white'
+const FOOTER_LINK =
+  'block py-0.5 font-heading text-sm uppercase tracking-wide text-white transition-[color,translate] hover:translate-x-1 hover:text-brand-gold'
+
+// Footer in the style of the client's previous site: full-bleed photo (client-editable)
+// under a black film with a soft sheen, the newsletter block, a centred logo + MOTORHOME
+// ADVENTURES (Cinzel gold), link columns with white headings on a gold underline, socials
+// and copyright.
 export function SiteFooter({ data, business }: { data: FooterData; business?: Business | null }) {
   const hasContact = Boolean(business?.phone || business?.email || business?.address || business?.whatsapp)
   const nl = data?.newsletter ?? {}
@@ -44,7 +52,18 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
       {bg?.url ? (
         <Image src={bg.url} alt="" fill sizes="100vw" className="object-cover" />
       ) : null}
-      <div className={cn('absolute inset-0', bg?.url ? 'bg-green/85' : 'pattern-green bg-green')} />
+      {/* Black film + sheen (old site: black overlay on the footer photo). */}
+      <div
+        aria-hidden
+        className={cn(
+          'absolute inset-0',
+          bg?.url ? 'bg-gradient-to-b from-black/75 via-black/50 to-black/80' : 'bg-[#0a0e0d]',
+        )}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[radial-gradient(120%_60%_at_50%_0%,rgb(255_255_255/0.08),transparent_60%)]"
+      />
 
       <div className="relative">
         {/* Newsletter */}
@@ -55,29 +74,24 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
         </div>
 
         <div className="mx-auto max-w-[1200px] px-4">
-          {/* Logo + link columns */}
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-8 py-12">
-            <div>
-              {logo?.url ? (
-                <Image src={logo.url} alt="Motorhome Adventures" width={120} height={120} className="h-20 w-auto" />
-              ) : (
-                <span className="font-brand text-2xl font-bold uppercase tracking-[0.2em] text-brand-gold">Motorhome Adventures</span>
-              )}
-              <p className="mt-4 max-w-[26ch] text-sm text-white/75">
-                Home away home, on wheels — pioneering caravan travel in India since 1993.
-              </p>
-            </div>
+          {/* Logo + brand name, centred (as on the old site). */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pb-4 pt-12 text-center">
+            {logo?.url && (
+              <Image src={logo.url} alt="" width={120} height={120} className="h-14 w-auto sm:h-20" />
+            )}
+            <span className="font-brand text-xl font-bold uppercase tracking-[0.2em] text-brand-gold sm:text-3xl">
+              Motorhome Adventures
+            </span>
+          </div>
 
+          {/* Link columns — white headings on a gold underline, white capital links. */}
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-10 py-10">
             {columns.map((col) => (
               <div key={col.heading}>
-                <h3 className="font-display text-lg uppercase tracking-wide text-gold">{col.heading}</h3>
-                <div className="mt-3 space-y-1.5">
+                <h3 className={FOOTER_HEADING}>{col.heading}</h3>
+                <div className="mt-5 space-y-2">
                   {(col.links ?? []).filter(Boolean).map((l) => (
-                    <Link
-                      key={l!.label}
-                      href={l!.link || '#'}
-                      className="block text-sm text-white/90 transition-colors hover:text-gold"
-                    >
+                    <Link key={l!.label} href={l!.link || '#'} className={FOOTER_LINK}>
                       {l!.label}
                     </Link>
                   ))}
@@ -88,8 +102,8 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
             {/* Contact details — edited in Site Settings → Business Details. */}
             {hasContact && (
               <div>
-                <h3 className="font-display text-lg uppercase tracking-wide text-gold">Reach Us</h3>
-                <div className="mt-3 space-y-1.5 text-sm text-white/90">
+                <h3 className={FOOTER_HEADING}>Reach Us</h3>
+                <div className="mt-5 space-y-2 text-sm text-white/90">
                   {business?.phone && (
                     <a href={`tel:${business.phone.replace(/[^\d+]/g, '')}`} className="block hover:text-gold">
                       {business.phone}
