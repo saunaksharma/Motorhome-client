@@ -155,6 +155,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — phone scroll effects: iPhone bug, revert, fix, tested on device
+- First push broke on the user's iPhone (latest iOS): text "went white and glitched back" in Our
+  Story. Cause: the desktop "dim inactive chapters to .3" also ran on phones; with the photo pinned
+  at the top, the text being read is mostly the NEXT chapter → faded, then snapped to full when it
+  crossed the mid-screen band. Reverted live immediately (3a675c1), then fixed: dimming only at
+  `lg` (min-width 1024px). Phones: text always opacity 1 (verified 390px), desktop unchanged.
+- **Process now:** risky visual changes go to the user's phone FIRST via a local build + Cloudflare
+  quick tunnel (`tools/cloudflared.exe tunnel --url http://localhost:3000`); push only after "ok".
+
 ### 2026-09-24 (day 5, cont.) — scroll effects on phones (incl. older iPhones)
 - User: "mobile has no scroll effects like desktop". Two causes: (1) Our Story on phones was a
   plain column; (2) `.reveal` fade-ups + the caravan ZoomCollage use CSS scroll-driven animations,

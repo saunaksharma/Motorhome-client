@@ -406,8 +406,13 @@ html {
 .story-photo:first-child {
   opacity: 1;
 }
-.story-scroll[data-ready] .story-chapter:not([data-on]) .story-copy {
-  opacity: 0.3;
+/* Dim the chapters you're not reading — desktop only. On phones the pinned photo sits on
+   top, so the text being read is mostly the next chapter's: dimming it read as text going
+   white and "glitching" back (reported on iPhone). Phones keep all text at full strength. */
+@media (min-width: 1024px) {
+  .story-scroll[data-ready] .story-chapter:not([data-on]) .story-copy {
+    opacity: 0.3;
+  }
 }
 .story-scroll[data-ready] .story-chapter:not([data-on]) .story-node::after {
   opacity: 0;
