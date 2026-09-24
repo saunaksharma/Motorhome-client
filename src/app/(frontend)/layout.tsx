@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 
 import config from '@/payload.config'
+import { siteURL } from '@/lib/siteUrl'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
@@ -15,12 +16,11 @@ import './globals.css'
 const cinzel = Cinzel({ weight: ['500', '600', '700', '800'], subsets: ['latin'], variable: '--font-cinzel' })
 const lato = Lato({ weight: ['300', '400', '700', '900'], subsets: ['latin'], variable: '--font-lato' })
 
-const serverURL = process.env.SERVER_URL || 'http://localhost:3000'
 const description =
   'Caravan & motorhome rentals, guided tours, and custom builds across India. Home away home, on wheels.'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(serverURL),
+  metadataBase: new URL(siteURL),
   title: {
     default: 'Motorhome Adventures — Caravan & Motorhome Rentals in India',
     template: '%s | Motorhome Adventures',
