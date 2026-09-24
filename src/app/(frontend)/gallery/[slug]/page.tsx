@@ -30,7 +30,12 @@ export async function generateMetadata({ params }: { params: Params }) {
   const gallery = await getGallery(slug)
   if (!gallery) return {}
   const firstImage = Array.isArray(gallery.images) ? gallery.images[0]?.image : undefined
-  return pageMetadata(gallery.meta, { title: gallery.title, image: firstImage })
+  return pageMetadata(gallery.meta, {
+    title: gallery.title,
+    path: `/gallery/${slug}`,
+    description: `Photos from ${gallery.title} — a Motorhome Adventures album.`,
+    image: firstImage,
+  })
 }
 
 export default async function GalleryDetailPage({ params }: { params: Params }) {
@@ -48,7 +53,7 @@ export default async function GalleryDetailPage({ params }: { params: Params }) 
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">
-      <SectionHeading title={gallery.title} />
+      <SectionHeading as="h1" title={gallery.title} />
       <div className="mt-10">
         <GalleryGrid images={images} />
       </div>

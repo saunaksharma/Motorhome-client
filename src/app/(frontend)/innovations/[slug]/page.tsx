@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const item = await getInnovation(slug)
   if (!item) return {}
-  return pageMetadata(item.meta, { title: item.name, description: item.shortDescription, image: item.heroImage })
+  return pageMetadata(item.meta, { title: item.name, path: `/innovations/${slug}`, description: item.shortDescription, image: item.heroImage })
 }
 
 export default async function InnovationDetailPage({ params }: { params: Params }) {

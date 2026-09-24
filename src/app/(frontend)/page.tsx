@@ -12,6 +12,7 @@ import { DreamBigCta } from '@/components/sections/DreamBigCta'
 
 // Rebuild this page at most once a minute so CMS edits show up in production.
 export const revalidate = 60
+export const metadata = { alternates: { canonical: '/' } }
 
 export default function HomePage() {
   // Section order mirrors the client's reference site:

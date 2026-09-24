@@ -19,19 +19,37 @@ const lato = Lato({ weight: ['300', '400', '700', '900'], subsets: ['latin'], va
 const description =
   'Caravan & motorhome rentals, guided tours, and custom builds across India. Home away home, on wheels.'
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteURL),
-  title: {
-    default: 'Motorhome Adventures — Caravan & Motorhome Rentals in India',
-    template: '%s | Motorhome Adventures',
-  },
-  description,
-  openGraph: {
-    type: 'website',
-    siteName: 'Motorhome Adventures',
-    title: 'Motorhome Adventures',
+// Site-wide defaults. The share image (WhatsApp / social previews) is the first
+// homepage hero photo, so it follows the client's own choice in the admin; pages with
+// their own photo (caravans, tours, …) override it.
+export async function generateMetadata(): Promise<Metadata> {
+  const payload = await getPayload({ config: await config })
+  const { docs } = await payload.find({
+    collection: 'hero-slides',
+    where: { active: { equals: true } },
+    sort: 'sortOrder',
+    depth: 1,
+    limit: 1,
+  })
+  const heroImage = docs[0]?.backgroundImage
+  const shareImage = typeof heroImage === 'object' && heroImage?.url ? heroImage.url : undefined
+
+  return {
+    metadataBase: new URL(siteURL),
+    title: {
+      default: 'Motorhome Adventures — Caravan & Motorhome Rentals in India',
+      template: '%s | Motorhome Adventures',
+    },
     description,
-  },
+    openGraph: {
+      type: 'website',
+      siteName: 'Motorhome Adventures',
+      title: 'Motorhome Adventures',
+      description,
+      images: shareImage ? [shareImage] : undefined,
+    },
+    twitter: { card: 'summary_large_image' },
+  }
 }
 
 // Shown until the client fills in the Header global's nav items.

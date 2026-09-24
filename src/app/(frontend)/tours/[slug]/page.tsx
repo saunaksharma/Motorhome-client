@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const tour = await getTour(slug)
   if (!tour) return {}
-  return pageMetadata(tour.meta, { title: tour.name, description: tour.shortDescription, image: tour.heroImage })
+  return pageMetadata(tour.meta, { title: tour.name, path: `/tours/${slug}`, description: tour.shortDescription, image: tour.heroImage })
 }
 
 export default async function TourDetailPage({ params }: { params: Params }) {

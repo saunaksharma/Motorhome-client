@@ -5,7 +5,12 @@ import { BookingForm } from '@/components/BookingForm'
 import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
 
-export const metadata = { title: 'Reserve Your Adventure' }
+export const metadata = {
+  title: 'Reserve Your Adventure',
+  description:
+    'Reserve a caravan or tour with Motorhome Adventures — tell us about your trip and we’ll be in touch.',
+  alternates: { canonical: '/contact' },
+}
 // Pre-built (instant); saving Business Details in the admin refreshes it.
 export const revalidate = 60
 
@@ -51,7 +56,7 @@ export default async function ContactPage() {
 
   return (
     <div className="mx-auto max-w-[800px] px-4 py-12">
-      <SectionHeading
+      <SectionHeading as="h1"
         title="RESERVE YOUR ADVENTURE"
         subtitle="Tell us about your trip and we’ll be in touch"
       />

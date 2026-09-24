@@ -7,7 +7,12 @@ import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
 import { relIds } from '@/lib/utils'
 
-export const metadata = { title: 'Caravans' }
+export const metadata = {
+  title: 'Caravans',
+  description:
+    'Caravans and motorhomes for rent across India — compare sleeping capacity, drive type, base location and class, then explore or enquire.',
+  alternates: { canonical: '/caravans' },
+}
 // Pre-built and cached (fast); saving in the admin refreshes it immediately.
 export const revalidate = 60
 
@@ -54,7 +59,7 @@ export default async function CaravansPage() {
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">
-      <SectionHeading title="CARAVANS" />
+      <SectionHeading as="h1" title="CARAVANS" />
 
       {/* The filters read the URL in the browser (Suspense); until then the
           pre-built page shows a same-height placeholder and every caravan. */}

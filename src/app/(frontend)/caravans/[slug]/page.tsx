@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const caravan = await getCaravan(slug)
   if (!caravan) return {}
-  return pageMetadata(caravan.meta, { title: caravan.name, description: caravan.shortDescription, image: caravan.heroImage })
+  return pageMetadata(caravan.meta, { title: caravan.name, path: `/caravans/${slug}`, description: caravan.shortDescription, image: caravan.heroImage })
 }
 
 export default async function CaravanDetailPage({ params }: { params: Params }) {
