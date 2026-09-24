@@ -89,7 +89,8 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
         <NewsletterForm ctaLabel={nl.ctaLabel || 'SUBSCRIBE NOW'} />
       </section>
 
-      <footer className="relative min-h-[500px] bg-[#1a4d3e] px-3 py-6 text-white sm:px-4 sm:py-8 md:px-6 md:py-12">
+      {/* 60px gap above the footer photo, as the old site had (margin-top: 60px). */}
+      <footer className="relative mt-10 min-h-[500px] bg-[#1a4d3e] sm:mt-[60px] px-3 py-6 text-white sm:px-4 sm:py-8 md:px-6 md:py-12">
         {bg?.url && <Image src={bg.url} alt="" fill sizes="100vw" className="object-cover" />}
         {/* Black film over the photo (darker than the old site's 40% — the client wants it
             clearly visible), heavier at the bottom, with a faint sheen of light at the top. */}
