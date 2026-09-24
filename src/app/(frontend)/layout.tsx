@@ -59,9 +59,29 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   )
   const headerLogo = typeof header?.logo === 'object' && header.logo ? header.logo.url : null
 
+  // Tells Google this is a travel business and how to reach it (structured data).
+  // Built only from details filled in the admin; empty ones are left out.
+  const socialUrls = (footer?.socials ?? []).map((s) => s?.url).filter(Boolean)
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TravelAgency',
+    name: 'Motorhome Adventures',
+    url: siteURL,
+    description,
+    ...(business?.phone && { telephone: business.phone }),
+    ...(business?.email && { email: business.email }),
+    ...(business?.address && { address: business.address }),
+    ...(socialUrls.length > 0 && { sameAs: socialUrls }),
+  }
+
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${cinzel.variable} ${lato.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          // Escape "<" so admin-entered text can't close the script tag.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+        />
         <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
         <main>{children}</main>
         <SiteFooter data={footer} business={business} />
