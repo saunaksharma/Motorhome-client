@@ -155,6 +155,28 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — real blog articles + photo albums from motorhome.co.in (content only)
+- User: "import everything useful… don't change how the site looks, no garbage content".
+- **8 real articles** (Tales) replace the 3 seed posts (those are HIDDEN via `active: false`, not
+  deleted): Do's & Don'ts (Ladakh), Vehicle's Look Book (Ladakh), The Adventures Of Ladakh, What Is A
+  Caravan/Motorhome/RV, Why Opt For A Caravan, What Are Berths, Rental Experience | Expeditions, How
+  Can I Rent A Caravan. Cover + in-article photos (Lexical upload nodes), bold kept, their Comic Sans /
+  highlight colours dropped, original dates (RSS or photo filename), categories mapped to ours, Ladakh
+  video as a "Watch the video on YouTube" link. Cleanup only: garbled emoji repaired, lost spaces,
+  over-long bold "headings" → bold paragraphs, one "(coming soon)" line + 2 dead photos dropped,
+  title typo "Whats Are" → "What Are…?".
+- **5 real photo albums** (Snaps, from their "Motorhome Memories" page): Old Adventures 2000–2011
+  (21), Army Testing Backup 2013 (8), Biking Expeditions (8), Running Expedition 2016 (9), Cycle
+  Expedition 2017 (4). 102 photos → Media (`mca-*` filenames, Blob).
+- **Skipped on purpose:** "Self Driven Rental" (2022 waitlist ad for Vagabond/Nuke/Vincy, not in the
+  fleet), "Keep Me Posted" (newsletter promo), Guidelines (duplicate), Collaborations (empty booking
+  widget), their 4 destination "galleries" (tour link lists), 14 older fleet builds (Royal Cadet,
+  Queen, Leviathan… — ask the client before adding; could suit a "past builds" showcase).
+- Their site has a BitNinja firewall: fetching many pages fast gets empty 200s / an "anti-robot"
+  page — pause ≥1–3 s between requests; never try to get around it. Plain `http://` image URLs
+  return an HTML page → use `https://`.
+- Staging: `tmp-motorhome/` (gitignored) + `scratchpad/live/*.py`; temp route deleted.
+
 ### 2026-09-24 (day 5, cont.) — real legal pages + contact details from motorhome.co.in
 - **motorhome.co.in = the client's CURRENT live site** (PHP, by Weblook Services) — real content,
   unlike the hostinger build's filler. User: take privacy policy / details from it freely.
@@ -731,8 +753,8 @@ Check-up scripts: `scratchpad/crawl.py` (pages/links/images) and `scratchpad/chu
    client's own Vercel account (Hobby is non-commercial → Pro); Neon **pooled** connection string;
    real SMTP env vars; delete the placeholder SERVER_URL/SMTP_*/EXTRA_ORIGINS on Vercel.
 3. Client content/answers (§7). Anything new = only on user request, one change at a time.
-- Content note: the 3 sample blog posts (Tales) have no cover photos and are seed filler — client
-  should write real ones (or delete them) before launch.
+- Content note: the 3 seed blog posts are now HIDDEN; 8 real articles from motorhome.co.in replaced them
+  (see 2026-09-24 session log). Client can delete the hidden seed posts in the admin.
 
 **Waiting on the client:** see §7 (contact details, feature lists for 6 caravans, 2 data conflicts,
 Terms/Privacy text, Instagram export, LinkedIn URL, decisions). Launch checklist artifact:
