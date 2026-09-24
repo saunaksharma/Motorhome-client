@@ -21,7 +21,7 @@ export function RelatedContent({ faqs = [], videos = [] }: { faqs?: Faq[]; video
           <div className="mx-auto mt-8 max-w-[760px] space-y-3">
             {faqs.filter((f) => f.question).map((faq, index) => (
               <details key={index} className="group rounded-xl border border-border bg-card px-5 py-4">
-                <summary className="cursor-pointer list-none font-heading font-semibold text-green marker:content-none">
+                <summary className="cursor-pointer list-none font-display tracking-wide text-green marker:content-none">
                   <span className="flex items-center justify-between gap-4">
                     {faq.question}
                     <span className="text-gold transition-transform group-open:rotate-45">+</span>

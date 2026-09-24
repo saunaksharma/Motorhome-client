@@ -141,6 +141,26 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — fonts like the old site, capitals (Adria feel), one-row sections
+- **Fonts = the client's previous site exactly:** Racing Sans One for every heading/title, Lato for
+  everything else (old site: `h1–h6 { Racing Sans One }`, body Lato 300/400/700/900; checked its CSS).
+  **Oswald removed** (public site). **No italic anywhere** — we had `italic` on top of Racing Sans One
+  (already a sporty face) → double slant; user asked "why is it slanted". Removed from 17 files.
+  Tokens: `--font-display` = Racing (headings/titles), `--font-heading` = Lato (nav, buttons, small
+  uppercase labels), `--font-body` = Lato. Card titles / day titles / FAQ / footer headings moved from
+  Oswald to `font-display` (no font-semibold — Racing has one weight). Admin panel still uses its own
+  Oswald in `(payload)/custom.css` (separate, fine).
+- **Capitals (user: "all text that isn't a paragraph", Adria's feel — NOT Adria's font Raleway):**
+  `@layer base { h1–h6 { uppercase; letter-spacing .04em } summary { uppercase } }` (base layer so
+  utilities still win) + quick-facts values, Footprint stats, header/footer brand. Buttons, nav, tabs,
+  labels, reviewer names were already uppercase. Paragraphs stay normal case.
+- **`SwipeRow` is now one sideways row at every size** (user: desktop sections in a single row like
+  mobile): phones 82% cards + focus effect + counter; sm 2½ cards; lg 3 per view; ← → buttons beside
+  the gold progress line from sm up (hidden when everything fits). `.swipe-track .reveal` disabled at
+  ALL sizes now. Homepage rows fetch up to 12 featured items — client ticks "Featured" to grow a row.
+- Header "Book Now" wrapped at 1280 once Lato (wider than Oswald) came in → `whitespace-nowrap`.
+- Verified: build green; 17 pages × 4 widths no overflow/spill; desktop row arrows scroll one card.
+
 ### 2026-09-24 (day 5, cont.) — mobile audit: headers, hero, gallery, nav
 - **Audit method:** production build on :3000, pages checked at 375 / 390 / 414 / 768 + 1024 desktop;
   scripted sweep (iframes per width) for page-level sideways scroll + text spilling out of its box

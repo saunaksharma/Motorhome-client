@@ -13,7 +13,7 @@ export async function FeaturedCaravans() {
     where: { active: { equals: true }, featured: { equals: true } },
     sort: 'sortOrder',
     depth: 1,
-    limit: 6,
+    limit: 12, // one sideways row; the client picks which via "Featured"
   })
 
   if (docs.length === 0) return null

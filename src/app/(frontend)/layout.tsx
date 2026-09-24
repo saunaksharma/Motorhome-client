@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Lato, Oswald, Racing_Sans_One } from 'next/font/google'
+import { Lato, Racing_Sans_One } from 'next/font/google'
 import { getPayload } from 'payload'
 import React from 'react'
 
@@ -9,9 +9,9 @@ import { SiteFooter } from '@/components/SiteFooter'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import './globals.css'
 
+// Same two fonts as the client's previous site: Racing Sans One for headings, Lato for everything else.
 const racing = Racing_Sans_One({ weight: '400', subsets: ['latin'], variable: '--font-racing' })
-const oswald = Oswald({ subsets: ['latin'], variable: '--font-oswald' })
-const lato = Lato({ weight: ['400', '700'], subsets: ['latin'], variable: '--font-lato' })
+const lato = Lato({ weight: ['300', '400', '700', '900'], subsets: ['latin'], variable: '--font-lato' })
 
 const serverURL = process.env.SERVER_URL || 'http://localhost:3000'
 const description =
@@ -58,7 +58,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const headerLogo = typeof header?.logo === 'object' && header.logo ? header.logo.url : null
 
   return (
-    <html lang="en" className={`${racing.variable} ${oswald.variable} ${lato.variable}`}>
+    <html lang="en" className={`${racing.variable} ${lato.variable}`}>
       <body>
         <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
         <main>{children}</main>

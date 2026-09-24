@@ -29,7 +29,7 @@ export async function TipsAccordion() {
         <div className="space-y-4">
           {docs.map((tip) => (
             <details key={tip.id} className="group rounded-xl border border-gold/60 bg-white/5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 font-display text-lg italic text-white">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 font-display text-lg text-white">
                 {tip.title}
                 <ChevronDown className="size-5 shrink-0 transition-transform group-open:rotate-180" />
               </summary>

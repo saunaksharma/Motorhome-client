@@ -52,7 +52,7 @@ export function CaravanCard({ caravan }: { caravan: CaravanCardData }) {
       </Link>
 
       <div className="flex flex-1 flex-col p-6 sm:p-7">
-        <h3 className="font-heading text-3xl font-semibold tracking-wide text-green">
+        <h3 className="font-display text-2xl tracking-wide text-green sm:text-3xl">
           <Link href={href} className="hover:text-green/80">
             {caravan.name}
           </Link>

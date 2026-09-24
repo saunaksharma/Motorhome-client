@@ -65,7 +65,7 @@ export function ReviewsCarouselClient({ reviews }: { reviews: Review[] }) {
                 {review.quote ? (
                   <p className={expanded.has(index) ? 'text-white/90' : 'line-clamp-4 text-white/90'}>“{review.quote}”</p>
                 ) : (
-                  <p className="italic text-white/70">Travelled with Motorhome Adventures</p>
+                  <p className="text-white/70">Travelled with Motorhome Adventures</p>
                 )}
               </div>
               <div className="mt-3 flex items-center justify-between gap-3">

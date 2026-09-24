@@ -2,7 +2,7 @@ import React from 'react'
 
 import { cn } from '@/lib/utils'
 
-// Section title used across the site: italic display heading, a gold
+// Section title used across the site: display heading, a gold
 // line-diamond-line ornament that draws in on scroll, and a spaced-caps subtitle.
 // `light` = for sections on a green background.
 export function SectionHeading({
@@ -18,7 +18,7 @@ export function SectionHeading({
     <div className="reveal text-center">
       <h2
         className={cn(
-          'font-display text-4xl italic tracking-tight text-balance sm:text-5xl lg:text-6xl',
+          'font-display text-4xl tracking-tight text-balance sm:text-5xl lg:text-6xl',
           light ? 'text-white' : 'text-green',
         )}
       >

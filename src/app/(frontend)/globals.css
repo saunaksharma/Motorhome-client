@@ -58,8 +58,10 @@
   --color-cream: #fdfbf9;
 
   /* fonts (variables set by next/font in layout.tsx) */
-  --font-display: var(--font-racing), sans-serif; /* hero + section headings (italic) */
-  --font-heading: var(--font-oswald), sans-serif; /* secondary headings, nav, buttons */
+  /* Matches the client's previous site: Racing Sans One (upright, never italic) for
+     headings + titles; Lato for body, and bold/uppercase Lato for nav, buttons, labels. */
+  --font-display: var(--font-racing), sans-serif; /* headings + titles */
+  --font-heading: var(--font-lato), sans-serif; /* nav, buttons, small uppercase labels */
   --font-body: var(--font-lato), sans-serif; /* body text */
 
   --radius-lg: var(--radius);
@@ -71,6 +73,26 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-body);
+}
+
+/* Like the old site (and Adria's calm feel): every heading and accordion question is in
+   the display font, in CAPITALS with a little letter-spacing; only paragraphs stay in
+   normal case. Covers headings typed in the admin's rich-text editor too. In the base
+   layer so utility classes (font-heading, tracking-*) still win where set. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  summary {
+    text-transform: uppercase;
+  }
 }
 
 /* Green surface with the subtle camping line-art pattern + a soft sheen —
@@ -200,15 +222,18 @@ html {
   }
 }
 
-/* Phone swipe rows (SwipeRow): hidden scrollbar; the card at the centre is in
-   focus and cards sliding away shrink/fade (scroll-driven, no JS). The vertical
-   `.reveal` fade is switched off inside the row — its timeline would track the
-   row (which only scrolls sideways) and could leave cards invisible. */
+/* Swipe rows (SwipeRow): hidden scrollbar. The vertical `.reveal` fade is switched
+   off inside the row at every size — its timeline would track the row (which only
+   scrolls sideways) and could leave cards invisible. On phones the card at the
+   centre is in focus and cards sliding away shrink/fade (scroll-driven, no JS). */
 .swipe-track {
   scrollbar-width: none;
 }
 .swipe-track::-webkit-scrollbar {
   display: none;
+}
+.swipe-track .reveal {
+  animation: none;
 }
 @keyframes swipe-focus {
   0%,
@@ -222,9 +247,6 @@ html {
   }
 }
 @media (max-width: 639px) {
-  .swipe-track .reveal {
-    animation: none;
-  }
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
       .swipe-slide {

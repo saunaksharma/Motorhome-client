@@ -54,7 +54,7 @@ export function DetailHero({
           {eyebrow && (
             <p className="rise-in font-heading text-xs uppercase tracking-[0.3em] text-white/85 sm:text-sm">{eyebrow}</p>
           )}
-          <h1 className="rise-in mt-2 text-balance font-display text-[2.6rem] leading-[1.05] italic text-gold drop-shadow-md sm:text-7xl">
+          <h1 className="rise-in mt-2 text-balance font-display text-[2.2rem] leading-[1.08] text-gold drop-shadow-md sm:text-7xl">
             {title}
           </h1>
         </div>
@@ -74,7 +74,7 @@ export function DetailHero({
                   )}
                 >
                   <dt className="font-heading text-[11px] uppercase tracking-[0.25em] text-green/50">{fact.label}</dt>
-                  <dd className="mt-1 font-heading text-base font-semibold tracking-wide text-green sm:text-lg">{fact.value}</dd>
+                  <dd className="mt-1 font-heading text-base font-bold uppercase tracking-wide text-green sm:text-lg">{fact.value}</dd>
                 </div>
               ))}
             </dl>

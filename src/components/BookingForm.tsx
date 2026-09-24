@@ -64,7 +64,7 @@ export function BookingForm() {
   if (done) {
     return (
       <div className="rounded-2xl border border-border bg-card p-8 text-center">
-        <h3 className="font-display text-2xl italic text-green">Thank you!</h3>
+        <h3 className="font-display text-2xl text-green">Thank you!</h3>
         <p className="mt-2 text-muted-foreground">We&apos;ve got your request and will be in touch shortly.</p>
       </div>
     )

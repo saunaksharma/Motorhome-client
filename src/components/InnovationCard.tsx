@@ -43,7 +43,7 @@ export function InnovationCard({ item }: { item: InnovationCardData }) {
       </Link>
 
       <div className="flex flex-1 flex-col p-6">
-        <h3 className="font-heading text-2xl font-semibold tracking-wide text-green">
+        <h3 className="font-display text-2xl tracking-wide text-green">
           <Link href={href} className="hover:text-green/80">
             {item.name}
           </Link>

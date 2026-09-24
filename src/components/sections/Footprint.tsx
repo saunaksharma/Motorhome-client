@@ -19,7 +19,7 @@ export async function Footprint() {
         {stats.map((stat, index) => (
           <div key={index} className="px-6 py-6 text-center sm:p-0">
             <div className="text-white sm:rounded-b-2xl sm:rounded-t-full sm:bg-green sm:px-6 sm:py-10">
-              <div className="font-display text-2xl italic text-gold">{stat.value}</div>
+              <div className="font-display text-2xl uppercase tracking-wide text-gold">{stat.value}</div>
               {stat.caption && <div className="mt-1 text-sm text-white/80 sm:mt-2">{stat.caption}</div>}
             </div>
             {stat.label && (

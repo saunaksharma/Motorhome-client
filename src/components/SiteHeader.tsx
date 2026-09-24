@@ -75,7 +75,7 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
                 />
               )}
               <span className="flex flex-col leading-none">
-                <span className="font-display text-xl italic tracking-wide text-gold sm:text-2xl">{word1}</span>
+                <span className="font-display text-xl uppercase tracking-wide text-gold sm:text-2xl">{word1}</span>
                 <span className="mt-1 font-heading text-[10px] uppercase tracking-[0.42em] text-white/85">{rest.join(' ')}</span>
               </span>
             </Link>
@@ -106,7 +106,7 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
             <div className="flex items-center gap-2">
               <Link
                 href="/contact"
-                className="hidden rounded-full bg-gold px-5 py-2 font-heading text-[13px] font-semibold uppercase tracking-wider text-green transition hover:bg-[#d8b457] hover:shadow-[0_0_20px_rgb(201_162_62/0.45)] xl:inline-block"
+                className="hidden shrink-0 whitespace-nowrap rounded-full bg-gold px-5 py-2 font-heading text-[13px] font-bold uppercase tracking-wider text-green transition hover:bg-[#d8b457] hover:shadow-[0_0_20px_rgb(201_162_62/0.45)] xl:inline-block"
               >
                 Book Now
               </Link>

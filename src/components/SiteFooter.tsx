@@ -49,7 +49,7 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
       <div className="relative">
         {/* Newsletter */}
         <div className="border-b border-white/15 px-4 py-12 text-center">
-          <h2 className="font-display text-3xl italic">{nl.heading || 'Join The Caravan CLUB'}</h2>
+          <h2 className="font-display text-3xl ">{nl.heading || 'Join The Caravan CLUB'}</h2>
           {nl.subtext && <p className="mt-2 text-white/85">{nl.subtext}</p>}
           <NewsletterForm ctaLabel={nl.ctaLabel || 'SUBSCRIBE NOW'} />
         </div>
@@ -61,7 +61,7 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
               {logo?.url ? (
                 <Image src={logo.url} alt="Motorhome Adventures" width={120} height={120} className="h-20 w-auto" />
               ) : (
-                <span className="font-display text-2xl italic text-gold">Motorhome Adventures</span>
+                <span className="font-display text-2xl uppercase tracking-wide text-gold">Motorhome Adventures</span>
               )}
               <p className="mt-4 max-w-[26ch] text-sm text-white/75">
                 Home away home, on wheels — pioneering caravan travel in India since 1993.
@@ -70,7 +70,7 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
 
             {columns.map((col) => (
               <div key={col.heading}>
-                <h3 className="font-heading text-base uppercase tracking-wide text-gold">{col.heading}</h3>
+                <h3 className="font-display text-lg uppercase tracking-wide text-gold">{col.heading}</h3>
                 <div className="mt-3 space-y-1.5">
                   {(col.links ?? []).filter(Boolean).map((l) => (
                     <Link
@@ -88,7 +88,7 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
             {/* Contact details — edited in Site Settings → Business Details. */}
             {hasContact && (
               <div>
-                <h3 className="font-heading text-base uppercase tracking-wide text-gold">Reach Us</h3>
+                <h3 className="font-display text-lg uppercase tracking-wide text-gold">Reach Us</h3>
                 <div className="mt-3 space-y-1.5 text-sm text-white/90">
                   {business?.phone && (
                     <a href={`tel:${business.phone.replace(/[^\d+]/g, '')}`} className="block hover:text-gold">

@@ -58,7 +58,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
   const addOns = (
     <div>
       <IconFeatureList title="Add-ons" variant="tiles" features={caravan.addOns} extra={caravan.additionalAddOns} />
-      <p className="mt-2 font-display text-lg italic text-green">
+      <p className="mt-2 font-display text-lg text-green">
         Please mention the add-on&apos;s you require at the time of booking
       </p>
     </div>

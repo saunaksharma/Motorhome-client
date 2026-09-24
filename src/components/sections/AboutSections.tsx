@@ -37,7 +37,7 @@ export async function AboutSections() {
             </div>
 
             <div>
-              <h2 className="font-display text-3xl italic text-green sm:text-4xl">
+              <h2 className="font-display text-3xl text-green sm:text-4xl">
                 {section.heading}
               </h2>
               <div className="mt-4 h-1 w-24 rounded bg-gold" />

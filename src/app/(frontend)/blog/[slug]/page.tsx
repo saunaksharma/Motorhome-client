@@ -59,7 +59,7 @@ export default async function BlogArticlePage({ params }: { params: Params }) {
         </div>
       )}
 
-      <h1 className="mt-4 text-center font-display text-4xl italic text-green sm:text-5xl">
+      <h1 className="mt-4 text-center font-display text-4xl text-green sm:text-5xl">
         {article.title}
       </h1>
       {date && (

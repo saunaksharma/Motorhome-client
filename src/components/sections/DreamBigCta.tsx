@@ -12,7 +12,7 @@ export async function DreamBigCta() {
   return (
     <section className="pattern-green">
       <div className="mx-auto flex max-w-[1100px] flex-col items-center justify-between gap-6 px-4 py-12 text-center sm:flex-row sm:text-left">
-        <h2 className="font-display text-3xl italic text-white sm:text-4xl">{cta.heading}</h2>
+        <h2 className="font-display text-3xl text-white sm:text-4xl">{cta.heading}</h2>
         {cta.ctaLabel && <CtaButton href={cta.ctaLink ?? '#'} label={cta.ctaLabel} onGreen />}
       </div>
     </section>

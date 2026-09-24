@@ -73,7 +73,7 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
         key={current}
         className="rise-in relative z-10 flex h-full flex-col items-center justify-end gap-7 px-4 pb-[16svh] text-center text-white sm:justify-center sm:gap-8 sm:pb-0 sm:pt-16"
       >
-        <h1 className="font-display text-[2.1rem] leading-tight italic drop-shadow-md sm:text-6xl md:text-7xl">
+        <h1 className="font-display text-[2.1rem] leading-tight drop-shadow-md sm:text-6xl md:text-7xl">
           {active.headingLine1}
           {active.headingLine2 && (
             <>

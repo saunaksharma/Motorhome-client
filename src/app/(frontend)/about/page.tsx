@@ -67,7 +67,7 @@ export default async function AboutPage() {
         {/* Join our family / hiring */}
         {hiring?.heading && (
           <section className="pattern-green rounded-3xl px-6 py-12 text-center text-white">
-            <h2 className="font-display text-3xl italic sm:text-4xl">{hiring.heading}</h2>
+            <h2 className="font-display text-3xl sm:text-4xl">{hiring.heading}</h2>
             {hiring.text && <p className="mx-auto mt-4 max-w-[640px] text-white/90">{hiring.text}</p>}
             {hiring.ctaLink && (
               <div className="mt-6">
