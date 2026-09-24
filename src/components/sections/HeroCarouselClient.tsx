@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
@@ -37,6 +38,9 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
   if (count === 0) return null
 
   const active = slides[current]
+  const secondary = active.ctaLink?.startsWith('/caravans')
+    ? { href: '/tours', label: 'Explore our tours' }
+    : { href: '/caravans', label: 'Explore our caravans' }
 
   return (
     <section className="relative h-[78svh] min-h-[520px] w-full overflow-hidden sm:h-[100svh] sm:max-h-[1000px] sm:min-h-[600px]">
@@ -86,12 +90,22 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
             </>
           )}
         </h1>
-        {/* Clean gold-outline pill (the Canva CTA) — no shimmer or glow. */}
-        {active.ctaLabel && (
-          <div className="*:px-6 *:py-2.5 *:text-sm sm:*:px-8 sm:*:py-3.5 sm:*:text-base">
-            <CtaButton href={active.ctaLink ?? '#'} label={active.ctaLabel} gold />
-          </div>
-        )}
+        {/* One obvious main action (the slide's own CTA, solid gold) and a quiet
+            secondary link to the fleet — or to the tours when the CTA already goes there. */}
+        <div className="flex flex-wrap items-center gap-x-7 gap-y-4 sm:justify-center">
+          {active.ctaLabel && (
+            <div className="*:px-7 *:py-3 *:text-sm sm:*:px-9 sm:*:py-4 sm:*:text-base">
+              <CtaButton href={active.ctaLink ?? '#'} label={active.ctaLabel} gold solid />
+            </div>
+          )}
+          <Link
+            href={secondary.href}
+            className="group font-heading text-sm uppercase tracking-[0.18em] text-white/85 transition-colors hover:text-white sm:text-[15px]"
+          >
+            {secondary.label}{' '}
+            <span aria-hidden className="inline-block transition-transform group-hover:translate-x-1">→</span>
+          </Link>
+        </div>
       </div>
     </section>
   )
