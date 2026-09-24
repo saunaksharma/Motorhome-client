@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 
-import { ShimmerLink } from '@/components/ui/shimmer-link'
+import { CtaButton } from '@/components/CtaButton'
 import { cn } from '@/lib/utils'
 
 export type HeroSlide = {
@@ -21,8 +21,9 @@ export type HeroSlide = {
 const AUTOPLAY_MS = 6000
 
 // Full-bleed hero carousel: crossfades slides and auto-advances (no controls).
-// Desktop follows the Canva: text centred. Phones: text sits in the lower part so the
-// photo reads, and the gold badge is a slim single line instead of a wide box.
+// Desktop follows the Canva: full screen, text centred, gold line in a green badge.
+// Phones follow Adria's mobile hero: ~¾ of the screen (the next section peeks in), text
+// bottom-left in two bold lines — the gold line without a box — and a small outline button.
 export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
   const [current, setCurrent] = useState(0)
   const count = slides.length
@@ -38,7 +39,7 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
   const active = slides[current]
 
   return (
-    <section className="relative h-[100svh] max-h-[1000px] min-h-[600px] w-full overflow-hidden">
+    <section className="relative h-[78svh] min-h-[520px] w-full overflow-hidden sm:h-[100svh] sm:max-h-[1000px] sm:min-h-[600px]">
       {/* Backgrounds crossfade on their own; no controls — a calm, hands-off slideshow.
           First slide is priority-loaded for a fast first paint. */}
       {slides.map((slide, index) => (
@@ -66,25 +67,30 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
       ))}
 
       {/* Soft top-to-bottom scrim: keeps the text crisp without hiding the photo. */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/15 to-black/70 sm:to-black/55" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/5 via-40% to-black/75 sm:from-black/45 sm:via-black/15 sm:via-50% sm:to-black/55" />
 
       {/* Foreground text for the active slide — keyed so it rises in on every change. */}
       <div
         key={current}
-        className="rise-in relative z-10 flex h-full flex-col items-center justify-end gap-7 px-4 pb-[16svh] text-center text-white sm:justify-center sm:gap-8 sm:pb-0 sm:pt-16"
+        className="rise-in relative z-10 flex h-full flex-col items-start justify-end gap-5 px-5 pb-9 text-left text-white sm:items-center sm:justify-center sm:gap-8 sm:px-4 sm:pb-0 sm:pt-16 sm:text-center"
       >
-        <h1 className="font-display text-[2.1rem] leading-tight drop-shadow-md sm:text-6xl md:text-7xl">
+        <h1 className="font-display text-[1.9rem] leading-[1.08] drop-shadow-md sm:text-6xl sm:leading-tight md:text-7xl">
           {active.headingLine1}
           {active.headingLine2 && (
             <>
               <br />
-              <span className="mt-3 inline-block rounded-xl border-[1.5px] border-gold bg-green/85 px-4 py-1 text-[clamp(1.5rem,8vw,1.9rem)] text-gold shadow-lg backdrop-blur-sm sm:rounded-2xl sm:border-2 sm:px-7 sm:py-2 sm:text-[length:inherit]">
+              <span className="inline-block text-gold sm:mt-3 sm:rounded-2xl sm:border-2 sm:border-gold sm:bg-green/90 sm:px-7 sm:py-2 sm:shadow-lg">
                 {active.headingLine2}
               </span>
             </>
           )}
         </h1>
-        {active.ctaLabel && <ShimmerLink href={active.ctaLink ?? '#'} label={active.ctaLabel} />}
+        {/* Clean gold-outline pill (the Canva CTA) — no shimmer or glow. */}
+        {active.ctaLabel && (
+          <div className="*:px-6 *:py-2.5 *:text-sm sm:*:px-8 sm:*:py-3.5 sm:*:text-base">
+            <CtaButton href={active.ctaLink ?? '#'} label={active.ctaLabel} gold />
+          </div>
+        )}
       </div>
     </section>
   )

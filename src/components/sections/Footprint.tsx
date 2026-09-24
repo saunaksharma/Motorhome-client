@@ -3,9 +3,17 @@ import React from 'react'
 import { SectionHeading } from '@/components/SectionHeading'
 import { getHomepage } from '@/lib/payload'
 
-// "Our Footprint" — three arched stat cards (design page 38) from `sm` up. On phones
-// the arches would stack into tall domes, so they become one compact green panel
-// with the stats split by thin gold lines.
+// A value like "India • Nepal • Bhutan • Tibet" is shown one item per line, as on the
+// client's previous site (INDIA / NEPAL / BHUTAN / TIBET).
+const lines = (value?: string | null) =>
+  (value ?? '')
+    .split(/\s*[•·|]\s*/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+
+// "Our Footprint" — three arched stat cards in one row at every size (design page 38 and
+// the previous site), just smaller on phones. A thin ring around each arch echoes the
+// old site's double-arch frame.
 export async function Footprint() {
   const home = await getHomepage()
   const stats = home?.footprint ?? []
@@ -15,15 +23,23 @@ export async function Footprint() {
     <section className="mx-auto max-w-[1100px] px-4 py-16">
       <SectionHeading title="OUR FOOTPRINT" />
 
-      <div className="mt-10 divide-y divide-gold/25 overflow-hidden rounded-3xl bg-green sm:grid sm:grid-cols-3 sm:gap-8 sm:divide-y-0 sm:overflow-visible sm:rounded-none sm:bg-transparent">
+      <div className="mt-10 grid grid-cols-3 items-end gap-3 sm:gap-8">
         {stats.map((stat, index) => (
-          <div key={index} className="px-6 py-6 text-center sm:p-0">
-            <div className="text-white sm:rounded-b-2xl sm:rounded-t-full sm:bg-green sm:px-6 sm:py-10">
-              <div className="font-display text-2xl uppercase tracking-wide text-gold">{stat.value}</div>
-              {stat.caption && <div className="mt-1 text-sm text-white/80 sm:mt-2">{stat.caption}</div>}
+          <div key={index} className="text-center">
+            <div className="flex min-h-[150px] flex-col items-center justify-center rounded-b-xl rounded-t-full bg-green px-2 pb-4 pt-9 text-white ring-1 ring-green/25 ring-offset-4 ring-offset-background sm:min-h-[230px] sm:rounded-b-2xl sm:px-6 sm:pb-10 sm:pt-16 sm:ring-offset-8">
+              {lines(stat.value).map((line) => (
+                <div key={line} className="font-display text-[15px] leading-tight uppercase tracking-wide text-gold sm:text-2xl">
+                  {line}
+                </div>
+              ))}
+              {stat.caption && (
+                <div className="mt-1.5 text-[10px] leading-snug uppercase tracking-wide text-white/80 sm:mt-3 sm:text-sm">
+                  {stat.caption}
+                </div>
+              )}
             </div>
             {stat.label && (
-              <div className="mt-2 font-heading text-xs uppercase tracking-[0.25em] text-white/60 sm:mt-3 sm:text-lg sm:tracking-wide sm:text-green">
+              <div className="mt-3 font-heading text-[10px] font-black uppercase leading-tight tracking-wide text-green sm:mt-4 sm:text-lg">
                 {stat.label}
               </div>
             )}

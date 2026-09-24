@@ -141,6 +141,24 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — Adria feel: row headers, split caravan cards, phone hero; Footprint
+- Studied adria-mobil.com live (desktop + 375px): product rows = title left + "all products"
+  link right, split cards (photo left / text right, 2 per view, next peeks), ‹ › under the row;
+  phone hero ≈ ¾ screen (620/812px, next section peeks), edge-to-edge, title bottom-left in two
+  bold lines, small outline button. No box behind hero text.
+- **`RowHeading`** (new): Adria row header for homepage Tours / Caravans / Innovations; the gold
+  "View All" pill under each row (`ViewAllLink`) is deleted.
+- **`SwipeRow wide`** → 2 per view on desktop; **`CaravanCard split`** → photo 42% left / text right
+  from sm up (homepage caravans row only; /caravans listing unchanged).
+- **Homepage hero on phones** = Adria: `h-[78svh]`, text bottom-left, gold line WITHOUT the box,
+  small outline CTA. Desktop still the client's Canva (full screen, centred, gold badge).
+- **Hero CTA:** Magic UI Shimmer button removed (user: "gold shadow line") → plain gold-outline
+  `CtaButton gold`. `ui/shimmer-link.tsx` + shimmer/spin keyframes deleted. Header "Book Now" hover
+  glow removed.
+- **Footprint:** client didn't like the phone panel → three arches in ONE row at every size (smaller
+  on phones), values split on "•" one per line (INDIA / NEPAL / …) like the old site, thin ring
+  around each arch (old site's double-arch frame).
+
 ### 2026-09-24 (day 5, cont.) — fonts like the old site, capitals (Adria feel), one-row sections
 - **Fonts = the client's previous site exactly:** Racing Sans One for every heading/title, Lato for
   everything else (old site: `h1–h6 { Racing Sans One }`, body Lato 300/400/700/900; checked its CSS).

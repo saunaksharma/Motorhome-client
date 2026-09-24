@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import React from 'react'
 
-import { relName } from '@/lib/utils'
+import { cn, relName } from '@/lib/utils'
 
 export type CaravanCardData = {
   id: number | string
@@ -20,7 +20,8 @@ export type CaravanCardData = {
 
 // A caravan card in the style of premium manufacturers (e.g. Adria): one calm tinted
 // panel, photo-led, left-aligned name + short line + compact specs, and two actions.
-export function CaravanCard({ caravan }: { caravan: CaravanCardData }) {
+// `split` (homepage row): photo left, text right from sm up — Adria's product slider card.
+export function CaravanCard({ caravan, split = false }: { caravan: CaravanCardData; split?: boolean }) {
   const image = typeof caravan.heroImage === 'object' ? (caravan.heroImage as { url?: string; alt?: string }) : null
   const className = relName(caravan.class)
   const href = caravan.slug ? `/caravans/${caravan.slug}` : '#'
@@ -31,8 +32,18 @@ export function CaravanCard({ caravan }: { caravan: CaravanCardData }) {
   ].filter(Boolean)
 
   return (
-    <article className="reveal group flex flex-col overflow-hidden rounded-3xl bg-green/[0.06] transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgb(13_71_63/0.45)]">
-      <Link href={href} className="relative block aspect-[16/10] overflow-hidden" tabIndex={-1} aria-hidden>
+    <article
+      className={cn(
+        'reveal group flex flex-col overflow-hidden rounded-3xl bg-green/[0.06] transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgb(13_71_63/0.45)]',
+        split && 'sm:flex-row',
+      )}
+    >
+      <Link
+        href={href}
+        className={cn('relative block aspect-[16/10] overflow-hidden', split && 'sm:aspect-auto sm:min-h-[340px] sm:w-[42%] sm:shrink-0')}
+        tabIndex={-1}
+        aria-hidden
+      >
         {image?.url ? (
           <Image
             src={image.url}
@@ -51,7 +62,7 @@ export function CaravanCard({ caravan }: { caravan: CaravanCardData }) {
         )}
       </Link>
 
-      <div className="flex flex-1 flex-col p-6 sm:p-7">
+      <div className={cn('flex flex-1 flex-col p-6 sm:p-7', split && 'sm:justify-center sm:p-7')}>
         <h3 className="font-display text-2xl tracking-wide text-green sm:text-3xl">
           <Link href={href} className="hover:text-green/80">
             {caravan.name}

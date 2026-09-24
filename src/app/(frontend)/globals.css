@@ -148,37 +148,9 @@ body {
 }
 
 /* ============================================================
-   Motion & effects. Shimmer is Magic UI (21st.dev) keyframes; Reveal is
-   Magic UI's Blur-Fade effect rebuilt in plain CSS (no `motion` dependency)
+   Motion & effects. Reveal is Magic UI's (21st.dev) Blur-Fade effect rebuilt in plain CSS (no `motion` dependency)
    to keep the site fast. Everything switches off under prefers-reduced-motion.
    ============================================================ */
-
-@theme {
-  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
-  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
-
-  @keyframes shimmer-slide {
-    to {
-      transform: translate(calc(100cqw - 100%), 0);
-    }
-  }
-  @keyframes spin-around {
-    0% {
-      transform: translateZ(0) rotate(0);
-    }
-    15%,
-    35% {
-      transform: translateZ(0) rotate(90deg);
-    }
-    65%,
-    85% {
-      transform: translateZ(0) rotate(270deg);
-    }
-    100% {
-      transform: translateZ(0) rotate(360deg);
-    }
-  }
-}
 
 html {
   scroll-behavior: smooth;
@@ -277,8 +249,6 @@ html {
   html {
     scroll-behavior: auto;
   }
-  .animate-shimmer-slide,
-  .animate-spin-around,
   .rise-in {
     animation: none !important;
   }

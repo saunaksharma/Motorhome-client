@@ -1,9 +1,8 @@
 import React from 'react'
 
-import { SectionHeading } from '@/components/SectionHeading'
+import { RowHeading } from '@/components/RowHeading'
 import { SwipeRow } from '@/components/SwipeRow'
 import { TourCard } from '@/components/TourCard'
-import { ViewAllLink } from '@/components/ViewAllLink'
 import { getPayloadClient } from '@/lib/payload'
 
 export async function FeaturedTours() {
@@ -20,15 +19,13 @@ export async function FeaturedTours() {
 
   return (
     <section className="mx-auto max-w-[1200px] px-4 py-16">
-      <SectionHeading title="TOURS" subtitle="Explore our curated tour packages" />
+      <RowHeading title="TOURS" subtitle="Explore our curated tour packages" href="/tours" linkLabel="View all tours" />
 
       <SwipeRow label="Featured tours">
         {docs.map((tour) => (
           <TourCard key={tour.id} tour={tour} />
         ))}
       </SwipeRow>
-
-      <ViewAllLink href="/tours" label="View All Tours" />
     </section>
   )
 }
