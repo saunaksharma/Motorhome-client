@@ -3,11 +3,13 @@ import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
 import { DetailHero } from '@/components/DetailHero'
+import { JsonLd } from '@/components/JsonLd'
 import { SectionHeading } from '@/components/SectionHeading'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
+import { siteURL } from '@/lib/siteUrl'
 import { relName } from '@/lib/utils'
 
 type Params = Promise<{ slug: string }>
@@ -42,8 +44,31 @@ export default async function TourDetailPage({ params }: { params: Params }) {
   const location = relName(tour.location)
   const itinerary = Array.isArray(tour.itinerary) ? tour.itinerary : []
 
+  // Search engines: this page describes a trip, with its day-by-day plan.
+  const heroUrl = typeof tour.heroImage === 'object' ? tour.heroImage?.url : null
+  const tripLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TouristTrip',
+    name: tour.name,
+    url: `${siteURL}/tours/${slug}`,
+    ...(tour.shortDescription && { description: tour.shortDescription }),
+    ...(heroUrl && { image: `${siteURL}${heroUrl}` }),
+    ...(itinerary.length > 0 && {
+      itinerary: {
+        '@type': 'ItemList',
+        itemListElement: itinerary.map((day, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: day.dayTitle,
+        })),
+      },
+    }),
+    provider: { '@type': 'TravelAgency', name: 'Motorhome Adventures', url: siteURL },
+  }
+
   return (
     <article>
+      <JsonLd data={tripLd} />
       <DetailHero
         image={tour.heroImage}
         eyebrow={location}

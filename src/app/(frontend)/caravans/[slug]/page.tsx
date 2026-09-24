@@ -4,6 +4,7 @@ import React, { cache } from 'react'
 
 import { DetailHero } from '@/components/DetailHero'
 import { IconFeatureList } from '@/components/IconFeatureList'
+import { JsonLd } from '@/components/JsonLd'
 import { PhotoGallery } from '@/components/PhotoGallery'
 import { RelatedContent } from '@/components/RelatedContent'
 import { Tabs } from '@/components/Tabs'
@@ -77,8 +78,21 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
     ...(hasAddOns ? [{ label: 'Add Ons+', content: addOns }] : []),
   ]
 
+  // Search engines: the FAQ answers shown on this page (only when there are some).
+  const faqs = Array.isArray(caravan.faqs) ? caravan.faqs : []
+  const faqLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+  }
+
   return (
     <article>
+      {faqs.length > 0 && <JsonLd data={faqLd} />}
       <DetailHero
         image={caravan.heroImage}
         eyebrow={className ? `${className} class` : undefined}
@@ -127,7 +141,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
         <div className="mt-16">
           <RelatedContent
-            faqs={Array.isArray(caravan.faqs) ? caravan.faqs : []}
+            faqs={faqs}
             videos={Array.isArray(caravan.relatedVideos) ? caravan.relatedVideos : []}
           />
         </div>

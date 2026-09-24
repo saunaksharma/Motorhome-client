@@ -5,6 +5,7 @@ import React from 'react'
 
 import config from '@/payload.config'
 import { siteURL } from '@/lib/siteUrl'
+import { JsonLd } from '@/components/JsonLd'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
@@ -95,11 +96,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${cinzel.variable} ${lato.variable}`}>
       <body>
-        <script
-          type="application/ld+json"
-          // Escape "<" so admin-entered text can't close the script tag.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
-        />
+        <JsonLd data={jsonLd} />
         <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
         <main>{children}</main>
         <SiteFooter data={footer} business={business} />
