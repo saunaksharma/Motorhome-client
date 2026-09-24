@@ -155,22 +155,6 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
-### 2026-09-24 (day 5, cont.) — scroll effects on phones (incl. older iPhones)
-- User: "mobile has no scroll effects like desktop". Two causes: (1) Our Story on phones was a
-  plain column; (2) `.reveal` fade-ups + the caravan ZoomCollage use CSS scroll-driven animations,
-  which iPhones only support from iOS 26 → nothing moved on older iPhones.
-- Our Story on phones: the same pinned, crossfading photo as a strip under the top bar (`sticky
-  top-[76px]`, white band + fade below). Photos are matched by `data-photo={index}` (a phone AND a
-  desktop panel exist).
-- `ScrollFallback` (in layout) — only when `CSS.supports('animation-timeline: view()')` is false
-  and motion isn't reduced: adds `html.no-sda`, reveals `.reveal/.reveal-bar` via
-  IntersectionObserver (+ MutationObserver for client navigation).
-- `CollageDriver` (inside ZoomCollage) — same condition: sets `data-js` (280vh + sticky) and drives
-  grid scale / intro / film / shade / text from scroll with the same ranges as the CSS.
-- Tested in headless Chrome with CSS.supports faked false + the CSS animations disabled
-  (`scratchpad/test-fallback.mjs`): reveals 6/6, collage 1→0.64→0.29 pinned, story strip pinned
-  + photo per chapter. (Chrome can no longer turn the feature off via --disable-blink-features.)
-
 ### 2026-09-24 (day 5, cont.) — card buttons cut off on Android
 - On 360px Android phones (iPhones are 390) the homepage row cards' "ENQUIRE" button ran ~20px
   past the card edge (also /caravans at 320px). Caravan + Innovation cards: phone-only compact
