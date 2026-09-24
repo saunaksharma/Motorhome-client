@@ -406,16 +406,14 @@ html {
 .story-photo:first-child {
   opacity: 1;
 }
-/* Dim the chapters you're not reading — desktop only. On phones the pinned photo sits on
-   top, so the text being read is mostly the next chapter's: dimming it read as text going
-   white and "glitching" back (reported on iPhone). Phones keep all text at full strength. */
+/* Dimming is laptop-only: on phones the text stays still (user: scroll effects glitch there). */
 @media (min-width: 1024px) {
   .story-scroll[data-ready] .story-chapter:not([data-on]) .story-copy {
     opacity: 0.3;
   }
-}
-.story-scroll[data-ready] .story-chapter:not([data-on]) .story-node::after {
-  opacity: 0;
+  .story-scroll[data-ready] .story-chapter:not([data-on]) .story-node::after {
+    opacity: 0;
+  }
 }
 .story-scroll[data-ready] .story-photo {
   opacity: 0;
@@ -431,36 +429,6 @@ html {
   .story-photo {
     transition: none;
   }
-}
-
-/* Backups for browsers without scroll-driven animations (iPhones before iOS 26).
-   `no-sda` is set on <html> by ScrollFallback; `data-js` on a collage by CollageDriver. */
-html.no-sda .reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition:
-    opacity 0.7s ease,
-    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-html.no-sda .reveal-bar {
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-html.no-sda .reveal[data-in],
-html.no-sda .swipe-track .reveal {
-  opacity: 1;
-  transform: none;
-}
-html.no-sda .reveal-bar[data-in] {
-  transform: none;
-}
-.collage[data-js] {
-  height: 280vh;
-}
-.collage[data-js] .collage-stage {
-  position: sticky;
-  top: 0;
 }
 
 /* Hero headline entrance, replayed on each slide change (keyed in React). */

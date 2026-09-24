@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
 
-import { CollageDriver } from '@/components/CollageDriver'
 import { CtaButton } from '@/components/CtaButton'
 
 type Photo = { url: string; alt?: string | null }
@@ -37,7 +36,6 @@ export function ZoomCollage({
 
   return (
     <section className="collage relative bg-[#0a0e0d]">
-      <CollageDriver />
       <div className="collage-stage relative h-[100svh] overflow-hidden">
         <div className="collage-grid grid grid-cols-3 grid-rows-3">
           {tiles.map((photo, i) => (

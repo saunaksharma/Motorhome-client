@@ -155,6 +155,17 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — phone scroll effects REMOVED (user decision)
+- User on iPhone: the phone scroll effect "looks very bad and still glitching — just remove it".
+  Reverted 1af4f5a + 3d09cc8: no pinned story strip, no ScrollFallback, no CollageDriver
+  (code = 3a675c1). Also the Our Story chapter dimming is now laptop-only (`min-width: 1024px`),
+  so on phones Our Story is plain, still text + a photo per chapter. Desktop unchanged.
+  Untouched (existed before): card fade-ups, caravan-page collage, swipe-row focus.
+- Don't re-add phone scroll effects unless the user asks.
+- ⚠️ Stopping the `npm start` background task can leave `next-server` holding port 3000 → the next
+  `npm start` fails (EADDRINUSE) and tests hit the stale server (no JS hydration). Kill the process
+  listening on 3000 before rebuilding/restarting.
+
 ### 2026-09-24 (day 5, cont.) — phone scroll effects: iPhone bug, revert, fix, tested on device
 - First push broke on the user's iPhone (latest iOS): text "went white and glitched back" in Our
   Story. Cause: the desktop "dim inactive chapters to .3" also ran on phones; with the photo pinned
