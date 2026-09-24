@@ -8,7 +8,8 @@ export type Highlight = { label: string; value?: string | null }
 
 // Header for caravan / tour / innovation pages, after premium product pages (Adria):
 // a big photo with the name over it, then the quick facts + main action.
-//   sm and up — the facts sit in a white bar overlapping the photo's foot.
+//   The photo fills the first screen below the top bar on every device.
+//   sm and up — the facts sit in a white bar overlapping the photo's foot (inside that first screen).
 //   phones    — no floating box: the name sits low on a deeper fade, and the facts
 //               follow as a clean two-column list with hairlines and a full-width button.
 // The photo is cropped around the focal point set in the admin (Media → focal point).
@@ -34,7 +35,7 @@ export function DetailHero({
 
   return (
     <header className="px-3 sm:px-4">
-      <div className="relative flex h-[62svh] min-h-[400px] max-h-[640px] items-end overflow-hidden rounded-3xl pattern-green sm:h-[58svh] sm:min-h-[380px]">
+      <div className="relative flex h-[calc(100svh-104px)] min-h-[440px] max-h-[900px] items-end overflow-hidden rounded-3xl pattern-green">
         {photo?.url && (
           <Image
             src={photo.url}
@@ -51,7 +52,7 @@ export function DetailHero({
           aria-hidden
           className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 via-45% to-transparent sm:from-black/75 sm:via-black/20 sm:via-50%"
         />
-        <div className="relative mx-auto w-full max-w-[1100px] px-5 pb-7 sm:px-6 sm:pb-20">
+        <div className="relative mx-auto w-full max-w-[1100px] px-5 pb-7 sm:px-6 sm:pb-36">
           {eyebrow && (
             <p className="rise-in font-heading text-xs uppercase tracking-[0.3em] text-white/85 sm:text-sm">{eyebrow}</p>
           )}
@@ -61,7 +62,7 @@ export function DetailHero({
         </div>
       </div>
 
-      <div className="relative mx-auto mt-6 max-w-[1100px] px-2 sm:-mt-12 sm:px-6">
+      <div className="relative mx-auto mt-6 max-w-[1100px] px-2 sm:-mt-28 sm:px-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:rounded-2xl sm:bg-white sm:p-6 sm:px-8 sm:shadow-[0_18px_40px_-20px_rgb(13_71_63/0.35)]">
           {facts.length > 0 && (
             <dl className="grid flex-1 grid-cols-2 gap-x-6 gap-y-4 sm:flex sm:flex-wrap sm:gap-x-10">

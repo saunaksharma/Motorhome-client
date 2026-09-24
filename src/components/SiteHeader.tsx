@@ -58,7 +58,8 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
             'mx-auto max-w-[1240px] rounded-2xl border transition-all duration-500',
             solid
               ? 'border-gold/25 bg-green/90 shadow-[0_10px_30px_-10px_rgb(0_0_0/0.45)] backdrop-blur-md'
-              : 'border-white/15 bg-black/15 backdrop-blur-[2px]',
+              : // Over the homepage photo: dark frosted glass so the logo and menu stay readable on bright photos.
+                'border-white/15 bg-black/30 shadow-[0_10px_30px_-12px_rgb(0_0_0/0.35)] backdrop-blur-md',
           )}
         >
           <div className={cn('flex items-center justify-between gap-4 px-4 transition-all duration-500', solid ? 'h-16' : 'h-20')}>
@@ -154,8 +155,10 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
           </div>
         </div>
       </header>
-      {/* Pages other than home start below the floating bar. */}
-      {!isHome && <div aria-hidden className="h-[92px]" />}
+      {/* Pages start below the floating bar. Always rendered: the shared layout is pre-built
+          without knowing the page, so a homepage check here put a cream gap above the homepage
+          hero. The homepage hero instead pulls itself up under the bar (-mt-[92px]). */}
+      <div aria-hidden className="h-[92px]" />
     </>
   )
 }

@@ -141,6 +141,17 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — heroes fill the first screen; header gap bug
+- **Bug:** a cream 92px strip sat above the homepage hero on the LIVE site, so the see-through
+  bar showed on cream and looked washed out. Cause: `SiteHeader` rendered its spacer only when
+  `usePathname() !== '/'`, but the shared layout is pre-built without the page's pathname → the
+  spacer was always in the homepage HTML. Fix: spacer ALWAYS rendered; the homepage hero pulls
+  itself up under the bar with `-mt-[92px]`. Don't gate layout on `usePathname()` in the layout.
+- Homepage hero = `h-[100svh]` (max 1000px) on every device (was 78svh on phones).
+- `DetailHero` photo = `h-[calc(100svh-104px)]` (fills the screen under the bar); on sm+ the facts
+  bar overlaps by `-mt-28` and the title sits `pb-36` so both are inside the first screen.
+- Header over the homepage photo: dark frosted glass (`bg-black/30 backdrop-blur-md` + shadow).
+
 ### 2026-09-24 (day 5, cont.) — footer film darker; hero order
 - Footer film: the old site's `black/40` was too light for the client ("you haven't added a black
   film") → gradient `black/70 → /60 → /85` + faint top sheen.
