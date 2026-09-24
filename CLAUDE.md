@@ -126,9 +126,31 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - **Contact page** shows Business Details (phone/WhatsApp/email/hours/address→map); empty ones hidden.
 - **Booking form**: `type="tel"` + autocomplete hints. **Reviews** photos → next/image.
 - **JSON-LD** `TravelAgency` in the layout from Business Details + footer socials.
-- Review backlog (not done, need client/decisions): Build Your Own is a placeholder; 3 filler blog
-  posts; no default share image; no prices on cards; no analytics; "Share Your Experience" opens the
-  booking form; footer tagline hardcodes "since 1993" (`SiteFooter.tsx`) — confirm with client.
+- Review backlog (not done, need client/decisions): 3 filler blog posts; no prices on cards; no
+  analytics; "Share Your Experience" opens the booking form.
+
+### 2026-09-24 (day 5, cloud session, cont.) — client-presentation polish pass
+- ⚠️ Branch was cut before 11 newer commits on main (Cinzel headings, new footer, Rivian-style caravan
+  collage…, not logged here) → rebased onto main; those commits = the live, preferred design.
+- **Cloud audit setup:** Playwright in scratchpad; Chromium needs the proxy CA in NSS
+  (`certutil -A -d sql:/root/.pki/nssdb -n ccr-agent-proxy -t "C,," -i /root/.ccr/agent-proxy-ca.crt`)
+  AND `proxy: { server: process.env.HTTPS_PROXY }` + `--disable-quic`. Random 502s on images/fonts in
+  the crawl were the proxy (all 200 via curl). Branch previews build on Vercel (GitHub status
+  "Vercel") but sit behind Vercel Authentication.
+- **Audit (live, 60 pages × 390/430/1024/1280/1440):** all 200, 0 sideways scroll, 0 real broken
+  images/links. LCP ≈1.5s, CLS ≈0. Phone homepage 2.4 MB of which ~2 MB = 7 full-size review
+  photos (fixed by the next/image change above).
+- **SEO:** `SectionHeading as="h1"` on 8 listing/utility pages (had no H1); canonical on every route
+  (`pageMetadata` now needs `path`); own descriptions for listing pages, CMS pages use `plainText(body)`;
+  layout `generateMetadata` → default share image = first active hero slide + large Twitter card.
+  `components/JsonLd` (escaped) → TravelAgency (layout), TouristTrip (tours), FAQPage (caravans w/ FAQs).
+- **Conversion:** hero CTA = solid gold (`CtaButton solid`) + subordinate "Explore our caravans →"
+  (or tours when the CTA already goes to caravans); `ClosingCta` card at the end of caravan / tour /
+  innovation pages (same label+link as the header CTA); /build shows the Innovations as "Built by us".
+- **Other:** `(frontend)/error.tsx` (Next 16 prop is `retry`, not `reset`); gold `:focus-visible` ring
+  + skip link; WhatsApp button 48px/tucked on phones; Lato 300 dropped (unused).
+- Verified: tsc, eslint (same pre-existing SiteHeader error only), Vercel preview production build ✅.
+  NOT screenshot-verified after the change (preview login wall) — user checks the preview.
 
 ### 2026-09-22 (day 3, cont.) — real tour content + hero polish
 - **Hero redesigned to match the reference/Canva exactly:** removed dots + prev/next arrows,
