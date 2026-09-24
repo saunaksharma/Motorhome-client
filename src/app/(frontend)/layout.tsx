@@ -96,9 +96,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${cinzel.variable} ${lato.variable}`}>
       <body>
+        {/* First Tab stop: jump past the menu straight to the page content. */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-gold focus:px-5 focus:py-2.5 focus:font-heading focus:text-sm focus:font-semibold focus:uppercase focus:tracking-wider focus:text-green"
+        >
+          Skip to content
+        </a>
         <JsonLd data={jsonLd} />
         <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
-        <main>{children}</main>
+        <main id="main">{children}</main>
         <SiteFooter data={footer} business={business} />
         <WhatsAppButton number={business?.whatsapp} />
       </body>
