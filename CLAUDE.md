@@ -141,6 +141,23 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — footer copied 1:1 from the old site
+- `SiteFooter` rebuilt from the old `includes/footer.html` measurements: same photo (our
+  footer-bg.jpg == old FOOTER.png, compared) under `bg-black/40`, `#1a4d3e` fallback,
+  min-h 500px; centred logo (5.5rem) + Cinzel gold brand (clamp 1.2–2rem, tracking .2em);
+  columns auto-fit minmax(250px) gap 40px, h3 bold uppercase white on a 2px `#D4AF37` rule,
+  links white uppercase 14px with an icon (lucide, picked from the label — `LINK_ICONS`),
+  hover gold + translateX(5px); socials centred, gap 30px, border-top 2px gold/30; copyright
+  above a 1px white/20 rule. Mobile sizes from its media queries.
+- Newsletter is now its own `pattern-green` band ABOVE the footer (old footer had none).
+- Footer global columns set to the old site's: Useful Pages (Home, Tours, Caravans, Innovation,
+  Blog) / Help Centre (Terms, Cancellation Policy, Privacy, Tips, + FAQ, Returning Customer
+  Benefits so those pages stay linked) / Visit Headquarters (Book Your Visit) / Partner
+  Programme (Collaborations, B2B, + Partner With Us). Old "Site Map" was a dead `#` link — omitted.
+- New Pages entry **Cancellation Policy** (`/cancellation-policy`, placeholder like Terms).
+  Homepage Tips section got `id="tips"` for the footer link.
+- "Reach Us" column only shows when phone/email/address are filled (WhatsApp has its button).
+
 ### 2026-09-24 (day 5, cont.) — footer like the old site (black film)
 - Old footer (`includes/footer.html`): FOOTER.png under `rgba(0,0,0,.4)`, centred logo + Cinzel gold
   MOTORHOME ADVENTURES, columns with bold white uppercase h3 + `border-bottom: 2px #D4AF37`, white

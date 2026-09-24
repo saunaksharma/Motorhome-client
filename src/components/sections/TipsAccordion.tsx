@@ -19,7 +19,7 @@ export async function TipsAccordion() {
   if (docs.length === 0) return null
 
   return (
-    <section className="pattern-green py-16">
+    <section id="tips" className="pattern-green scroll-mt-24 py-16">
       <div className="mx-auto max-w-[1000px] px-4">
         <div className="mb-10 flex items-center justify-center gap-3">
           <Lightbulb className="size-8 text-gold" />
