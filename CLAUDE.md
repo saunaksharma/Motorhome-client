@@ -155,6 +155,16 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-25 (day 6) — phone heroes back to FULL-SCREEN (final, user-approved)
+- After the 78svh/62svh restore below, the user: "photos have gotten smaller again… mobile; fine
+  for the desktop". Their earlier "too big and getting cut" was about the photo crop, not the box.
+- FINAL sizes — PHONES: homepage hero `h-[100svh] max-h-[1000px] min-h-[560px]` (text `pb-12`);
+  `DetailHero` photo `h-[calc(100svh-104px)] min-h-[440px] max-h-[900px]`. DESKTOP (unchanged, "fine"):
+  homepage `100svh` (`sm:min-h-[600px]`); DetailHero `sm:h-[58svh] sm:min-h-[380px] sm:max-h-[640px]`,
+  title `sm:pb-20`, facts bar `sm:-mt-12`. Tested on the user's iPhone via tunnel.
+- RULE: don't resize heroes unless asked. If a photo looks "cut", ask which photo and fix only its
+  crop (admin focal point), showing options first.
+
 ### 2026-09-24 (day 5, cont.) — hero sizes restored + full mobile/desktop audit (tested on iPhone)
 - **"All the heroes look too big / cut"**: the cream-gap fix (226763e) had ALSO made every hero
   full-screen. Restored the approved sizes: homepage phones `h-[78svh] min-h-[520px]` (text `pb-9`),

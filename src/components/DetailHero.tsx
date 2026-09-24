@@ -8,6 +8,7 @@ export type Highlight = { label: string; value?: string | null }
 
 // Header for caravan / tour / innovation pages, after premium product pages (Adria):
 // a big photo with the name over it, then the quick facts + main action.
+//   phones    — the photo fills the first screen below the top bar (client's choice).
 //   sm and up — the facts sit in a white bar overlapping the photo's foot.
 //   phones    — no floating box: the name sits low on a deeper fade, and the facts
 //               follow as a clean two-column list with hairlines and a full-width button.
@@ -37,7 +38,7 @@ export function DetailHero({
 
   return (
     <header className="px-3 sm:px-4">
-      <div className="relative flex h-[62svh] min-h-[400px] max-h-[640px] items-end overflow-hidden rounded-3xl pattern-green sm:h-[58svh] sm:min-h-[380px]">
+      <div className="relative flex h-[calc(100svh-104px)] min-h-[440px] max-h-[900px] items-end overflow-hidden rounded-3xl pattern-green sm:h-[58svh] sm:min-h-[380px] sm:max-h-[640px]">
         {photo?.url && (
           <Image
             src={photo.url}

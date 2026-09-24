@@ -24,9 +24,9 @@ const AUTOPLAY_MS = 6000
 // (finger on phones, click-and-drag on laptops) to go to the next/previous slide; the
 // autoplay timer restarts after each change. Vertical page scrolling is untouched.
 // Desktop follows the Canva: full screen, text centred, gold line in a green badge.
-// Phones follow Adria's mobile hero: ~¾ of the screen (the next section peeks in; a full-
-// height crop cut too much of the photos), text bottom-left in two bold lines (the gold
-// line without a box) and a small outline button.
+// Phones follow Adria's mobile hero layout — text bottom-left in two bold lines (the gold
+// line without a box) and a small outline button. Fills the first screen on every size
+// (the client's choice — a ¾-height version was rejected as "too small").
 export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
   const [current, setCurrent] = useState(0)
   const count = slides.length
@@ -56,7 +56,7 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
 
   return (
     <section
-      className="relative -mt-[92px] h-[78svh] min-h-[520px] w-full touch-pan-y select-none overflow-hidden sm:h-[100svh] sm:max-h-[1000px] sm:min-h-[600px]"
+      className="relative -mt-[92px] h-[100svh] max-h-[1000px] min-h-[560px] w-full touch-pan-y select-none overflow-hidden sm:min-h-[600px]"
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       onPointerCancel={() => (startX.current = null)}
@@ -95,7 +95,7 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
       {/* Foreground text for the active slide — keyed so it rises in on every change. */}
       <div
         key={current}
-        className="rise-in relative z-10 flex h-full flex-col items-start justify-end gap-5 px-5 pb-9 text-left text-white sm:items-center sm:justify-center sm:gap-8 sm:px-4 sm:pb-0 sm:pt-16 sm:text-center"
+        className="rise-in relative z-10 flex h-full flex-col items-start justify-end gap-5 px-5 pb-12 text-left text-white sm:items-center sm:justify-center sm:gap-8 sm:px-4 sm:pb-0 sm:pt-16 sm:text-center"
       >
         <h1 className="font-display text-[1.9rem] leading-[1.08] drop-shadow-md sm:text-6xl sm:leading-tight md:text-7xl">
           {active.headingLine1}
