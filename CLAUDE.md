@@ -155,6 +155,20 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — real legal pages + contact details from motorhome.co.in
+- **motorhome.co.in = the client's CURRENT live site** (PHP, by Weblook Services) — real content,
+  unlike the hostinger build's filler. User: take privacy policy / details from it freely.
+- Copied (temp route, deleted): **Privacy Policy, Terms & Conditions** (headings + lists rebuilt,
+  only spacing typos fixed), **Cancellation Policy** (= the terms' cancellation clause), NEW
+  **Disclaimer** page (`/disclaimer`, linked in the footer after Privacy). **Business Details:**
+  email contact@motorhome.co.in, phone +91 85879 04639 (the other number, 98710 63984, is
+  "scheduled calls only" → stays WhatsApp), address = caravan building workshop, Sonipat.
+  Source text kept in `scratchpad/live/*.txt` for this session.
+- Flag to client: About there says "Established in 1998" vs our "since 1993"; the privacy text
+  cites the UK "Data Protection Act 1998" and an opt-out tick box our forms don't have; Twitter
+  (@motorhomea) not added to socials. Next candidate: their ~10 real blog posts (RSS
+  `/rss-feeds.php`, pages `page.php?id=11…21`) to replace our 3 filler posts + Collaborations copy.
+
 ### 2026-09-24 (day 5, cont.) — phone scroll effects REMOVED (user decision)
 - User on iPhone: the phone scroll effect "looks very bad and still glitching — just remove it".
   Reverted 1af4f5a + 3d09cc8: no pinned story strip, no ScrollFallback, no CollageDriver
@@ -792,8 +806,8 @@ Every content collection carries `listingMeta` (sortOrder, featured, active).
     to tick their features in the admin. All features share one placeholder icon — client to upload icons.
 13. **Old customer messages (13) + appointments (11)** in the previous backend were not migrated
     (personal data). Does the client want them copied into Enquiries?
-14. **Contact details:** only WhatsApp is real so far; phone/email/address still needed (the old
-    backend's contact block was fake filler).
+14. ~~**Contact details**~~ → filled from motorhome.co.in (email, phone, workshop address). Client to
+    confirm which number to show and whether to add the Delhi office address / opening hours.
 
 ---
 
