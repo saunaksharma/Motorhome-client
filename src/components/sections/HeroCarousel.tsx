@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { getPayloadClient } from '@/lib/payload'
+import { focalPosition } from '@/lib/utils'
 import { HeroCarouselClient, type HeroSlide } from './HeroCarouselClient'
 
 // Loads the active hero slides (in sort order) and renders the carousel.
@@ -23,6 +24,7 @@ export async function HeroCarousel() {
       ctaLink: slide.ctaLink,
       imageUrl: image?.url ?? null,
       imageAlt: image?.alt ?? null,
+      imagePosition: focalPosition(image),
     }
   })
 

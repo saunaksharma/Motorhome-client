@@ -4,6 +4,7 @@ import React from 'react'
 
 import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
+import { focalPosition } from '@/lib/utils'
 
 export const metadata = { title: 'Gallery' }
 
@@ -27,29 +28,34 @@ export default async function GalleryPage() {
       {docs.length > 0 ? (
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {docs.map((gallery) => {
-            const first = Array.isArray(gallery.images) ? gallery.images[0] : null
+            const photos = Array.isArray(gallery.images) ? gallery.images : []
+            const first = photos[0]
             const image = first && typeof first.image === 'object' ? first.image : null
+            // Album card in the tour-card style: photo-led, title + photo count on a soft fade.
             return (
               <Link
                 key={gallery.id}
                 href={`/gallery/${gallery.slug}`}
-                className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition hover:shadow-md"
+                className="reveal group relative block aspect-[4/5] overflow-hidden rounded-3xl bg-green/10 sm:aspect-[4/3]"
               >
-                <div className="relative aspect-[4/3]">
-                  {image?.url ? (
-                    <Image
-                      src={image.url}
-                      alt={image.alt ?? gallery.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 33vw"
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-gradient-to-br from-green/15 to-gold/15" />
-                  )}
-                </div>
-                <div className="p-5 text-center">
-                  <h3 className="font-display text-xl italic text-green">{gallery.title}</h3>
+                {image?.url ? (
+                  <Image
+                    src={image.url}
+                    alt={image.alt ?? gallery.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    style={{ objectPosition: focalPosition(image) }}
+                  />
+                ) : (
+                  <div className="pattern-green h-full w-full" />
+                )}
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6">
+                  <p className="font-heading text-xs uppercase tracking-[0.25em] text-gold">
+                    {photos.length} {photos.length === 1 ? 'photo' : 'photos'}
+                  </p>
+                  <h3 className="mt-1 font-heading text-2xl font-semibold tracking-wide text-white">{gallery.title}</h3>
                 </div>
               </Link>
             )

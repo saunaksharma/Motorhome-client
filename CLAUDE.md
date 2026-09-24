@@ -141,6 +141,32 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — mobile audit: headers, hero, gallery, nav
+- **Audit method:** production build on :3000, pages checked at 375 / 390 / 414 / 768 + 1024 desktop;
+  scripted sweep (iframes per width) for page-level sideways scroll + text spilling out of its box
+  → 0 issues on 17 pages × 4 widths. Crawl 59 pages / 0 broken links / 0 broken images.
+- ⚠️ **Review gotcha:** the browser pane is often *hidden* → `document.hidden` → CSS animations stay
+  paused at frame 0, so `.rise-in` titles/hero text look faded/invisible in screenshots. Not a bug.
+  For review inject `*{animation:none!important;transition:none!important}`. Lazy images also don't load there.
+- **`DetailHero` (caravan/tour/innovation) on phones:** no floating white box any more — name sits low
+  on a deeper fade (`text-[2.6rem]`, text-balance), facts follow as a 2-col list with hairlines, long
+  values (tour route, >22 chars) take a full row, full-width CTA. From `sm` up unchanged (white bar
+  overlapping the photo).
+- **Focal points:** new `focalPosition(media)` in `lib/utils` → `object-position` from the Media focal
+  point the client can click in the admin. Used by the homepage hero, DetailHero and album covers —
+  tall phone crops keep the subject in frame.
+- **Homepage hero on phones:** text in the lower third (`justify-end pb-[16svh]`), "HOME AWAY HOME"
+  badge is a slim single line (`clamp(1.5rem,8vw,1.9rem)`, 1.5px border) instead of a 2-line box;
+  desktop still the Canva (centred). Hero photos are 4000px but heavily compressed (525 KB) → look
+  soft on tall phone crops; client should upload sharper originals / set focal points.
+- **`PageBanner`** (About + CMS pages): inset + rounded like the photo headers, compact on phones.
+- **`GalleryGrid`** (album pages, caravan/innovation Photo Gallery, Tales & Snaps): mosaic — phones
+  wide/square/square rhythm (lone last photo goes wide), sm+ first photo a 2×2 feature, columns adapt
+  to count (3 photos → 3 cols, fills exactly). Lightbox: counter, ✕, prev/next (sm+), swipe, ←/→/Esc,
+  caption or "Swipe for more", body scroll locked, taps on the photo don't close it. Verified in browser.
+- **/gallery** album cards → tour-card style (photo, title + "N photos" on a fade).
+- **Nav:** items wrapped to 2 lines at 1024–1090px → `whitespace-nowrap` + tighter spacing below xl.
+
 ### 2026-09-24 (day 5) — LIVE on Vercel + phone swipe rows + Footprint
 - **Hosted on Vercel** (project `motorhome-client`, team `saunak`, Hobby plan, connected to the GitHub
   repo → every push to main auto-deploys). Site https://motorhome-client.vercel.app, admin `/admin`.

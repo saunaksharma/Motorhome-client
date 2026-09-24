@@ -13,11 +13,16 @@ export type HeroSlide = {
   ctaLink?: string | null
   imageUrl?: string | null
   imageAlt?: string | null
+  // CSS object-position from the photo's focal point (set in the admin) — keeps the
+  // subject in frame on tall phone crops.
+  imagePosition?: string
 }
 
 const AUTOPLAY_MS = 6000
 
-// Full-bleed hero carousel: crossfades slides, auto-advances, arrows + dots.
+// Full-bleed hero carousel: crossfades slides and auto-advances (no controls).
+// Desktop follows the Canva: text centred. Phones: text sits in the lower part so the
+// photo reads, and the gold badge is a slim single line instead of a wide box.
 export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
   const [current, setCurrent] = useState(0)
   const count = slides.length
@@ -52,6 +57,7 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
               priority={index === 0}
               sizes="100vw"
               className="hero-zoom object-cover"
+              style={{ objectPosition: slide.imagePosition }}
             />
           ) : (
             <div className="pattern-green hero-zoom h-full w-full" />
@@ -60,19 +66,19 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
       ))}
 
       {/* Soft top-to-bottom scrim: keeps the text crisp without hiding the photo. */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/55" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/15 to-black/70 sm:to-black/55" />
 
       {/* Foreground text for the active slide — keyed so it rises in on every change. */}
       <div
         key={current}
-        className="rise-in relative z-10 flex h-full flex-col items-center justify-center gap-8 px-4 pt-16 text-center text-white"
+        className="rise-in relative z-10 flex h-full flex-col items-center justify-end gap-7 px-4 pb-[16svh] text-center text-white sm:justify-center sm:gap-8 sm:pb-0 sm:pt-16"
       >
-        <h1 className="font-display text-4xl italic drop-shadow-md sm:text-6xl md:text-7xl">
+        <h1 className="font-display text-[2.1rem] leading-tight italic drop-shadow-md sm:text-6xl md:text-7xl">
           {active.headingLine1}
           {active.headingLine2 && (
             <>
               <br />
-              <span className="mt-3 inline-block rounded-2xl border-2 border-gold bg-green/90 px-7 py-2 text-gold shadow-lg">
+              <span className="mt-3 inline-block rounded-xl border-[1.5px] border-gold bg-green/85 px-4 py-1 text-[clamp(1.5rem,8vw,1.9rem)] text-gold shadow-lg backdrop-blur-sm sm:rounded-2xl sm:border-2 sm:px-7 sm:py-2 sm:text-[length:inherit]">
                 {active.headingLine2}
               </span>
             </>

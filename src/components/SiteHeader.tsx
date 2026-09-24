@@ -87,14 +87,15 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
                   key={item.label}
                   href={item.link}
                   className={cn(
-                    'group relative px-2.5 py-2 font-heading text-[13px] uppercase tracking-[0.12em] transition-colors',
+                    // Tighter at lg so all 8 items fit on one line down to 1024px (iPad landscape).
+                    'group relative whitespace-nowrap px-1.5 py-2 font-heading text-[12px] uppercase tracking-[0.08em] transition-colors xl:px-2.5 xl:text-[13px] xl:tracking-[0.12em]',
                     isActive(item.link) ? 'text-gold' : 'text-white/90 hover:text-gold',
                   )}
                 >
                   {item.label}
                   <span
                     className={cn(
-                      'absolute inset-x-2.5 -bottom-0.5 h-px origin-center bg-gold transition-transform duration-300',
+                      'absolute inset-x-1.5 -bottom-0.5 h-px origin-center bg-gold transition-transform duration-300 xl:inset-x-2.5',
                       isActive(item.link) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
                     )}
                   />
