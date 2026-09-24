@@ -2,6 +2,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
+import { ClosingCta } from '@/components/ClosingCta'
 import { DetailHero } from '@/components/DetailHero'
 import { JsonLd } from '@/components/JsonLd'
 import { SectionHeading } from '@/components/SectionHeading'
@@ -66,6 +67,8 @@ export default async function TourDetailPage({ params }: { params: Params }) {
     provider: { '@type': 'TravelAgency', name: 'Motorhome Adventures', url: siteURL },
   }
 
+  const enquire = `/contact?destination=${encodeURIComponent(tour.name)}`
+
   return (
     <article>
       <JsonLd data={tripLd} />
@@ -79,7 +82,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
           { label: 'Style', value: tour.category },
           { label: 'Route', value: tour.routeLabel },
         ]}
-        cta={{ href: `/contact?destination=${encodeURIComponent(tour.name)}`, label: tour.ctaLabel ?? 'Reserve Your Ride' }}
+        cta={{ href: enquire, label: tour.ctaLabel ?? 'Reserve Your Ride' }}
       />
 
       <div className="mx-auto max-w-[1100px] px-4 py-12">
@@ -115,6 +118,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
 
         <TalesAndSnaps tales={tour.tales ? [tour.tales] : []} snaps={tour.snaps ? [tour.snaps] : []} />
       </div>
+      <ClosingCta name={tour.name} href={enquire} label={tour.ctaLabel ?? 'Reserve Your Ride'} />
     </article>
   )
 }

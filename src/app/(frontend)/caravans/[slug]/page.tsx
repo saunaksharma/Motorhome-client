@@ -2,6 +2,7 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
+import { ClosingCta } from '@/components/ClosingCta'
 import { DetailHero } from '@/components/DetailHero'
 import { IconFeatureList } from '@/components/IconFeatureList'
 import { JsonLd } from '@/components/JsonLd'
@@ -90,6 +91,8 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
     })),
   }
 
+  const enquire = `/contact?destination=${encodeURIComponent(caravan.name)}`
+
   return (
     <article>
       {faqs.length > 0 && <JsonLd data={faqLd} />}
@@ -103,7 +106,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
           { label: 'Based in', value: relName(caravan.baseLocation) },
           { label: 'Base vehicle', value: caravan.baseVehicle },
         ]}
-        cta={{ href: `/contact?destination=${encodeURIComponent(caravan.name)}`, label: 'Go Caravanning!' }}
+        cta={{ href: enquire, label: 'Go Caravanning!' }}
       />
 
       {caravan.description && (
@@ -146,6 +149,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
           />
         </div>
       </div>
+      <ClosingCta name={caravan.name} href={enquire} label="Go Caravanning!" />
     </article>
   )
 }
