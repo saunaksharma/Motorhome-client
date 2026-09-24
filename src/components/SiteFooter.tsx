@@ -63,7 +63,7 @@ const LINK_ICONS: [RegExp, LucideIcon][] = [
 const linkIcon = (label: string) => LINK_ICONS.find(([re]) => re.test(label))?.[1] ?? ChevronRight
 
 // Footer copied from the client's previous site (includes/footer.html): the footer photo
-// under a 40% black film; centred logo + MOTORHOME ADVENTURES (Cinzel gold); link columns
+// under a black film; centred logo + MOTORHOME ADVENTURES (Cinzel gold); link columns
 // with bold white headings on a 2px gold rule and white capital links with an icon (gold +
 // nudge right on hover); a centred row of social icons above a thin gold line; copyright.
 // The newsletter is its own band above (the old footer had none). All of it is edited in
@@ -91,7 +91,13 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
 
       <footer className="relative min-h-[500px] bg-[#1a4d3e] px-3 py-6 text-white sm:px-4 sm:py-8 md:px-6 md:py-12">
         {bg?.url && <Image src={bg.url} alt="" fill sizes="100vw" className="object-cover" />}
-        <div aria-hidden className="absolute inset-0 bg-black/40" />
+        {/* Black film over the photo (darker than the old site's 40% — the client wants it
+            clearly visible), heavier at the bottom, with a faint sheen of light at the top. */}
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/85" />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[radial-gradient(120%_55%_at_50%_0%,rgb(255_255_255/0.07),transparent_60%)]"
+        />
 
         <div className="relative mx-auto max-w-[1200px]">
           {/* Logo + brand name */}

@@ -141,6 +141,12 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — footer film darker; hero order
+- Footer film: the old site's `black/40` was too light for the client ("you haven't added a black
+  film") → gradient `black/70 → /60 → /85` + faint top sheen.
+- Hero slides: "WEEKEND GETAWAY / TO THE WILD" (id 4) set to sortOrder 0 → first slide (the client
+  can reorder in the admin: Hero Slides → Sort order; lower shows first).
+
 ### 2026-09-24 (day 5, cont.) — TYPOGRAPHY: Cinzel headings site-wide (client's choice)
 - Asked the user to pick (after Racing Sans One → Russo One flip-flops): **Cinzel everywhere** for
   headings/titles (same font as the old site's MOTORHOME ADVENTURES), **Lato** for everything else.
