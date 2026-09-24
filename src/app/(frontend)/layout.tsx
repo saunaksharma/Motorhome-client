@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Lato, Russo_One } from 'next/font/google'
+import { Cinzel, Lato, Russo_One } from 'next/font/google'
 import { getPayload } from 'payload'
 import React from 'react'
 
@@ -13,6 +13,8 @@ import './globals.css'
 // (Racing Sans One leans forward by design; the client wants no slanted text anywhere).
 // Everything else: Lato, as on the old site.
 const display = Russo_One({ weight: '400', subsets: ['latin'], variable: '--font-display-face' })
+// Brand name "MOTORHOME ADVENTURES" (header + footer): Cinzel in gold, exactly as on the old site.
+const brand = Cinzel({ weight: ['600', '700'], subsets: ['latin'], variable: '--font-brand-face' })
 const lato = Lato({ weight: ['300', '400', '700', '900'], subsets: ['latin'], variable: '--font-lato' })
 
 const serverURL = process.env.SERVER_URL || 'http://localhost:3000'
@@ -60,7 +62,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const headerLogo = typeof header?.logo === 'object' && header.logo ? header.logo.url : null
 
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${display.variable} ${lato.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${display.variable} ${brand.variable} ${lato.variable}`}>
       <body>
         <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
         <main>{children}</main>

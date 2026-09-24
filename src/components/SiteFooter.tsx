@@ -61,7 +61,7 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
               {logo?.url ? (
                 <Image src={logo.url} alt="Motorhome Adventures" width={120} height={120} className="h-20 w-auto" />
               ) : (
-                <span className="font-display text-2xl uppercase tracking-wide text-gold">Motorhome Adventures</span>
+                <span className="font-brand text-2xl font-bold uppercase tracking-[0.2em] text-brand-gold">Motorhome Adventures</span>
               )}
               <p className="mt-4 max-w-[26ch] text-sm text-white/75">
                 Home away home, on wheels — pioneering caravan travel in India since 1993.

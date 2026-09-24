@@ -75,8 +75,9 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
                 />
               )}
               <span className="flex flex-col leading-none">
-                <span className="font-display text-xl uppercase tracking-wide text-gold sm:text-2xl">{word1}</span>
-                <span className="mt-1 font-heading text-[10px] uppercase tracking-[0.42em] text-white/85">{rest.join(' ')}</span>
+                {/* Brand name in Cinzel + the old site's gold, as on the previous site. */}
+                <span className="font-brand text-xl font-bold uppercase tracking-wide text-brand-gold sm:text-2xl lg:text-xl">{word1}</span>
+                <span className="mt-1 font-brand text-[10px] font-semibold uppercase tracking-[0.42em] text-brand-gold/90">{rest.join(' ')}</span>
               </span>
             </Link>
 

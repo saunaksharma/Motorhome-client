@@ -141,6 +141,14 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — brand name in Cinzel (like the old site)
+- The old site's "MOTORHOME ADVENTURES" (header include `includes/header.html` + footer) is
+  **Cinzel**, gold `#D4AF37`, uppercase (footer: tracking .2em). Ours now matches: `Cinzel`
+  600/700 via next/font (`--font-brand-face` → Tailwind `font-brand`), colour token `brand-gold`.
+  Header keeps the stacked MOTORHOME / ADVENTURES lockup (one line doesn't fit beside the
+  8-item nav); MOTORHOME is `text-xl` from lg (Cinzel is wide — header was 8px over at 1280).
+  Headings elsewhere stay Russo One (upright); body Lato.
+
 ### 2026-09-24 (day 5, cont.) — upright heading font; cinematic collage v3
 - **Font: Russo One replaces Racing Sans One** for headings/titles/brand. Racing Sans One LEANS
   FORWARD BY DESIGN (it's an oblique display face), so even with every `italic` removed the user
