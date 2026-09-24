@@ -231,18 +231,30 @@ html {
 
 /* ZoomCollage (caravan page, after Rivian's R1T page). The section is a named view
    timeline; while it scrolls past, its sticky stage stays pinned and the 3×3 photo grid
-   zooms from "centre tile fills the screen" (scale 3.5) down to the full collage, then
-   the shade and the title/button fade in. Without scroll-timeline support (or with
-   reduced motion) the section is one screen tall and shows the finished state. */
+   zooms out from "centre tile fills the screen" to the full collage, then the shade and
+   the title/button fade in. The grid is LAID OUT huge (3.3× the screen, so the centre
+   tile is naturally full-screen and sharp) and SHRUNK to 0.29 — enlarging a small grid
+   instead made the photos blurry. Without scroll-timeline support (or with reduced
+   motion) the section is one screen tall and shows the finished (shrunk) collage. */
 .collage {
   view-timeline-name: --collage;
 }
+.collage-grid {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 330%;
+  height: 330%;
+  column-gap: 1.5%;
+  row-gap: 1.5%;
+  transform: translate(-50%, -50%) scale(0.29);
+}
 @keyframes collage-zoom {
   from {
-    transform: scale(3.5);
+    transform: translate(-50%, -50%) scale(1);
   }
   to {
-    transform: none;
+    transform: translate(-50%, -50%) scale(0.29);
   }
 }
 @keyframes collage-fade {

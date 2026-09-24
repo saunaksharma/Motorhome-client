@@ -57,6 +57,7 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
               fill
               priority={index === 0}
               sizes="100vw"
+              quality={90}
               className="hero-zoom object-cover"
               style={{ objectPosition: slide.imagePosition }}
             />

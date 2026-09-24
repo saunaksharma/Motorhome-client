@@ -30,14 +30,15 @@ export function ZoomCollage({
   return (
     <section className="collage relative bg-green">
       <div className="collage-stage relative h-[100svh] overflow-hidden">
-        <div className="collage-grid grid h-full grid-cols-3 grid-rows-3 gap-2 p-2 sm:gap-3 sm:p-3">
+        <div className="collage-grid grid grid-cols-3 grid-rows-3">
           {tiles.map((photo, i) => (
-            <div key={i} className="relative overflow-hidden rounded-xl">
+            <div key={i} className="relative overflow-hidden rounded-[2.5rem]">
               <Image
                 src={photo.url}
                 alt={i === 4 ? (photo.alt ?? title) : ''}
                 fill
                 sizes={i === 4 ? '100vw' : '34vw'}
+                quality={i === 4 ? 90 : 75}
                 className="object-cover"
               />
             </div>

@@ -42,6 +42,7 @@ export function DetailHero({
             fill
             priority
             sizes="100vw"
+            quality={90}
             className="object-cover"
             style={{ objectPosition: focalPosition(photo) }}
           />

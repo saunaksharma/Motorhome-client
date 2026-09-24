@@ -58,7 +58,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const headerLogo = typeof header?.logo === 'object' && header.logo ? header.logo.url : null
 
   return (
-    <html lang="en" className={`${racing.variable} ${lato.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${racing.variable} ${lato.variable}`}>
       <body>
         <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
         <main>{children}</main>

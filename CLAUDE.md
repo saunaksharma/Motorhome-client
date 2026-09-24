@@ -154,6 +154,18 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   finished collage. Verified by wheel-scrolling on desktop 1280 and phone 375.
 - Review gotcha: with the browser pane hidden, JS layout reads are 0 — test scroll effects with
   real wheel scrolls + screenshots (those force a render).
+- **Fixes after user feedback (glitch on open, blurry before scrolling):**
+  - Glitch = Next 16 no longer disables `html { scroll-behavior: smooth }` on navigation, so every
+    page change visibly smooth-scrolled to the top (through the collage). Fix per the Next 16
+    upgrade guide: `<html data-scroll-behavior="smooth">` in (frontend)/layout.tsx.
+  - Blur = the grid was laid out small and ENLARGED 3.5× (browser rasterises small, then scales up).
+    Now `.collage-grid` is laid out at 330% × 330% of the stage (centre tile ≈ full screen at
+    scale 1) and SHRUNK to 0.29 — sharp at every step.
+  - `images.qualities: [75, 90]` in next.config; quality 90 on homepage hero, DetailHero and the
+    collage centre tile (cards stay 75).
+  - ⚠️ Real limit: the caravan photos imported from the old site are only 600–1024 px wide
+    (portrait) → soft when shown full-screen on desktop. Client should upload original camera/phone
+    photos (≥ 2500 px wide, landscape) in the admin — covers first.
 
 ### 2026-09-24 (day 5, cont.) — Adria feel: row headers, split caravan cards, phone hero; Footprint
 - Studied adria-mobil.com live (desktop + 375px): product rows = title left + "all products"
