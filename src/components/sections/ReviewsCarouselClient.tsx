@@ -1,6 +1,7 @@
 'use client'
 
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
+import Image from 'next/image'
 import React, { useRef, useState } from 'react'
 
 export type Review = {
@@ -52,8 +53,13 @@ export function ReviewsCarouselClient({ reviews }: { reviews: Review[] }) {
             className="relative h-[440px] shrink-0 basis-[85%] snap-start overflow-hidden rounded-3xl bg-green text-white sm:basis-[45%] lg:basis-[31%]"
           >
             {review.photoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={review.photoUrl} alt={review.reviewerName} className="absolute inset-0 size-full object-cover" />
+              <Image
+                src={review.photoUrl}
+                alt={review.reviewerName}
+                fill
+                sizes="(max-width: 640px) 85vw, (max-width: 1024px) 45vw, 31vw"
+                className="object-cover"
+              />
             ) : (
               <div className="pattern-green absolute inset-0" />
             )}
