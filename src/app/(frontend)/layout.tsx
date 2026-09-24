@@ -15,7 +15,7 @@ import './globals.css'
 // brand name AND every heading/title (upright, never slanted); Lato for everything else, as on
 // the old site. One Cinzel file serves both.
 const cinzel = Cinzel({ weight: ['500', '600', '700', '800'], subsets: ['latin'], variable: '--font-cinzel' })
-const lato = Lato({ weight: ['300', '400', '700', '900'], subsets: ['latin'], variable: '--font-lato' })
+const lato = Lato({ weight: ['400', '700', '900'], subsets: ['latin'], variable: '--font-lato' })
 
 const description =
   'Caravan & motorhome rentals, guided tours, and custom builds across India. Home away home, on wheels.'
