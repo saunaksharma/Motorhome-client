@@ -368,6 +368,66 @@ html {
   }
 }
 
+/* "Our Story" (AboutSections + StoryScroll). Stage: a dot grid fading out at the edges.
+   Beam: gold line that fills with --story-progress, with a soft glow. Once JS is ready,
+   chapters not in view dim, their node goes quiet, and only the active photo shows. */
+.story-grid {
+  background-image: radial-gradient(rgb(255 255 255 / 0.09) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+.story-beam {
+  height: calc((100% - 1.5rem) * var(--story-progress, 0));
+  background: linear-gradient(to bottom, transparent, var(--color-gold) 12%, #f3d98b 100%);
+  box-shadow: 0 0 12px 1px rgb(201 162 62 / 0.7);
+}
+.story-year {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(201 162 62 / 0.75);
+}
+.story-node::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  box-shadow: 0 0 14px 3px rgb(201 162 62 / 0.75);
+}
+.story-copy,
+.story-node::after,
+.story-photo {
+  transition:
+    opacity 0.6s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.story-photo {
+  opacity: 0;
+}
+.story-photo:first-child {
+  opacity: 1;
+}
+.story-scroll[data-ready] .story-chapter:not([data-on]) .story-copy {
+  opacity: 0.3;
+}
+.story-scroll[data-ready] .story-chapter:not([data-on]) .story-node::after {
+  opacity: 0;
+}
+.story-scroll[data-ready] .story-photo {
+  opacity: 0;
+  transform: scale(1.06);
+}
+.story-scroll[data-ready] .story-photo[data-on] {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-copy,
+  .story-node::after,
+  .story-photo {
+    transition: none;
+  }
+}
+
 /* Hero headline entrance, replayed on each slide change (keyed in React). */
 @keyframes rise-in {
   from {

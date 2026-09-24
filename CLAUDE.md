@@ -155,6 +155,21 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — "Our Story" redesigned (futuristic, client request)
+- `AboutSections` (homepage "How It All Began" chapters) → after 21st.dev "Sticky Scroll Reveal" +
+  "Timeline": dark stage `#060a09` with a masked dot grid + green/gold aurora blurs; desktop =
+  chapters left, **pinned photo right** (sticky, glass frame, gold viewfinder corners, caption)
+  that crossfades to the active chapter; gold **beam** fills with `--story-progress`; nodes light
+  up; inactive chapters dim to .3. Phones: one column, photo per chapter. Year numerals only when
+  the chapter text contains one (1993). Client component `StoryScroll` (IntersectionObserver band
+  -45%/-45% + rAF progress); styles `.story*` in globals.css; no-JS = everything visible.
+  Admin fields unchanged (the old `imageSide` select is now unused/harmless).
+- ⚠️ `overflow: hidden` on an ancestor silently kills `position: sticky` → the section uses
+  `overflow-clip`.
+- **Reliable visual checks:** the in-app pane can't render while Claude's window is hidden. Use
+  `scratchpad/shoot-story.mjs`: headless Chrome (`--remote-debugging-port`) driven over CDP with
+  Node's built-in WebSocket — real viewport, scripted scroll, screenshots + state per step.
+
 ### 2026-09-24 (day 5, cont.) — add-ons on every caravan (data)
 - Only Willow had add-ons (the 5 from the Canva design: Barbeque, Carrom, Yoga Mat, Badminton,
   Bonfire — seeded day 2); the old site had no add-on data. They're fleet-wide activities, so all
