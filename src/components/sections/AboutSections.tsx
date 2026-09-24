@@ -52,8 +52,10 @@ export async function AboutSections() {
     <section className="story relative overflow-clip bg-white text-green">
       {/* Stage: dot grid fading out at the edges + soft green/gold aurora glows. */}
       <div aria-hidden className="story-grid pointer-events-none absolute inset-0" />
-      <div aria-hidden className="pointer-events-none absolute -left-40 top-10 size-[520px] rounded-full bg-green/[0.07] blur-[120px]" />
-      <div aria-hidden className="pointer-events-none absolute -right-32 bottom-0 size-[440px] rounded-full bg-gold/20 blur-[120px]" />
+      {/* Glows are radial gradients, not blur(120px) circles: same look, but big blurred
+          layers can flicker in iPhone Safari as they scroll past the section's edge. */}
+      <div aria-hidden className="pointer-events-none absolute -left-[280px] -top-20 size-[760px] bg-[radial-gradient(closest-side,rgb(13_71_63/0.07)_35%,transparent)]" />
+      <div aria-hidden className="pointer-events-none absolute -bottom-[120px] -right-[248px] size-[680px] bg-[radial-gradient(closest-side,rgb(201_162_62/0.2)_35%,transparent)]" />
 
       <div className="relative mx-auto max-w-[1200px] px-4 py-20 sm:py-28">
         <div className="text-center">

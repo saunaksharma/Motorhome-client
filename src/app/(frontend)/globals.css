@@ -214,6 +214,25 @@ html {
     }
   }
 }
+/* Phones/tablets: same fade + rise without the blur — a scroll-linked blur filter
+   flickered on iPhone Safari. */
+@keyframes reveal-up-soft {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (max-width: 1023px) {
+    .reveal {
+      animation-name: reveal-up-soft;
+    }
+  }
+}
 
 /* Swipe rows (SwipeRow): hidden scrollbar. The vertical `.reveal` fade is switched
    off inside the row at every size — its timeline would track the row (which only

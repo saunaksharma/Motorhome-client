@@ -155,6 +155,18 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — iPhone glitch below Our Story (tested on the user's iPhone)
+- User: "after the Our Story section it gets glitchy". Chrome measured smooth (no long frames,
+  0 layout shift) → an iPhone Safari painting issue. Likely causes, both fixed without changing
+  the look (before/after screenshots identical):
+  - Our Story's two glow circles were `blur-[120px]` layers (one at the section's bottom edge,
+    clipped by overflow-clip) → now `radial-gradient(closest-side, … 35%, transparent)` divs sized
+    +240px so they spread the same.
+  - `.reveal` animated `filter: blur(6px)` on scroll → below 1024px it uses `reveal-up-soft`
+    (same fade + rise, no blur). Desktop unchanged.
+- Measuring tool: `scratchpad/jank.mjs` (CDP, 4× CPU slowdown, frame times + layout shift per
+  segment before / in / after Our Story).
+
 ### 2026-09-24 (day 5, cont.) — real blog articles + photo albums from motorhome.co.in (content only)
 - User: "import everything useful… don't change how the site looks, no garbage content".
 - **8 real articles** (Tales) replace the 3 seed posts (those are HIDDEN via `active: false`, not
