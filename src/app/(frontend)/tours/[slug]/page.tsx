@@ -104,7 +104,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
               {itinerary.map((day, index) => (
                 <li key={index} className="relative border-l border-gold/40 pb-10 pl-8 last:border-transparent last:pb-0">
                   <span aria-hidden className="absolute -left-[6px] top-1.5 size-3 rounded-full bg-gold ring-4 ring-cream" />
-                  <h3 className="font-display text-xl text-green">{day.dayTitle}</h3>
+                  <h3 className="font-display text-xl text-green break-words">{day.dayTitle}</h3>
                   {day.description && (
                     <div className="rich-text mt-2 text-[15px] leading-relaxed text-green/80">
                       <RichText data={day.description} />

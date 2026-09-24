@@ -19,7 +19,8 @@ export function RowHeading({
   return (
     <div className="reveal flex items-end justify-between gap-4">
       <div className="min-w-0">
-        <h2 className="font-display text-3xl text-green sm:text-4xl lg:text-5xl">{title}</h2>
+        {/* Narrow Android phones: a smaller size so one long word ("INNOVATIONS") fits beside "View all". */}
+        <h2 className="font-display text-3xl text-green max-[380px]:text-[1.6rem] max-[340px]:text-[1.35rem] sm:text-4xl lg:text-5xl">{title}</h2>
         {subtitle && (
           <p className="mt-2 font-heading text-xs uppercase tracking-[0.25em] text-green/55 sm:text-sm">{subtitle}</p>
         )}

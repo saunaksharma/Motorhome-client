@@ -155,6 +155,26 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-24 (day 5, cont.) — hero sizes restored + full mobile/desktop audit (tested on iPhone)
+- **"All the heroes look too big / cut"**: the cream-gap fix (226763e) had ALSO made every hero
+  full-screen. Restored the approved sizes: homepage phones `h-[78svh] min-h-[520px]` (text `pb-9`),
+  desktop `sm:h-[100svh]`; `DetailHero` photo `h-[62svh] min-h-[400px] max-h-[640px] sm:h-[58svh]`,
+  title `sm:pb-20`, facts bar `sm:-mt-12`. Kept: `-mt-[92px]` (gap fix), swipe, solid gold CTA.
+  RULE: never change hero heights while fixing something else.
+- **Audit** (`scratchpad/audit.mjs`: CDP, every page from the DB × widths → sideways scroll, text
+  spilling its box, broken images, JS errors, missing alt, h1 count, header fit, tiny taps):
+  72 pages × 320/360/390/768/1024/1280/1440. Fixed:
+  - Long single words overflowed narrow phones → shrink ONLY where needed: `RowHeading`
+    `max-[380px]:text-[1.6rem] max-[340px]:text-[1.35rem]`; `PageBanner` + `DetailHero` titles with a
+    word ≥ 11 letters scale with the screen (`min(…, 8vw)`) — others unchanged; `SectionHeading` /
+    blog title `max-[359px]:text-[1.9rem]`; Route Map day title `break-words` ("Chopta/Rudraprayag").
+  - Header at 320px was 21px too wide → below 360px: `px-3`, `gap-2`, brand `text-lg`, emblem `h-9`.
+  - Blog in-article photos were raw originals (≤1.5 MB, not lazy) → custom Lexical `upload`
+    converter on the article page renders `next/image` (resized, lazy). Same look.
+  - Sitemap was missing `/about` + all Pages (Terms, Privacy, FAQ…) → added.
+  - Not fixed: 404 tab title is the default (Next 16 only supports metadata on global-not-found).
+  - Clean: 0 sideways scroll, 0 broken images, 0 JS errors, 768–1440 all clean.
+
 ### 2026-09-24 (day 5, cont.) — iPhone glitch below Our Story (tested on the user's iPhone)
 - User: "after the Our Story section it gets glitchy". Chrome measured smooth (no long frames,
   0 layout shift) → an iPhone Safari painting issue. Likely causes, both fixed without changing

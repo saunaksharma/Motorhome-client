@@ -1,4 +1,4 @@
-import { RichText } from '@payloadcms/richtext-lexical/react'
+import { RichText, type JSXConvertersFunction } from '@payloadcms/richtext-lexical/react'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
@@ -8,6 +8,20 @@ import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
 
 type Params = Promise<{ slug: string }>
+
+// Photos placed inside an article go through next/image (resized for the screen,
+// lazy-loaded) instead of the full-size original. Anything else renders as default.
+type UploadDoc = { url?: string | null; alt?: string | null; width?: number | null; height?: number | null; mimeType?: string | null }
+const converters: JSXConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  upload: (args) => {
+    const doc = args.node.value as UploadDoc
+    if (typeof doc !== 'object' || !doc?.url || !doc.width || !doc.height || !doc.mimeType?.startsWith('image')) {
+      return typeof defaultConverters.upload === 'function' ? defaultConverters.upload(args) : null
+    }
+    return <Image src={doc.url} alt={doc.alt ?? ''} width={doc.width} height={doc.height} sizes="(max-width: 832px) 100vw, 800px" />
+  },
+})
 
 // Pre-built for every active entry (instant); saving in the admin refreshes it.
 export const revalidate = 60
@@ -59,7 +73,7 @@ export default async function BlogArticlePage({ params }: { params: Params }) {
         </div>
       )}
 
-      <h1 className="mt-4 text-center font-display text-4xl text-green sm:text-5xl">
+      <h1 className="mt-4 text-center font-display text-4xl text-green max-[359px]:text-[1.9rem] sm:text-5xl">
         {article.title}
       </h1>
       {date && (
@@ -74,7 +88,7 @@ export default async function BlogArticlePage({ params }: { params: Params }) {
 
       {article.body && (
         <div className="rich-text mt-8 space-y-4 leading-relaxed">
-          <RichText data={article.body} />
+          <RichText data={article.body} converters={converters} />
         </div>
       )}
     </article>

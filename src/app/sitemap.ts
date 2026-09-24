@@ -10,12 +10,13 @@ const detailCollections = [
   ['innovations', '/innovations'],
   ['blog-articles', '/blog'],
   ['galleries', '/gallery'],
+  ['pages', ''], // admin text pages (Terms, Privacy, FAQ…) live at /<slug>
 ] as const
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayloadClient()
 
-  const staticPaths = ['', '/caravans', '/tours', '/innovations', '/blog', '/gallery', '/build', '/contact']
+  const staticPaths = ['', '/about', '/caravans', '/tours', '/innovations', '/blog', '/gallery', '/build', '/contact']
   const entries: MetadataRoute.Sitemap = staticPaths.map((path) => ({
     url: `${serverURL}${path}`,
     changeFrequency: 'weekly',
