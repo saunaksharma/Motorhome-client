@@ -6,6 +6,7 @@ import React from 'react'
 import config from '@/payload.config'
 import { siteURL } from '@/lib/siteUrl'
 import { JsonLd } from '@/components/JsonLd'
+import { ScrollFallback } from '@/components/ScrollFallback'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
@@ -108,6 +109,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <main id="main">{children}</main>
         <SiteFooter data={footer} business={business} />
         <WhatsAppButton number={business?.whatsapp} />
+        <ScrollFallback />
       </body>
     </html>
   )

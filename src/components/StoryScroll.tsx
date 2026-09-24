@@ -17,7 +17,8 @@ export function StoryScroll({ children, className }: { children: React.ReactNode
 
     const setActive = (index: number) => {
       chapters.forEach((c, i) => c.toggleAttribute('data-on', i === index))
-      photos.forEach((p, i) => p.toggleAttribute('data-on', i === index))
+      // Each chapter's photo appears in both the phone and the desktop panel.
+      photos.forEach((p) => p.toggleAttribute('data-on', Number(p.dataset.photo) === index))
     }
     setActive(0)
     root.setAttribute('data-ready', '')

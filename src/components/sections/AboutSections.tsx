@@ -33,8 +33,8 @@ function Corners() {
 // a white stage (client's choice over dark) with a faint dot grid and soft aurora glow;
 // on desktop the chapters scroll on the left while their photo stays pinned on the right
 // and crossfades to the chapter being read; a gold beam fills down the timeline as you scroll, each chapter's node lights
-// up, and the chapter in view is bright while the others dim. Phones: one column, each
-// chapter with its own photo. Behaviour in `StoryScroll`, styles `.story*` in globals.css.
+// up, and the chapter in view is bright while the others dim. Phones: one column with the
+// same pinned, crossfading photo as a strip under the top bar. Behaviour in `StoryScroll`, styles `.story*` in globals.css.
 export async function AboutSections() {
   const home = await getHomepage()
   const sections = home?.aboutSections ?? []
@@ -64,6 +64,32 @@ export async function AboutSections() {
         <StoryScroll className="story-scroll relative mt-14 grid gap-12 lg:mt-20 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           {/* Chapters + timeline */}
           <div className="relative">
+            {/* Phones/tablets: the same pinned photo, as a strip under the top bar that
+                crossfades to the chapter being read (desktop has it on the right). */}
+            {/* White band above + soft fade below, so text scrolling underneath disappears cleanly. */}
+            <div className="sticky top-[76px] z-10 -mx-1 mb-4 bg-white pt-4 lg:hidden">
+              <div className="relative h-[34svh] min-h-[200px] overflow-hidden rounded-2xl border border-green/10 bg-green/5 shadow-[0_24px_60px_-30px_rgb(13_71_63/0.5)]">
+                {chapters.map((chapter, index) => (
+                  <figure key={index} data-photo={index} className="story-photo absolute inset-0 m-0">
+                    {chapter.photo?.url && (
+                      <Image
+                        src={chapter.photo.url}
+                        alt={chapter.photo.alt ?? chapter.heading}
+                        fill
+                        sizes="(max-width: 1024px) 95vw, 1px"
+                        className="object-cover"
+                        style={{ objectPosition: focalPosition(chapter.photo) }}
+                      />
+                    )}
+                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-4 pb-3 pt-10 font-heading text-[10px] font-bold uppercase tracking-[0.25em] text-white/90">
+                      {chapter.heading}
+                    </figcaption>
+                  </figure>
+                ))}
+                <Corners />
+              </div>
+              <div aria-hidden className="pointer-events-none absolute inset-x-0 top-full h-6 bg-gradient-to-b from-white to-transparent" />
+            </div>
             <div aria-hidden className="absolute bottom-3 left-[7px] top-3 w-px bg-green/15" />
             <div aria-hidden className="story-beam absolute left-[7px] top-3 w-px" />
 
@@ -74,21 +100,6 @@ export async function AboutSections() {
                 className="story-chapter relative py-8 pl-10 lg:flex lg:min-h-[72vh] lg:flex-col lg:justify-center lg:py-0"
               >
                 <span aria-hidden className="story-node absolute left-0 top-10 size-[15px] rounded-full border border-gold/70 bg-white lg:top-1/2 lg:-translate-y-1/2" />
-
-                {/* Phones/tablets: the chapter's own photo. */}
-                {chapter.photo?.url && (
-                  <div className="relative mb-6 aspect-[4/3] overflow-hidden rounded-2xl border border-green/10 bg-green/5 shadow-[0_24px_60px_-30px_rgb(13_71_63/0.45)] lg:hidden">
-                    <Image
-                      src={chapter.photo.url}
-                      alt={chapter.photo.alt ?? chapter.heading}
-                      fill
-                      sizes="(max-width: 1024px) 90vw, 1px"
-                      className="object-cover"
-                      style={{ objectPosition: focalPosition(chapter.photo) }}
-                    />
-                    <Corners />
-                  </div>
-                )}
 
                 <div className="story-copy">
                   {chapter.year && (
@@ -113,7 +124,7 @@ export async function AboutSections() {
             <div className="sticky top-28 h-[70vh] max-h-[640px]">
               <div className="relative h-full overflow-hidden rounded-[28px] border border-green/10 bg-green/5 shadow-[0_40px_100px_-40px_rgb(13_71_63/0.5)]">
                 {chapters.map((chapter, index) => (
-                  <figure key={index} data-photo className="story-photo absolute inset-0 m-0">
+                  <figure key={index} data-photo={index} className="story-photo absolute inset-0 m-0">
                     {chapter.photo?.url && (
                       <Image
                         src={chapter.photo.url}
