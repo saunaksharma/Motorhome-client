@@ -29,6 +29,8 @@ export const BusinessDetails: GlobalConfig = {
       name: 'enquiryNotifyEmail',
       label: 'Send new enquiries to',
       type: 'email',
+      // Private: the rest of this global is public (footer/contact page), this address isn't.
+      access: { read: ({ req }) => Boolean(req.user) },
       admin: { description: 'Every new booking enquiry is emailed here (once email sending is set up).' },
     },
   ],

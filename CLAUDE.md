@@ -155,6 +155,27 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-09-25 (day 6, cont.) — FINAL security + site audit
+- **Access control (probed live, safe requests only):** anonymous GET users/enquiries/subscribers
+  → 403; anonymous POST/PATCH/DELETE on content, users, media, globals, enquiries, subscribers → 403;
+  GraphQL user query → 403; playground 404. Content = public read / admin write (Payload default
+  for unlisted ops = logged-in only). Login lockout 5 tries / 10 min (code).
+- **Fixed:** (1) `business.enquiryNotifyEmail` was publicly readable via /api/globals/business →
+  field `access.read` = logged-in only (the email hook uses the local API, unaffected).
+  (2) No browser-security headers → next.config `headers()`: X-Frame-Options SAMEORIGIN (anti-
+  clickjacking, admin too), nosniff, Referrer-Policy strict-origin-when-cross-origin,
+  Permissions-Policy (no camera/mic/location); `poweredByHeader: false` removes
+  "X-Powered-By: Next.js, Payload" (withPayload honours it).
+- **Clean:** no secret ever committed (git history scan; only placeholders in .env.example);
+  .env/.env.local/.vercel ignored; HTTPS + HSTS (Vercel); no cross-origin CORS; robots hides
+  /admin + /api (media allowed); JSON-LD escapes `<`; forms: honeypot → 400, empty → 400;
+  every page has title/description/canonical/og:image (CMS text pages lack og:image — minor).
+- **Known, accepted:** npm audit = 5 moderate, all dev-only (esbuild via drizzle-kit, not in the
+  runtime). Unknown URLs return HTTP 200 + `noindex` (Next streaming because of
+  `(frontend)/loading.tsx`) — Google won't index them. No rate limiting on forms beyond the
+  honeypot (add Vercel Firewall rules / captcha if spam appears). Placeholder env vars on Vercel
+  (SERVER_URL/SMTP_*/EXTRA_ORIGINS) to tidy at launch; email alerts need real SMTP.
+
 ### 2026-09-25 (day 6) — phone heroes back to FULL-SCREEN (final, user-approved)
 - After the 78svh/62svh restore below, the user: "photos have gotten smaller again… mobile; fine
   for the desktop". Their earlier "too big and getting cut" was about the photo crop, not the box.
