@@ -16,5 +16,13 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  upload: {
+    // Let Vercel's CDN keep each photo for a week after the first request, so repeat requests
+    // (resized copies, admin thumbnails) don't read Blob storage every time — the free plan
+    // allows only 10K Blob reads a month. URLs are unchanged.
+    modifyResponseHeaders: ({ headers }) => {
+      headers.set('Vercel-CDN-Cache-Control', 'max-age=604800')
+      return headers
+    },
+  },
 }

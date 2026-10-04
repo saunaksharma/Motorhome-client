@@ -185,6 +185,13 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   the user said Cinzel there was "not the same as their Canva". Canva's
   "LINK FOR A VIDEO LATER ON" → `videoUrl` stays hidden until they send videos. Pages 30–31
   ("Which caravan tier is right for you?") are the separate tier block — still deferred.
+- **Vercel free-plan limits (2026-10-05):** Blob Simple Operations hit 8.9K / 10K. Cause: every
+  `/api/media/file/*` request runs the Payload function, which calls Blob `head()` (1 simple op)
+  — and Vercel's CDN didn't cache those responses. Fix: Media `upload.modifyResponseHeaders` sets
+  `Vercel-CDN-Cache-Control: max-age=604800` → repeat requests (next/image source fetches, admin
+  thumbnails) are CDN hits. URLs unchanged → no re-transformations (Image Transformations 3.4K / 5K).
+  **Don't run audits against live** (each photo request = a Blob op); audit the local build. Real fix
+  for launch: Vercel Pro in the client's name.
 - **Our Story:** the thin gold lines under "Our Story" and under each chapter heading removed
   (client: "cheap look"). Timeline beam, outlined years, gold photo corners kept.
 
