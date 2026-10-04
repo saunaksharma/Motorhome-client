@@ -177,6 +177,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   "1 Day Trip · Or" + "365 Days" + "We've got you · covered !".
 - **Footer:** "Visit Headquarters" column removed (Footer global data) → Useful Pages · Partner
   Programme · Help Centre. /contact is reached from the header's "Book your call" button.
+- **Tips = Canva pages 29/32–37, no gold (client):** text of all 5 tips replaced word-for-word with
+  the Canva bullets (Lexical bullet lists, editable in Tips → Body; the old one-line seed summaries
+  are gone). Layout: rounded `pattern-green` panel on the cream page, white bulb + "TIPS", each tip
+  a white outlined pill with a white triangle (flips when open), bold white bullets below. Kept
+  Cinzel for the titles (the Canva's slanted face = Racing Sans One, rejected earlier). Canva's
+  "LINK FOR A VIDEO LATER ON" → `videoUrl` stays hidden until they send videos. Pages 30–31
+  ("Which caravan tier is right for you?") are the separate tier block — still deferred.
+- **Our Story:** the thin gold lines under "Our Story" and under each chapter heading removed
+  (client: "cheap look"). Timeline beam, outlined years, gold photo corners kept.
 
 ### 2026-10-04 (day 7, cont.) — one adaptive enquiry form; "Book your call with our specialist"
 - **Hero height reverted** to full screen on phones (3d130e1) — the "inch shorter" version was

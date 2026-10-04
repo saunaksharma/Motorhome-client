@@ -60,7 +60,6 @@ export async function AboutSections() {
       <div className="relative mx-auto max-w-[1200px] px-4 py-20 sm:py-28">
         <div className="text-center">
           <p className="font-heading text-xs font-bold uppercase tracking-[0.4em] text-gold">Our Story</p>
-          <div aria-hidden className="mx-auto mt-4 h-px w-24 bg-gradient-to-r from-transparent via-gold to-transparent" />
         </div>
 
         <StoryScroll className="story-scroll relative mt-14 grid gap-12 lg:mt-20 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
@@ -99,9 +98,8 @@ export async function AboutSections() {
                     </p>
                   )}
                   <h3 className="mt-3 text-balance font-display text-2xl text-green sm:text-3xl">{chapter.heading}</h3>
-                  <div aria-hidden className="mt-4 h-px w-16 bg-gradient-to-r from-gold to-transparent" />
                   {chapter.body && (
-                    <div className="rich-text mt-5 max-w-[56ch] space-y-3 leading-relaxed text-green/75">
+                    <div className="rich-text mt-4 max-w-[56ch] space-y-3 leading-relaxed text-green/75">
                       <RichText data={chapter.body} />
                     </div>
                   )}

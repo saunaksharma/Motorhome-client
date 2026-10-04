@@ -1,12 +1,13 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import { ChevronDown, Lightbulb } from 'lucide-react'
+import { Lightbulb } from 'lucide-react'
 import React from 'react'
 
-import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
 
-// "TIPS" accordion on a green background. Uses native <details> — accessible
-// and requires no client JavaScript.
+// "TIPS" as on the client's Canva (pages 29 + 37): a rounded green panel (doodle pattern) on the
+// page's cream pattern, a white bulb + "TIPS", and each tip a white outlined pill with a white
+// triangle; its bullet points open underneath. All white — no gold (client). Native <details>:
+// accessible, no client JavaScript. Linked from the footer as /#tips.
 export async function TipsAccordion() {
   const payload = await getPayloadClient()
   const { docs } = await payload.find({
@@ -19,22 +20,24 @@ export async function TipsAccordion() {
   if (docs.length === 0) return null
 
   return (
-    <section id="tips" className="pattern-green scroll-mt-24 py-16">
-      <div className="mx-auto max-w-[1000px] px-4">
-        <div className="mb-10 flex items-center justify-center gap-3">
-          <Lightbulb className="size-8 text-gold" />
-          <SectionHeading title="TIPS" light />
-        </div>
+    <section id="tips" className="scroll-mt-24 px-3 py-16 sm:px-6">
+      <div className="pattern-green mx-auto max-w-[1100px] rounded-[2rem] px-5 py-10 text-white sm:rounded-[2.5rem] sm:px-12 sm:py-14">
+        <h2 className="flex items-end gap-1 font-display text-4xl leading-none sm:text-5xl">
+          <Lightbulb aria-hidden className="size-10 shrink-0 -translate-y-3 sm:size-12" strokeWidth={1.5} />
+          Tips
+        </h2>
 
-        <div className="space-y-4">
+        <div className="mt-6 max-w-[780px] space-y-4 sm:mt-8 sm:space-y-5">
           {docs.map((tip) => (
-            <details key={tip.id} className="group rounded-xl border border-gold/60 bg-white/5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 font-display text-lg text-white">
+            <details key={tip.id} className="group">
+              <summary className="flex cursor-pointer list-none items-center gap-4 rounded-full border-2 border-white px-5 py-3.5 font-display text-[15px] leading-snug max-sm:tracking-wide sm:gap-5 sm:border-[3px] sm:px-8 sm:py-4 sm:text-xl [&::-webkit-details-marker]:hidden">
+                <svg aria-hidden viewBox="0 0 24 16" className="w-6 shrink-0 transition-transform group-open:rotate-180 sm:w-8">
+                  <path d="M2 2h20L12 14z" fill="currentColor" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+                </svg>
                 {tip.title}
-                <ChevronDown className="size-5 shrink-0 transition-transform group-open:rotate-180" />
               </summary>
               {tip.body && (
-                <div className="rich-text space-y-3 px-5 pb-5 leading-relaxed text-white/90">
+                <div className="rich-text px-5 pb-2 pt-4 text-[15px] font-bold leading-relaxed sm:px-10 sm:text-lg">
                   <RichText data={tip.body} />
                 </div>
               )}
