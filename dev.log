@@ -56,3 +56,32 @@
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
  GET / 200 in 1668ms (next.js: 10ms, application-code: 1658ms)
  GET / 200 in 1629ms (next.js: 8ms, application-code: 1621ms)
+ GET / 200 in 1661ms (next.js: 4ms, application-code: 1657ms)
+ GET / 200 in 1705ms (next.js: 5ms, application-code: 1700ms)
+⚠ Blocked cross-origin request to Next.js dev resource /_next/hmr from "exterior-contest-pie-comparing.trycloudflare.com".
+Cross-origin access to Next.js dev resources is blocked by default for safety.
+
+To allow this host in development, add it to "allowedDevOrigins" in next.config.js and restart the dev server:
+
+// next.config.js
+module.exports = {
+  allowedDevOrigins: ['exterior-contest-pie-comparing.trycloudflare.com'],
+}
+
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ GET /api/media/file/hero-weekend-getaway.jpg 200 in 928ms (next.js: 16ms, application-code: 912ms)
+ GET /api/media/file/hero-election-campaign.jpg 200 in 699ms (next.js: 13ms, application-code: 687ms)
+ GET /api/media/file/hero-self-drive.jpg 200 in 923ms (next.js: 20ms, application-code: 903ms)
+ GET /api/media/file/hero-willow.jpg 200 in 1044ms (next.js: 8ms, application-code: 1037ms)
+ GET /api/media/file/hero-expandable-motorhome.jpg 200 in 1154ms (next.js: 16ms, application-code: 1138ms)
+ GET /api/media/file/hero-home-away-home-v2.jpg 200 in 1141ms (next.js: 21ms, application-code: 1120ms)
+ GET /api/media/file/hero-ladakh.jpg 200 in 1374ms (next.js: 15ms, application-code: 1359ms)
+ GET /api/media/file/hero-expandable-motorhome.jpg 200 in 646ms (next.js: 12ms, application-code: 634ms)
+ GET /api/media/file/hero-willow.jpg 200 in 679ms (next.js: 29ms, application-code: 650ms)
+ GET /api/media/file/hero-election-campaign.jpg 200 in 1060ms (next.js: 27ms, application-code: 1033ms)
+ GET /api/media/file/hero-ladakh.jpg 200 in 1044ms (next.js: 17ms, application-code: 1026ms)
+ GET /api/media/file/footer-bg.jpg 200 in 1126ms (next.js: 38ms, application-code: 1088ms)
+ GET /api/media/file/hero-home-away-home-v2.jpg 200 in 1185ms (next.js: 38ms, application-code: 1146ms)
+ GET /api/media/file/hero-self-drive.jpg 200 in 1172ms (next.js: 6ms, application-code: 1166ms)
+ GET /api/media/file/hero-weekend-getaway.jpg 200 in 1519ms (next.js: 17ms, application-code: 1503ms)
+[?25h

@@ -192,6 +192,8 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   thumbnails) are CDN hits. URLs unchanged → no re-transformations (Image Transformations 3.4K / 5K).
   **Don't run audits against live** (each photo request = a Blob op); audit the local build. Real fix
   for launch: Vercel Pro in the client's name.
+- **Dream Big on phones = like desktop:** heading on one line (`min(1.875rem, 6.6vw)`, nowrap) and
+  the two buttons side by side, compact (`px-5 py-2.5 text-xs`); checked 360/390/430. Desktop unchanged.
 - **Our Story rebuilt (Canva pages 24–28), same on phones + desktop:** each chapter is a card —
   photo on a `pattern-green` panel, text on cream (sides alternate from md up, stacked on phones),
   title in Racing Sans One (`src/lib/fonts.ts`, shared with Tips), year as a green outline numeral.
