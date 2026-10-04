@@ -162,7 +162,9 @@ body {
 .hero-zoom {
   animation: hero-zoom 16s ease-in-out infinite alternate;
 }
-@media (prefers-reduced-motion: reduce) {
+/* Phones: no slow zoom — a full-height crop of a landscape photo is already tight, and
+   zooming in further made the photos look "zoomed/bad" (client feedback). */
+@media (prefers-reduced-motion: reduce), (max-width: 639px) {
   .hero-zoom {
     animation: none;
   }

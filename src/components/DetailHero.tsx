@@ -7,11 +7,12 @@ import { cn, focalPosition } from '@/lib/utils'
 export type Highlight = { label: string; value?: string | null }
 
 // Header for caravan / tour / innovation pages, after premium product pages (Adria):
-// a big photo with the name over it, then the quick facts + main action.
-//   phones    — the photo fills the first screen below the top bar (client's choice).
-//   sm and up — the facts sit in a white bar overlapping the photo's foot.
-//   phones    — no floating box: the name sits low on a deeper fade, and the facts
-//               follow as a clean two-column list with hairlines and a full-width button.
+//   phones    — the WHOLE landscape photo in a rounded 3:2 frame (no text over it, nothing
+//               cropped to a tall slice), then the class + name on cream, then the facts as a
+//               clean two-column list with hairlines and a full-width button (client's choice
+//               "B"; a full-screen crop looked zoomed).
+//   sm and up — a tall photo with the name over a dark fade; the facts sit in a white bar
+//               overlapping the photo's foot.
 // The photo is cropped around the focal point set in the admin (Media → focal point).
 // Empty facts are skipped; no photo → patterned green.
 export function DetailHero({
@@ -38,30 +39,34 @@ export function DetailHero({
 
   return (
     <header className="px-3 sm:px-4">
-      <div className="relative flex h-[calc(100svh-104px)] min-h-[440px] max-h-[900px] items-end overflow-hidden rounded-3xl pattern-green sm:h-[58svh] sm:min-h-[380px] sm:max-h-[640px]">
-        {photo?.url && (
-          <Image
-            src={photo.url}
-            alt={photo.alt ?? title}
-            fill
-            priority
-            sizes="100vw"
-            quality={90}
-            className="object-cover"
-            style={{ objectPosition: focalPosition(photo) }}
-          />
-        )}
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 via-45% to-transparent sm:from-black/75 sm:via-black/20 sm:via-50%"
-        />
-        <div className="relative mx-auto w-full max-w-[1100px] px-5 pb-7 sm:px-6 sm:pb-20">
-          {eyebrow && (
-            <p className="rise-in font-heading text-xs uppercase tracking-[0.3em] text-white/85 sm:text-sm">{eyebrow}</p>
+      <div className="relative">
+        <div className="relative aspect-[3/2] overflow-hidden rounded-3xl pattern-green shadow-[0_24px_50px_-30px_rgb(13_71_63/0.55)] sm:aspect-auto sm:h-[58svh] sm:min-h-[380px] sm:max-h-[640px] sm:shadow-none">
+          {photo?.url && (
+            <Image
+              src={photo.url}
+              alt={photo.alt ?? title}
+              fill
+              priority
+              sizes="100vw"
+              quality={90}
+              className="object-cover"
+              style={{ objectPosition: focalPosition(photo) }}
+            />
           )}
+          <div
+            aria-hidden
+            className="absolute inset-0 hidden bg-gradient-to-t from-black/75 via-black/20 via-50% to-transparent sm:block"
+          />
+        </div>
+        {/* Phones: below the photo, on cream. sm and up: over the photo's fade. */}
+        <div className="mx-auto w-full max-w-[1100px] px-2 pt-7 sm:absolute sm:inset-x-0 sm:bottom-0 sm:px-6 sm:pb-20 sm:pt-0">
+          {eyebrow && (
+            <p className="rise-in font-heading text-xs font-bold uppercase tracking-[0.3em] text-gold sm:text-sm sm:font-normal sm:text-white/85">{eyebrow}</p>
+          )}
+          {/* Green on cream (gold text there is too faint to read); gold over the photo. */}
           <h1
             className={cn(
-              'rise-in mt-2 text-balance font-display text-[2.2rem] leading-[1.08] text-gold drop-shadow-md sm:text-7xl',
+              'rise-in mt-2 text-balance font-display text-[2.2rem] leading-[1.08] text-green sm:text-7xl sm:text-gold sm:drop-shadow-md',
               longWord ? 'max-[380px]:text-[length:min(2.2rem,8.4vw)]' : 'max-[359px]:text-[1.9rem]',
             )}
           >

@@ -17,6 +17,7 @@ export const Homepage: GlobalConfig = {
     {
       name: 'reviewsIntro',
       type: 'group',
+      admin: { hidden: true }, // not shown on the site — hidden (data kept)
       fields: [
         { name: 'heading', type: 'text' },
         { name: 'aboutBlurb', type: 'richText' },
@@ -35,6 +36,7 @@ export const Homepage: GlobalConfig = {
           name: 'imageSide',
           type: 'select',
           defaultValue: 'left',
+          admin: { hidden: true }, // the Our Story layout no longer uses it — hidden (data kept)
           options: [
             { label: 'Image on left', value: 'left' },
             { label: 'Image on right', value: 'right' },

@@ -76,11 +76,12 @@ export const Tours: CollectionConfig = {
       ],
     },
 
-    // Media highlights (Quick Overview / Caravan Trips / Fun Activities / Vlog, SPEC page 50)
+    // Media highlights (SPEC page 50) — not used by the website; hidden from the editor (data kept).
     {
       name: 'highlights',
       type: 'array',
       labels: { singular: 'Highlight', plural: 'Highlights' },
+      admin: { hidden: true },
       fields: [
         { name: 'label', type: 'text', required: true, admin: { description: 'e.g. "Fun Activities".' } },
         { name: 'thumbnail', type: 'upload', relationTo: 'media' },
@@ -89,8 +90,8 @@ export const Tours: CollectionConfig = {
     },
 
     // Call to action
-    { name: 'ctaLabel', type: 'text', defaultValue: 'RESERVE YOUR RIDE' },
-    { name: 'ctaLink', type: 'text' },
+    { name: 'ctaLabel', label: 'Button text', type: 'text', defaultValue: 'RESERVE YOUR RIDE', admin: { description: 'Text on the booking buttons of this tour.' } },
+    { name: 'ctaLink', type: 'text', admin: { hidden: true } }, // not used — buttons always open the booking form
 
     // Tales & Snaps tabs (SPEC page 51): related blog article + related gallery
     {

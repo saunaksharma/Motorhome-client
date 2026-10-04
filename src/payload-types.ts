@@ -255,6 +255,9 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Text on the booking buttons of this tour.
+   */
   ctaLabel?: string | null;
   ctaLink?: string | null;
   tales?: (number | null) | BlogArticle;
@@ -449,6 +452,9 @@ export interface Gallery {
  */
 export interface Caravan {
   id: number;
+  /**
+   * The caravan's name, e.g. "Willow".
+   */
   name: string;
   /**
    * URL path. Auto-filled from the title if left blank.
@@ -462,9 +468,12 @@ export interface Caravan {
       }[]
     | null;
   /**
-   * Used on cards.
+   * One or two lines — shown on the caravan's card in listings.
    */
   shortDescription?: string | null;
+  /**
+   * The full text under the photo on the caravan's page.
+   */
   description?: {
     root: {
       type: string;
@@ -481,60 +490,45 @@ export interface Caravan {
     [k: string]: unknown;
   } | null;
   /**
-   * e.g. "4–6 People".
+   * Shown as "Sleeps", e.g. "4–6 People".
    */
   sleeps?: string | null;
   /**
-   * e.g. "Charges Start From Delhi".
-   */
-  chargesFrom?: string | null;
-  /**
-   * e.g. "Tata 4300 wb Chassis".
+   * Shown as "Base vehicle", e.g. "Tata 4300 wb Chassis".
    */
   baseVehicle?: string | null;
-  baseLocation?: (number | null) | CaravanFilterOption;
-  driveType?: (number | null) | CaravanFilterOption;
-  berthRange?: (number | null) | CaravanFilterOption;
   class?: (number | null) | CaravanFilterOption;
+  driveType?: (number | null) | CaravanFilterOption;
+  baseLocation?: (number | null) | CaravanFilterOption;
+  berthRange?: (number | null) | CaravanFilterOption;
   specifications?: (number | Feature)[] | null;
   /**
-   * Anything not in the tick-list above (free text).
+   * Only for something this caravan has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
    */
   additionalSpecifications?: string | null;
   uniqueFeatures?: (number | Feature)[] | null;
   /**
-   * Anything not in the tick-list above (free text).
+   * Only for something this caravan has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
    */
   additionalUniqueFeatures?: string | null;
   inclusions?: (number | Feature)[] | null;
   /**
-   * Anything not in the tick-list above (free text).
+   * Only for something this caravan has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
    */
   additionalInclusions?: string | null;
   exclusions?: (number | Feature)[] | null;
   /**
-   * Anything not in the tick-list above (free text).
+   * Only for something this caravan has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
    */
   additionalExclusions?: string | null;
   addOns?: (number | Feature)[] | null;
   /**
-   * Anything not in the tick-list above (free text).
+   * Only for something this caravan has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
    */
   additionalAddOns?: string | null;
-  highlights?:
-    | {
-        /**
-         * e.g. "Walk Through".
-         */
-        label: string;
-        thumbnail?: (number | null) | Media;
-        /**
-         * YouTube link or short clip URL.
-         */
-        videoUrl?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * Questions & answers shown near the bottom of the caravan's page.
+   */
   faqs?:
     | {
         question: string;
@@ -543,7 +537,7 @@ export interface Caravan {
       }[]
     | null;
   /**
-   * Up to 3 YouTube vlog / walk-through links.
+   * Up to 3 YouTube walk-through / vlog links.
    */
   relatedVideos?:
     | {
@@ -556,13 +550,22 @@ export interface Caravan {
       }[]
     | null;
   /**
-   * Stories/blog posts about this caravan. Shown in the "Tales" tab.
+   * Blog posts about this caravan — shown in the "Tales" tab.
    */
   relatedArticles?: (number | BlogArticle)[] | null;
   /**
-   * Photo albums from trips with this caravan. Shown in the "Snaps" tab.
+   * Gallery albums from trips with this caravan — shown in the "Snaps" tab.
    */
   snaps?: (number | Gallery)[] | null;
+  highlights?:
+    | {
+        label: string;
+        thumbnail?: (number | null) | Media;
+        videoUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  chargesFrom?: string | null;
   ctaLabel?: string | null;
   ctaLink?: string | null;
   /**
@@ -836,9 +839,6 @@ export interface Tip {
     };
     [k: string]: unknown;
   } | null;
-  /**
-   * Optional YouTube / clip link.
-   */
   videoUrl?: string | null;
   /**
    * Lower numbers show first.
@@ -1128,12 +1128,11 @@ export interface CaravansSelect<T extends boolean = true> {
   shortDescription?: T;
   description?: T;
   sleeps?: T;
-  chargesFrom?: T;
   baseVehicle?: T;
-  baseLocation?: T;
-  driveType?: T;
-  berthRange?: T;
   class?: T;
+  driveType?: T;
+  baseLocation?: T;
+  berthRange?: T;
   specifications?: T;
   additionalSpecifications?: T;
   uniqueFeatures?: T;
@@ -1144,14 +1143,6 @@ export interface CaravansSelect<T extends boolean = true> {
   additionalExclusions?: T;
   addOns?: T;
   additionalAddOns?: T;
-  highlights?:
-    | T
-    | {
-        label?: T;
-        thumbnail?: T;
-        videoUrl?: T;
-        id?: T;
-      };
   faqs?:
     | T
     | {
@@ -1168,6 +1159,15 @@ export interface CaravansSelect<T extends boolean = true> {
       };
   relatedArticles?: T;
   snaps?: T;
+  highlights?:
+    | T
+    | {
+        label?: T;
+        thumbnail?: T;
+        videoUrl?: T;
+        id?: T;
+      };
+  chargesFrom?: T;
   ctaLabel?: T;
   ctaLink?: T;
   sortOrder?: T;

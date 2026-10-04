@@ -17,7 +17,7 @@ export const Tips: CollectionConfig = {
   fields: [
     { name: 'title', type: 'text', required: true },
     { name: 'body', type: 'richText' },
-    { name: 'videoUrl', type: 'text', admin: { description: 'Optional YouTube / clip link.' } },
+    { name: 'videoUrl', type: 'text', admin: { hidden: true } }, // not shown on the site — hidden (data kept)
     ...listingMeta,
   ],
 }

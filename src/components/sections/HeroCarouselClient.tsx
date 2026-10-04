@@ -77,7 +77,9 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
               alt={slide.imageAlt ?? ''}
               fill
               priority={index === 0}
-              sizes="100vw"
+              // Phones: a landscape photo filling a tall full-screen box renders ~1.8× the
+              // screen HEIGHT wide — ask for that, or the phone stretches a small file (blurry).
+              sizes="(max-width: 639px) 180vh, 100vw"
               quality={90}
               draggable={false}
               className="hero-zoom object-cover"

@@ -15,6 +15,8 @@ type Photo = { url: string; alt?: string | null }
 //   3. the collage darkens as the title, short description and button rise in.
 // Pure CSS scroll-driven animation (`.collage*` in globals.css) — no JS. Browsers without
 // scroll timelines, and visitors who prefer reduced motion, see the finished collage.
+// Laptops/tablets only: on a phone the full-screen crop + dark film read as "zoomed/black"
+// (client feedback) — phones go straight to the photo gallery below.
 export function ZoomCollage({
   eyebrow,
   title,
@@ -35,7 +37,7 @@ export function ZoomCollage({
   const tiles = [...ring.slice(0, 4), centre, ...ring.slice(4)]
 
   return (
-    <section className="collage relative bg-[#0a0e0d]">
+    <section className="collage relative hidden bg-[#0a0e0d] sm:block">
       <div className="collage-stage relative h-[100svh] overflow-hidden">
         <div className="collage-grid grid grid-cols-3 grid-rows-3">
           {tiles.map((photo, i) => (

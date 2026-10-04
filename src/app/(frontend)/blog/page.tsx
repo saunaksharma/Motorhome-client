@@ -20,12 +20,24 @@ export default async function BlogPage({ searchParams }: { searchParams: SearchP
   const params = await searchParams
   const payload = await getPayloadClient()
 
-  const { docs: categories } = await payload.find({
+  const { docs: allCategories } = await payload.find({
     collection: 'blog-categories',
     where: { active: { equals: true } },
     sort: 'sortOrder',
     limit: 100,
   })
+  // Only offer categories that have at least one published article (no empty results).
+  const { docs: published } = await payload.find({
+    collection: 'blog-articles',
+    where: { active: { equals: true } },
+    select: { category: true },
+    depth: 0,
+    limit: 1000,
+  })
+  const inUse = new Set(
+    published.flatMap((a) => (Array.isArray(a.category) ? a.category : []).map((c) => (typeof c === 'object' ? c.id : c))),
+  )
+  const categories = allCategories.filter((c) => inUse.has(c.id))
 
   const where: Where = { active: { equals: true } }
   if (params.category) where.category = { in: [Number(params.category)] } // hasMany

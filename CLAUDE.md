@@ -155,6 +155,38 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-04 (day 7) — client's Drive photos, phone "landscape card", simpler admin
+- **Client photos** (Drive "WEB DEVELOP 2026 › PICS", public link; the Drive connector's search
+  index lagged, so files were listed via `drive.google.com/embeddedfolderview?id=<folder>` and
+  fetched from `drive.usercontent.google.com/download?id=…`): 11 folders, 135 photos.
+  `tmp-drive/process.py` (gitignored): duplicates removed by eye (Aegis #3, Shiloh #4 blue-tinted
+  original + #10, Willow #7 #11), iPhone HEIC converted (pillow-heif), max 2400 px, progressive
+  JPEG q82, **metadata stripped (camera GPS)**, names `<slug>-<label>.jpg` → 130 photos, 374→34 MB.
+  Temp route set cover (with focal point) + gallery = ONLY the client's photos on 7 caravans +
+  Arcade / Club on Wheels / Vanity Van. Old media unlinked, not deleted (77 now unused).
+  Aurum, Lounger, Food Fusion, Election Express: no new folder → unchanged.
+  **Queens** (14 photos, new twin caravans): user said leave it for now — prepared in tmp-drive only.
+- **Phones looked "zoomed"**: (1) `sizes="100vw"` on full-height crops → phones fetched ~1170 px and
+  stretched it ~4× → homepage hero now `sizes="(max-width: 639px) 180vh, 100vw"`; (2) Ken Burns
+  `.hero-zoom` off below 640 px; (3) a tall box only shows ~¼ of a landscape photo →
+  **DetailHero on phones = "B" (user's pick, after Adria's product page):** whole photo in a
+  rounded `aspect-[3/2]` frame, no overlay; class (gold, bold caps) + name (GREEN — gold on cream
+  failed contrast) below on cream; facts + CTA as before. Desktop DetailHero unchanged (one h1,
+  absolutely positioned over the photo from `sm`). ZoomCollage hidden on phones (`hidden sm:block`;
+  its black film + crop read as "black/zoomed"); desktop keeps it.
+- **Admin simplified (client was confused by "additional features")**: Caravans editor grouped in
+  collapsibles — Photos / Description & quick facts / one section per feature list with a plain
+  note (tick = shows on the page; new option for all caravans = Lists & Settings → Features with
+  that category) / Extras (optional). "Additional X" boxes relabelled "Other X (not in the list
+  above)" + explains commas → each shows like a ticked item. Layout/labels only: dev start pulled
+  the schema with NO prompts (field names unchanged).
+- **Unused fields hidden (`admin.hidden`, data kept — never drop columns):** caravans highlights /
+  chargesFrom / ctaLabel / ctaLink; tours highlights / ctaLink (ctaLabel = "Button text", used);
+  tips videoUrl; homepage reviewsIntro + aboutSections.imageSide.
+- **Placeholder pages offline:** /b2b and /partner-with-us ("[add your … here]") set inactive +
+  their footer links removed (reversible). /blog filter now lists only categories with articles.
+- Open: 3 hidden seed blog posts + 77 unused media could be deleted (asked the user first).
+
 ### 2026-09-25 (day 6, cont.) — FINAL security + site audit
 - **Access control (probed live, safe requests only):** anonymous GET users/enquiries/subscribers
   → 403; anonymous POST/PATCH/DELETE on content, users, media, globals, enquiries, subscribers → 403;
