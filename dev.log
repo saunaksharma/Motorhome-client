@@ -2,12 +2,11 @@
 - Local:         http://localhost:3001
 - Network:       http://192.168.29.201:3001
 - Environments: .env.local, .env
-✓ Ready in 435ms
-✓ Running next.config.ts took 41ms
+✓ Ready in 423ms
+✓ Running next.config.ts took 39ms
 - Experiments (use with caution):
   ⨯ turbopackServerFastRefresh
 
-○ Compiling / ...
 [⣷] Pulling schema from database...
 [2K[1G[⣯] Pulling schema from database...
 [2K[1G[⣟] Pulling schema from database...
@@ -45,43 +44,10 @@
 [2K[1G[⣽] Pulling schema from database...
 [2K[1G[⣷] Pulling schema from database...
 [2K[1G[✓] Pulling schema from database...
-[02:26:34] [33mWARN[39m: [36mNo email adapter provided. Email will be written to console. More info at https://payloadcms.com/docs/email/overview.[39m
- GET / 200 in 14.5s (next.js: 4.5s, application-code: 10.0s)
- GET / 200 in 1134ms (next.js: 18ms, application-code: 1116ms)
- GET / 200 in 1580ms (next.js: 8ms, application-code: 1572ms)
- GET /api/media/file/vanity-van-01.jpg 200 in 6.1s (next.js: 4.7s, application-code: 1452ms)
- GET /api/media/file/kastro-wide-exterior-front.jpg 200 in 6.2s (next.js: 4.7s, application-code: 1478ms)
- GET /api/media/file/ELECTION%202.0.jpeg 200 in 6.3s (next.js: 4.7s, application-code: 1587ms)
+[02:50:19] [33mWARN[39m: [36mNo email adapter provided. Email will be written to console. More info at https://payloadcms.com/docs/email/overview.[39m
+ GET / 200 in 10.9s (next.js: 1053ms, application-code: 9.8s)
+ GET / 200 in 1233ms (next.js: 7ms, application-code: 1226ms)
+ GET / 200 in 1755ms (next.js: 8ms, application-code: 1746ms)
 [browser] Image with src "/api/media/file/story-how-it-began.jpeg" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
- GET / 200 in 1668ms (next.js: 10ms, application-code: 1658ms)
- GET / 200 in 1629ms (next.js: 8ms, application-code: 1621ms)
- GET / 200 in 1661ms (next.js: 4ms, application-code: 1657ms)
- GET / 200 in 1705ms (next.js: 5ms, application-code: 1700ms)
-⚠ Blocked cross-origin request to Next.js dev resource /_next/hmr from "exterior-contest-pie-comparing.trycloudflare.com".
-Cross-origin access to Next.js dev resources is blocked by default for safety.
-
-To allow this host in development, add it to "allowedDevOrigins" in next.config.js and restart the dev server:
-
-// next.config.js
-module.exports = {
-  allowedDevOrigins: ['exterior-contest-pie-comparing.trycloudflare.com'],
-}
-
-Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
- GET /api/media/file/hero-weekend-getaway.jpg 200 in 928ms (next.js: 16ms, application-code: 912ms)
- GET /api/media/file/hero-election-campaign.jpg 200 in 699ms (next.js: 13ms, application-code: 687ms)
- GET /api/media/file/hero-self-drive.jpg 200 in 923ms (next.js: 20ms, application-code: 903ms)
- GET /api/media/file/hero-willow.jpg 200 in 1044ms (next.js: 8ms, application-code: 1037ms)
- GET /api/media/file/hero-expandable-motorhome.jpg 200 in 1154ms (next.js: 16ms, application-code: 1138ms)
- GET /api/media/file/hero-home-away-home-v2.jpg 200 in 1141ms (next.js: 21ms, application-code: 1120ms)
- GET /api/media/file/hero-ladakh.jpg 200 in 1374ms (next.js: 15ms, application-code: 1359ms)
- GET /api/media/file/hero-expandable-motorhome.jpg 200 in 646ms (next.js: 12ms, application-code: 634ms)
- GET /api/media/file/hero-willow.jpg 200 in 679ms (next.js: 29ms, application-code: 650ms)
- GET /api/media/file/hero-election-campaign.jpg 200 in 1060ms (next.js: 27ms, application-code: 1033ms)
- GET /api/media/file/hero-ladakh.jpg 200 in 1044ms (next.js: 17ms, application-code: 1026ms)
- GET /api/media/file/footer-bg.jpg 200 in 1126ms (next.js: 38ms, application-code: 1088ms)
- GET /api/media/file/hero-home-away-home-v2.jpg 200 in 1185ms (next.js: 38ms, application-code: 1146ms)
- GET /api/media/file/hero-self-drive.jpg 200 in 1172ms (next.js: 6ms, application-code: 1166ms)
- GET /api/media/file/hero-weekend-getaway.jpg 200 in 1519ms (next.js: 17ms, application-code: 1503ms)
-[?25h
+ GET / 200 in 1764ms (next.js: 13ms, application-code: 1751ms)
