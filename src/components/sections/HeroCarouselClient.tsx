@@ -25,8 +25,9 @@ const AUTOPLAY_MS = 6000
 // autoplay timer restarts after each change. Vertical page scrolling is untouched.
 // Desktop follows the Canva: full screen, text centred, gold line in a green badge.
 // Phones follow Adria's mobile hero layout — text bottom-left in two bold lines (the gold
-// line without a box) and a small outline button. Fills the first screen on every size
-// (the client's choice — a ¾-height version was rejected as "too small").
+// line without a box) and a small outline button. Phones: the screen minus ~an inch (120px)
+// so the next section peeks in (client: full screen was "an inch too big", ¾ was "too
+// small"); laptops: full screen. Each photo is cropped around its admin focal point.
 export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
   const [current, setCurrent] = useState(0)
   const count = slides.length
@@ -56,7 +57,7 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
 
   return (
     <section
-      className="relative -mt-[92px] h-[100svh] max-h-[1000px] min-h-[560px] w-full touch-pan-y select-none overflow-hidden sm:min-h-[600px]"
+      className="relative -mt-[92px] h-[calc(100svh-120px)] max-h-[1000px] min-h-[520px] w-full touch-pan-y select-none overflow-hidden sm:h-[100svh] sm:min-h-[600px]"
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
       onPointerCancel={() => (startX.current = null)}

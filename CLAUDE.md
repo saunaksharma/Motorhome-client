@@ -155,6 +155,14 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-04 (day 7, cont.) — homepage hero an inch shorter on phones; collage back on phones
+- User: phone hero "an inch too big" → phones `h-[calc(100svh-120px)]` (844 → 724 on an iPhone),
+  laptops still `sm:h-[100svh]`. All 7 hero photos got focal points (they were the 50/50 default,
+  so tall phone crops cut through the vehicle) — set via temp route, editable in Media.
+- ZoomCollage is shown on phones again (user: "the scroll was fine, take it back"); its centre
+  tile now requests `(max-width: 639px) 180vh` so phones don't stretch a small file.
+- Contact page details card: email + address removed (client) — phone, WhatsApp, hours remain.
+
 ### 2026-10-04 (day 7, cont.) — client's WhatsApp feedback round
 - **Logo lockup:** MOTORHOME and ADVENTURES same font/size/weight (Cinzel, text-xl/2xl), emblem
   bigger (h-10 scrolled / h-12 over hero), emblem↔words gap-1.5. Fits 320–412 px (measured).
