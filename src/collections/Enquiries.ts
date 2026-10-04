@@ -10,7 +10,7 @@ export const Enquiries: CollectionConfig = {
   slug: 'enquiries',
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['firstName', 'lastName', 'phone', 'destination', 'status', 'createdAt'],
+    defaultColumns: ['firstName', 'lastName', 'phone', 'enquiryType', 'destination', 'status', 'createdAt'],
     listSearchableFields: ['firstName', 'lastName', 'email', 'phone'],
     group: 'Inbox',
     description: 'Booking requests sent from the website forms. Update the status as you follow up.',
@@ -50,7 +50,23 @@ export const Enquiries: CollectionConfig = {
     { name: 'email', type: 'email', required: true },
     { name: 'phone', type: 'text', required: true },
     { name: 'company', type: 'text' },
-    { name: 'destination', type: 'text', admin: { description: 'The caravan/tour being enquired about.' } },
+    {
+      name: 'enquiryType',
+      label: 'Enquiry about',
+      type: 'select',
+      options: [
+        { label: 'Tour', value: 'tour' },
+        { label: 'Caravan', value: 'caravan' },
+        { label: 'Innovation (vehicle)', value: 'innovation' },
+      ],
+      admin: { description: 'What the visitor picked at the top of the form.' },
+    },
+    {
+      name: 'destination',
+      label: 'Itinerary / Caravan / Vehicle',
+      type: 'text',
+      admin: { description: 'The tour, caravan or vehicle they chose (or "Not sure yet").' },
+    },
     { name: 'preferredTravelDates', type: 'text' },
     { name: 'groupSize', type: 'text' },
     { name: 'budgetRange', type: 'text' },

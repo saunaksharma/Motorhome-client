@@ -38,7 +38,7 @@ export default async function InnovationDetailPage({ params }: { params: Params 
   const item = await getInnovation(slug)
   if (!item) notFound()
 
-  const enquire = `/contact?destination=${encodeURIComponent(item.name)}`
+  const enquire = `/contact?type=innovation&destination=${encodeURIComponent(item.name)}`
 
   return (
     <article>

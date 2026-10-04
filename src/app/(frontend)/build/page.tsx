@@ -17,7 +17,7 @@ export const metadata = {
 // Refresh from the CMS at most once a minute in production.
 export const revalidate = 60
 
-const BUILD_ENQUIRY = '/contact?destination=Custom%20Build'
+const BUILD_ENQUIRY = '/contact?type=innovation&destination=Custom%20Build'
 
 export default async function BuildPage() {
   const payload = await getPayloadClient()

@@ -67,7 +67,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
     provider: { '@type': 'TravelAgency', name: 'Motorhome Adventures', url: siteURL },
   }
 
-  const enquire = `/contact?destination=${encodeURIComponent(tour.name)}`
+  const enquire = `/contact?type=tour&destination=${encodeURIComponent(tour.name)}`
 
   return (
     <article>

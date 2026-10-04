@@ -52,6 +52,12 @@ function Detail({
 export default async function ContactPage() {
   const payload = await getPayloadClient()
   const business = await payload.findGlobal({ slug: 'business', depth: 0 })
+  // The form's "Itinerary / Caravan / Vehicle Type" lists — every active item, in admin order.
+  const names = async (collection: 'tours' | 'caravans' | 'innovations') =>
+    (
+      await payload.find({ collection, where: { active: { equals: true } }, sort: 'sortOrder', select: { name: true }, depth: 0, limit: 200 })
+    ).docs.map((doc) => doc.name)
+  const [tour, caravan, innovation] = await Promise.all([names('tours'), names('caravans'), names('innovations')])
   const { phone, whatsapp, hours } = business ?? {}
   const hasDetails = Boolean(phone || whatsapp || hours)
 
@@ -86,7 +92,7 @@ export default async function ContactPage() {
       )}
 
       <div className="mt-10">
-        <BookingForm />
+        <BookingForm choices={{ tour, caravan, innovation }} />
       </div>
     </div>
   )

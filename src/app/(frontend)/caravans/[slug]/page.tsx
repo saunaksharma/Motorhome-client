@@ -91,7 +91,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
     })),
   }
 
-  const enquire = `/contact?destination=${encodeURIComponent(caravan.name)}`
+  const enquire = `/contact?type=caravan&destination=${encodeURIComponent(caravan.name)}`
 
   return (
     <article>

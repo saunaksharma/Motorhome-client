@@ -1,6 +1,8 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+
+import { cn } from '@/lib/utils'
 
 import { Honeypot } from './Honeypot'
 
@@ -19,19 +21,38 @@ function Field({ label, required, children }: { label: string; required?: boolea
   )
 }
 
+export type EnquiryType = 'tour' | 'caravan' | 'innovation'
+export type EnquiryChoices = Record<EnquiryType, string[]>
+
+// What the visitor is enquiring about decides the one field that changes (client):
+// Tour → "Itinerary", Caravan → "Caravan", Innovation → "Vehicle Type", each a list from the CMS.
+const TYPES: { value: EnquiryType; label: string; field: string }[] = [
+  { value: 'tour', label: 'Tour', field: 'Itinerary' },
+  { value: 'caravan', label: 'Caravan', field: 'Caravan' },
+  { value: 'innovation', label: 'Innovation', field: 'Vehicle Type' },
+]
+const NOT_SURE = 'Not sure yet'
+const isType = (v: string | null): v is EnquiryType => TYPES.some((t) => t.value === v)
+
 // "Reserve Your Adventure" booking form → public Enquiries endpoint.
-export function BookingForm() {
-  const destinationRef = useRef<HTMLInputElement>(null)
+export function BookingForm({ choices }: { choices: EnquiryChoices }) {
+  const [type, setType] = useState<EnquiryType>('tour')
+  const [destination, setDestination] = useState('')
   const [sending, setSending] = useState(false)
 
-  // Pre-fill "Destination" from the link (e.g. /contact?destination=Willow) in the
-  // browser, so the page itself can be pre-built and load instantly.
+  // Pre-select from the link (e.g. /contact?type=caravan&destination=Willow) in the browser,
+  // so the page itself can be pre-built and load instantly.
   useEffect(() => {
-    const destination = new URLSearchParams(window.location.search).get('destination')
-    if (destination && destinationRef.current && !destinationRef.current.value) {
-      destinationRef.current.value = destination
-    }
+    const params = new URLSearchParams(window.location.search)
+    const linkType = params.get('type')
+    // One-time read of the link after hydration (keeps /contact static); not a render loop.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (isType(linkType)) setType(linkType)
+    setDestination(params.get('destination') ?? '')
   }, [])
+  const field = TYPES.find((t) => t.value === type)!
+  // A pre-filled name that isn't in the list (e.g. "Custom Build") is still offered.
+  const options = [...choices[type], ...(destination && !choices[type].includes(destination) && destination !== NOT_SURE ? [destination] : [])]
   const [done, setDone] = useState(false)
   const [error, setError] = useState('')
 
@@ -73,6 +94,29 @@ export function BookingForm() {
   return (
     <form onSubmit={onSubmit} className="relative grid gap-4 sm:grid-cols-2">
       <Honeypot />
+      <input type="hidden" name="enquiryType" value={type} />
+      <fieldset className="sm:col-span-2">
+        <legend className="mb-2 font-heading text-sm uppercase tracking-wide text-green">I&apos;m enquiring about</legend>
+        <div className="grid grid-cols-3 gap-1 rounded-full border border-border bg-card p-1">
+          {TYPES.map((t) => (
+            <button
+              key={t.value}
+              type="button"
+              aria-pressed={type === t.value}
+              onClick={() => {
+                setType(t.value)
+                setDestination('')
+              }}
+              className={cn(
+                'rounded-full px-2 py-2.5 font-heading text-[13px] font-bold uppercase tracking-wide transition-colors max-[359px]:px-1 max-[359px]:text-[11px] max-[359px]:tracking-normal sm:text-sm',
+                type === t.value ? 'bg-green text-white' : 'text-green hover:bg-green/5',
+              )}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </fieldset>
       <Field label="First Name" required>
         <input name="firstName" required autoComplete="given-name" className={inputClass} />
       </Field>
@@ -85,11 +129,18 @@ export function BookingForm() {
       <Field label="Phone Number" required>
         <input name="phone" type="tel" required autoComplete="tel" className={inputClass} />
       </Field>
+      {/* autoComplete off: a browser filled its saved "company" ("transparent") here for the client. */}
       <Field label="Company">
-        <input name="company" autoComplete="organization" className={inputClass} />
+        <input name="company" autoComplete="off" className={inputClass} />
       </Field>
-      <Field label="Destination">
-        <input ref={destinationRef} name="destination" className={inputClass} />
+      <Field label={field.field}>
+        <select name="destination" value={destination} onChange={(e) => setDestination(e.target.value)} className={inputClass}>
+          <option value="">Select…</option>
+          {options.map((name) => (
+            <option key={name}>{name}</option>
+          ))}
+          <option>{NOT_SURE}</option>
+        </select>
       </Field>
       <Field label="Preferred Travel Dates">
         <input name="preferredTravelDates" placeholder="e.g. March 2027" className={inputClass} />
@@ -130,7 +181,7 @@ export function BookingForm() {
           disabled={sending}
           className="w-full rounded-full bg-green px-8 py-3.5 font-heading font-semibold uppercase tracking-wider text-white transition hover:bg-green/90 disabled:opacity-60"
         >
-          {sending ? 'Sending…' : 'Book Now'}
+          {sending ? 'Sending…' : 'Book your call with our specialist'}
         </button>
       </div>
     </form>

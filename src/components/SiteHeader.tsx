@@ -97,14 +97,14 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
                   href={item.link}
                   className={cn(
                     // Tighter at lg so all 8 items fit on one line down to 1024px (iPad landscape).
-                    'group relative whitespace-nowrap px-1.5 py-2 font-heading text-[12px] uppercase tracking-[0.08em] transition-colors xl:px-2.5 xl:text-[13px] xl:tracking-[0.12em]',
+                    'group relative whitespace-nowrap px-1.5 py-2 font-heading text-[12px] uppercase tracking-[0.08em] transition-colors xl:px-2 xl:text-[13px] xl:tracking-[0.12em]',
                     isActive(item.link) ? 'text-gold' : 'text-white/90 hover:text-gold',
                   )}
                 >
                   {item.label}
                   <span
                     className={cn(
-                      'absolute inset-x-1.5 -bottom-0.5 h-px origin-center bg-gold transition-transform duration-300 xl:inset-x-2.5',
+                      'absolute inset-x-1.5 -bottom-0.5 h-px origin-center bg-gold transition-transform duration-300 xl:inset-x-2',
                       isActive(item.link) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
                     )}
                   />
@@ -113,11 +113,13 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
             </nav>
 
             <div className="flex items-center gap-2">
+              {/* Client's wording; two lines so it fits beside the menu (one line overflows at 1280px). */}
               <Link
                 href="/contact"
-                className="hidden shrink-0 whitespace-nowrap rounded-full bg-gold px-5 py-2 font-heading text-[13px] font-bold uppercase tracking-wider text-green transition hover:bg-[#d8b457] xl:inline-block"
+                className="hidden shrink-0 flex-col items-center whitespace-nowrap rounded-2xl bg-gold px-4 py-1.5 font-heading leading-tight text-green transition hover:bg-[#d8b457] xl:flex"
               >
-                Book Now
+                <span className="text-[12px] font-bold uppercase tracking-wider">Book your call</span>
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-green/80">with our specialist</span>
               </Link>
               <button
                 className="rounded-full p-2 text-white transition hover:bg-white/10 lg:hidden"
@@ -155,7 +157,7 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
                   href="/contact"
                   className="mt-2 rounded-full bg-gold px-5 py-3 text-center font-heading font-semibold uppercase tracking-wider text-green"
                 >
-                  Book Now
+                  Book your call with our specialist
                 </Link>
               </div>
             </nav>

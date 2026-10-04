@@ -155,6 +155,22 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-04 (day 7, cont.) — one adaptive enquiry form; "Book your call with our specialist"
+- **Hero height reverted** to full screen on phones (3d130e1) — the "inch shorter" version was
+  rejected. FINAL: never resize the homepage hero; fix the photo (focal point) instead.
+- **BookingForm** (/contact): "I'm enquiring about" switch Tour / Caravan / Innovation (hidden
+  `enquiryType`); the one changing field is a dropdown: Tour → "Itinerary" (tours), Caravan →
+  "Caravan", Innovation → "Vehicle Type" (innovations) + "Not sure yet". Lists come from the CMS
+  (active, sortOrder) on the static contact page. Enquire links carry `?type=…&destination=…`
+  (tour / caravan / innovation pages; /build → innovation + "Custom Build", offered even if not in
+  the list). Read once after hydration (eslint set-state-in-effect disabled with a reason).
+- **Enquiries:** new `enquiryType` select ("Enquiry about") + column in the list; alert email
+  includes it. Tested end-to-end (test row created → checked → deleted).
+- Company field `autoComplete="off"` (a browser auto-filled "transparent" for the client).
+- **"Book Now" → "Book your call with our specialist"**: header = two-line gold pill (one line
+  overflowed 1280px); desktop nav items `xl:px-2` (was 2.5) so it fits 1024–1440; phone menu +
+  form submit show the full text.
+
 ### 2026-10-04 (day 7, cont.) — homepage hero an inch shorter on phones; collage back on phones
 - User: phone hero "an inch too big" → phones `h-[calc(100svh-120px)]` (844 → 724 on an iPhone),
   laptops still `sm:h-[100svh]`. All 7 hero photos got focal points (they were the 50/50 default,

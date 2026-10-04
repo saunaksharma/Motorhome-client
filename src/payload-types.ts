@@ -874,7 +874,11 @@ export interface Enquiry {
   phone: string;
   company?: string | null;
   /**
-   * The caravan/tour being enquired about.
+   * What the visitor picked at the top of the form.
+   */
+  enquiryType?: ('tour' | 'caravan' | 'innovation') | null;
+  /**
+   * The tour, caravan or vehicle they chose (or "Not sure yet").
    */
   destination?: string | null;
   preferredTravelDates?: string | null;
@@ -1345,6 +1349,7 @@ export interface EnquiriesSelect<T extends boolean = true> {
   email?: T;
   phone?: T;
   company?: T;
+  enquiryType?: T;
   destination?: T;
   preferredTravelDates?: T;
   groupSize?: T;
