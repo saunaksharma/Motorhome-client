@@ -155,6 +155,29 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-05 (day 8) — client's Canva backgrounds everywhere; Footprint = Canva page 38
+- **Backgrounds = the client's own Canva pattern** (doodle caravans, campervans, trees, tents,
+  mountains, campfire). Cut from Canva page 15 (`../WEB dEv material/15.jpg`, the 4000 px export of
+  the bare pattern) into two transparent, pre-tinted tiles: `public/canva-pattern-cream.webp`
+  (faint grey lines, Canva's own strength) and `canva-pattern-green.webp` (dark lines, as on the
+  Canva's green pages). Cream one = `body` background (every page); green one = `.pattern-green`
+  (Tips, newsletter band, PageBanner, Dream Big band, About CTA, photo placeholders). 1440 px wide
+  tiles on desktop, 820 px on phones. Cards/inputs stay solid white on top (as in the Canva).
+  Removed: `camp-pattern.svg` + `camp-pattern-mask.svg` (old simple pattern), Our Story's dot grid
+  and `bg-white`, Dream Big's mask overlays (now plain `pattern-green` on the page pattern).
+  To re-cut the tiles: threshold 15.jpg (alpha = (250 − L)/10.5), resize to 1800 px, tint, lossless WebP.
+- **Footprint rebuilt to Canva page 38**, same on desktop and phones (phones = scaled copy, three
+  arches in one row): green frame (bars top/bottom, curved brackets at the sides), "OUR FOOTPRINT"
+  in Anton slanted like the Canva (`-skew-x-[10deg]`; the global no-italics rule doesn't touch a
+  skew — say the word to straighten), arches in Bebas Neue (both fonts loaded only in
+  `Footprint.tsx`), outline legs running down past the name. Sizes inside an arch are `cqw` of the
+  arch, so proportions hold at every width. New admin field per stat: **"Small text above"**
+  (`intro`, additive column); `value` = "Big text", `caption` = "Small text below"; " · " = new
+  line. Data now: India·Nepal·Bhutan·Tibet / "15 +" + Years·Driver & Helper·Experience /
+  "1 Day Trip · Or" + "365 Days" + "We've got you · covered !".
+- **Footer:** "Visit Headquarters" column removed (Footer global data) → Useful Pages · Partner
+  Programme · Help Centre. /contact is reached from the header's "Book your call" button.
+
 ### 2026-10-04 (day 7, cont.) — one adaptive enquiry form; "Book your call with our specialist"
 - **Hero height reverted** to full screen on phones (3d130e1) — the "inch shorter" version was
   rejected. FINAL: never resize the homepage hero; fix the photo (focal point) instead.
@@ -188,7 +211,7 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   card = one link → the vehicle page has Enquire). TourCard / CaravanCard / InnovationCard are thin
   wrappers. Homepage caravans row uses the normal SwipeRow (the `wide` option + split card were
   removed); /caravans grid = tours grid (sm 2 / lg 3).
-- **Footprint = tombstones:** `aspect-[2/3]` (sm `3/4`), max-w 250, round top, flat foot, ring kept.
+- **Footprint = tombstones** (superseded 2026-10-05 by the exact Canva page 38 build).
 - **Footer:** "Reach Us" block removed (phone/email/address stay on /contact, WhatsApp button,
   JSON-LD); columns re-ordered in data: Useful Pages · Visit Headquarters · Partner Programme ·
   Help Centre (right).
@@ -198,8 +221,7 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - **Dream Big = design page 39:** green band with the camping pattern (darker lines) on a cream
   stage with the faint pattern; heading centred over TWO buttons — outlined + white (`CtaButton
   onGreen solid`). New fields `secondCtaLabel/Link`; both "KNOW MORE" link to articles for now
-  (Why opt for a caravan / How can I rent). Pattern drawn via CSS mask of
-  `public/camp-pattern-mask.svg` (= camp-pattern.svg at full stroke opacity).
+  (Why opt for a caravan / How can I rent). (Pattern: now the Canva tiles — see 2026-10-05.)
 - New DB columns (year, secondCta*) were added by the dev server's schema push — no prompts.
 
 ### 2026-10-04 (day 7) — client's Drive photos, phone "landscape card", simpler admin

@@ -50,9 +50,8 @@ export async function AboutSections() {
 
   // overflow-clip (not -hidden) crops the glows without breaking the sticky photo.
   return (
-    <section className="story relative overflow-clip bg-white text-green">
-      {/* Stage: dot grid fading out at the edges + soft green/gold aurora glows. */}
-      <div aria-hidden className="story-grid pointer-events-none absolute inset-0" />
+    <section className="story relative overflow-clip text-green">
+      {/* Stage: the page's Canva pattern + soft green/gold aurora glows. */}
       {/* Glows are radial gradients, not blur(120px) circles: same look, but big blurred
           layers can flicker in iPhone Safari as they scroll past the section's edge. */}
       <div aria-hidden className="pointer-events-none absolute -left-[280px] -top-20 size-[760px] bg-[radial-gradient(closest-side,rgb(13_71_63/0.07)_35%,transparent)]" />

@@ -1,50 +1,90 @@
+import { Anton, Bebas_Neue } from 'next/font/google'
 import React from 'react'
 
-import { SectionHeading } from '@/components/SectionHeading'
 import { getHomepage } from '@/lib/payload'
+import { cn } from '@/lib/utils'
 
-// A value like "India • Nepal • Bhutan • Tibet" is shown one item per line, as on the
-// client's previous site (INDIA / NEPAL / BHUTAN / TIBET).
+// The Canva's poster faces for this section only (design page 38): Anton for the title,
+// Bebas Neue inside the arches. Loaded here so other pages don't download them.
+const anton = Anton({ weight: '400', subsets: ['latin'] })
+const bebas = Bebas_Neue({ weight: '400', subsets: ['latin'] })
+
+// " · " (or • or |) in the admin text starts a new line: "India · Nepal" → INDIA / NEPAL.
 const lines = (value?: string | null) =>
   (value ?? '')
     .split(/\s*[•·|]\s*/)
     .map((s) => s.trim())
     .filter(Boolean)
 
-// "Our Footprint" — three stat stones in one row at every size (design page 38 and the
-// previous site), just smaller on phones. Tombstone-shaped (client): taller than wide, full
-// round top, flat foot. A thin ring around each echoes the old site's double-arch frame.
+// "Our Footprint", built to the client's Canva (design page 38) on every screen size: a green
+// frame (bars top and bottom, curved brackets at the sides) holding the title and three green
+// arches, each inside a thin outline whose legs run down past the arch's name. Phones get the
+// same picture, smaller, still three in one row. Sizes inside an arch are in cqw (% of the
+// arch's width), so the text keeps the Canva's proportions at any width.
 export async function Footprint() {
   const home = await getHomepage()
   const stats = home?.footprint ?? []
   if (stats.length === 0) return null
 
   return (
-    <section className="mx-auto max-w-[1100px] px-4 py-16">
-      <SectionHeading title="OUR FOOTPRINT" />
+    <section className="px-3 py-14 sm:px-6 sm:py-20">
+      <div className="@container/frame relative mx-auto max-w-[1160px] px-[4%] py-[5%] sm:py-[3.5%]">
+        {/* The frame: rounded bars top and bottom, brackets curving in at the sides. */}
+        <span aria-hidden className="absolute inset-x-[3.5%] top-0 h-1 rounded-full bg-green sm:h-1.5" />
+        <span aria-hidden className="absolute inset-x-[3.5%] bottom-0 h-1 rounded-full bg-green sm:h-1.5" />
+        <span aria-hidden className="absolute inset-y-[8%] left-0 w-[3%] rounded-l-[40px] border-l-4 border-green sm:border-l-[7px]" />
+        <span aria-hidden className="absolute inset-y-[8%] right-0 w-[3%] rounded-r-[40px] border-r-4 border-green sm:border-r-[7px]" />
 
-      <div className="mt-10 grid grid-cols-3 items-end gap-3 sm:gap-8">
-        {stats.map((stat, index) => (
-          <div key={index} className="mx-auto w-full max-w-[250px] text-center">
-            <div className="flex aspect-[2/3] flex-col items-center justify-center rounded-b-md rounded-t-full bg-green px-2 pt-6 text-white ring-1 ring-green/25 ring-offset-4 ring-offset-background sm:aspect-[3/4] sm:rounded-b-lg sm:px-6 sm:pt-12 sm:ring-offset-8">
-              {lines(stat.value).map((line) => (
-                <div key={line} className="font-display text-[15px] leading-tight uppercase text-gold sm:text-2xl">
-                  {line}
+        <h2
+          className={cn(
+            anton.className,
+            '-skew-x-[10deg] text-center text-[length:max(26px,6.2cqw)] uppercase leading-none text-green drop-shadow-[0_2px_1px_rgb(13_71_63/0.25)]',
+          )}
+        >
+          Our Footprint
+        </h2>
+
+        <div className="mt-[4%] grid grid-cols-3 gap-[3%] sm:mt-[2.5%]">
+          {stats.map((stat, index) => {
+            const value = lines(stat.value)
+            // One short value like "15+" is the poster number; longer single values are big.
+            const valueSize =
+              value.length > 1 ? 'text-[length:21cqw]' : value[0].replace(/\s/g, '').length <= 4 ? 'text-[length:48cqw]' : 'text-[length:26cqw]'
+            return (
+              <div key={index} className="@container mx-auto w-full sm:w-[72%]">
+                <div className="rounded-t-full border-x-2 border-t-2 border-green/55 px-[4cqw] pt-[4cqw] sm:border-x-[3px] sm:border-t-[3px]">
+                  <div
+                    className={cn(
+                      bebas.className,
+                      '@container flex aspect-[5/6] flex-col items-center justify-center overflow-hidden rounded-t-full bg-green px-[5cqw] pt-[10cqw] text-center uppercase leading-[1.08] text-white',
+                    )}
+                  >
+                    {lines(stat.intro).map((line) => (
+                      <span key={line} className="text-[length:20cqw]">
+                        {line}
+                      </span>
+                    ))}
+                    {value.map((line) => (
+                      <span key={line} className={cn(valueSize, value.length === 1 && 'leading-[0.95]')}>
+                        {line}
+                      </span>
+                    ))}
+                    {lines(stat.caption).map((line) => (
+                      <span key={line} className="text-[length:15cqw]">
+                        {line}
+                      </span>
+                    ))}
+                  </div>
+                  {stat.label && (
+                    <div className="whitespace-nowrap pt-[3cqw] text-center font-heading text-[length:10.5cqw] font-bold uppercase leading-none tracking-tight text-green">
+                      {stat.label}
+                    </div>
+                  )}
                 </div>
-              ))}
-              {stat.caption && (
-                <div className="mt-1.5 text-[10px] leading-snug uppercase tracking-wide text-white/80 sm:mt-3 sm:text-sm">
-                  {stat.caption}
-                </div>
-              )}
-            </div>
-            {stat.label && (
-              <div className="mt-3 font-heading text-[10px] font-black uppercase leading-tight tracking-wide text-green sm:mt-4 sm:text-lg">
-                {stat.label}
               </div>
-            )}
-          </div>
-        ))}
+            )
+          })}
+        </div>
       </div>
     </section>
   )

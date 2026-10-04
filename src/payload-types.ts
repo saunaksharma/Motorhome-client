@@ -1642,17 +1642,27 @@ export interface Homepage {
         id?: string | null;
       }[]
     | null;
+  /**
+   * The three arches. In every text, " · " starts a new line (e.g. "India · Nepal · Bhutan · Tibet"). A short big text like "15+" is shown extra large.
+   */
   footprint?:
     | {
+        /**
+         * e.g. "1 Day Trip · Or".
+         */
+        intro?: string | null;
         /**
          * e.g. "15+", "365 Days".
          */
         value: string;
         /**
+         * e.g. "Years · Driver & Helper · Experience".
+         */
+        caption?: string | null;
+        /**
          * e.g. "Trail Masters".
          */
         label?: string | null;
-        caption?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1833,9 +1843,10 @@ export interface HomepageSelect<T extends boolean = true> {
   footprint?:
     | T
     | {
+        intro?: T;
         value?: T;
-        label?: T;
         caption?: T;
+        label?: T;
         id?: T;
       };
   dreamBigCta?:

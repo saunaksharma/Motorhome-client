@@ -54,10 +54,15 @@ export const Homepage: GlobalConfig = {
       name: 'footprint',
       type: 'array',
       labels: { singular: 'Stat', plural: 'Stats' },
+      admin: {
+        description:
+          'The three arches. In every text, " · " starts a new line (e.g. "India · Nepal · Bhutan · Tibet"). A short big text like "15+" is shown extra large.',
+      },
       fields: [
-        { name: 'value', type: 'text', required: true, admin: { description: 'e.g. "15+", "365 Days".' } },
-        { name: 'label', type: 'text', admin: { description: 'e.g. "Trail Masters".' } },
-        { name: 'caption', type: 'text' },
+        { name: 'intro', label: 'Small text above (optional)', type: 'text', admin: { description: 'e.g. "1 Day Trip · Or".' } },
+        { name: 'value', label: 'Big text', type: 'text', required: true, admin: { description: 'e.g. "15+", "365 Days".' } },
+        { name: 'caption', label: 'Small text below (optional)', type: 'text', admin: { description: 'e.g. "Years · Driver & Helper · Experience".' } },
+        { name: 'label', label: 'Name under the arch', type: 'text', admin: { description: 'e.g. "Trail Masters".' } },
       ],
     },
     // "Dream Big With Us" CTA banner (page 39)

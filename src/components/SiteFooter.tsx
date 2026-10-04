@@ -59,8 +59,8 @@ const linkIcon = (label: string) => LINK_ICONS.find(([re]) => re.test(label))?.[
 // with bold white headings on a 2px gold rule and white capital links with an icon (gold +
 // nudge right on hover); a centred row of social icons above a thin gold line; copyright.
 // The newsletter is its own band above (the old footer had none). All of it is edited in
-// the admin (Site Settings → Footer). No contact block here (client: phone/email/address live
-// on the Contact page, reached via Visit Headquarters → Book Your Visit).
+// the admin (Site Settings → Footer). No contact block here (client: the Contact page is
+// reached from the header's "Book your call" button).
 export function SiteFooter({ data }: { data: FooterData }) {
   const nl = data?.newsletter ?? {}
   const logo = asMedia(data?.logo)

@@ -71,8 +71,11 @@
   --radius-sm: calc(var(--radius) - 4px);
 }
 
+/* The client's Canva background on every page: their doodle pattern (caravans, campervans,
+   trees, tents, mountains) in faint grey on cream. Cut from Canva page 15 (WEB dEv material/
+   15.jpg); `canva-pattern-green.webp` is the same drawing in dark lines for green blocks. */
 body {
-  background: var(--color-background);
+  background: url('/canva-pattern-cream.webp') 0 0 / 1440px auto repeat var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-body);
   line-height: 1.65;
@@ -116,16 +119,16 @@ body {
   }
 }
 
-/* Green surface with the subtle camping line-art pattern + a soft sheen —
-   lifts the plain green banners so they read as designed, not flat blocks. */
+/* Green surface with the Canva doodle pattern in darker lines (Tips, banners, Dream Big…). */
 .pattern-green {
-  background-color: var(--color-green);
-  background-image: url('/camp-pattern.svg'),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 55%);
-  background-size:
-    240px 240px,
-    cover;
-  background-repeat: repeat, no-repeat;
+  background: url('/canva-pattern-green.webp') 0 0 / 1440px auto repeat var(--color-green);
+}
+/* Phones: the pattern a little smaller, so the doodles keep their Canva scale. */
+@media (max-width: 639px) {
+  body,
+  .pattern-green {
+    background-size: 820px auto;
+  }
 }
 
 /* Text written in the admin's rich-text editor. The renderer wraps paragraphs in
@@ -392,11 +395,6 @@ html {
 /* "Our Story" (AboutSections + StoryScroll). Stage: a dot grid fading out at the edges.
    Beam: gold line that fills with --story-progress, with a soft glow. Once JS is ready,
    chapters not in view dim, their node goes quiet, and only the active photo shows. */
-.story-grid {
-  background-image: radial-gradient(rgb(13 71 63 / 0.12) 1px, transparent 1px);
-  background-size: 26px 26px;
-  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
-}
 .story-beam {
   height: calc((100% - 1.5rem) * var(--story-progress, 0));
   background: linear-gradient(to bottom, transparent, var(--color-gold) 12%, #f3d98b 100%);
