@@ -1,4 +1,4 @@
-import { Clock, MessageCircle, Phone } from 'lucide-react'
+import { Clock, MessageCircle } from 'lucide-react'
 import React from 'react'
 
 import { BookingForm } from '@/components/BookingForm'
@@ -47,8 +47,8 @@ function Detail({
 }
 
 // The form fills "Destination" from the link in the browser. Contact details come from
-// Site Settings → Business Details; empty ones are simply not shown. Email and address are
-// deliberately not shown here (client's choice) — they stay in Business Details for Google.
+// Site Settings → Business Details; empty ones are simply not shown. Phone, email and address
+// are deliberately not shown here (client's choice) — they stay in Business Details for Google.
 export default async function ContactPage() {
   const payload = await getPayloadClient()
   const business = await payload.findGlobal({ slug: 'business', depth: 0 })
@@ -58,8 +58,8 @@ export default async function ContactPage() {
       await payload.find({ collection, where: { active: { equals: true } }, sort: 'sortOrder', select: { name: true }, depth: 0, limit: 200 })
     ).docs.map((doc) => doc.name)
   const [tour, caravan, innovation] = await Promise.all([names('tours'), names('caravans'), names('innovations')])
-  const { phone, whatsapp, hours } = business ?? {}
-  const hasDetails = Boolean(phone || whatsapp || hours)
+  const { whatsapp, hours } = business ?? {}
+  const hasDetails = Boolean(whatsapp || hours)
 
   return (
     <div className="mx-auto max-w-[800px] px-4 py-12">
@@ -70,14 +70,6 @@ export default async function ContactPage() {
 
       {hasDetails && (
         <div className="mt-10 grid gap-4 rounded-2xl border border-border bg-card p-6 sm:grid-cols-2">
-          {phone && (
-            <Detail
-              icon={<Phone className="size-4" />}
-              href={`tel:${phone.replace(/[^\d+]/g, '')}`}
-            >
-              {phone}
-            </Detail>
-          )}
           {whatsapp && (
             <Detail
               icon={<MessageCircle className="size-4" />}

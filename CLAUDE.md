@@ -177,7 +177,7 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   so tall phone crops cut through the vehicle) — set via temp route, editable in Media.
 - ZoomCollage is shown on phones again (user: "the scroll was fine, take it back"); its centre
   tile now requests `(max-width: 639px) 180vh` so phones don't stretch a small file.
-- Contact page details card: email + address removed (client) — phone, WhatsApp, hours remain.
+- Contact page details card: phone, email + address removed (client) — only WhatsApp (+ hours if set).
 
 ### 2026-10-04 (day 7, cont.) — client's WhatsApp feedback round
 - **Logo lockup:** MOTORHOME and ADVENTURES same font/size/weight (Cinzel, text-xl/2xl), emblem
