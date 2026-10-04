@@ -1,4 +1,4 @@
-import { Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
+import { Clock, MessageCircle, Phone } from 'lucide-react'
 import React from 'react'
 
 import { BookingForm } from '@/components/BookingForm'
@@ -46,13 +46,14 @@ function Detail({
   )
 }
 
-// The form fills "Destination" from the link in the browser. Contact details
-// come from Site Settings → Business Details; empty ones are simply not shown.
+// The form fills "Destination" from the link in the browser. Contact details come from
+// Site Settings → Business Details; empty ones are simply not shown. Email and address are
+// deliberately not shown here (client's choice) — they stay in Business Details for Google.
 export default async function ContactPage() {
   const payload = await getPayloadClient()
   const business = await payload.findGlobal({ slug: 'business', depth: 0 })
-  const { phone, whatsapp, email, address, mapUrl, hours } = business ?? {}
-  const hasDetails = Boolean(phone || whatsapp || email || address || hours)
+  const { phone, whatsapp, hours } = business ?? {}
+  const hasDetails = Boolean(phone || whatsapp || hours)
 
   return (
     <div className="mx-auto max-w-[800px] px-4 py-12">
@@ -80,17 +81,7 @@ export default async function ContactPage() {
               Chat with us on WhatsApp
             </Detail>
           )}
-          {email && (
-            <Detail icon={<Mail className="size-4" />} href={`mailto:${email}`}>
-              {email}
-            </Detail>
-          )}
           {hours && <Detail icon={<Clock className="size-4" />}>{hours}</Detail>}
-          {address && (
-            <Detail icon={<MapPin className="size-4" />} href={mapUrl || undefined} external>
-              <span className="whitespace-pre-line">{address}</span>
-            </Detail>
-          )}
         </div>
       )}
 
