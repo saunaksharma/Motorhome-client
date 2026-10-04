@@ -11,9 +11,9 @@ const lines = (value?: string | null) =>
     .map((s) => s.trim())
     .filter(Boolean)
 
-// "Our Footprint" — three arched stat cards in one row at every size (design page 38 and
-// the previous site), just smaller on phones. A thin ring around each arch echoes the
-// old site's double-arch frame.
+// "Our Footprint" — three stat stones in one row at every size (design page 38 and the
+// previous site), just smaller on phones. Tombstone-shaped (client): taller than wide, full
+// round top, flat foot. A thin ring around each echoes the old site's double-arch frame.
 export async function Footprint() {
   const home = await getHomepage()
   const stats = home?.footprint ?? []
@@ -25,8 +25,8 @@ export async function Footprint() {
 
       <div className="mt-10 grid grid-cols-3 items-end gap-3 sm:gap-8">
         {stats.map((stat, index) => (
-          <div key={index} className="text-center">
-            <div className="flex min-h-[150px] flex-col items-center justify-center rounded-b-xl rounded-t-full bg-green px-2 pb-4 pt-9 text-white ring-1 ring-green/25 ring-offset-4 ring-offset-background sm:min-h-[230px] sm:rounded-b-2xl sm:px-6 sm:pb-10 sm:pt-16 sm:ring-offset-8">
+          <div key={index} className="mx-auto w-full max-w-[250px] text-center">
+            <div className="flex aspect-[2/3] flex-col items-center justify-center rounded-b-md rounded-t-full bg-green px-2 pt-6 text-white ring-1 ring-green/25 ring-offset-4 ring-offset-background sm:aspect-[3/4] sm:rounded-b-lg sm:px-6 sm:pt-12 sm:ring-offset-8">
               {lines(stat.value).map((line) => (
                 <div key={line} className="font-display text-[15px] leading-tight uppercase text-gold sm:text-2xl">
                   {line}

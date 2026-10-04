@@ -64,7 +64,8 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
         >
           <div className={cn('flex items-center justify-between gap-4 px-4 transition-all duration-500 max-[359px]:px-3', solid ? 'h-16' : 'h-20')}>
             {/* Logo lockup (a touch tighter on the smallest phones, where it didn't fit beside the menu). */}
-            <Link href="/" className="flex shrink-0 items-center gap-3 max-[359px]:gap-2" aria-label={`${brand} — home`}>
+            {/* Client: both words the same size, emblem a little bigger, emblem + words closer. */}
+            <Link href="/" className="flex shrink-0 items-center gap-1.5" aria-label={`${brand} — home`}>
               {logoUrl && (
                 <Image
                   src={logoUrl}
@@ -72,13 +73,19 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
                   width={148}
                   height={80}
                   priority
-                  className={cn('w-auto object-contain transition-all duration-500', solid ? 'h-9' : 'h-11 max-[359px]:h-9')}
+                  className={cn('w-auto object-contain transition-all duration-500', solid ? 'h-10 max-[359px]:h-9' : 'h-12 max-[359px]:h-9')}
                 />
               )}
               <span className="flex flex-col leading-none">
                 {/* Brand name in Cinzel + the old site's gold, as on the previous site. */}
-                <span className="font-brand text-xl font-bold uppercase tracking-wide text-brand-gold max-[359px]:text-lg sm:text-2xl lg:text-xl">{word1}</span>
-                <span className="mt-1 font-brand text-[10px] font-semibold uppercase tracking-[0.42em] text-brand-gold/90">{rest.join(' ')}</span>
+                {[word1, rest.join(' ')].map((word) => (
+                  <span
+                    key={word}
+                    className="font-brand text-xl font-bold uppercase tracking-wide text-brand-gold max-[359px]:text-lg sm:text-2xl lg:text-xl"
+                  >
+                    {word}
+                  </span>
+                ))}
               </span>
             </Link>
 

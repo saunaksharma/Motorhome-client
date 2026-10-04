@@ -29,6 +29,11 @@ export const Homepage: GlobalConfig = {
       type: 'array',
       labels: { singular: 'About section', plural: 'About sections' },
       fields: [
+        {
+          name: 'year',
+          type: 'text',
+          admin: { description: 'Shown as the big outlined year above the heading in "Our Story", e.g. "1993".' },
+        },
         { name: 'heading', type: 'text', required: true },
         { name: 'body', type: 'richText' },
         { name: 'image', type: 'upload', relationTo: 'media' },
@@ -59,10 +64,13 @@ export const Homepage: GlobalConfig = {
     {
       name: 'dreamBigCta',
       type: 'group',
+      admin: { description: 'The "Dream Big With Us" banner: a heading and two buttons (design page 39). Leave a button\'s text empty to hide it.' },
       fields: [
         { name: 'heading', type: 'text' },
-        { name: 'ctaLabel', type: 'text' },
-        { name: 'ctaLink', type: 'text' },
+        { name: 'ctaLabel', label: 'Button 1 text (outlined)', type: 'text' },
+        { name: 'ctaLink', label: 'Button 1 link', type: 'text', admin: { description: 'e.g. /blog/… or /about' } },
+        { name: 'secondCtaLabel', label: 'Button 2 text (white)', type: 'text' },
+        { name: 'secondCtaLink', label: 'Button 2 link', type: 'text', admin: { description: 'e.g. /blog/… or /contact' } },
       ],
     },
   ],

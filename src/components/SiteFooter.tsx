@@ -24,14 +24,6 @@ import { NewsletterForm } from './NewsletterForm'
 import { SocialIcon } from './SocialIcon'
 
 type Media = { url?: string | null; alt?: string | null }
-export type Business = {
-  phone?: string | null
-  whatsapp?: string | null
-  email?: string | null
-  address?: string | null
-  mapUrl?: string | null
-  hours?: string | null
-}
 type FooterData = {
   logo?: Media | number | null
   backgroundImage?: Media | number | null
@@ -67,8 +59,9 @@ const linkIcon = (label: string) => LINK_ICONS.find(([re]) => re.test(label))?.[
 // with bold white headings on a 2px gold rule and white capital links with an icon (gold +
 // nudge right on hover); a centred row of social icons above a thin gold line; copyright.
 // The newsletter is its own band above (the old footer had none). All of it is edited in
-// the admin (Site Settings → Footer / Business Details).
-export function SiteFooter({ data, business }: { data: FooterData; business?: Business | null }) {
+// the admin (Site Settings → Footer). No contact block here (client: phone/email/address live
+// on the Contact page, reached via Visit Headquarters → Book Your Visit).
+export function SiteFooter({ data }: { data: FooterData }) {
   const nl = data?.newsletter ?? {}
   const logo = asMedia(data?.logo)
   const bg = asMedia(data?.backgroundImage)
@@ -77,8 +70,6 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
     links?: ({ label: string; link: string } | null)[] | null
   }[]
   const socials = (data?.socials ?? []).filter(Boolean) as { platform: string; url: string }[]
-  // Contact column only when there's more than WhatsApp (that has its own floating button).
-  const hasContact = Boolean(business?.phone || business?.email || business?.address)
 
   return (
     <>
@@ -135,34 +126,6 @@ export function SiteFooter({ data, business }: { data: FooterData; business?: Bu
                 </div>
               </div>
             ))}
-
-            {/* Contact details — edited in Site Settings → Business Details. */}
-            {hasContact && (
-              <div>
-                <h3 className="mb-4 border-b-2 border-brand-gold pb-2.5 font-display text-sm font-bold uppercase text-white sm:text-base md:mb-5 md:text-lg">
-                  Reach Us
-                </h3>
-                <div className="flex flex-col gap-3 text-xs uppercase sm:text-[13px] md:text-sm">
-                  {business?.phone && (
-                    <a href={`tel:${business.phone.replace(/[^\d+]/g, '')}`} className="py-1 hover:text-brand-gold">
-                      {business.phone}
-                    </a>
-                  )}
-                  {business?.email && (
-                    <a href={`mailto:${business.email}`} className="py-1 normal-case hover:text-brand-gold">
-                      {business.email}
-                    </a>
-                  )}
-                  {business?.address && <p className="whitespace-pre-line normal-case text-white/85">{business.address}</p>}
-                  {business?.mapUrl && (
-                    <a href={business.mapUrl} target="_blank" rel="noopener noreferrer" className="py-1 hover:text-brand-gold">
-                      Find us on Google Maps ↗
-                    </a>
-                  )}
-                  {business?.hours && <p className="normal-case text-white/85">{business.hours}</p>}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Socials */}

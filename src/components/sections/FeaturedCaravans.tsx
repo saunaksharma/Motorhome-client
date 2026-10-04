@@ -21,9 +21,9 @@ export async function FeaturedCaravans() {
     <section className="mx-auto max-w-[1200px] px-4 py-16">
       <RowHeading title="CARAVANS" subtitle="Discover our featured caravans" href="/caravans" linkLabel="View all caravans" />
 
-      <SwipeRow label="Featured caravans" wide>
+      <SwipeRow label="Featured caravans">
         {docs.map((caravan) => (
-          <CaravanCard key={caravan.id} caravan={caravan} split />
+          <CaravanCard key={caravan.id} caravan={caravan} />
         ))}
       </SwipeRow>
     </section>

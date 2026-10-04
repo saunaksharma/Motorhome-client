@@ -3,16 +3,14 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-import { cn } from '@/lib/utils'
-
 // One horizontal row of cards at every screen size (homepage Tours / Caravans / Innovations).
 //   phones  — full-bleed snap carousel, ~82% cards so the next one peeks in, the centred
 //             card in focus (scale/fade via CSS scroll timelines — `.swipe-slide` in
 //             globals.css), and an "02 / 06" counter.
-//   sm / lg — 2½ / 3 cards visible (`wide`: 1¼ / 2, for Adria-style split cards); ← → buttons
+//   sm / lg — 2½ / 3 cards visible; ← → buttons
 //             beside the gold progress line (mouse users can't swipe). Controls hide when
 //             every card already fits.
-export function SwipeRow({ children, label, wide = false }: { children: React.ReactNode; label: string; wide?: boolean }) {
+export function SwipeRow({ children, label }: { children: React.ReactNode; label: string }) {
   const slides = React.Children.toArray(children)
   const track = useRef<HTMLDivElement>(null)
   const [state, setState] = useState({ active: 0, seen: 1, atStart: true, atEnd: true })
@@ -71,10 +69,7 @@ export function SwipeRow({ children, label, wide = false }: { children: React.Re
         {slides.map((slide, i) => (
           <div
             key={i}
-            className={cn(
-              'swipe-slide flex w-[82%] shrink-0 snap-center flex-col *:flex-1 sm:snap-start',
-              wide ? 'sm:w-[80%] lg:w-[calc((100%-1.5rem)/2)]' : 'sm:w-[calc((100%-3rem)/2.5)] lg:w-[calc((100%-3rem)/3)]',
-            )}
+            className="swipe-slide flex w-[82%] shrink-0 snap-center flex-col *:flex-1 sm:w-[calc((100%-3rem)/2.5)] sm:snap-start lg:w-[calc((100%-3rem)/3)]"
           >
             {slide}
           </div>

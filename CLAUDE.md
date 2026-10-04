@@ -155,6 +155,29 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-04 (day 7, cont.) — client's WhatsApp feedback round
+- **Logo lockup:** MOTORHOME and ADVENTURES same font/size/weight (Cinzel, text-xl/2xl), emblem
+  bigger (h-10 scrolled / h-12 over hero), emblem↔words gap-1.5. Fits 320–412 px (measured).
+- **"HONEST REVIEWS" → "HONEST REVIEW"** (ReviewsCarousel heading).
+- **Cards = tour treatment** (client): new shared `PhotoCard` (4:5 photo, gold tag, title + one
+  line on a dark fade, description + "Explore →" slide up on hover, always shown on touch; whole
+  card = one link → the vehicle page has Enquire). TourCard / CaravanCard / InnovationCard are thin
+  wrappers. Homepage caravans row uses the normal SwipeRow (the `wide` option + split card were
+  removed); /caravans grid = tours grid (sm 2 / lg 3).
+- **Footprint = tombstones:** `aspect-[2/3]` (sm `3/4`), max-w 250, round top, flat foot, ring kept.
+- **Footer:** "Reach Us" block removed (phone/email/address stay on /contact, WhatsApp button,
+  JSON-LD); columns re-ordered in data: Useful Pages · Visit Headquarters · Partner Programme ·
+  Help Centre (right).
+- **"Build Your Own"** menu item → https://www.caravanconversion.com (Header global data).
+- **Our Story years:** new `aboutSections.year` text field (admin "Year"); shown as the outlined
+  numeral, falls back to a year in the text. Years for chapters 2–4: waiting for the client.
+- **Dream Big = design page 39:** green band with the camping pattern (darker lines) on a cream
+  stage with the faint pattern; heading centred over TWO buttons — outlined + white (`CtaButton
+  onGreen solid`). New fields `secondCtaLabel/Link`; both "KNOW MORE" link to articles for now
+  (Why opt for a caravan / How can I rent). Pattern drawn via CSS mask of
+  `public/camp-pattern-mask.svg` (= camp-pattern.svg at full stroke opacity).
+- New DB columns (year, secondCta*) were added by the dev server's schema push — no prompts.
+
 ### 2026-10-04 (day 7) — client's Drive photos, phone "landscape card", simpler admin
 - **Client photos** (Drive "WEB DEVELOP 2026 › PICS", public link; the Drive connector's search
   index lagged, so files were listed via `drive.google.com/embeddedfolderview?id=<folder>` and

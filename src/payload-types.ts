@@ -1612,6 +1612,10 @@ export interface Homepage {
   };
   aboutSections?:
     | {
+        /**
+         * Shown as the big outlined year above the heading in "Our Story", e.g. "1993".
+         */
+        year?: string | null;
         heading: string;
         body?: {
           root: {
@@ -1647,10 +1651,21 @@ export interface Homepage {
         id?: string | null;
       }[]
     | null;
+  /**
+   * The "Dream Big With Us" banner: a heading and two buttons (design page 39). Leave a button's text empty to hide it.
+   */
   dreamBigCta?: {
     heading?: string | null;
     ctaLabel?: string | null;
+    /**
+     * e.g. /blog/… or /about
+     */
     ctaLink?: string | null;
+    secondCtaLabel?: string | null;
+    /**
+     * e.g. /blog/… or /contact
+     */
+    secondCtaLink?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1803,6 +1818,7 @@ export interface HomepageSelect<T extends boolean = true> {
   aboutSections?:
     | T
     | {
+        year?: T;
         heading?: T;
         body?: T;
         image?: T;
@@ -1823,6 +1839,8 @@ export interface HomepageSelect<T extends boolean = true> {
         heading?: T;
         ctaLabel?: T;
         ctaLink?: T;
+        secondCtaLabel?: T;
+        secondCtaLink?: T;
       };
   updatedAt?: T;
   createdAt?: T;

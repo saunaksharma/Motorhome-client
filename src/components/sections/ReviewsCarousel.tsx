@@ -26,7 +26,7 @@ export async function ReviewsCarousel() {
 
   return (
     <section className="mx-auto max-w-[1200px] px-4 py-16">
-      <SectionHeading title="HONEST REVIEWS" subtitle="What our clients say about us" />
+      <SectionHeading title="HONEST REVIEW" subtitle="What our clients say about us" />
       <div className="mt-10">
         <ReviewsCarouselClient reviews={reviews} />
       </div>

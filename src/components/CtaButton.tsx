@@ -18,6 +18,7 @@ export function CtaButton({
   // `gold` = gold outline + gold text (used on the hero, over photos).
   gold?: boolean
   // `solid` + `gold` = filled gold pill: the page's one main action (hero).
+  // `solid` + `onGreen` = filled white pill with green text (Dream Big, design page 39).
   solid?: boolean
 }) {
   return (
@@ -29,7 +30,9 @@ export function CtaButton({
           ? 'border-gold bg-gold text-green hover:border-[#d8b457] hover:bg-[#d8b457]' // no shadow: the client asked for none on Book Now
           : gold
             ? 'border-gold text-gold hover:bg-gold hover:text-green'
-            : onGreen
+            : onGreen && solid
+              ? 'border-white bg-white text-green hover:bg-transparent hover:text-white'
+              : onGreen
               ? 'border-white text-white hover:bg-white hover:text-green'
               : 'border-green text-green hover:bg-green hover:text-white',
       )}

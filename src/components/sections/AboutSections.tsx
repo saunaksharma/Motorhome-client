@@ -8,8 +8,8 @@ import { focalPosition } from '@/lib/utils'
 
 type Photo = { url?: string | null; alt?: string | null; focalX?: number | null; focalY?: number | null }
 
-// First year mentioned in a chapter's own text (e.g. "Delhi, 1993") — shown as a large
-// outlined numeral. Nothing is shown when the text has no year; nothing is invented.
+// First year mentioned in a chapter's own text (e.g. "Delhi, 1993") — the fallback when the
+// chapter's "Year" box is empty. Nothing is shown when neither has one; nothing is invented.
 function yearIn(body: unknown): string | null {
   const text = JSON.stringify(body ?? '')
   return text.match(/\b(19[5-9]\d|20[0-4]\d)\b/)?.[1] ?? null
@@ -44,7 +44,8 @@ export async function AboutSections() {
     heading: section.heading,
     body: section.body,
     photo: (typeof section.image === 'object' ? section.image : null) as Photo | null,
-    year: yearIn(section.body),
+    // The admin's "Year" box wins; otherwise the first year in the chapter's own text.
+    year: section.year?.trim() || yearIn(section.body),
   }))
 
   // overflow-clip (not -hidden) crops the glows without breaking the sticky photo.
