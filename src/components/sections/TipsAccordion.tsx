@@ -1,13 +1,9 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
-import { Racing_Sans_One } from 'next/font/google'
 import React from 'react'
 
+import { racing } from '@/lib/fonts'
 import { getPayloadClient } from '@/lib/payload'
 import { cn } from '@/lib/utils'
-
-// The Canva's slanted poster face for "TIPS" and the tip titles (SPEC: Racing Sans One).
-// Loaded here only, so other pages don't download it.
-const racing = Racing_Sans_One({ weight: '400', subsets: ['latin'] })
 
 // Light bulb with rays and a pencil inside, as drawn next to "TIPS" on the Canva.
 function BulbIcon({ className }: { className?: string }) {

@@ -192,7 +192,13 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   thumbnails) are CDN hits. URLs unchanged → no re-transformations (Image Transformations 3.4K / 5K).
   **Don't run audits against live** (each photo request = a Blob op); audit the local build. Real fix
   for launch: Vercel Pro in the client's name.
-- **Our Story:** the thin gold lines under "Our Story" and under each chapter heading removed
+- **Our Story rebuilt (Canva pages 24–28), same on phones + desktop:** each chapter is a card —
+  photo on a `pattern-green` panel, text on cream (sides alternate from md up, stacked on phones),
+  title in Racing Sans One (`src/lib/fonts.ts`, shared with Tips), year as a green outline numeral.
+  Only "How it all began" shows; a "Read more" pill (`<details>`, no JS) opens the other chapters
+  (their photos load only then). Removed (client: "look so bad"): gold viewfinder corners, the
+  sticky-scroll timeline (gold beam + nodes + dimming), `StoryScroll.tsx`, all `.story*` CSS.
+- **Our Story (earlier today):** the thin gold lines under "Our Story" and under each chapter heading removed
   (client: "cheap look"). Timeline beam, outlined years, gold photo corners kept.
 
 ### 2026-10-04 (day 7, cont.) — one adaptive enquiry form; "Book your call with our specialist"

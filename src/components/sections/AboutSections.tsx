@@ -2,11 +2,12 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import Image from 'next/image'
 import React from 'react'
 
-import { StoryScroll } from '@/components/StoryScroll'
+import { racing } from '@/lib/fonts'
 import { getHomepage } from '@/lib/payload'
-import { focalPosition } from '@/lib/utils'
+import { cn, focalPosition } from '@/lib/utils'
 
 type Photo = { url?: string | null; alt?: string | null; focalX?: number | null; focalY?: number | null }
+type Chapter = { heading: string; body: unknown; photo: Photo | null; year: string | null }
 
 // First year mentioned in a chapter's own text (e.g. "Delhi, 1993") — the fallback when the
 // chapter's "Year" box is empty. Nothing is shown when neither has one; nothing is invented.
@@ -15,32 +16,53 @@ function yearIn(body: unknown): string | null {
   return text.match(/\b(19[5-9]\d|20[0-4]\d)\b/)?.[1] ?? null
 }
 
-// Viewfinder corners — thin gold brackets on the photo frame.
-function Corners() {
-  const corner = 'pointer-events-none absolute size-5 border-gold/70'
+// One chapter as on the client's Canva (pages 24–28): the photo on a green doodle-pattern
+// panel, the text on cream beside it — sides alternate on wide screens, stacked on phones.
+function ChapterCard({ chapter, index }: { chapter: Chapter; index: number }) {
   return (
-    <>
-      <span aria-hidden className={`${corner} left-3 top-3 border-l border-t`} />
-      <span aria-hidden className={`${corner} right-3 top-3 border-r border-t`} />
-      <span aria-hidden className={`${corner} bottom-3 left-3 border-b border-l`} />
-      <span aria-hidden className={`${corner} bottom-3 right-3 border-b border-r`} />
-    </>
+    <article className="overflow-hidden rounded-[2rem] bg-background shadow-[0_24px_60px_-34px_rgb(13_71_63/0.5)] ring-1 ring-green/10 md:grid md:grid-cols-2">
+      {chapter.photo?.url && (
+        <div className={cn('pattern-green flex items-center p-4 sm:p-6 md:p-8', index % 2 === 1 && 'md:order-last')}>
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-lg">
+            <Image
+              src={chapter.photo.url}
+              alt={chapter.photo.alt ?? chapter.heading}
+              fill
+              sizes="(max-width: 767px) 92vw, 520px"
+              className="object-cover"
+              style={{ objectPosition: focalPosition(chapter.photo) }}
+            />
+          </div>
+        </div>
+      )}
+      <div className="flex flex-col justify-center px-6 py-8 sm:px-10 sm:py-10">
+        {chapter.year && (
+          <p aria-hidden className="font-display text-5xl leading-none text-transparent [-webkit-text-stroke:1.25px_var(--color-green)] sm:text-6xl">
+            {chapter.year}
+          </p>
+        )}
+        <h2 className={cn(racing.className, 'mt-2 text-balance text-3xl leading-tight tracking-normal text-green sm:text-4xl')}>
+          {chapter.heading}
+        </h2>
+        {Boolean(chapter.body) && (
+          <div className="rich-text mt-4 space-y-3 leading-relaxed text-green/80">
+            <RichText data={chapter.body as React.ComponentProps<typeof RichText>['data']} />
+          </div>
+        )}
+      </div>
+    </article>
   )
 }
 
-// "Our Story" — the About chapters (Homepage → About sections in the admin) as a
-// futuristic scroll story, after 21st.dev's "Sticky Scroll Reveal" + "Timeline":
-// a white stage (client's choice over dark) with a faint dot grid and soft aurora glow;
-// on desktop the chapters scroll on the left while their photo stays pinned on the right
-// and crossfades to the chapter being read; a gold beam fills down the timeline as you scroll, each chapter's node lights
-// up, and the chapter in view is bright while the others dim. Phones: one column, each
-// chapter with its own photo. Behaviour in `StoryScroll`, styles `.story*` in globals.css.
+// "Our Story" — the About chapters (Homepage → About sections in the admin). Only the first
+// ("How it all began") shows; "Read more" opens the rest, photos included (they load only
+// when opened). Same on phones and desktop. Native <details>: no client JavaScript.
 export async function AboutSections() {
   const home = await getHomepage()
   const sections = home?.aboutSections ?? []
   if (sections.length === 0) return null
 
-  const chapters = sections.map((section) => ({
+  const [first, ...rest]: Chapter[] = sections.map((section) => ({
     heading: section.heading,
     body: section.body,
     photo: (typeof section.image === 'object' ? section.image : null) as Photo | null,
@@ -48,93 +70,31 @@ export async function AboutSections() {
     year: section.year?.trim() || yearIn(section.body),
   }))
 
-  // overflow-clip (not -hidden) crops the glows without breaking the sticky photo.
   return (
-    <section className="story relative overflow-clip text-green">
-      {/* Stage: the page's Canva pattern + soft green/gold aurora glows. */}
-      {/* Glows are radial gradients, not blur(120px) circles: same look, but big blurred
-          layers can flicker in iPhone Safari as they scroll past the section's edge. */}
-      <div aria-hidden className="pointer-events-none absolute -left-[280px] -top-20 size-[760px] bg-[radial-gradient(closest-side,rgb(13_71_63/0.07)_35%,transparent)]" />
-      <div aria-hidden className="pointer-events-none absolute -bottom-[120px] -right-[248px] size-[680px] bg-[radial-gradient(closest-side,rgb(201_162_62/0.2)_35%,transparent)]" />
+    <section aria-label="Our story" className="mx-auto max-w-[1100px] px-3 py-16 sm:px-6 sm:py-20">
+      <ChapterCard chapter={first} index={0} />
 
-      <div className="relative mx-auto max-w-[1200px] px-4 py-20 sm:py-28">
-        <div className="text-center">
-          <p className="font-heading text-xs font-bold uppercase tracking-[0.4em] text-gold">Our Story</p>
-        </div>
-
-        <StoryScroll className="story-scroll relative mt-14 grid gap-12 lg:mt-20 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
-          {/* Chapters + timeline */}
-          <div className="relative">
-            <div aria-hidden className="absolute bottom-3 left-[7px] top-3 w-px bg-green/15" />
-            <div aria-hidden className="story-beam absolute left-[7px] top-3 w-px" />
-
-            {chapters.map((chapter, index) => (
-              <article
-                key={index}
-                data-chapter
-                className="story-chapter relative py-8 pl-10 lg:flex lg:min-h-[72vh] lg:flex-col lg:justify-center lg:py-0"
-              >
-                <span aria-hidden className="story-node absolute left-0 top-10 size-[15px] rounded-full border border-gold/70 bg-white lg:top-1/2 lg:-translate-y-1/2" />
-
-                {/* Phones/tablets: the chapter's own photo. */}
-                {chapter.photo?.url && (
-                  <div className="relative mb-6 aspect-[4/3] overflow-hidden rounded-2xl border border-green/10 bg-green/5 shadow-[0_24px_60px_-30px_rgb(13_71_63/0.45)] lg:hidden">
-                    <Image
-                      src={chapter.photo.url}
-                      alt={chapter.photo.alt ?? chapter.heading}
-                      fill
-                      sizes="(max-width: 1024px) 90vw, 1px"
-                      className="object-cover"
-                      style={{ objectPosition: focalPosition(chapter.photo) }}
-                    />
-                    <Corners />
-                  </div>
-                )}
-
-                <div className="story-copy">
-                  {chapter.year && (
-                    <p aria-hidden className="story-year font-display text-6xl leading-none sm:text-7xl">
-                      {chapter.year}
-                    </p>
-                  )}
-                  <h3 className="mt-3 text-balance font-display text-2xl text-green sm:text-3xl">{chapter.heading}</h3>
-                  {chapter.body && (
-                    <div className="rich-text mt-4 max-w-[56ch] space-y-3 leading-relaxed text-green/75">
-                      <RichText data={chapter.body} />
-                    </div>
-                  )}
-                </div>
-              </article>
+      {rest.length > 0 && (
+        <details className="group mt-8">
+          <summary
+            className={cn(
+              racing.className,
+              'mx-auto flex w-fit cursor-pointer list-none items-center gap-3 rounded-full border-[3px] border-green px-8 py-3 text-xl tracking-normal text-green transition-colors hover:bg-green hover:text-white [&::-webkit-details-marker]:hidden',
+            )}
+          >
+            <svg aria-hidden viewBox="0 0 24 16" className="w-5 shrink-0 transition-transform group-open:rotate-180">
+              <path d="M2 2h20L12 14z" fill="currentColor" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+            </svg>
+            <span className="group-open:hidden">Read more</span>
+            <span className="hidden group-open:inline">Show less</span>
+          </summary>
+          <div className="mt-8 space-y-8">
+            {rest.map((chapter, i) => (
+              <ChapterCard key={i} chapter={chapter} index={i + 1} />
             ))}
           </div>
-
-          {/* Desktop: pinned photo that crossfades to the chapter being read. */}
-          <div className="hidden lg:block">
-            <div className="sticky top-28 h-[70vh] max-h-[640px]">
-              <div className="relative h-full overflow-hidden rounded-[28px] border border-green/10 bg-green/5 shadow-[0_40px_100px_-40px_rgb(13_71_63/0.5)]">
-                {chapters.map((chapter, index) => (
-                  <figure key={index} data-photo className="story-photo absolute inset-0 m-0">
-                    {chapter.photo?.url && (
-                      <Image
-                        src={chapter.photo.url}
-                        alt={chapter.photo.alt ?? chapter.heading}
-                        fill
-                        sizes="45vw"
-                        className="object-cover"
-                        style={{ objectPosition: focalPosition(chapter.photo) }}
-                      />
-                    )}
-                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent px-7 pb-6 pt-16 font-heading text-xs font-bold uppercase tracking-[0.3em] text-white/85">
-                      {chapter.heading}
-                    </figcaption>
-                  </figure>
-                ))}
-                <Corners />
-              </div>
-            </div>
-          </div>
-        </StoryScroll>
-      </div>
+        </details>
+      )}
     </section>
   )
 }
