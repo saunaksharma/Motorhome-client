@@ -173,11 +173,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - **Video Showcase (Canva page 44, client):** new global **Site Settings → Video Showcase**
   (`src/globals/VideoShowcase.ts`: optional heading + list of YouTube links, each with title +
   shape auto/tall/wide — `/shorts/` links are tall). ONE list, shown on every page except the
-  homepage: the layout renders it above the footer via `ShowcaseSlot` (client, hides on "/" and
-  on caravan/tour/innovation detail pages), and those detail pages place it themselves — caravans
-  directly above FAQ/"Watch it in action", tours/innovations at the end of the content. Design:
-  sideways-scrolling row of rounded-[2rem] tiles shaped like the video (9:16 Shorts / 16:9), one
-  height on sm+ (380/440 px), sized by width on phones (58vw / 86vw, `items-center`). Each tile =
+  homepage: the layout renders it above the footer in `[data-showcase-slot]`; caravan/tour/
+  innovation detail pages place it themselves (caravans directly above FAQ/"Watch it in action",
+  tours/innovations at the end of the content). A page that shows it itself — or renders
+  `<NoVideoShowcase />` (homepage) — has a `[data-video-showcase]` element, and CSS
+  `main:has([data-video-showcase]) ~ [data-showcase-slot] { display:none }` hides the layout copy.
+  (A `usePathname` check in the layout FAILED in production — the pre-built layout showed the row
+  on the homepage — so don't go back to that.) Design: sideways-scrolling row of rounded-[2rem]
+  tiles, ONE height at every size (client: 280 / 380 / 440 px): tall = 9:16; wide = 16:9 from sm,
+  86vw on phones (the 16:9 player sits centred in it). Each tile =
   YouTube thumbnail (i.ytimg.com, no Vercel cost) + play button; tap → player loads in the tile
   (keeps pages fast). Empty list = nothing rendered. YouTube links, not uploaded files: free
   hosting/streaming and no Blob/bandwidth use (uploads would burn the free plan fast).

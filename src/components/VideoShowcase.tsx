@@ -8,6 +8,8 @@ import { parseYouTube } from './YouTubeEmbed'
 
 // The client's video row (Canva page 44), the same on every page except the homepage — edited
 // once in Site Settings → Video Showcase. Shows nothing until a video is added there.
+// The layout shows it above the footer; a page that renders it itself (or `<NoVideoShowcase />`)
+// hides that copy — see `[data-showcase-slot]` in globals.css.
 export async function VideoShowcase() {
   const payload = await getPayloadClient()
   const { heading, videos: list } = await payload.findGlobal({ slug: 'video-showcase', depth: 0 })
@@ -21,7 +23,7 @@ export async function VideoShowcase() {
   if (videos.length === 0) return null
 
   return (
-    <section aria-label={heading || 'Videos'} className="py-12">
+    <section data-video-showcase aria-label={heading || 'Videos'} className="py-12">
       {heading && (
         <div className="mb-8">
           <SectionHeading title={heading} />
@@ -30,4 +32,9 @@ export async function VideoShowcase() {
       <VideoRow videos={videos} />
     </section>
   )
+}
+
+// Marker for a page that shouldn't show the layout's video row at all (the homepage).
+export function NoVideoShowcase() {
+  return <span hidden data-video-showcase />
 }

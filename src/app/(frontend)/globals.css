@@ -123,6 +123,11 @@ body {
 .pattern-green {
   background: url('/canva-pattern-green.webp') 0 0 / 1440px auto repeat var(--color-green);
 }
+/* The layout's video row hides on pages that show it themselves or opt out (VideoShowcase.tsx). */
+main:has([data-video-showcase]) ~ [data-showcase-slot] {
+  display: none;
+}
+
 /* Phones: the pattern a little smaller, so the doodles keep their Canva scale. */
 @media (max-width: 639px) {
   body,

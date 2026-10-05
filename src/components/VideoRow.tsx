@@ -24,10 +24,11 @@ function VideoTile({ video }: { video: ShowcaseVideo }) {
     <div
       className={cn(
         'relative shrink-0 snap-start overflow-hidden rounded-[2rem] bg-green shadow-[0_24px_50px_-30px_rgb(13_71_63/0.6)]',
-        // Shape follows the video, so it plays edge to edge: tall = Shorts (9:16), wide = 16:9.
-        // Phones: sized by width (a tall one ~60%, a wide one ~86% of the screen); larger
-        // screens: one height for the whole row, as on the Canva.
-        video.tall ? 'aspect-[9/16] w-[58vw] sm:h-[380px] sm:w-auto lg:h-[440px]' : 'aspect-video w-[86vw] sm:h-[380px] sm:w-auto lg:h-[440px]',
+        // One height for the whole row at every size (client), as on the Canva. Tall = Shorts
+        // (9:16). Wide = 16:9 from sm up; on phones a 16:9 at that height is wider than the
+        // screen, so it's 86% of the screen instead and plays centred in it (see the iframe).
+        'h-[280px] sm:h-[380px] lg:h-[440px]',
+        video.tall ? 'aspect-[9/16]' : 'w-[86vw] sm:aspect-video sm:w-auto',
       )}
     >
       {playing ? (
@@ -37,7 +38,10 @@ function VideoTile({ video }: { video: ShowcaseVideo }) {
           allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
           allowFullScreen
           referrerPolicy="strict-origin-when-cross-origin"
-          className="absolute inset-0 size-full border-0"
+          className={cn(
+            'absolute border-0',
+            video.tall ? 'inset-0 size-full' : 'inset-x-0 top-1/2 aspect-video w-full -translate-y-1/2 sm:inset-0 sm:size-full sm:translate-y-0',
+          )}
         />
       ) : (
         <button type="button" onClick={() => setPlaying(true)} aria-label={label} className="group absolute inset-0 size-full text-left">
@@ -53,11 +57,11 @@ function VideoTile({ video }: { video: ShowcaseVideo }) {
             className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-          <span className="absolute left-1/2 top-1/2 grid size-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-green shadow-lg transition group-hover:scale-110 group-hover:bg-white">
-            <Play className="size-7 translate-x-0.5 fill-current" />
+          <span className="absolute left-1/2 top-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center sm:size-16 rounded-full bg-white/90 text-green shadow-lg transition group-hover:scale-110 group-hover:bg-white">
+            <Play className="size-5 translate-x-0.5 fill-current sm:size-7" />
           </span>
           {video.title && (
-            <span className="absolute inset-x-5 bottom-5 font-heading text-sm font-bold uppercase leading-snug tracking-wide text-white sm:text-base">
+            <span className="absolute inset-x-4 bottom-4 font-heading text-xs font-bold uppercase leading-snug tracking-wide text-white sm:inset-x-5 sm:bottom-5 sm:text-base">
               {video.title}
             </span>
           )}
@@ -76,7 +80,7 @@ export function VideoRow({ videos }: { videos: ShowcaseVideo[] }) {
     <div className="relative">
       <div
         ref={track}
-        className="-mx-4 flex items-center snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden"
+        className="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden"
       >
         {videos.map((video, i) => (
           <VideoTile key={`${video.id}-${i}`} video={video} />
