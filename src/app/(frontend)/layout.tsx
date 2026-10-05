@@ -8,7 +8,6 @@ import { siteURL } from '@/lib/siteUrl'
 import { JsonLd } from '@/components/JsonLd'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
-import { VideoShowcase } from '@/components/VideoShowcase'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import './globals.css'
 
@@ -107,11 +106,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <JsonLd data={jsonLd} />
         <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
         <main id="main">{children}</main>
-        {/* The client's video row (Site Settings → Video Showcase) above the footer. Hidden by CSS
-            on pages that place it themselves or opt out (homepage) — see `[data-showcase-slot]`. */}
-        <div data-showcase-slot className="mx-auto max-w-[1200px] px-4">
-          <VideoShowcase />
-        </div>
         <SiteFooter data={footer} />
         <WhatsAppButton number={business?.whatsapp} />
       </body>

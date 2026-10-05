@@ -1886,7 +1886,7 @@ export interface About {
   createdAt?: string | null;
 }
 /**
- * The "Watch it in action" row of videos, shown on every page except the homepage (caravans, tours, innovations, blog, gallery…). Empty = the row is hidden.
+ * The "Watch it in action" row of videos, shown on every caravan, tour and innovation page (the same videos on each). Empty = the row is hidden.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "video-showcase".
@@ -1898,7 +1898,7 @@ export interface VideoShowcase {
    */
   heading?: string | null;
   /**
-   * The same videos, in this order, on every page except the homepage. Drag to change the order. Mix tall (Shorts) and wide videos, as on the design.
+   * The same videos, in this order, on every caravan, tour and innovation page. Drag to change the order. Mix tall (Shorts) and wide videos, as on the design.
    */
   videos?:
     | {

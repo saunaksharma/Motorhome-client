@@ -155,6 +155,14 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-06 (day 9, cont.) — video row ONLY on product pages; Footprint frame = one continuous line
+- **"Watch it in action" only on the 3 product pages (client):** a single caravan, tour or innovation
+  page renders `<VideoShowcase />` itself. NOT on the homepage, listings (/caravans /tours
+  /innovations), gallery, blog, contact/form, about, legal pages. The layout slot, the CSS
+  `:has()` hide rule and `<NoVideoShowcase />` are gone (simpler; verified on 12 page types).
+- **Footprint frame:** the separate top/bottom bars + tapered side brackets didn't meet (gaps,
+  different thicknesses) → ONE rounded border (3 px phones / 6 px desktop, radius 1.75/2.75 rem).
+
 ### 2026-10-06 (day 9, cont.) — ONE video row everywhere; click to play (supersedes the per-page + auto-play notes below)
 - **Same 7 videos on every page (user):** per-page lists on caravans/tours/innovations RETIRED —
   `retiredVideosField` (hidden, unused; kept only so their DB tables aren't dropped). Videos live in

@@ -17,7 +17,7 @@ const lines = (value?: string | null) =>
     .filter(Boolean)
 
 // "Our Footprint", built to the client's Canva (design page 38) on every screen size: a green
-// frame (bars top and bottom, curved brackets at the sides) holding the title and three green
+// frame (one continuous rounded line) holding the title and three green
 // arches, each inside a thin outline whose legs run down past the arch's name. Phones get the
 // same picture, smaller, still three in one row. Sizes inside an arch are in cqw (% of the
 // arch's width), so the text keeps the Canva's proportions at any width.
@@ -29,11 +29,9 @@ export async function Footprint() {
   return (
     <section className="px-3 py-14 sm:px-6 sm:py-20">
       <div className="@container/frame relative mx-auto max-w-[1160px] px-[4%] py-[5%] sm:py-[3.5%]">
-        {/* The frame: rounded bars top and bottom, brackets curving in at the sides. */}
-        <span aria-hidden className="absolute inset-x-[3.5%] top-0 h-1 rounded-full bg-green sm:h-1.5" />
-        <span aria-hidden className="absolute inset-x-[3.5%] bottom-0 h-1 rounded-full bg-green sm:h-1.5" />
-        <span aria-hidden className="absolute inset-y-[8%] left-0 w-[3%] rounded-l-[40px] border-l-4 border-green sm:border-l-[7px]" />
-        <span aria-hidden className="absolute inset-y-[8%] right-0 w-[3%] rounded-r-[40px] border-r-4 border-green sm:border-r-[7px]" />
+        {/* The frame: ONE continuous rounded line of even thickness (client: the separate bars and
+            side brackets didn't meet and looked misaligned). */}
+        <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[1.75rem] border-[3px] border-green sm:rounded-[2.75rem] sm:border-[6px]" />
 
         <h2
           className={cn(

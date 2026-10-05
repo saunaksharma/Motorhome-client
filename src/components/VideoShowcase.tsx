@@ -7,10 +7,8 @@ import { VideoRow, type ShowcaseVideo } from './VideoRow'
 import { parseYouTube } from '@/lib/youtube'
 
 // The client's "Watch it in action" video row (Canva page 44): the SAME videos, in the same
-// order, on every page except the homepage — from Site Settings → Video Showcase. Shows nothing
-// when there are none.
-// The layout shows it above the footer; a page that renders it itself (or `<NoVideoShowcase />`)
-// hides that copy — see `[data-showcase-slot]` in globals.css.
+// order, ONLY on the product pages — a caravan, a tour, an innovation (client) — from Site
+// Settings → Video Showcase. Shows nothing when there are none.
 // Keeps the Canva rhythm (tall, wide, tall, wide…) whatever order videos were added in: the two
 // shapes alternate, each keeping its own order, starting with the first video's shape. When one
 // shape runs out, the rest follow.
@@ -40,7 +38,7 @@ export async function VideoShowcase() {
   if (videos.length === 0) return null
 
   return (
-    <section data-video-showcase aria-label={heading || 'Videos'} className="py-12">
+    <section aria-label={heading || 'Videos'} className="py-12">
       {heading && (
         <div className="mb-8">
           <SectionHeading title={heading} />
@@ -49,9 +47,4 @@ export async function VideoShowcase() {
       <VideoRow videos={alternate(videos)} />
     </section>
   )
-}
-
-// Marker for a page that shouldn't show the layout's video row at all (the homepage).
-export function NoVideoShowcase() {
-  return <span hidden data-video-showcase />
 }
