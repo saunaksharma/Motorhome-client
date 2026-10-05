@@ -9,6 +9,8 @@ import { youTubeEmbedUrl } from './YouTubeEmbed'
 
 export type ShowcaseVideo = { id: string; url: string; title: string | null; tall: boolean }
 
+const hqThumb = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
+
 // One tile: the video's YouTube thumbnail with a play button; tapping swaps in the player (with
 // sound). Loading YouTube's player only on tap keeps every page fast — a page with six players
 // would otherwise download several MB before anyone presses play.
@@ -41,9 +43,13 @@ function VideoTile({ video }: { video: ShowcaseVideo }) {
         <button type="button" onClick={() => setPlaying(true)} aria-label={label} className="group absolute inset-0 size-full text-left">
           {/* eslint-disable-next-line @next/next/no-img-element -- YouTube's own thumbnail; nothing to optimise, no hosting cost */}
           <img
-            src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
+            src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
             alt=""
             loading="lazy"
+            // Sharp HD thumbnail; videos without one get YouTube's 120 px grey stand-in (or an
+            // error) — then fall back to the always-present smaller thumbnail.
+            onLoad={(e) => e.currentTarget.naturalWidth <= 120 && (e.currentTarget.src = hqThumb(video.id))}
+            onError={(e) => (e.currentTarget.src = hqThumb(video.id))}
             className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <span className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />

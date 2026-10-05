@@ -181,6 +181,10 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   YouTube thumbnail (i.ytimg.com, no Vercel cost) + play button; tap → player loads in the tile
   (keeps pages fast). Empty list = nothing rendered. YouTube links, not uploaded files: free
   hosting/streaming and no Blob/bandwidth use (uploads would burn the free plan fast).
+  Thumbnails: `maxresdefault` (sharp), falling back to `hqdefault` if a video has none.
+  **Demo content (user asked, to show the client):** 7 of the client's OWN channel videos
+  (@MotorhomeAdventures), alternating Shorts/wide, short titles taken from their YouTube titles.
+  The client can change/remove them in Site Settings → Video Showcase.
 - **Videos play ON the site (client: "video running there, not redirected links"):** new
   `YouTubeEmbed` (+ `youTubeEmbedUrl`: watch / youtu.be / shorts / embed / playlist links →
   youtube-nocookie embed, lazy-loaded, 16:9). Our Story: new `aboutSections.video` field ("YouTube
