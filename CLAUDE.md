@@ -170,6 +170,17 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - **Form: Company + Preferred Travel Dates removed (client).** Gone from the form and the alert
   email; in the admin both fields are `admin.hidden` (columns + any old data kept). The open form's
   Itinerary/Caravan/Vehicle list now takes the full row (pairs stay even).
+- **Video Showcase (Canva page 44, client):** new global **Site Settings → Video Showcase**
+  (`src/globals/VideoShowcase.ts`: optional heading + list of YouTube links, each with title +
+  shape auto/tall/wide — `/shorts/` links are tall). ONE list, shown on every page except the
+  homepage: the layout renders it above the footer via `ShowcaseSlot` (client, hides on "/" and
+  on caravan/tour/innovation detail pages), and those detail pages place it themselves — caravans
+  directly above FAQ/"Watch it in action", tours/innovations at the end of the content. Design:
+  sideways-scrolling row of rounded-[2rem] tiles shaped like the video (9:16 Shorts / 16:9), one
+  height on sm+ (380/440 px), sized by width on phones (58vw / 86vw, `items-center`). Each tile =
+  YouTube thumbnail (i.ytimg.com, no Vercel cost) + play button; tap → player loads in the tile
+  (keeps pages fast). Empty list = nothing rendered. YouTube links, not uploaded files: free
+  hosting/streaming and no Blob/bandwidth use (uploads would burn the free plan fast).
 - **Videos play ON the site (client: "video running there, not redirected links"):** new
   `YouTubeEmbed` (+ `youTubeEmbedUrl`: watch / youtu.be / shorts / embed / playlist links →
   youtube-nocookie embed, lazy-loaded, 16:9). Our Story: new `aboutSections.video` field ("YouTube

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
 import { ClosingCta } from '@/components/ClosingCta'
+import { VideoShowcase } from '@/components/VideoShowcase'
 import { DetailHero } from '@/components/DetailHero'
 import { PhotoGallery } from '@/components/PhotoGallery'
 import { getPayloadClient } from '@/lib/payload'
@@ -65,6 +66,8 @@ export default async function InnovationDetailPage({ params }: { params: Params 
         </div>
 
         <PhotoGallery cover={item.heroImage} gallery={item.gallery} />
+
+        <VideoShowcase />
       </div>
       <ClosingCta name={item.name} href={enquire} label="Enquire Now" />
     </article>

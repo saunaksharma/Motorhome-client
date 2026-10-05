@@ -29,6 +29,7 @@ import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { Homepage } from './globals/Homepage'
 import { About } from './globals/About'
+import { VideoShowcase } from './globals/VideoShowcase'
 import { BusinessDetails } from './globals/BusinessDetails'
 import { withGlobalRevalidation, withSiteRevalidation } from './hooks/revalidateSite'
 
@@ -147,7 +148,7 @@ export default buildConfig({
     ...[Features, CaravanFilterOptions, TourFilterOptions, BlogCategories, Media].map(withSiteRevalidation),
     Users,
   ],
-  globals: [BusinessDetails, Header, Footer, Homepage, About].map(withGlobalRevalidation),
+  globals: [BusinessDetails, Header, Footer, Homepage, About, VideoShowcase].map(withGlobalRevalidation),
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

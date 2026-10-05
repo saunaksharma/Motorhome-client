@@ -8,6 +8,8 @@ import { siteURL } from '@/lib/siteUrl'
 import { JsonLd } from '@/components/JsonLd'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
+import { ShowcaseSlot } from '@/components/ShowcaseSlot'
+import { VideoShowcase } from '@/components/VideoShowcase'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import './globals.css'
 
@@ -106,6 +108,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <JsonLd data={jsonLd} />
         <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
         <main id="main">{children}</main>
+        {/* The client's video row (Site Settings → Video Showcase) on every page but the homepage. */}
+        <ShowcaseSlot>
+          <VideoShowcase />
+        </ShowcaseSlot>
         <SiteFooter data={footer} />
         <WhatsAppButton number={business?.whatsapp} />
       </body>

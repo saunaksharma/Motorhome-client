@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
 import { ClosingCta } from '@/components/ClosingCta'
+import { VideoShowcase } from '@/components/VideoShowcase'
 import { DetailHero } from '@/components/DetailHero'
 import { JsonLd } from '@/components/JsonLd'
 import { SectionHeading } from '@/components/SectionHeading'
@@ -117,6 +118,8 @@ export default async function TourDetailPage({ params }: { params: Params }) {
         )}
 
         <TalesAndSnaps tales={tour.tales ? [tour.tales] : []} snaps={tour.snaps ? [tour.snaps] : []} />
+
+        <VideoShowcase />
       </div>
       <ClosingCta name={tour.name} href={enquire} label={tour.ctaLabel ?? 'Reserve Your Ride'} />
     </article>

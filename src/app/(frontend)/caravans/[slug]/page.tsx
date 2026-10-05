@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
 import { ClosingCta } from '@/components/ClosingCta'
+import { VideoShowcase } from '@/components/VideoShowcase'
 import { DetailHero } from '@/components/DetailHero'
 import { IconFeatureList } from '@/components/IconFeatureList'
 import { JsonLd } from '@/components/JsonLd'
@@ -141,6 +142,9 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
           tales={Array.isArray(caravan.relatedArticles) ? caravan.relatedArticles : []}
           snaps={Array.isArray(caravan.snaps) ? caravan.snaps : []}
         />
+
+        {/* The shared video row, above "Watch it in action" (client). */}
+        <VideoShowcase />
 
         <div className="mt-16">
           <RelatedContent

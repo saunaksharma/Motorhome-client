@@ -123,6 +123,7 @@ export interface Config {
     footer: Footer;
     homepage: Homepage;
     about: About;
+    'video-showcase': VideoShowcase;
   };
   globalsSelect: {
     business: BusinessSelect<false> | BusinessSelect<true>;
@@ -130,6 +131,7 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
+    'video-showcase': VideoShowcaseSelect<false> | VideoShowcaseSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1753,6 +1755,38 @@ export interface About {
   createdAt?: string | null;
 }
 /**
+ * The row of videos shown on every page except the homepage (tours, caravans, innovations, blog, gallery…). Empty = the row is hidden.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "video-showcase".
+ */
+export interface VideoShowcase {
+  id: number;
+  /**
+   * Optional title above the videos, e.g. "Life on the road". Leave empty for none.
+   */
+  heading?: string | null;
+  /**
+   * Drag to change the order. Mix tall (Shorts) and wide videos, as on the design.
+   */
+  videos?:
+    | {
+        /**
+         * Paste the link from YouTube — a normal video or a Short.
+         */
+        url: string;
+        /**
+         * Optional, shown on the tile.
+         */
+        title?: string | null;
+        shape?: ('auto' | 'tall' | 'wide') | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "business_select".
  */
@@ -1893,6 +1927,24 @@ export interface AboutSelect<T extends boolean = true> {
       };
   instagramUrl?: T;
   youtubeUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "video-showcase_select".
+ */
+export interface VideoShowcaseSelect<T extends boolean = true> {
+  heading?: T;
+  videos?:
+    | T
+    | {
+        url?: T;
+        title?: T;
+        shape?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
