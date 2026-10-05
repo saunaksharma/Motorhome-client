@@ -50,3 +50,16 @@ export const validateYouTube = (value: unknown, options?: { required?: boolean }
     ? true
     : 'Only YouTube links can play on the website (Instagram or Facebook links cannot). Post the clip on YouTube — a Short is fine — and paste that link.'
 }
+
+// Is this YouTube video a Short (tall)? YouTube serves /shorts/<id> only for Shorts and redirects
+// normal videos to /watch. Asked once, when a video is saved in the admin. null = couldn't tell.
+export async function isYouTubeShort(link: string): Promise<boolean | null> {
+  const id = parseYouTube(link)?.id
+  if (!id) return null
+  try {
+    const res = await fetch(`https://www.youtube.com/shorts/${id}`, { method: 'HEAD', redirect: 'manual', signal: AbortSignal.timeout(4000) })
+    return res.status === 200 ? true : res.status >= 300 && res.status < 400 ? false : null
+  } catch {
+    return null
+  }
+}

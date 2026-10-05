@@ -155,6 +155,50 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-06 (day 9, cont.) — per-page videos, typed features, client's fine pattern, admin tested end-to-end
+- **"Watch it in action" per page:** caravans (`relatedVideos`, re-enabled), tours + innovations
+  (`videos`, new) each have their own YouTube list (`src/fields/videoList.ts`: `ownVideosField`,
+  same fields as the shared list incl. shape). The row on a detail page = its own videos first,
+  then the shared Video Showcase ones (deduped) — `<VideoShowcase own={…} />`. Shared row restored
+  to the 7 videos it had (user: the two big landscape walkthroughs in front broke the tall/wide
+  rhythm; only videos the client adds go in). Harper's 2 Instagram links removed (unplayable,
+  would block saving): reel DD_wfWbSrdi + a story highlight — client should post them as Shorts.
+- **Features typed by name (client):** every tick-list on a caravan has "Add a new feature" →
+  POST /api/features { name, category } (admin cookie), then ticked. Feature `icon` defaults to the
+  stand-in `feature-icon.svg` (async defaultValue) so no upload is needed; the site picks an icon
+  from the name. **Specifications + Unique features are re-wordable per caravan** (client: "30 L
+  fridge can be 90 L in some caravans"): a ticked item shows a text box → hidden json
+  `featureLabels` { featureId: text }; `IconFeatureList labels` shows it. Inclusions/exclusions/
+  add-ons stay plain tick-lists.
+- **Background pattern = the client's fine pattern** (2560 px WhatsApp image, 2026-10-05): cut
+  into the same two files (`canva-pattern-cream.webp` faint green lines, `-green.webp` dark lines),
+  1600 px tiles on desktop, 900 px on phones (doodles ~3× smaller than the Canva-15 cut).
+- **Admin tested end-to-end** (local dev, throwaway admin audit-admin@example.test created + deleted,
+  password only in a scratch file, deleted): login, dashboard, all 26 admin screens load, add-feature
+  + re-word + save, tour video Instagram → refused / YouTube → saved, new page with blank web address
+  → auto "audit-test-page". All test docs deleted. NOTE: the admin only trusts requests from
+  SERVER_URL / Vercel origins / EXTRA_ORIGINS — testing on another port needs
+  `EXTRA_ORIGINS=http://localhost:3001` or the API answers "not allowed".
+- Clean-up: dead `src/seed.ts` removed; `RelatedContent` → `CaravanFaqs` (FAQs only); Users
+  boilerplate comments gone; SiteHeader's set-state-in-effect replaced by the render-time
+  "previous pathname" pattern (lint now 0 problems; mobile menu re-tested: opens, locks scroll,
+  closes after navigating).
+- **Video row always looks like the Canva (user):** each video's shape is detected on save — hidden
+  checkbox `isShort` (videoList.ts hook asks YouTube: /shorts/<id> answers 200 for a Short, 303 for
+  a normal video; falls back to the link type) — and `alternate()` in VideoShowcase interleaves
+  tall/wide (each keeping its order, starting with the first video's shape).
+- **Videos RUN on the site (user):** a tile plays by itself, muted + looping + no controls, while
+  ≥60% on screen (IntersectionObserver); off screen it goes back to the still thumbnail, so only the
+  2–3 visible tiles load YouTube. Running player zoomed `scale-[1.32]` inside the tile to crop
+  YouTube's title bar/logo. Tap → restarts with sound + controls (stays until the page changes).
+  Reduced-motion visitors keep the still picture. Tested: in view → running, tap → sound, scrolled
+  away → still. **Test browsers: always launch headless Chrome with --mute-audio** (a sound test
+  played audio on the user's PC).
+- **Uploading video files** (not built yet): needs the R2 move first — on the Vercel free plan
+  every video view would hit the Blob limits. Plan: Payload S3 adapter → R2 (zero egress),
+  Media accepts video/mp4 again, each video item = YouTube link OR uploaded file + poster frame,
+  compress before upload (ffmpeg, ~10 MB/min 1080p).
+
 ### 2026-10-06 (day 9, cont.) — one "Watch it in action": the video row
 - Client added videos to Harper's own "Videos" box (2 were Instagram links → silently not shown)
   and expected them in the slides row. Now: the caravan-only "Watch it in action" section is

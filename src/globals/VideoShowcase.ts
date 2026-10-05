@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
-import { validateYouTube } from '../lib/youtube'
+import { videoListFields } from '../fields/videoList'
 
 // One row of videos shown on every page except the homepage (client, Canva page 44: big rounded
 // tiles, tall + wide, scrolling sideways). Same videos everywhere — edited once, here.
@@ -29,28 +29,9 @@ export const VideoShowcase: GlobalConfig = {
       name: 'videos',
       type: 'array',
       labels: { singular: 'Video', plural: 'Videos' },
-      admin: { description: 'Drag to change the order. Mix tall (Shorts) and wide videos, as on the design.' },
-      fields: [
-        {
-          name: 'url',
-          label: 'YouTube link',
-          type: 'text',
-          required: true,
-          validate: validateYouTube,
-          admin: { description: 'Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)' },
-        },
-        { name: 'title', type: 'text', admin: { description: 'Optional, shown on the tile.' } },
-        {
-          name: 'shape',
-          type: 'select',
-          defaultValue: 'auto',
-          options: [
-            { label: 'Automatic (Shorts tall, others wide)', value: 'auto' },
-            { label: 'Tall', value: 'tall' },
-            { label: 'Wide', value: 'wide' },
-          ],
-        },
-      ],
+      label: 'Shared videos',
+      admin: { description: "Shown on every page except the homepage — after the page's own videos on caravan, tour and vehicle pages. Drag to change the order. Mix tall (Shorts) and wide videos, as on the design." },
+      fields: videoListFields,
     },
   ],
 }

@@ -8,7 +8,7 @@ import { DetailHero } from '@/components/DetailHero'
 import { IconFeatureList } from '@/components/IconFeatureList'
 import { JsonLd } from '@/components/JsonLd'
 import { PhotoGallery } from '@/components/PhotoGallery'
-import { RelatedContent } from '@/components/RelatedContent'
+import { CaravanFaqs } from '@/components/CaravanFaqs'
 import { Tabs } from '@/components/Tabs'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { ZoomCollage } from '@/components/ZoomCollage'
@@ -57,8 +57,8 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
   const overview = (
     <div>
-      <IconFeatureList title="Specifications" variant="tiles" features={caravan.specifications} extra={caravan.additionalSpecifications} />
-      <IconFeatureList title="Unique features" variant="tiles" features={caravan.uniqueFeatures} extra={caravan.additionalUniqueFeatures} />
+      <IconFeatureList title="Specifications" variant="tiles" features={caravan.specifications} extra={caravan.additionalSpecifications} labels={caravan.featureLabels} />
+      <IconFeatureList title="Unique features" variant="tiles" features={caravan.uniqueFeatures} extra={caravan.additionalUniqueFeatures} labels={caravan.featureLabels} />
       <IconFeatureList title="What's included" features={caravan.inclusions} extra={caravan.additionalInclusions} />
       <IconFeatureList title="Not included" features={caravan.exclusions} extra={caravan.additionalExclusions} exclude />
     </div>
@@ -143,11 +143,11 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
           snaps={Array.isArray(caravan.snaps) ? caravan.snaps : []}
         />
 
-        {/* The shared video row = this page's "Watch it in action" (client). */}
-        <VideoShowcase />
+        {/* "Watch it in action": this caravan's own videos, then the shared ones (client). */}
+        <VideoShowcase own={caravan.relatedVideos} />
 
         <div className="mt-16">
-          <RelatedContent faqs={faqs} />
+          <CaravanFaqs faqs={faqs} />
         </div>
       </div>
       <ClosingCta name={caravan.name} href={enquire} label="Go Caravanning!" />

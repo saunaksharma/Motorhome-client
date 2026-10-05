@@ -71,11 +71,12 @@
   --radius-sm: calc(var(--radius) - 4px);
 }
 
-/* The client's Canva background on every page: their doodle pattern (caravans, campervans,
-   trees, tents, mountains) in faint grey on cream. Cut from Canva page 15 (WEB dEv material/
-   15.jpg); `canva-pattern-green.webp` is the same drawing in dark lines for green blocks. */
+/* The client's background pattern on every page: fine doodles (campervans, trees, tents,
+   signposts, the MOTORHOME ADVENTURES / CARAVAN CONVERSION marks) in faint green on cream.
+   Cut from the client's 2560 px pattern image (WhatsApp, 2026-10-05); `canva-pattern-green.webp`
+   is the same drawing in dark lines for green blocks. */
 body {
-  background: url('/canva-pattern-cream.webp') 0 0 / 1440px auto repeat var(--color-background);
+  background: url('/canva-pattern-cream.webp') 0 0 / 1600px auto repeat var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-body);
   line-height: 1.65;
@@ -121,7 +122,7 @@ body {
 
 /* Green surface with the Canva doodle pattern in darker lines (Tips, banners, Dream Big…). */
 .pattern-green {
-  background: url('/canva-pattern-green.webp') 0 0 / 1440px auto repeat var(--color-green);
+  background: url('/canva-pattern-green.webp') 0 0 / 1600px auto repeat var(--color-green);
 }
 /* The layout's video row hides on pages that show it themselves or opt out (VideoShowcase.tsx). */
 main:has([data-video-showcase]) ~ [data-showcase-slot] {
@@ -132,7 +133,7 @@ main:has([data-video-showcase]) ~ [data-showcase-slot] {
 @media (max-width: 639px) {
   body,
   .pattern-green {
-    background-size: 820px auto;
+    background-size: 900px auto;
   }
 }
 

@@ -21,19 +21,23 @@ const PLACEHOLDER_ICON = 'feature-icon.svg'
 //   variant "list"  — two-column icon list for inclusions / add-ons
 //   exclude         — "not included" items: muted and struck through
 // `extra` is the admin's free-text "Additional …" box (comma- or line-separated).
+// `labels` is the caravan's own wording for a feature ({ featureId: "90 L Fridge" }).
 export function IconFeatureList({
   title,
   features,
   extra,
+  labels,
   exclude = false,
   variant = 'list',
 }: {
   title: string
   features?: unknown
   extra?: string | null
+  labels?: unknown
   exclude?: boolean
   variant?: 'tiles' | 'list'
 }) {
+  const wording = labels && typeof labels === 'object' ? (labels as Record<string, unknown>) : {}
   const list = (Array.isArray(features) ? features : []).filter(
     (f): f is Feature => typeof f === 'object' && f !== null,
   )
@@ -47,7 +51,8 @@ export function IconFeatureList({
     ...list.map((f) => {
       const icon = typeof f.icon === 'object' && f.icon !== null ? (f.icon as { url?: string; filename?: string }) : null
       const customIcon = icon?.url && icon.filename !== PLACEHOLDER_ICON ? icon.url : null
-      return { key: `f-${f.id}`, name: f.name, customIcon }
+      const own = wording[String(f.id)]
+      return { key: `f-${f.id}`, name: typeof own === 'string' && own.trim() ? own.trim() : f.name, customIcon }
     }),
     ...extraItems.map((name) => ({ key: `x-${name}`, name, customIcon: null as string | null })),
   ]

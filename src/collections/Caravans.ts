@@ -2,13 +2,16 @@ import type { CollectionConfig, Field } from 'payload'
 
 import { listingMetaWithFeatured } from '../fields/listingMeta'
 import { slugField } from '../fields/slugField'
+import { ownVideosField } from '../fields/videoList'
 
 // --- small local helpers so each section reads as one line ---
 
 // A tick-list of Features limited to one category. The custom admin component
 // renders every option as a checkbox with its icon; the front-end shows only
 // the ticked ones. filterOptions is kept so validation stays category-scoped.
-const featureList = (name: string, label: string, category: string): Field => ({
+// `editable` (Specifications, Unique features): each ticked item can be re-worded for this caravan
+// only — e.g. tick "Fridge", type "90 L Fridge" (client) — stored in `featureLabels`.
+const featureList = (name: string, label: string, category: string, editable = false): Field => ({
   name,
   label,
   type: 'relationship',
@@ -19,7 +22,7 @@ const featureList = (name: string, label: string, category: string): Field => ({
     components: {
       Field: {
         path: '/components/admin/FeatureTickList#FeatureTickList',
-        clientProps: { category, label },
+        clientProps: { category, label, editable },
       },
     },
   },
@@ -120,29 +123,32 @@ export const Caravans: CollectionConfig = {
     // options come from Lists & Settings → Features (category = the section).
     featureSection(
       'Features — Specifications',
-      'Tick what this caravan has. Only ticked items show on its page (Overview tab). To add a NEW option for all caravans, add it once in Lists & Settings → Features with category "Specification".',
-      [featureList('specifications', 'Specifications', 'spec'), additional('additionalSpecifications', 'Other specifications (not in the list above)')],
+      'Tick what this caravan has — only ticked items show on its page. A ticked item gets a text box: change its wording for this caravan only (e.g. "90 L Fridge"). Missing from the list? Type it in "Add a new feature" below the list.',
+      [featureList('specifications', 'Specifications', 'spec', true), additional('additionalSpecifications', 'Other specifications (not in the list above)')],
     ),
     featureSection(
       'Features — Unique features',
-      'What makes this caravan special. Tick the ones it has. New options: Lists & Settings → Features, category "Unique Feature".',
-      [featureList('uniqueFeatures', 'Unique Features', 'unique-feature'), additional('additionalUniqueFeatures', 'Other unique features (not in the list above)')],
+      'What makes this caravan special. Tick the ones it has, and change the wording of a ticked one for this caravan if needed. Missing from the list? Type it in "Add a new feature" below the list.',
+      [featureList('uniqueFeatures', 'Unique Features', 'unique-feature', true), additional('additionalUniqueFeatures', 'Other unique features (not in the list above)')],
     ),
     featureSection(
       'Features — What\'s included',
-      'Included in the price. Shown under "What\'s included". New options: Lists & Settings → Features, category "Inclusion".',
+      'Included in the price. Shown under "What\'s included". Missing from the list? Type it in "Add a new feature" below the list.',
       [featureList('inclusions', 'Inclusions', 'inclusion'), additional('additionalInclusions', 'Other inclusions (not in the list above)')],
     ),
     featureSection(
       'Features — Not included',
-      'NOT included in the price (shown crossed out under "Not included"). New options: Lists & Settings → Features, category "Exclusion".',
+      'NOT included in the price (shown crossed out under "Not included"). Missing from the list? Type it in "Add a new feature" below the list.',
       [featureList('exclusions', 'Exclusions', 'exclusion'), additional('additionalExclusions', 'Other exclusions (not in the list above)')],
     ),
     featureSection(
       'Features — Add-ons',
-      'Optional extras guests can ask for (games, bonfire…). The "Add Ons+" tab only appears when at least one is ticked or typed. New options: Lists & Settings → Features, category "Add-on".',
+      'Optional extras guests can ask for (games, bonfire…). The "Add Ons+" tab only appears when at least one is ticked or typed. Missing from the list? Type it in "Add a new feature" below the list.',
       [featureList('addOns', 'Add-ons', 'add-on'), additional('additionalAddOns', 'Other add-ons (not in the list above)')],
     ),
+    // This caravan's own wording for ticked Specifications / Unique features ({ featureId: text }),
+    // edited inside those tick-lists (FeatureTickList) — so not shown as a field of its own.
+    { name: 'featureLabels', type: 'json', admin: { hidden: true } },
 
     {
       type: 'collapsible',
@@ -150,7 +156,7 @@ export const Caravans: CollectionConfig = {
       admin: {
         initCollapsed: true,
         description:
-          'Leave empty to hide. Each part only appears on the page when filled in. Videos ("Watch it in action") are added once for all pages in Site Settings → Video Showcase.',
+          'Leave empty to hide. Each part only appears on the page when filled in.',
       },
       fields: [
         {
@@ -164,20 +170,8 @@ export const Caravans: CollectionConfig = {
             { name: 'answer', type: 'textarea', required: true },
           ],
         },
-        // Hidden (data kept): the caravan's own "Watch it in action" was removed (client) — videos
-        // now go in Site Settings → Video Showcase, shown on every caravan page.
-        {
-          name: 'relatedVideos',
-          label: 'Videos',
-          type: 'array',
-          maxRows: 3,
-          labels: { singular: 'Video', plural: 'Videos' },
-          admin: { hidden: true },
-          fields: [
-            { name: 'title', type: 'text' },
-            { name: 'url', type: 'text', required: true, admin: { description: 'YouTube link or playlist URL.' } },
-          ],
-        },
+        // This caravan's own "Watch it in action" videos (shown first in the shared video row).
+        ownVideosField('relatedVideos', 'caravan'),
         // "Tales & Snaps" (2022 brief): stories + photo albums from trips with this caravan.
         {
           name: 'relatedArticles',

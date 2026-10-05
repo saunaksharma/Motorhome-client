@@ -7,7 +7,7 @@ export type Faq = { question?: string | null; answer?: string | null }
 // FAQs near the foot of a caravan page (related articles live in "Tales & Snaps"). Native
 // <details> = accordion with no JS. The caravan's own "Watch it in action" videos were removed
 // (client): that title now heads the shared video row (VideoShowcase) above this.
-export function RelatedContent({ faqs = [] }: { faqs?: Faq[] }) {
+export function CaravanFaqs({ faqs = [] }: { faqs?: Faq[] }) {
   if (!faqs.some((f) => f.question)) return null
 
   return (

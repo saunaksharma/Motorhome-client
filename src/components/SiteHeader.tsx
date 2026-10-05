@@ -26,8 +26,13 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close the mobile menu after navigating.
-  useEffect(() => setOpen(false), [pathname])
+  // Close the mobile menu after navigating (state adjusted during render when the page
+  // changes — React's recommended pattern, no extra effect pass).
+  const [menuPath, setMenuPath] = useState(pathname)
+  if (menuPath !== pathname) {
+    setMenuPath(pathname)
+    setOpen(false)
+  }
 
   // While the mobile menu is open, the page behind it can't scroll.
   useEffect(() => {

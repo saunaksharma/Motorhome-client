@@ -162,7 +162,7 @@ export interface UserAuthOperations {
   };
 }
 /**
- * Your tour packages. Tick "Featured" to show a tour on the homepage.
+ * Your tour packages. Tick "Show on the homepage" to show a tour in the homepage row.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tours".
@@ -267,6 +267,24 @@ export interface Tour {
   ctaLink?: string | null;
   tales?: (number | null) | BlogArticle;
   snaps?: (number | null) | Gallery;
+  /**
+   * This tour's own videos, shown first in the "Watch it in action" row on its page. The shared videos from Site Settings → Video Showcase follow them. Drag to reorder.
+   */
+  videos?:
+    | {
+        /**
+         * Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)
+         */
+        url: string;
+        /**
+         * Optional, shown on the tile.
+         */
+        title?: string | null;
+        shape?: ('auto' | 'tall' | 'wide') | null;
+        isShort?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Lower numbers show first (1, 2, 3…).
    */
@@ -551,6 +569,15 @@ export interface Caravan {
    * Only for something this caravan has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
    */
   additionalAddOns?: string | null;
+  featureLabels?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   /**
    * Questions & answers shown near the bottom of the caravan's page.
    */
@@ -561,13 +588,21 @@ export interface Caravan {
         id?: string | null;
       }[]
     | null;
+  /**
+   * This caravan's own videos, shown first in the "Watch it in action" row on its page. The shared videos from Site Settings → Video Showcase follow them. Drag to reorder.
+   */
   relatedVideos?:
     | {
-        title?: string | null;
         /**
-         * YouTube link or playlist URL.
+         * Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)
          */
         url: string;
+        /**
+         * Optional, shown on the tile.
+         */
+        title?: string | null;
+        shape?: ('auto' | 'tall' | 'wide') | null;
+        isShort?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -649,7 +684,7 @@ export interface Feature {
   id: number;
   name: string;
   /**
-   * Icon shown next to this feature on the site.
+   * Optional: leave the default and the website picks a matching icon from the name. Upload your own icon to replace it.
    */
   icon: number | Media;
   category: 'spec' | 'inclusion' | 'exclusion' | 'unique-feature' | 'add-on';
@@ -689,6 +724,24 @@ export interface Innovation {
   gallery?:
     | {
         image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * This vehicle's own videos, shown first in the "Watch it in action" row on its page. The shared videos from Site Settings → Video Showcase follow them. Drag to reorder.
+   */
+  videos?:
+    | {
+        /**
+         * Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)
+         */
+        url: string;
+        /**
+         * Optional, shown on the tile.
+         */
+        title?: string | null;
+        shape?: ('auto' | 'tall' | 'wide') | null;
+        isShort?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -1156,6 +1209,15 @@ export interface ToursSelect<T extends boolean = true> {
   ctaLink?: T;
   tales?: T;
   snaps?: T;
+  videos?:
+    | T
+    | {
+        url?: T;
+        title?: T;
+        shape?: T;
+        isShort?: T;
+        id?: T;
+      };
   sortOrder?: T;
   featured?: T;
   active?: T;
@@ -1201,6 +1263,7 @@ export interface CaravansSelect<T extends boolean = true> {
   additionalExclusions?: T;
   addOns?: T;
   additionalAddOns?: T;
+  featureLabels?: T;
   faqs?:
     | T
     | {
@@ -1211,8 +1274,10 @@ export interface CaravansSelect<T extends boolean = true> {
   relatedVideos?:
     | T
     | {
-        title?: T;
         url?: T;
+        title?: T;
+        shape?: T;
+        isShort?: T;
         id?: T;
       };
   relatedArticles?: T;
@@ -1254,6 +1319,15 @@ export interface InnovationsSelect<T extends boolean = true> {
     | T
     | {
         image?: T;
+        id?: T;
+      };
+  videos?:
+    | T
+    | {
+        url?: T;
+        title?: T;
+        shape?: T;
+        isShort?: T;
         id?: T;
       };
   shortDescription?: T;
@@ -1833,7 +1907,7 @@ export interface VideoShowcase {
    */
   heading?: string | null;
   /**
-   * Drag to change the order. Mix tall (Shorts) and wide videos, as on the design.
+   * Shown on every page except the homepage — after the page's own videos on caravan, tour and vehicle pages. Drag to change the order. Mix tall (Shorts) and wide videos, as on the design.
    */
   videos?:
     | {
@@ -1846,6 +1920,7 @@ export interface VideoShowcase {
          */
         title?: string | null;
         shape?: ('auto' | 'tall' | 'wide') | null;
+        isShort?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -2009,6 +2084,7 @@ export interface VideoShowcaseSelect<T extends boolean = true> {
         url?: T;
         title?: T;
         shape?: T;
+        isShort?: T;
         id?: T;
       };
   updatedAt?: T;

@@ -27,7 +27,13 @@ export const Features: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       required: true,
-      admin: { description: 'Icon shown next to this feature on the site.' },
+      // Starts as the shared stand-in icon, so a feature can be added by name alone — the website
+      // then picks a matching icon from the name (IconFeatureList / featureIcon).
+      defaultValue: async ({ req }) =>
+        (await req.payload.find({ collection: 'media', where: { filename: { equals: 'feature-icon.svg' } }, limit: 1, depth: 0 })).docs[0]?.id,
+      admin: {
+        description: 'Optional: leave the default and the website picks a matching icon from the name. Upload your own icon to replace it.',
+      },
     },
     {
       name: 'category',

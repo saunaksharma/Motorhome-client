@@ -2,6 +2,7 @@ import type { CollectionConfig, Field } from 'payload'
 
 import { listingMetaWithFeatured } from '../fields/listingMeta'
 import { slugField } from '../fields/slugField'
+import { ownVideosField } from '../fields/videoList'
 
 // A filter value limited to one tour filter group.
 const filterValue = (name: string, label: string, group: string, hasMany = false): Field => ({
@@ -22,7 +23,7 @@ export const Tours: CollectionConfig = {
     group: 'Website Content',
     // "Preview" button in the editor opens the live page.
     preview: (doc) => `/tours/${doc.slug}`,
-    description: 'Your tour packages. Tick "Featured" to show a tour on the homepage.',
+    description: 'Your tour packages. Tick "Show on the homepage" to show a tour in the homepage row.',
   },
   access: {
     read: () => true,
@@ -107,6 +108,7 @@ export const Tours: CollectionConfig = {
       type: 'relationship',
       relationTo: 'galleries',
     },
+    ownVideosField('videos', 'tour'),
 
     ...listingMetaWithFeatured,
   ],

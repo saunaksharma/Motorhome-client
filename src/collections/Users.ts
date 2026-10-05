@@ -11,9 +11,6 @@ export const Users: CollectionConfig = {
     maxLoginAttempts: 5,
     lockTime: 10 * 60 * 1000,
   },
-  fields: [
-    // Email added by default
-    // Add more fields as needed
-  ],
+  fields: [], // email + password come with `auth`
   versions: false,
 }
