@@ -12,13 +12,17 @@ const toSlug = (value: string): string =>
 // Reused by every page-like collection (caravans, tours, blog, ...).
 export const slugField = (from = 'name'): Field => ({
   name: 'slug',
+  label: 'Web address',
   type: 'text',
   required: true,
   unique: true,
   index: true,
+  // Blank is fine in the editor: the hook below fills it from the name on save (the database
+  // still requires a value). Without this, the admin refused to save a blank "Web address".
+  validate: () => true as const,
   admin: {
     position: 'sidebar',
-    description: 'URL path. Auto-filled from the title if left blank.',
+    description: 'Filled in automatically from the name — leave it empty. Changing it later breaks old links to this page.',
   },
   hooks: {
     beforeValidate: [

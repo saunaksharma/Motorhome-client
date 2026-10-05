@@ -166,6 +166,10 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - Help notes added: Tips, Galleries, header/footer link format, social link.
 - Lists: enquiries + sign-ups newest first; content lists sorted by the site's order; blog newest.
 - Dashboard shortcuts + "Our Story & homepage" and "Videos on pages".
+- **Bug fixed — "Web address" (slug):** it was `required`, so the admin form refused to save when left
+  blank, although its note said "auto-filled if blank". Now `validate: () => true` (the
+  beforeValidate hook fills it from the name on save; DB still NOT NULL + unique). Tested via local
+  API: blank → `audit-test-page-kastro` (test page deleted). Label "Web address".
 - Client help guide: a Claude Doc "How to edit your website" (link in chat, 2026-10-06).
 
 ### 2026-10-06 (day 9) — bigger logo, locked enquiry form, faceted tour filters

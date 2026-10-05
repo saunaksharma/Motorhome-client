@@ -171,7 +171,7 @@ export interface Tour {
   id: number;
   name: string;
   /**
-   * URL path. Auto-filled from the title if left blank.
+   * Filled in automatically from the name — leave it empty. Changing it later breaks old links to this page.
    */
   slug: string;
   heroImage?: (number | null) | Media;
@@ -186,9 +186,12 @@ export interface Tour {
    */
   category?: ('Adventure' | 'Wildlife' | 'Nature' | 'Cultural' | 'Spiritual' | 'Beach') | null;
   /**
-   * Used on cards.
+   * One or two lines shown on the tour card.
    */
   shortDescription?: string | null;
+  /**
+   * The text on the tour page.
+   */
   description?: {
     root: {
       type: string;
@@ -265,12 +268,15 @@ export interface Tour {
   tales?: (number | null) | BlogArticle;
   snaps?: (number | null) | Gallery;
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   meta?: {
@@ -292,6 +298,9 @@ export interface Tour {
  */
 export interface Media {
   id: number;
+  /**
+   * A few words about the photo, e.g. "Willow caravan at sunset in Ladakh". Helps Google and blind visitors.
+   */
   alt: string;
   prefix?: string | null;
   _objectKey?: string | null;
@@ -319,12 +328,15 @@ export interface TourFilterOption {
   name: string;
   group: 'duration-band' | 'location' | 'preference';
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   updatedAt: string;
@@ -338,7 +350,7 @@ export interface BlogArticle {
   id: number;
   title: string;
   /**
-   * URL path. Auto-filled from the title if left blank.
+   * Filled in automatically from the name — leave it empty. Changing it later breaks old links to this page.
    */
   slug: string;
   coverImage?: (number | null) | Media;
@@ -370,12 +382,15 @@ export interface BlogArticle {
    */
   publishedAt?: string | null;
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   meta?: {
@@ -397,18 +412,23 @@ export interface BlogCategory {
   id: number;
   name: string;
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * Photo albums shown on the Gallery page. Add photos to an album, then drag them to change the order.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "galleries".
  */
@@ -416,7 +436,7 @@ export interface Gallery {
   id: number;
   title: string;
   /**
-   * URL path. Auto-filled from the title if left blank.
+   * Filled in automatically from the name — leave it empty. Changing it later breaks old links to this page.
    */
   slug: string;
   images?:
@@ -427,12 +447,15 @@ export interface Gallery {
       }[]
     | null;
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   meta?: {
@@ -459,7 +482,7 @@ export interface Caravan {
    */
   name: string;
   /**
-   * URL path. Auto-filled from the title if left blank.
+   * Filled in automatically from the name — leave it empty. Changing it later breaks old links to this page.
    */
   slug: string;
   heroImage?: (number | null) | Media;
@@ -571,12 +594,15 @@ export interface Caravan {
   ctaLabel?: string | null;
   ctaLink?: string | null;
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   meta?: {
@@ -602,12 +628,15 @@ export interface CaravanFilterOption {
   name: string;
   group: 'base-location' | 'drive-type' | 'berth-range' | 'class';
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   updatedAt: string;
@@ -628,12 +657,15 @@ export interface Feature {
   icon: number | Media;
   category: 'spec' | 'inclusion' | 'exclusion' | 'unique-feature' | 'add-on';
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   updatedAt: string;
@@ -649,7 +681,7 @@ export interface Innovation {
   id: number;
   name: string;
   /**
-   * URL path. Auto-filled from the title if left blank.
+   * Filled in automatically from the name — leave it empty. Changing it later breaks old links to this page.
    */
   slug: string;
   /**
@@ -664,9 +696,12 @@ export interface Innovation {
       }[]
     | null;
   /**
-   * Used on cards.
+   * One or two lines shown on the vehicle card.
    */
   shortDescription?: string | null;
+  /**
+   * The text on the vehicle page.
+   */
   description?: {
     root: {
       type: string;
@@ -695,12 +730,15 @@ export interface Innovation {
    */
   baseLocation?: string | null;
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   meta?: {
@@ -724,7 +762,7 @@ export interface Page {
   id: number;
   title: string;
   /**
-   * URL path. Auto-filled from the title if left blank.
+   * Filled in automatically from the name — leave it empty. Changing it later breaks old links to this page.
    */
   slug: string;
   body?: {
@@ -770,19 +808,28 @@ export interface HeroSlide {
    * Highlighted line, e.g. "HOME AWAY HOME".
    */
   headingLine2?: string | null;
+  /**
+   * A wide landscape photo. Set its focus point in Media so phones crop it well.
+   */
   backgroundImage?: (number | null) | Media;
   /**
    * e.g. "BOOK NOW" or "RENT NOW".
    */
   ctaLabel?: string | null;
+  /**
+   * Where the button goes, e.g. /tours/the-adventures-of-ladakh or /caravans/willow.
+   */
   ctaLink?: string | null;
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   updatedAt: string;
@@ -808,18 +855,23 @@ export interface Review {
   quote?: string | null;
   photo?: (number | null) | Media;
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * The TIPS list on the homepage. Each tip opens to show its text (use bullet points like the others).
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tips".
  */
@@ -843,12 +895,15 @@ export interface Tip {
   } | null;
   videoUrl?: string | null;
   /**
-   * Lower numbers show first.
+   * Lower numbers show first (1, 2, 3…).
    */
   sortOrder?: number | null;
+  /**
+   * Tick to show it in its row on the homepage.
+   */
   featured?: boolean | null;
   /**
-   * Uncheck to hide from the site.
+   * Untick to hide it from the website without deleting it.
    */
   active?: boolean | null;
   updatedAt: string;
@@ -1547,6 +1602,9 @@ export interface Header {
   navItems?:
     | {
         label: string;
+        /**
+         * A page on this site, e.g. /tours, or a full web address starting with https://
+         */
         link: string;
         id?: string | null;
       }[]
@@ -1568,6 +1626,9 @@ export interface Footer {
         links?:
           | {
               label: string;
+              /**
+               * e.g. /privacy-policy, or a full web address starting with https://
+               */
               link: string;
               id?: string | null;
             }[]
@@ -1581,6 +1642,9 @@ export interface Footer {
          * e.g. "Instagram", "Facebook".
          */
         platform: string;
+        /**
+         * The full address of your page, e.g. https://www.instagram.com/…
+         */
         url: string;
         id?: string | null;
       }[]
@@ -1594,6 +1658,8 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * Our Story (the chapters with the year), Our Footprint (the three arches) and the Dream Big banner. The slideshow, reviews and tips have their own sections in this menu.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "homepage".
  */
@@ -1617,6 +1683,9 @@ export interface Homepage {
       [k: string]: unknown;
     } | null;
   };
+  /**
+   * The story chapters, in order. Drag to reorder; the first one opens the section.
+   */
   aboutSections?:
     | {
         /**
