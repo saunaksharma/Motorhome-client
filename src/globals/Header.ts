@@ -17,7 +17,7 @@ export const Header: GlobalConfig = {
       labels: { singular: 'Nav item', plural: 'Nav items' },
       fields: [
         { name: 'label', type: 'text', required: true },
-        { name: 'link', type: 'text', required: true },
+        { name: 'link', type: 'text', required: true, admin: { description: 'A page on this site, e.g. /tours, or a full web address starting with https://' } },
       ],
     },
   ],

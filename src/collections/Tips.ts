@@ -6,10 +6,12 @@ import { listingMeta } from '../fields/listingMeta'
 // show its body, with an optional video link. Accordion order = sortOrder.
 export const Tips: CollectionConfig = {
   slug: 'tips',
+  defaultSort: 'sortOrder',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'active'],
     group: 'Homepage',
+    description: 'The TIPS list on the homepage. Each tip opens to show its text (use bullet points like the others).',
   },
   access: {
     read: () => true,

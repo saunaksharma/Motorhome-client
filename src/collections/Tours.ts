@@ -1,6 +1,6 @@
 import type { CollectionConfig, Field } from 'payload'
 
-import { listingMeta } from '../fields/listingMeta'
+import { listingMetaWithFeatured } from '../fields/listingMeta'
 import { slugField } from '../fields/slugField'
 
 // A filter value limited to one tour filter group.
@@ -15,9 +15,10 @@ const filterValue = (name: string, label: string, group: string, hasMany = false
 
 export const Tours: CollectionConfig = {
   slug: 'tours',
+  defaultSort: 'sortOrder',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'category', 'durationLabel', 'location', 'featured'],
+    defaultColumns: ['name', 'durationLabel', 'location', 'featured', 'active'],
     group: 'Website Content',
     // "Preview" button in the editor opens the live page.
     preview: (doc) => `/tours/${doc.slug}`,
@@ -31,7 +32,7 @@ export const Tours: CollectionConfig = {
     slugField(),
 
     // Media
-    { name: 'heroImage', type: 'upload', relationTo: 'media' },
+    { name: 'heroImage', label: 'Cover photo', type: 'upload', relationTo: 'media' },
     {
       name: 'gallery',
       type: 'array',
@@ -53,13 +54,13 @@ export const Tours: CollectionConfig = {
         { label: 'Beach', value: 'Beach' },
       ],
     },
-    { name: 'shortDescription', type: 'textarea', admin: { description: 'Used on cards.' } },
-    { name: 'description', type: 'richText' },
+    { name: 'shortDescription', label: 'Card text', type: 'textarea', admin: { description: 'One or two lines shown on the tour card.' } },
+    { name: 'description', label: 'Full description', type: 'richText', admin: { description: 'The text on the tour page.' } },
 
     // Card quick-specs + listing filters (SPEC pages 22, 49)
-    { name: 'durationLabel', type: 'text', admin: { description: 'Shown on the card, e.g. "15 Days".' } },
+    { name: 'durationLabel', label: 'Duration', type: 'text', admin: { description: 'Shown on the card, e.g. "15 Days".' } },
     filterValue('durationBand', 'Duration Band', 'duration-band'),
-    { name: 'routeLabel', type: 'text', admin: { description: 'e.g. "Delhi – Ladakh – Delhi".' } },
+    { name: 'routeLabel', label: 'Route', type: 'text', admin: { description: 'e.g. "Delhi – Ladakh – Delhi".' } },
     filterValue('location', 'Location', 'location'),
     filterValue('preference', 'Preference', 'preference', true),
     { name: 'season', type: 'text', admin: { description: 'e.g. "May – September".' } },
@@ -107,6 +108,6 @@ export const Tours: CollectionConfig = {
       relationTo: 'galleries',
     },
 
-    ...listingMeta,
+    ...listingMetaWithFeatured,
   ],
 }

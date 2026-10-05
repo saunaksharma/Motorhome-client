@@ -6,6 +6,7 @@ import { slugField } from '../fields/slugField'
 // "Tales" — blog articles (SPEC page 52). A tour links to a related article.
 export const BlogArticles: CollectionConfig = {
   slug: 'blog-articles',
+  defaultSort: '-publishedAt',
   labels: {
     singular: 'Blog Article',
     plural: 'Blog Articles',

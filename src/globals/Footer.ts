@@ -23,7 +23,7 @@ export const Footer: GlobalConfig = {
           type: 'array',
           fields: [
             { name: 'label', type: 'text', required: true },
-            { name: 'link', type: 'text', required: true },
+            { name: 'link', type: 'text', required: true, admin: { description: 'e.g. /privacy-policy, or a full web address starting with https://' } },
           ],
         },
       ],
@@ -34,7 +34,7 @@ export const Footer: GlobalConfig = {
       labels: { singular: 'Social link', plural: 'Social links' },
       fields: [
         { name: 'platform', type: 'text', required: true, admin: { description: 'e.g. "Instagram", "Facebook".' } },
-        { name: 'url', type: 'text', required: true },
+        { name: 'url', label: 'Link', type: 'text', required: true, admin: { description: 'The full address of your page, e.g. https://www.instagram.com/…' } },
       ],
     },
     {

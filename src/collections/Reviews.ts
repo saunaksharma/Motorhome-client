@@ -6,9 +6,10 @@ import { listingMeta } from '../fields/listingMeta'
 // Two card styles: a big photo card, or a star-rating + quote card.
 export const Reviews: CollectionConfig = {
   slug: 'reviews',
+  defaultSort: 'sortOrder',
   admin: {
     useAsTitle: 'reviewerName',
-    defaultColumns: ['reviewerName', 'rating', 'active', 'featured'],
+    defaultColumns: ['reviewerName', 'style', 'rating', 'active'],
     group: 'Homepage',
     description: 'Customer testimonials shown under the homepage slideshow.',
   },

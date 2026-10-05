@@ -12,8 +12,10 @@ export const Media: CollectionConfig = {
   fields: [
     {
       name: 'alt',
+      label: 'Photo description',
       type: 'text',
       required: true,
+      admin: { description: 'A few words about the photo, e.g. "Willow caravan at sunset in Ladakh". Helps Google and blind visitors.' },
     },
   ],
   upload: {

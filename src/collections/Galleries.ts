@@ -6,10 +6,12 @@ import { slugField } from '../fields/slugField'
 // "Snaps" — an image gallery a tour (or caravan) can link to (SPEC page 51).
 export const Galleries: CollectionConfig = {
   slug: 'galleries',
+  defaultSort: 'sortOrder',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'active'],
     group: 'Website Content',
+    description: 'Photo albums shown on the Gallery page. Add photos to an album, then drag them to change the order.',
     // "Preview" button in the editor opens the live page.
     preview: (doc) => `/gallery/${doc.slug}`,
   },

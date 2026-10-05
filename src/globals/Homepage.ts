@@ -8,7 +8,12 @@ import type { GlobalConfig } from 'payload'
 // The "Which tier" block is deferred until the client picks the copy (page 30 vs 31).
 export const Homepage: GlobalConfig = {
   slug: 'homepage',
-  admin: { group: 'Site Settings', preview: () => '/' },
+  label: 'Homepage Sections',
+  admin: {
+    group: 'Homepage',
+    preview: () => '/',
+    description: 'Our Story (the chapters with the year), Our Footprint (the three arches) and the Dream Big banner. The slideshow, reviews and tips have their own sections in this menu.',
+  },
   access: {
     read: () => true,
   },
@@ -26,8 +31,10 @@ export const Homepage: GlobalConfig = {
     // About Us sections — "How It All Began", "The People Behind the Wheel", etc. (pages 24-28)
     {
       name: 'aboutSections',
+      label: 'Our Story',
       type: 'array',
-      labels: { singular: 'About section', plural: 'About sections' },
+      labels: { singular: 'Chapter', plural: 'Chapters' },
+      admin: { description: 'The story chapters, in order. Drag to reorder; the first one opens the section.' },
       fields: [
         {
           name: 'year',
@@ -61,6 +68,7 @@ export const Homepage: GlobalConfig = {
     // "Our Footprint" stat cards (page 38)
     {
       name: 'footprint',
+      label: 'Our Footprint',
       type: 'array',
       labels: { singular: 'Stat', plural: 'Stats' },
       admin: {
@@ -77,6 +85,7 @@ export const Homepage: GlobalConfig = {
     // "Dream Big With Us" CTA banner (page 39)
     {
       name: 'dreamBigCta',
+      label: 'Dream Big banner',
       type: 'group',
       admin: { description: 'The "Dream Big With Us" banner: a heading and two buttons (design page 39). Leave a button\'s text empty to hide it.' },
       fields: [

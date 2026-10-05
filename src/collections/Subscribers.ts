@@ -6,6 +6,7 @@ import { rejectBots } from '../hooks/formProtection'
 // Anyone can subscribe (create); reads stay admin-only by default.
 export const Subscribers: CollectionConfig = {
   slug: 'subscribers',
+  defaultSort: '-createdAt',
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['email', 'createdAt'],

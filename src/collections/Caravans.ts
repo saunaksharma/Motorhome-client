@@ -1,6 +1,6 @@
 import type { CollectionConfig, Field } from 'payload'
 
-import { listingMeta } from '../fields/listingMeta'
+import { listingMetaWithFeatured } from '../fields/listingMeta'
 import { slugField } from '../fields/slugField'
 
 // --- small local helpers so each section reads as one line ---
@@ -59,9 +59,10 @@ const filterValue = (name: string, label: string, group: string): Field => ({
 
 export const Caravans: CollectionConfig = {
   slug: 'caravans',
+  defaultSort: 'sortOrder',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'class', 'driveType', 'baseLocation', 'featured'],
+    defaultColumns: ['name', 'class', 'driveType', 'baseLocation', 'featured', 'active'],
     group: 'Website Content',
     // "Preview" button in the editor opens the live page.
     preview: (doc) => `/caravans/${doc.slug}`,
@@ -100,10 +101,11 @@ export const Caravans: CollectionConfig = {
       fields: [
         {
           name: 'shortDescription',
+          label: 'Card text',
           type: 'textarea',
           admin: { description: 'One or two lines — shown on the caravan\'s card in listings.' },
         },
-        { name: 'description', type: 'richText', admin: { description: 'The full text under the photo on the caravan\'s page.' } },
+        { name: 'description', label: 'Full description', type: 'richText', admin: { description: 'The full text under the photo on the caravan\'s page.' } },
         { name: 'sleeps', type: 'text', admin: { description: 'Shown as "Sleeps", e.g. "4–6 People".' } },
         { name: 'baseVehicle', type: 'text', admin: { description: 'Shown as "Base vehicle", e.g. "Tata 4300 wb Chassis".' } },
         // Listing filters (SPEC page 41) — also shown as facts on the page.
@@ -204,6 +206,6 @@ export const Caravans: CollectionConfig = {
     unused({ name: 'ctaLabel', type: 'text', defaultValue: 'GO CARAVANNING!' }),
     unused({ name: 'ctaLink', type: 'text' }),
 
-    ...listingMeta,
+    ...listingMetaWithFeatured,
   ],
 }

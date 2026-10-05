@@ -8,6 +8,8 @@ const SHORTCUTS = [
   { label: 'Add a tour', hint: 'New trip + day-by-day plan', href: '/admin/collections/tours/create' },
   { label: 'Add a caravan', hint: 'Photos, specs, tick features', href: '/admin/collections/caravans/create' },
   { label: 'Homepage slideshow', hint: 'Change the big banner photos', href: '/admin/collections/hero-slides' },
+  { label: 'Our Story & homepage', hint: 'Story chapters, Footprint, Dream Big', href: '/admin/globals/homepage' },
+  { label: 'Videos on pages', hint: 'The YouTube video row', href: '/admin/globals/video-showcase' },
   { label: 'Upload photos', hint: 'Media library', href: '/admin/collections/media' },
   { label: 'Add a review', hint: 'Testimonial with photo', href: '/admin/collections/reviews/create' },
   { label: 'Contact & WhatsApp', hint: 'Phone, email, address', href: '/admin/globals/business' },

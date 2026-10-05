@@ -7,6 +7,7 @@ import { listingMeta } from '../fields/listingMeta'
 // button linking/edit"). Carousel order = sortOrder.
 export const HeroSlides: CollectionConfig = {
   slug: 'hero-slides',
+  defaultSort: 'sortOrder',
   admin: {
     useAsTitle: 'headingLine2',
     defaultColumns: ['headingLine2', 'headingLine1', 'sortOrder', 'active'],
@@ -17,11 +18,11 @@ export const HeroSlides: CollectionConfig = {
     read: () => true,
   },
   fields: [
-    { name: 'headingLine1', type: 'text', admin: { description: 'e.g. "CHOOSE YOUR".' } },
-    { name: 'headingLine2', type: 'text', admin: { description: 'Highlighted line, e.g. "HOME AWAY HOME".' } },
-    { name: 'backgroundImage', type: 'upload', relationTo: 'media' },
-    { name: 'ctaLabel', type: 'text', admin: { description: 'e.g. "BOOK NOW" or "RENT NOW".' } },
-    { name: 'ctaLink', type: 'text' },
+    { name: 'headingLine1', label: 'Heading — first line', type: 'text', admin: { description: 'e.g. "CHOOSE YOUR".' } },
+    { name: 'headingLine2', label: 'Heading — second line (highlighted)', type: 'text', admin: { description: 'Highlighted line, e.g. "HOME AWAY HOME".' } },
+    { name: 'backgroundImage', label: 'Photo', type: 'upload', relationTo: 'media', admin: { description: 'A wide landscape photo. Set its focus point in Media so phones crop it well.' } },
+    { name: 'ctaLabel', label: 'Button text', type: 'text', admin: { description: 'e.g. "BOOK NOW" or "RENT NOW".' } },
+    { name: 'ctaLink', label: 'Button link', type: 'text', admin: { description: 'Where the button goes, e.g. /tours/the-adventures-of-ladakh or /caravans/willow.' } },
     ...listingMeta,
   ],
 }

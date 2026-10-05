@@ -155,6 +155,19 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-06 (day 9, cont.) — admin made easier for the client (labels/help only, no schema change)
+- Plain labels: Cover photo, Card text, Full description, Duration, Route, Badge; hero slide
+  "Heading — first/second line", "Photo", "Button text/link"; Media `alt` = "Photo description";
+  sidebar "Order" / "Show on the website" / "Show on the homepage".
+- "Featured" (= homepage row) only shown on tours, caravans, innovations (`listingMetaWithFeatured`);
+  hidden elsewhere (`listingMeta`, data kept).
+- Homepage global → label "Homepage Sections", moved into the **Homepage** menu group (beside
+  slideshow, reviews, tips); "Our Story" (Chapters), "Our Footprint", "Dream Big banner".
+- Help notes added: Tips, Galleries, header/footer link format, social link.
+- Lists: enquiries + sign-ups newest first; content lists sorted by the site's order; blog newest.
+- Dashboard shortcuts + "Our Story & homepage" and "Videos on pages".
+- Client help guide: a Claude Doc "How to edit your website" (link in chat, 2026-10-06).
+
 ### 2026-10-06 (day 9) — bigger logo, locked enquiry form, faceted tour filters
 - **Logo a little bigger (client):** emblem 44 px scrolled / 56 px over the hero (was 40/48), words
   22 px (sm 26, lg 22; was 20/24/20). Steps down where it wouldn't fit beside the menu: <390 px

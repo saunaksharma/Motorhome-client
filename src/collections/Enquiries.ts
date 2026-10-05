@@ -8,6 +8,7 @@ import { notifyNewEnquiry, rejectBots } from '../hooks/formProtection'
 // customer PII is never public.
 export const Enquiries: CollectionConfig = {
   slug: 'enquiries',
+  defaultSort: '-createdAt',
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['firstName', 'lastName', 'phone', 'enquiryType', 'destination', 'status', 'createdAt'],
