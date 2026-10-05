@@ -35,20 +35,26 @@ const NOT_SURE = 'Not sure yet'
 const isType = (v: string | null): v is EnquiryType => TYPES.some((t) => t.value === v)
 
 // "Reserve Your Adventure" booking form → public Enquiries endpoint.
+// Opened from a tour / caravan / vehicle page (/contact?type=caravan&destination=Willow) it is
+// LOCKED to that one product (client): no Tour/Caravan/Innovation switch, no list — just the
+// product. Opened plainly (header "Book your call") the visitor picks the type and the product.
 export function BookingForm({ choices }: { choices: EnquiryChoices }) {
   const [type, setType] = useState<EnquiryType>('tour')
   const [destination, setDestination] = useState('')
+  // null until the link has been read, so neither version flashes before the other.
+  const [locked, setLocked] = useState<boolean | null>(null)
   const [sending, setSending] = useState(false)
 
-  // Pre-select from the link (e.g. /contact?type=caravan&destination=Willow) in the browser,
-  // so the page itself can be pre-built and load instantly.
+  // Read the link in the browser, so the page itself can be pre-built and load instantly.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const linkType = params.get('type')
+    const linkDestination = params.get('destination')?.trim() ?? ''
     // One-time read of the link after hydration (keeps /contact static); not a render loop.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isType(linkType)) setType(linkType)
-    setDestination(params.get('destination') ?? '')
+    setDestination(linkDestination)
+    setLocked(isType(linkType) && linkDestination !== '')
   }, [])
   const field = TYPES.find((t) => t.value === type)!
   // A pre-filled name that isn't in the list (e.g. "Custom Build") is still offered.
@@ -95,28 +101,37 @@ export function BookingForm({ choices }: { choices: EnquiryChoices }) {
     <form onSubmit={onSubmit} className="relative grid gap-4 sm:grid-cols-2">
       <Honeypot />
       <input type="hidden" name="enquiryType" value={type} />
-      <fieldset className="sm:col-span-2">
-        <legend className="mb-2 font-heading text-sm uppercase tracking-wide text-green">I&apos;m enquiring about</legend>
-        <div className="grid grid-cols-3 gap-1 rounded-full border border-border bg-card p-1">
-          {TYPES.map((t) => (
-            <button
-              key={t.value}
-              type="button"
-              aria-pressed={type === t.value}
-              onClick={() => {
-                setType(t.value)
-                setDestination('')
-              }}
-              className={cn(
-                'rounded-full px-2 py-2.5 font-heading text-[13px] font-bold uppercase tracking-wide transition-colors max-[359px]:px-1 max-[359px]:text-[11px] max-[359px]:tracking-normal sm:text-sm',
-                type === t.value ? 'bg-green text-white' : 'text-green hover:bg-green/5',
-              )}
-            >
-              {t.label}
-            </button>
-          ))}
+      {locked && (
+        <div className="rounded-2xl border-l-4 border-green bg-card px-5 py-4 shadow-sm ring-1 ring-green/10 sm:col-span-2">
+          <input type="hidden" name="destination" value={destination} />
+          <p className="font-heading text-xs uppercase tracking-[0.2em] text-green/60">{field.field}</p>
+          <p className="mt-1 font-display text-xl text-green">{destination}</p>
         </div>
-      </fieldset>
+      )}
+      {locked === false && (
+        <fieldset className="sm:col-span-2">
+          <legend className="mb-2 font-heading text-sm uppercase tracking-wide text-green">I&apos;m enquiring about</legend>
+          <div className="grid grid-cols-3 gap-1 rounded-full border border-border bg-card p-1">
+            {TYPES.map((t) => (
+              <button
+                key={t.value}
+                type="button"
+                aria-pressed={type === t.value}
+                onClick={() => {
+                  setType(t.value)
+                  setDestination('')
+                }}
+                className={cn(
+                  'rounded-full px-2 py-2.5 font-heading text-[13px] font-bold uppercase tracking-wide transition-colors max-[359px]:px-1 max-[359px]:text-[11px] max-[359px]:tracking-normal sm:text-sm',
+                  type === t.value ? 'bg-green text-white' : 'text-green hover:bg-green/5',
+                )}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+      )}
       <Field label="First Name" required>
         <input name="firstName" required autoComplete="given-name" className={inputClass} />
       </Field>
@@ -133,15 +148,17 @@ export function BookingForm({ choices }: { choices: EnquiryChoices }) {
       <Field label="Company">
         <input name="company" autoComplete="off" className={inputClass} />
       </Field>
-      <Field label={field.field}>
-        <select name="destination" value={destination} onChange={(e) => setDestination(e.target.value)} className={inputClass}>
-          <option value="">Select…</option>
-          {options.map((name) => (
-            <option key={name}>{name}</option>
-          ))}
-          <option>{NOT_SURE}</option>
-        </select>
-      </Field>
+      {locked === false && (
+        <Field label={field.field}>
+          <select name="destination" value={destination} onChange={(e) => setDestination(e.target.value)} className={inputClass}>
+            <option value="">Select…</option>
+            {options.map((name) => (
+              <option key={name}>{name}</option>
+            ))}
+            <option>{NOT_SURE}</option>
+          </select>
+        </Field>
+      )}
       <Field label="Preferred Travel Dates">
         <input name="preferredTravelDates" placeholder="e.g. March 2027" className={inputClass} />
       </Field>

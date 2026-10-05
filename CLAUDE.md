@@ -155,6 +155,21 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-06 (day 9) — bigger logo, locked enquiry form, faceted tour filters
+- **Logo a little bigger (client):** emblem 44 px scrolled / 56 px over the hero (was 40/48), words
+  22 px (sm 26, lg 22; was 20/24/20). Steps down where it wouldn't fit beside the menu: <390 px
+  (emblem 40/44, words 21 px, gap-2), <360 px (old small size), and over the hero at lg+ (48 px).
+  Header box max-w 1240 → 1260 so 1280 px fits. Measured: no header overflow at 320–1440, both states.
+- **Enquiry form locks onto the product (client):** opened from a tour / caravan / vehicle page
+  (`/contact?type=…&destination=…`) it shows ONLY that product in a white box ("Caravan — Willow"),
+  sent as hidden inputs — no Tour/Caravan/Innovation switch, no list. Plain /contact (header "Book
+  your call") keeps the switch + list. `locked` is null until the link is read (no flash).
+- **Tour filters are faceted (client: "show the states which have tours"):** `FilterBar` `facets`
+  prop (tours only) — each dropdown lists only options with matching tours given the other choices,
+  with counts, e.g. 15-30 Days → Location: Bhutan (1), Himachal (1); options with no tours hidden.
+- Filter pills: `min-w-40` dropped below 360 px (tours/caravans/blog scrolled sideways at 320).
+- `dev.log` had been committed by mistake (harmless startup lines) — removed; `*.log` ignored.
+
 ### 2026-10-05 (day 8) — client's Canva backgrounds everywhere; Footprint = Canva page 38
 - **Backgrounds = the client's own Canva pattern** (doodle caravans, campervans, trees, tents,
   mountains, campfire). Cut from Canva page 15 (`../WEB dEv material/15.jpg`, the 4000 px export of

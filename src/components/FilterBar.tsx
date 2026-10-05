@@ -15,7 +15,18 @@ type Filter = { label: string; param: string; options: FilterOption[] }
 //   default        — pre-built pages (caravans/tours): the URL is updated in place and
 //                    FilteredGrid filters in the browser (instant, no server request).
 //   serverFiltered — pages that filter on the server (blog): navigate so it re-renders.
-export function FilterBar({ filters, serverFiltered = false }: { filters: Filter[]; serverFiltered?: boolean }) {
+// `facets` (the filter values of every listed item) makes the dropdowns faceted (client, tours):
+// each lists only the options that still have matches given the other chosen filters, with a
+// count — e.g. "15-30 Days" leaves Location with just Bhutan (1) and Himachal (1).
+export function FilterBar({
+  filters,
+  serverFiltered = false,
+  facets,
+}: {
+  filters: Filter[]
+  serverFiltered?: boolean
+  facets?: Record<string, string[]>[]
+}) {
   const router = useRouter()
   const pathname = usePathname()
   const params = useSearchParams()
@@ -41,15 +52,29 @@ export function FilterBar({ filters, serverFiltered = false }: { filters: Filter
 
   const anyActive = filters.some((f) => params.get(f.param))
 
+  // Items matching every chosen filter, with `param` set to `optionId` instead of its own choice.
+  const countFor = (param: string, optionId: string) =>
+    (facets ?? []).filter((keys) =>
+      filters.every((f) => {
+        const chosen = f.param === param ? optionId : params.get(f.param)
+        return !chosen || keys[f.param]?.includes(chosen)
+      }),
+    ).length
+
   return (
     <div className="mx-auto grid w-fit max-w-full grid-cols-2 items-center gap-1 rounded-3xl bg-white p-1.5 shadow-[0_12px_32px_-18px_rgb(13_71_63/0.35)] ring-1 ring-green/10 sm:flex sm:flex-wrap sm:justify-center sm:rounded-full">
       {filters.map((filter) => {
         const value = params.get(filter.param) ?? ''
+        const options = facets
+          ? filter.options
+              .map((option) => ({ ...option, count: countFor(filter.param, String(option.id)) }))
+              .filter((option) => option.count > 0 || String(option.id) === value)
+          : filter.options
         return (
           <label
             key={filter.param}
             className={cn(
-              'relative flex min-w-40 cursor-pointer flex-col rounded-full px-5 py-2 transition-colors hover:bg-green/[0.05]',
+              'relative flex min-w-40 cursor-pointer flex-col rounded-full px-5 py-2 max-[359px]:min-w-0 max-[359px]:px-3 transition-colors hover:bg-green/[0.05]',
               value && 'bg-green/[0.08] hover:bg-green/[0.1]',
             )}
           >
@@ -60,9 +85,9 @@ export function FilterBar({ filters, serverFiltered = false }: { filters: Filter
               className="cursor-pointer appearance-none bg-transparent pr-6 font-heading text-sm tracking-wide text-green outline-none"
             >
               <option value="">All</option>
-              {filter.options.map((option) => (
+              {options.map((option) => (
                 <option key={option.id} value={String(option.id)}>
-                  {option.name}
+                  {'count' in option ? `${option.name} (${option.count})` : option.name}
                 </option>
               ))}
             </select>

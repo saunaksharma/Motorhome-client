@@ -55,16 +55,16 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
       <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4">
         <div
           className={cn(
-            'mx-auto max-w-[1240px] rounded-2xl border transition-all duration-500',
+            'mx-auto max-w-[1260px] rounded-2xl border transition-all duration-500',
             solid
               ? 'border-gold/25 bg-green/90 shadow-[0_10px_30px_-10px_rgb(0_0_0/0.45)] backdrop-blur-md'
               : // Over the homepage photo: dark frosted glass so the logo and menu stay readable on bright photos.
                 'border-white/15 bg-black/30 shadow-[0_10px_30px_-12px_rgb(0_0_0/0.35)] backdrop-blur-md',
           )}
         >
-          <div className={cn('flex items-center justify-between gap-4 px-4 transition-all duration-500 max-[359px]:px-3', solid ? 'h-16' : 'h-20')}>
-            {/* Logo lockup (a touch tighter on the smallest phones, where it didn't fit beside the menu). */}
-            {/* Client: both words the same size, emblem a little bigger, emblem + words closer. */}
+          <div className={cn('flex items-center justify-between gap-4 px-4 transition-all duration-500 max-[389px]:gap-2 max-[359px]:px-3', solid ? 'h-16' : 'h-20')}>
+            {/* Logo lockup (a touch smaller below 390px wide, where it didn't fit beside the menu). */}
+            {/* Client: both words the same size, emblem + words close; whole logo a little bigger (2026-10-06). */}
             <Link href="/" className="flex shrink-0 items-center gap-1.5" aria-label={`${brand} — home`}>
               {logoUrl && (
                 <Image
@@ -73,7 +73,7 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
                   width={148}
                   height={80}
                   priority
-                  className={cn('w-auto object-contain transition-all duration-500', solid ? 'h-10 max-[359px]:h-9' : 'h-12 max-[359px]:h-9')}
+                  className={cn('w-auto object-contain transition-all duration-500', solid ? 'h-11 max-[389px]:h-10 max-[359px]:h-9' : 'h-14 max-[639px]:h-12 max-[389px]:h-11 max-[359px]:h-9 lg:h-12')}
                 />
               )}
               <span className="flex flex-col leading-none">
@@ -81,7 +81,7 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
                 {[word1, rest.join(' ')].map((word) => (
                   <span
                     key={word}
-                    className="font-brand text-xl font-bold uppercase tracking-wide text-brand-gold max-[359px]:text-lg sm:text-2xl lg:text-xl"
+                    className="font-brand text-[22px] font-bold uppercase tracking-wide text-brand-gold max-[389px]:text-[21px] max-[359px]:text-lg sm:text-[26px] lg:text-[22px]"
                   >
                     {word}
                   </span>

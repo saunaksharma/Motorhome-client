@@ -69,6 +69,7 @@ export default async function ToursPage() {
               { label: 'Location', param: 'location', options: optionsFor('location') },
               { label: 'Preference', param: 'preference', options: optionsFor('preference') },
             ]}
+            facets={items.map((item) => item.keys)}
           />
         </Suspense>
       </div>
