@@ -2,8 +2,7 @@ import type { Field } from 'payload'
 
 import { isYouTubeShort, validateYouTube } from '../lib/youtube'
 
-// A list of YouTube videos for the "Watch it in action" row — used by Site Settings → Video
-// Showcase (shared, every page) and by each caravan / tour / innovation (its own, shown first).
+// A list of YouTube videos for the "Watch it in action" row (Site Settings → Video Showcase).
 export const videoListFields: Field[] = [
   {
     name: 'url',
@@ -36,14 +35,12 @@ export const videoListFields: Field[] = [
   },
 ]
 
-// A page's own videos (caravan / tour / innovation).
-export const ownVideosField = (name: string, what: string): Field => ({
+// Per-page video lists on caravans / tours / innovations — RETIRED (user: one row of the same
+// videos on every page is simpler for the client). Hidden and unused; kept in the config only so
+// their database tables stay (removing them would make the schema push drop tables).
+export const retiredVideosField = (name: string): Field => ({
   name,
-  label: 'Watch it in action — videos',
   type: 'array',
-  labels: { singular: 'Video', plural: 'Videos' },
-  admin: {
-    description: `This ${what}'s own videos, shown first in the "Watch it in action" row on its page. The shared videos from Site Settings → Video Showcase follow them. Drag to reorder.`,
-  },
+  admin: { hidden: true },
   fields: videoListFields,
 })

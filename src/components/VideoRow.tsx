@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronLeft, ChevronRight, Play, Volume2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { cn } from '@/lib/utils'
@@ -11,30 +11,24 @@ export type ShowcaseVideo = { id: string; url: string; title: string | null; tal
 
 const hqThumb = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
 
-type Mode = 'still' | 'running' | 'sound'
-
-// One tile. While it's on screen the video plays by itself — muted, on loop, no controls (client:
-// "videos running on the site, not links"); scrolled away it goes back to its still picture, so
-// only the 2–3 visible tiles ever load YouTube's player and the page stays fast. Tapping a tile
-// restarts it with sound and the player's controls. Reduced-motion visitors get the still picture.
+// One tile: the video's picture with a play button (client: nothing starts by itself). Clicking
+// plays it right in the tile, with sound. Scrolling away from the section stops it and shows the
+// picture again. YouTube's player loads only on click, so pages stay fast.
 function VideoTile({ video }: { video: ShowcaseVideo }) {
   const ref = useRef<HTMLDivElement>(null)
-  const [mode, setMode] = useState<Mode>('still')
+  const [playing, setPlaying] = useState(false)
 
+  // While playing, stop once the tile is scrolled out of view.
   useEffect(() => {
     const tile = ref.current
-    if (!tile || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const observer = new IntersectionObserver(
-      ([entry]) => setMode((m) => (m === 'sound' ? m : entry.isIntersecting ? 'running' : 'still')),
-      { threshold: 0.6 },
-    )
+    if (!playing || !tile) return
+    const observer = new IntersectionObserver(([entry]) => entry.isIntersecting || setPlaying(false))
     observer.observe(tile)
     return () => observer.disconnect()
-  }, [])
+  }, [playing])
 
-  const running = youTubeEmbedUrl(video.url, true)
-  const withSound = youTubeEmbedUrl(video.url)
-  if (!running || !withSound) return null
+  const src = youTubeEmbedUrl(video.url)
+  if (!src) return null
   const label = video.title || 'Video'
 
   return (
@@ -49,7 +43,7 @@ function VideoTile({ video }: { video: ShowcaseVideo }) {
         video.tall ? 'aspect-[9/16]' : 'w-[86vw] sm:aspect-video sm:w-auto',
       )}
     >
-      {/* The still picture: shown until the video starts, and around a wide video on phones. */}
+      {/* The picture: always underneath, and around a wide video on phones. */}
       {/* eslint-disable-next-line @next/next/no-img-element -- YouTube's own thumbnail; nothing to optimise, no hosting cost */}
       <img
         src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
@@ -61,41 +55,24 @@ function VideoTile({ video }: { video: ShowcaseVideo }) {
         onError={(e) => (e.currentTarget.src = hqThumb(video.id))}
         className="absolute inset-0 size-full object-cover"
       />
-      {mode !== 'still' && (
+      {playing ? (
         <iframe
-          key={mode}
-          src={mode === 'sound' ? `${withSound}&autoplay=1` : `${running}&controls=0&disablekb=1`}
+          src={`${src}&autoplay=1`}
           title={label}
           allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
           allowFullScreen
           referrerPolicy="strict-origin-when-cross-origin"
-          tabIndex={mode === 'running' ? -1 : undefined}
           className={cn(
             'absolute border-0',
-            // Muted & running: zoomed a little so the tile's edges crop YouTube's title bar,
-            // logo and buttons — it reads as a moving photo, not a player.
-            mode === 'running' && 'pointer-events-none scale-[1.32]',
             video.tall ? 'inset-0 size-full' : 'inset-x-0 top-1/2 aspect-video w-full -translate-y-1/2 sm:inset-0 sm:size-full sm:translate-y-0',
           )}
         />
-      )}
-      {mode !== 'sound' && (
-        <button
-          type="button"
-          onClick={() => setMode('sound')}
-          aria-label={`Play ${label} with sound`}
-          className="group absolute inset-0 size-full text-left"
-        >
+      ) : (
+        <button type="button" onClick={() => setPlaying(true)} aria-label={`Play ${label}`} className="group absolute inset-0 size-full text-left">
           <span className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          {mode === 'still' ? (
-            <span className="absolute left-1/2 top-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-green shadow-lg transition group-hover:scale-110 group-hover:bg-white sm:size-16">
-              <Play className="size-5 translate-x-0.5 fill-current sm:size-7" />
-            </span>
-          ) : (
-            <span className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-black/45 px-3 py-1.5 font-heading text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur-sm transition group-hover:bg-black/65">
-              <Volume2 aria-hidden className="size-3.5" /> Tap for sound
-            </span>
-          )}
+          <span className="absolute left-1/2 top-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-green shadow-lg transition group-hover:scale-110 group-hover:bg-white sm:size-16">
+            <Play className="size-5 translate-x-0.5 fill-current sm:size-7" />
+          </span>
           {video.title && (
             <span className="absolute inset-x-4 bottom-4 font-heading text-xs font-bold uppercase leading-snug tracking-wide text-white drop-shadow sm:inset-x-5 sm:bottom-5 sm:text-base">
               {video.title}

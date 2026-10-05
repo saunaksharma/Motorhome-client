@@ -30,7 +30,7 @@ export const VideoShowcase: GlobalConfig = {
       type: 'array',
       labels: { singular: 'Video', plural: 'Videos' },
       label: 'Shared videos',
-      admin: { description: "Shown on every page except the homepage — after the page's own videos on caravan, tour and vehicle pages. Drag to change the order. Mix tall (Shorts) and wide videos, as on the design." },
+      admin: { description: "The same videos, in this order, on every page except the homepage. Drag to change the order. Mix tall (Shorts) and wide videos, as on the design." },
       fields: videoListFields,
     },
   ],

@@ -267,9 +267,6 @@ export interface Tour {
   ctaLink?: string | null;
   tales?: (number | null) | BlogArticle;
   snaps?: (number | null) | Gallery;
-  /**
-   * This tour's own videos, shown first in the "Watch it in action" row on its page. The shared videos from Site Settings → Video Showcase follow them. Drag to reorder.
-   */
   videos?:
     | {
         /**
@@ -588,9 +585,6 @@ export interface Caravan {
         id?: string | null;
       }[]
     | null;
-  /**
-   * This caravan's own videos, shown first in the "Watch it in action" row on its page. The shared videos from Site Settings → Video Showcase follow them. Drag to reorder.
-   */
   relatedVideos?:
     | {
         /**
@@ -727,9 +721,6 @@ export interface Innovation {
         id?: string | null;
       }[]
     | null;
-  /**
-   * This vehicle's own videos, shown first in the "Watch it in action" row on its page. The shared videos from Site Settings → Video Showcase follow them. Drag to reorder.
-   */
   videos?:
     | {
         /**
@@ -1907,7 +1898,7 @@ export interface VideoShowcase {
    */
   heading?: string | null;
   /**
-   * Shown on every page except the homepage — after the page's own videos on caravan, tour and vehicle pages. Drag to change the order. Mix tall (Shorts) and wide videos, as on the design.
+   * The same videos, in this order, on every page except the homepage. Drag to change the order. Mix tall (Shorts) and wide videos, as on the design.
    */
   videos?:
     | {

@@ -155,6 +155,19 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-06 (day 9, cont.) — ONE video row everywhere; click to play (supersedes the per-page + auto-play notes below)
+- **Same 7 videos on every page (user):** per-page lists on caravans/tours/innovations RETIRED —
+  `retiredVideosField` (hidden, unused; kept only so their DB tables aren't dropped). Videos live in
+  ONE place: Site Settings → Video Showcase. Harper/Willow walkthroughs (imported from the old site
+  on day 4 into each caravan's Extras → Videos; Harper's was re-added by the client on 5 Oct along
+  with 2 Instagram links) were cleared: Harper https://youtu.be/2k6nSx0c2S8, Willow
+  https://youtu.be/h-GJ38-cXC8. Every page shows T W T W T W T (verified on 8 pages).
+- **Nothing auto-plays (user):** tiles show the picture + play button; a click plays that video in
+  the tile with sound; scrolling the tile out of view stops it (IntersectionObserver). The muted
+  auto-play + zoom-crop described below is GONE. Tested in a --mute-audio browser.
+- Lesson: a Bash command the user rejects may already have run — check `git status` and revert,
+  never tell the user it "wasn't applied" without checking.
+
 ### 2026-10-06 (day 9, cont.) — per-page videos, typed features, client's fine pattern, admin tested end-to-end
 - **"Watch it in action" per page:** caravans (`relatedVideos`, re-enabled), tours + innovations
   (`videos`, new) each have their own YouTube list (`src/fields/videoList.ts`: `ownVideosField`,

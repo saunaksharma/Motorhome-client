@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { listingMetaWithFeatured } from '../fields/listingMeta'
 import { slugField } from '../fields/slugField'
-import { ownVideosField } from '../fields/videoList'
+import { retiredVideosField } from '../fields/videoList'
 
 // "Our Innovations" — specialized vehicles (Arcade on Wheels, Vanity Van, …).
 // Same card pattern as caravans, with a simple category badge.
@@ -31,7 +31,7 @@ export const Innovations: CollectionConfig = {
       labels: { singular: 'Image', plural: 'Gallery images' },
       fields: [{ name: 'image', type: 'upload', relationTo: 'media', required: true }],
     },
-    ownVideosField('videos', 'vehicle'),
+    retiredVideosField('videos'),
     { name: 'shortDescription', label: 'Card text', type: 'textarea', admin: { description: 'One or two lines shown on the vehicle card.' } },
     { name: 'description', label: 'Full description', type: 'richText', admin: { description: 'The text on the vehicle page.' } },
     { name: 'seats', type: 'text', admin: { description: 'e.g. "6".' } },

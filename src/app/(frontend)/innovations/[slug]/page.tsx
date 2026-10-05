@@ -67,7 +67,7 @@ export default async function InnovationDetailPage({ params }: { params: Params 
 
         <PhotoGallery cover={item.heroImage} gallery={item.gallery} />
 
-        <VideoShowcase own={item.videos} />
+        <VideoShowcase />
       </div>
       <ClosingCta name={item.name} href={enquire} label="Enquire Now" />
     </article>

@@ -6,9 +6,9 @@ import { getPayloadClient } from '@/lib/payload'
 import { VideoRow, type ShowcaseVideo } from './VideoRow'
 import { parseYouTube } from '@/lib/youtube'
 
-// The client's "Watch it in action" video row (Canva page 44) on every page except the homepage.
-// Shared videos come from Site Settings → Video Showcase; a caravan / tour / innovation page passes
-// its `own` videos, which come first. Shows nothing when there are none.
+// The client's "Watch it in action" video row (Canva page 44): the SAME videos, in the same
+// order, on every page except the homepage — from Site Settings → Video Showcase. Shows nothing
+// when there are none.
 // The layout shows it above the footer; a page that renders it itself (or `<NoVideoShowcase />`)
 // hides that copy — see `[data-showcase-slot]` in globals.css.
 // Keeps the Canva rhythm (tall, wide, tall, wide…) whatever order videos were added in: the two
@@ -27,15 +27,11 @@ function alternate(videos: ShowcaseVideo[]): ShowcaseVideo[] {
   return out
 }
 
-type VideoItem = { url: string; title?: string | null; shape?: string | null; isShort?: boolean | null }
-
-export async function VideoShowcase({ own }: { own?: VideoItem[] | null }) {
+export async function VideoShowcase() {
   const payload = await getPayloadClient()
-  const { heading, videos: shared } = await payload.findGlobal({ slug: 'video-showcase', depth: 0 })
+  const { heading, videos: list } = await payload.findGlobal({ slug: 'video-showcase', depth: 0 })
 
-  // Own first, then shared; a video in both lists shows once.
-  const list = [...(own ?? []), ...(shared ?? [])].filter((v, i, all) => all.findIndex((w) => w.url === v.url) === i)
-  const videos: ShowcaseVideo[] = list.flatMap((v) => {
+  const videos: ShowcaseVideo[] = (list ?? []).flatMap((v) => {
     const parsed = parseYouTube(v.url)
     if (!parsed?.id) return []
     const tall = v.shape === 'tall' || (v.shape !== 'wide' && (v.isShort ?? parsed.short))
