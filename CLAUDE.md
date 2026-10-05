@@ -167,6 +167,10 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - **Tour filters are faceted (client: "show the states which have tours"):** `FilterBar` `facets`
   prop (tours only) — each dropdown lists only options with matching tours given the other choices,
   with counts, e.g. 15-30 Days → Location: Bhutan (1), Himachal (1); options with no tours hidden.
+- **Form: Company + Preferred Travel Dates removed (client).** Gone from the form and the alert
+  email; in the admin both fields are `admin.hidden` (columns + any old data kept). The open form's
+  Itinerary/Caravan/Vehicle list now takes the full row (pairs stay even).
+- **Footer:** "Returning Customer Benefits" moved from Help Centre to Partner Programme (Footer data).
 - Filter pills: `min-w-40` dropped below 360 px (tours/caravans/blog scrolled sideways at 320).
 - `dev.log` had been committed by mistake (harmless startup lines) — removed; `*.log` ignored.
 

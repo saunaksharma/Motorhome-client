@@ -144,24 +144,20 @@ export function BookingForm({ choices }: { choices: EnquiryChoices }) {
       <Field label="Phone Number" required>
         <input name="phone" type="tel" required autoComplete="tel" className={inputClass} />
       </Field>
-      {/* autoComplete off: a browser filled its saved "company" ("transparent") here for the client. */}
-      <Field label="Company">
-        <input name="company" autoComplete="off" className={inputClass} />
-      </Field>
+      {/* Company + Preferred Travel Dates removed (client); the list gets the full row. */}
       {locked === false && (
-        <Field label={field.field}>
-          <select name="destination" value={destination} onChange={(e) => setDestination(e.target.value)} className={inputClass}>
-            <option value="">Select…</option>
-            {options.map((name) => (
-              <option key={name}>{name}</option>
-            ))}
-            <option>{NOT_SURE}</option>
-          </select>
-        </Field>
+        <div className="sm:col-span-2">
+          <Field label={field.field}>
+            <select name="destination" value={destination} onChange={(e) => setDestination(e.target.value)} className={inputClass}>
+              <option value="">Select…</option>
+              {options.map((name) => (
+                <option key={name}>{name}</option>
+              ))}
+              <option>{NOT_SURE}</option>
+            </select>
+          </Field>
+        </div>
       )}
-      <Field label="Preferred Travel Dates">
-        <input name="preferredTravelDates" placeholder="e.g. March 2027" className={inputClass} />
-      </Field>
       <Field label="Group Size">
         <select name="groupSize" className={inputClass} defaultValue="">
           <option value="">Select…</option>

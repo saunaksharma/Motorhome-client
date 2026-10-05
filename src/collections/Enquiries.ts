@@ -49,7 +49,7 @@ export const Enquiries: CollectionConfig = {
     { name: 'lastName', type: 'text', required: true },
     { name: 'email', type: 'email', required: true },
     { name: 'phone', type: 'text', required: true },
-    { name: 'company', type: 'text' },
+    { name: 'company', type: 'text', admin: { hidden: true } }, // removed from the form (client) — hidden, data kept
     {
       name: 'enquiryType',
       label: 'Enquiry about',
@@ -67,7 +67,7 @@ export const Enquiries: CollectionConfig = {
       type: 'text',
       admin: { description: 'The tour, caravan or vehicle they chose (or "Not sure yet").' },
     },
-    { name: 'preferredTravelDates', type: 'text' },
+    { name: 'preferredTravelDates', type: 'text', admin: { hidden: true } }, // removed from the form (client) — hidden, data kept
     { name: 'groupSize', type: 'text' },
     { name: 'budgetRange', type: 'text' },
     { name: 'requirements', type: 'textarea' },

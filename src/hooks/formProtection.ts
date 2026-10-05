@@ -33,7 +33,6 @@ export const notifyNewEnquiry: CollectionAfterChangeHook = async ({ doc, operati
       ['Phone', doc.phone],
       ['Enquiry about', doc.enquiryType],
       ['Interested in', doc.destination],
-      ['Travel dates', doc.preferredTravelDates],
       ['Group size', doc.groupSize],
       ['Budget', doc.budgetRange],
       ['Requirements', doc.requirements],
