@@ -11,7 +11,7 @@ export const About: GlobalConfig = {
   fields: [
     { name: 'headline', type: 'text', defaultValue: 'About Us' },
     { name: 'intro', type: 'richText', admin: { description: 'The opening story / who we are.' } },
-    { name: 'video', type: 'upload', relationTo: 'media', admin: { description: 'Optional intro video or photo.' } },
+    { name: 'video', label: 'Photo', type: 'upload', relationTo: 'media', admin: { description: 'Optional photo shown beside the story.' } },
     {
       name: 'team',
       label: 'The Team',

@@ -1,5 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
+import { validateYouTube } from '../lib/youtube'
+
 // One row of videos shown on every page except the homepage (client, Canva page 44: big rounded
 // tiles, tall + wide, scrolling sideways). Same videos everywhere — edited once, here.
 // YouTube links (not uploaded files): YouTube hosts and streams them for free, in the right
@@ -10,7 +12,7 @@ export const VideoShowcase: GlobalConfig = {
   admin: {
     group: 'Site Settings',
     description:
-      'The row of videos shown on every page except the homepage (tours, caravans, innovations, blog, gallery…). Empty = the row is hidden.',
+      'The "Watch it in action" row of videos, shown on every page except the homepage (caravans, tours, innovations, blog, gallery…). Empty = the row is hidden.',
   },
   access: {
     read: () => true,
@@ -18,8 +20,10 @@ export const VideoShowcase: GlobalConfig = {
   fields: [
     {
       name: 'heading',
+      label: 'Title above the videos',
       type: 'text',
-      admin: { description: 'Optional title above the videos, e.g. "Life on the road". Leave empty for none.' },
+      defaultValue: 'Watch it in action',
+      admin: { description: 'Shown above the videos. Leave empty for no title.' },
     },
     {
       name: 'videos',
@@ -32,7 +36,8 @@ export const VideoShowcase: GlobalConfig = {
           label: 'YouTube link',
           type: 'text',
           required: true,
-          admin: { description: 'Paste the link from YouTube — a normal video or a Short.' },
+          validate: validateYouTube,
+          admin: { description: 'Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)' },
         },
         { name: 'title', type: 'text', admin: { description: 'Optional, shown on the tile.' } },
         {

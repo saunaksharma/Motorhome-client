@@ -1,5 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
+import { validateYouTube } from '../lib/youtube'
+
 // Editable homepage content sections (SPEC section 3). Note: About Us lives on
 // the homepage (it redirects to Home), so its text/images are edited here —
 // design page 53 requires "About us Content change - Image and Written".
@@ -48,6 +50,7 @@ export const Homepage: GlobalConfig = {
           name: 'video',
           label: 'YouTube video (optional)',
           type: 'text',
+          validate: validateYouTube,
           admin: {
             description:
               'Paste a YouTube link — the video plays here instead of the photo (muted, on loop; visitors can turn the sound on).',

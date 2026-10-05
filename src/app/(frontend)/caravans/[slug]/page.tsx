@@ -143,14 +143,11 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
           snaps={Array.isArray(caravan.snaps) ? caravan.snaps : []}
         />
 
-        {/* The shared video row, above "Watch it in action" (client). */}
+        {/* The shared video row = this page's "Watch it in action" (client). */}
         <VideoShowcase />
 
         <div className="mt-16">
-          <RelatedContent
-            faqs={faqs}
-            videos={Array.isArray(caravan.relatedVideos) ? caravan.relatedVideos : []}
-          />
+          <RelatedContent faqs={faqs} />
         </div>
       </div>
       <ClosingCta name={caravan.name} href={enquire} label="Go Caravanning!" />

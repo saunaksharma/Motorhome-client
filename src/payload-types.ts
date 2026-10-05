@@ -291,7 +291,7 @@ export interface Tour {
   createdAt: string;
 }
 /**
- * Every photo used on the website. Upload here, then pick it on any page.
+ * Every photo used on the website. Upload here, then pick it on any page. Photos only — videos go on YouTube and into Site Settings → Video Showcase.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -561,9 +561,6 @@ export interface Caravan {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Up to 3 YouTube walk-through / vlog links.
-   */
   relatedVideos?:
     | {
         title?: string | null;
@@ -1786,7 +1783,7 @@ export interface About {
     [k: string]: unknown;
   } | null;
   /**
-   * Optional intro video or photo.
+   * Optional photo shown beside the story.
    */
   video?: (number | null) | Media;
   team?:
@@ -1824,7 +1821,7 @@ export interface About {
   createdAt?: string | null;
 }
 /**
- * The row of videos shown on every page except the homepage (tours, caravans, innovations, blog, gallery…). Empty = the row is hidden.
+ * The "Watch it in action" row of videos, shown on every page except the homepage (caravans, tours, innovations, blog, gallery…). Empty = the row is hidden.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "video-showcase".
@@ -1832,7 +1829,7 @@ export interface About {
 export interface VideoShowcase {
   id: number;
   /**
-   * Optional title above the videos, e.g. "Life on the road". Leave empty for none.
+   * Shown above the videos. Leave empty for no title.
    */
   heading?: string | null;
   /**
@@ -1841,7 +1838,7 @@ export interface VideoShowcase {
   videos?:
     | {
         /**
-         * Paste the link from YouTube — a normal video or a Short.
+         * Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)
          */
         url: string;
         /**

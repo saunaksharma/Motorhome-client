@@ -4,7 +4,7 @@ import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
 
 import { VideoRow, type ShowcaseVideo } from './VideoRow'
-import { parseYouTube } from './YouTubeEmbed'
+import { parseYouTube } from '@/lib/youtube'
 
 // The client's video row (Canva page 44), the same on every page except the homepage — edited
 // once in Site Settings → Video Showcase. Shows nothing until a video is added there.

@@ -147,7 +147,11 @@ export const Caravans: CollectionConfig = {
     {
       type: 'collapsible',
       label: 'Extras (optional)',
-      admin: { initCollapsed: true, description: 'Leave empty to hide. Each part only appears on the page when filled in.' },
+      admin: {
+        initCollapsed: true,
+        description:
+          'Leave empty to hide. Each part only appears on the page when filled in. Videos ("Watch it in action") are added once for all pages in Site Settings → Video Showcase.',
+      },
       fields: [
         {
           name: 'faqs',
@@ -160,13 +164,15 @@ export const Caravans: CollectionConfig = {
             { name: 'answer', type: 'textarea', required: true },
           ],
         },
+        // Hidden (data kept): the caravan's own "Watch it in action" was removed (client) — videos
+        // now go in Site Settings → Video Showcase, shown on every caravan page.
         {
           name: 'relatedVideos',
           label: 'Videos',
           type: 'array',
           maxRows: 3,
           labels: { singular: 'Video', plural: 'Videos' },
-          admin: { description: 'Up to 3 YouTube walk-through / vlog links.' },
+          admin: { hidden: true },
           fields: [
             { name: 'title', type: 'text' },
             { name: 'url', type: 'text', required: true, admin: { description: 'YouTube link or playlist URL.' } },

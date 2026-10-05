@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
-import { youTubeEmbedUrl } from './YouTubeEmbed'
+import { youTubeEmbedUrl } from '@/lib/youtube'
 
 export type ShowcaseVideo = { id: string; url: string; title: string | null; tall: boolean }
 

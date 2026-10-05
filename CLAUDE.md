@@ -155,6 +155,19 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-06 (day 9, cont.) — one "Watch it in action": the video row
+- Client added videos to Harper's own "Videos" box (2 were Instagram links → silently not shown)
+  and expected them in the slides row. Now: the caravan-only "Watch it in action" section is
+  REMOVED (`RelatedContent` = FAQs only); caravan `relatedVideos` hidden in the editor (data kept);
+  the Video Showcase row is titled "Watch it in action" (global `heading`, default value) and
+  her two YouTube walkthroughs (Harper 2k6nSx0c2S8, Willow h-GJ38-cXC8) were moved to its front.
+- YouTube helpers moved to `src/lib/youtube.ts`; `validateYouTube` on Video Showcase links and
+  Our Story video: non-YouTube links (Instagram, Facebook) are refused in the admin with a plain
+  message (tested: Instagram reel refused). Instagram reels/highlights can't be embedded — tell
+  the client to post clips as YouTube Shorts.
+- Media accepts photos only (`mimeTypes: ['image/*']`) — videos picked as photos broke, and video
+  files would burn the Blob allowance. About "video" box relabelled "Photo" (it renders a photo).
+
 ### 2026-10-06 (day 9, cont.) — admin made easier for the client (labels/help only, no schema change)
 - Plain labels: Cover photo, Card text, Full description, Duration, Route, Badge; hero slide
   "Heading — first/second line", "Photo", "Button text/link"; Media `alt` = "Photo description";
