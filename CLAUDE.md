@@ -160,8 +160,11 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   page renders `<VideoShowcase />` itself. NOT on the homepage, listings (/caravans /tours
   /innovations), gallery, blog, contact/form, about, legal pages. The layout slot, the CSS
   `:has()` hide rule and `<NoVideoShowcase />` are gone (simpler; verified on 12 page types).
-- **Footprint frame:** the separate top/bottom bars + tapered side brackets didn't meet (gaps,
-  different thicknesses) → ONE rounded border (3 px phones / 6 px desktop, radius 1.75/2.75 rem).
+- **Footprint frame = the Canva's, measured (user: "had to be kept same like Canva"):** the one-line
+  border was rejected. From WEB dEv material/38.jpg (frame 3852×1473 px): bars top/bottom inset
+  4.3% from the sides, 0.55–0.6% thick; side brackets inset 10.5% from top/bottom, 0.75% thick;
+  every stroke ends in a slim taper — OVAL corner radii (bars 3cqw×1cqw, brackets 1.3cqw×3.5cqw),
+  not round hooks; corners stay open as in the Canva. All in cqw of the frame (min 3/4 px).
 
 ### 2026-10-06 (day 9, cont.) — ONE video row everywhere; click to play (supersedes the per-page + auto-play notes below)
 - **Same 7 videos on every page (user):** per-page lists on caravans/tours/innovations RETIRED —

@@ -17,7 +17,7 @@ const lines = (value?: string | null) =>
     .filter(Boolean)
 
 // "Our Footprint", built to the client's Canva (design page 38) on every screen size: a green
-// frame (one continuous rounded line) holding the title and three green
+// frame (bars top and bottom, tapered brackets at the sides, as on the Canva) holding the title and three green
 // arches, each inside a thin outline whose legs run down past the arch's name. Phones get the
 // same picture, smaller, still three in one row. Sizes inside an arch are in cqw (% of the
 // arch's width), so the text keeps the Canva's proportions at any width.
@@ -29,9 +29,16 @@ export async function Footprint() {
   return (
     <section className="px-3 py-14 sm:px-6 sm:py-20">
       <div className="@container/frame relative mx-auto max-w-[1160px] px-[4%] py-[5%] sm:py-[3.5%]">
-        {/* The frame: ONE continuous rounded line of even thickness (client: the separate bars and
-            side brackets didn't meet and looked misaligned). */}
-        <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[1.75rem] border-[3px] border-green sm:rounded-[2.75rem] sm:border-[6px]" />
+        {/* The frame, measured off the Canva export (page 38, 4000 px): four separate strokes of one
+            rounded box, each tapering where it curves, corners left open — bars top/bottom inset
+            4.3% from the sides (0.55% thick), side brackets inset 10.5% from top/bottom (0.75%
+            thick). Their ends are long, slim tapers (oval corners: long along the stroke, short
+            across it), not hooks. Sizes in cqw of the frame, so it matches at every width (with a
+            minimum thickness on phones). */}
+        <span aria-hidden className="pointer-events-none absolute inset-x-[4.3%] top-0 h-1/3 rounded-tl-[3cqw_1cqw] rounded-tr-[3cqw_1cqw] border-t-[length:max(3px,0.6cqw)] border-green" />
+        <span aria-hidden className="pointer-events-none absolute inset-x-[4.3%] bottom-0 h-1/3 rounded-bl-[3cqw_1cqw] rounded-br-[3cqw_1cqw] border-b-[length:max(3px,0.6cqw)] border-green" />
+        <span aria-hidden className="pointer-events-none absolute inset-y-[10.5%] left-0 w-1/4 rounded-tl-[1.3cqw_3.5cqw] rounded-bl-[1.3cqw_3.5cqw] border-l-[length:max(4px,0.75cqw)] border-green" />
+        <span aria-hidden className="pointer-events-none absolute inset-y-[10.5%] right-0 w-1/4 rounded-tr-[1.3cqw_3.5cqw] rounded-br-[1.3cqw_3.5cqw] border-r-[length:max(4px,0.75cqw)] border-green" />
 
         <h2
           className={cn(
