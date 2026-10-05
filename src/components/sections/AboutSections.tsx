@@ -3,6 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 
 import { StoryScroll } from '@/components/StoryScroll'
+import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 import { getHomepage } from '@/lib/payload'
 import { focalPosition } from '@/lib/utils'
 
@@ -31,6 +32,8 @@ export async function AboutSections() {
     heading: section.heading,
     body: section.body,
     photo: (typeof section.image === 'object' ? section.image : null) as Photo | null,
+    // A YouTube link plays in place of the photo (client: their video, not a link out).
+    video: section.video?.trim() || null,
     // The admin's "Year" box wins; otherwise the first year in the chapter's own text.
     year: section.year?.trim() || yearIn(section.body),
   }))
@@ -63,8 +66,12 @@ export async function AboutSections() {
               >
                 <span aria-hidden className="story-node absolute left-0 top-10 size-[15px] rounded-full border border-gold/70 bg-white lg:top-1/2 lg:-translate-y-1/2" />
 
-                {/* Phones/tablets: the chapter's own photo. */}
-                {chapter.photo?.url && (
+                {/* Phones/tablets: the chapter's own video or photo. */}
+                {chapter.video ? (
+                  <div className="mb-6 overflow-hidden rounded-2xl bg-green shadow-[0_24px_60px_-30px_rgb(13_71_63/0.45)] lg:hidden">
+                    <YouTubeEmbed url={chapter.video} title={chapter.heading} ambient />
+                  </div>
+                ) : chapter.photo?.url && (
                   <div className="relative mb-6 aspect-[4/3] overflow-hidden rounded-2xl border border-green/10 bg-green/5 shadow-[0_24px_60px_-30px_rgb(13_71_63/0.45)] lg:hidden">
                     <Image
                       src={chapter.photo.url}
@@ -100,7 +107,12 @@ export async function AboutSections() {
               <div className="relative h-full overflow-hidden rounded-[28px] border border-green/10 bg-green/5 shadow-[0_40px_100px_-40px_rgb(13_71_63/0.5)]">
                 {chapters.map((chapter, index) => (
                   <figure key={index} data-photo className="story-photo absolute inset-0 m-0">
-                    {chapter.photo?.url && (
+                    {/* A video sits whole (16:9) on the green doodle panel, so its controls stay usable. */}
+                    {chapter.video ? (
+                      <div className="pattern-green absolute inset-0 grid place-items-center p-6">
+                        <YouTubeEmbed url={chapter.video} title={chapter.heading} ambient className="rounded-2xl shadow-lg" />
+                      </div>
+                    ) : chapter.photo?.url && (
                       <Image
                         src={chapter.photo.url}
                         alt={chapter.photo.alt ?? chapter.heading}
@@ -110,9 +122,11 @@ export async function AboutSections() {
                         style={{ objectPosition: focalPosition(chapter.photo) }}
                       />
                     )}
+                    {!chapter.video && (
                     <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent px-7 pb-6 pt-16 font-heading text-xs font-bold uppercase tracking-[0.3em] text-white/85">
                       {chapter.heading}
                     </figcaption>
+                    )}
                   </figure>
                 ))}
               </div>

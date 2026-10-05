@@ -422,6 +422,10 @@ html {
 .story-photo {
   opacity: 0;
 }
+/* Only the shown photo/video takes clicks (the hidden ones are stacked on top of it). */
+.story-photo:not([data-on]) {
+  pointer-events: none;
+}
 .story-photo:first-child {
   opacity: 1;
 }

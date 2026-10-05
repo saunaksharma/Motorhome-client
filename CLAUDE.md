@@ -170,6 +170,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - **Form: Company + Preferred Travel Dates removed (client).** Gone from the form and the alert
   email; in the admin both fields are `admin.hidden` (columns + any old data kept). The open form's
   Itinerary/Caravan/Vehicle list now takes the full row (pairs stay even).
+- **Videos play ON the site (client: "video running there, not redirected links"):** new
+  `YouTubeEmbed` (+ `youTubeEmbedUrl`: watch / youtu.be / shorts / embed / playlist links →
+  youtube-nocookie embed, lazy-loaded, 16:9). Our Story: new `aboutSections.video` field ("YouTube
+  video (optional)", additive column) — plays muted on loop in place of the photo (on the green
+  doodle panel on desktop, above the text on phones); "How It All Began" = client's video
+  oLgUmaSFXuM ("Caravan in India / 25 Year OLD Company"). Hidden stacked story photos no longer
+  swallow clicks (`.story-photo:not([data-on])` pointer-events none). Caravan "Watch it in action"
+  = real players (one video = large + centred) instead of link-out buttons. YouTube costs no Blob/
+  image-optimisation allowance.
 - **Footer:** "Returning Customer Benefits" moved from Help Centre to Partner Programme (Footer data).
 - Filter pills: `min-w-40` dropped below 360 px (tours/caravans/blog scrolled sideways at 320).
 - `dev.log` had been committed by mistake (harmless startup lines) — removed; `*.log` ignored.

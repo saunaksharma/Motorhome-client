@@ -1638,6 +1638,10 @@ export interface Homepage {
           [k: string]: unknown;
         } | null;
         image?: (number | null) | Media;
+        /**
+         * Paste a YouTube link — the video plays here instead of the photo (muted, on loop; visitors can turn the sound on).
+         */
+        video?: string | null;
         imageSide?: ('left' | 'right') | null;
         id?: string | null;
       }[]
@@ -1837,6 +1841,7 @@ export interface HomepageSelect<T extends boolean = true> {
         heading?: T;
         body?: T;
         image?: T;
+        video?: T;
         imageSide?: T;
         id?: T;
       };

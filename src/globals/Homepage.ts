@@ -38,6 +38,15 @@ export const Homepage: GlobalConfig = {
         { name: 'body', type: 'richText' },
         { name: 'image', type: 'upload', relationTo: 'media' },
         {
+          name: 'video',
+          label: 'YouTube video (optional)',
+          type: 'text',
+          admin: {
+            description:
+              'Paste a YouTube link — the video plays here instead of the photo (muted, on loop; visitors can turn the sound on).',
+          },
+        },
+        {
           name: 'imageSide',
           type: 'select',
           defaultValue: 'left',

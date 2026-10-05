@@ -1,7 +1,8 @@
-import { Play } from 'lucide-react'
 import React from 'react'
 
 import { SectionHeading } from '@/components/SectionHeading'
+import { YouTubeEmbed } from '@/components/YouTubeEmbed'
+import { cn } from '@/lib/utils'
 
 export type Faq = { question?: string | null; answer?: string | null }
 export type RelatedVideo = { title?: string | null; url?: string | null }
@@ -10,7 +11,8 @@ export type RelatedVideo = { title?: string | null; url?: string | null }
 // live in the "Tales & Snaps" section). Native <details> = accordion with no JS.
 export function RelatedContent({ faqs = [], videos = [] }: { faqs?: Faq[]; videos?: RelatedVideo[] }) {
   const hasFaqs = faqs.some((f) => f.question)
-  const hasVideos = videos.some((v) => v.url)
+  const playable = videos.filter((v) => v.url)
+  const hasVideos = playable.length > 0
   if (!hasFaqs && !hasVideos) return null
 
   return (
@@ -37,20 +39,18 @@ export function RelatedContent({ faqs = [], videos = [] }: { faqs?: Faq[]; video
       {hasVideos && (
         <section>
           <SectionHeading title="Watch it in action" />
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {videos.filter((v) => v.url).map((video, index) => (
-              <a
-                key={index}
-                href={video.url!}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pattern-green flex items-center gap-3 rounded-2xl px-5 py-6 text-white transition hover:brightness-110"
-              >
-                <span className="grid size-11 shrink-0 place-items-center rounded-full bg-gold text-green">
-                  <Play className="size-5 translate-x-0.5" />
-                </span>
-                <span className="font-heading font-semibold">{video.title || `Video ${index + 1}`}</span>
-              </a>
+          {/* The videos play right here (client: no links out to YouTube); one video = large, centred. */}
+          <div
+            className={cn(
+              'mx-auto mt-8 grid gap-6',
+              playable.length === 1 ? 'max-w-[860px]' : playable.length === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3',
+            )}
+          >
+            {playable.map((video, index) => (
+              <figure key={index} className="m-0">
+                <YouTubeEmbed url={video.url!} title={video.title || `Video ${index + 1}`} className="rounded-2xl bg-green shadow-md" />
+                {video.title && <figcaption className="mt-3 font-heading text-sm font-semibold text-green">{video.title}</figcaption>}
+              </figure>
             ))}
           </div>
         </section>
