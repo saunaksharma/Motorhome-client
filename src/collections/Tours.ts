@@ -2,7 +2,7 @@ import type { CollectionConfig, Field } from 'payload'
 
 import { listingMetaWithFeatured } from '../fields/listingMeta'
 import { slugField } from '../fields/slugField'
-import { retiredVideosField } from '../fields/videoList'
+import { videosField } from '../fields/videoList'
 
 // A filter value limited to one tour filter group.
 const filterValue = (name: string, label: string, group: string, hasMany = false): Field => ({
@@ -108,7 +108,7 @@ export const Tours: CollectionConfig = {
       type: 'relationship',
       relationTo: 'galleries',
     },
-    retiredVideosField('videos'),
+    videosField('videos', 'tour', 'Moments from the Road'),
 
     ...listingMetaWithFeatured,
   ],

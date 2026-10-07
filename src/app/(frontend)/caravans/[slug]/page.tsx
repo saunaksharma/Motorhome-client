@@ -143,8 +143,8 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
           snaps={Array.isArray(caravan.snaps) ? caravan.snaps : []}
         />
 
-        {/* "Watch it in action": the same video row as on every other page (client). */}
-        <VideoShowcase />
+        {/* This caravan's own videos (client). */}
+        <VideoShowcase heading="Watch it in action" videos={caravan.relatedVideos} />
 
         <div className="mt-16">
           <CaravanFaqs faqs={faqs} />

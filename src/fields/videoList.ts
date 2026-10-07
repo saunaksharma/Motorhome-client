@@ -2,7 +2,7 @@ import type { Field } from 'payload'
 
 import { isYouTubeShort, validateYouTube } from '../lib/youtube'
 
-// A list of YouTube videos for the "Watch it in action" row (Site Settings → Video Showcase).
+// The YouTube videos of one caravan / tour / innovation — the video row on its own page.
 export const videoListFields: Field[] = [
   {
     name: 'url',
@@ -17,6 +17,8 @@ export const videoListFields: Field[] = [
     name: 'shape',
     type: 'select',
     defaultValue: 'auto',
+    // Hidden: shapes are detected on save (isShort below), so the client only pastes a link.
+    admin: { hidden: true },
     options: [
       { label: 'Automatic (Shorts tall, others wide)', value: 'auto' },
       { label: 'Tall', value: 'tall' },
@@ -35,12 +37,14 @@ export const videoListFields: Field[] = [
   },
 ]
 
-// Per-page video lists on caravans / tours / innovations — RETIRED (user: one row of the same
-// videos on every page is simpler for the client). Hidden and unused; kept in the config only so
-// their database tables stay (removing them would make the schema push drop tables).
-export const retiredVideosField = (name: string): Field => ({
+// Each caravan / tour / innovation has its own videos (client), shown only on its own page.
+export const videosField = (name: string, what: string, sectionTitle: string): Field => ({
   name,
+  label: 'Videos (YouTube)',
   type: 'array',
-  admin: { hidden: true },
+  labels: { singular: 'Video', plural: 'Videos' },
+  admin: {
+    description: `YouTube videos for this ${what} only — shown on its page under "${sectionTitle}". Paste the link; tall Shorts and wide videos are sorted automatically. Leave empty for no video section. Drag to reorder.`,
+  },
   fields: videoListFields,
 })

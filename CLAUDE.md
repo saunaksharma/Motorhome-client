@@ -155,6 +155,26 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-07 (day 10) — videos per caravan / tour / innovation (supersedes the shared-row notes below)
+- **Each item has its own YouTube videos (client):** visible field "Videos (YouTube)" =
+  `videosField(name, what, sectionTitle)` in `src/fields/videoList.ts` — caravans `relatedVideos`
+  (own collapsible "Videos — Watch it in action" after Photos), tours `videos`, innovations
+  `videos`. Only "YouTube link" + optional "Title" are visible; `shape` (hidden, auto) + `isShort`
+  (hidden, detected on save via youtube.com/shorts/<id>) do the rest; `validateYouTube` refuses
+  Instagram etc. with a plain message. A video shows ONLY on its own item's page.
+- **Pages:** `<VideoShowcase heading videos />` (no fetch, pure): caravans + innovations "Watch it
+  in action", tours **"Moments from the Road"**. Same tile grid everywhere; `canvaRhythm` always
+  starts tall then alternates (leftovers follow). No videos → no section.
+- **Shared Video Showcase global RETIRED:** `admin.hidden`, unused (old 7 demo videos kept in its
+  table only); dashboard shortcut removed.
+- **Tested end-to-end in the admin** (local, throwaway admin + hidden test caravan/tour/innovation,
+  all deleted): caravan Short+video saved (T,W detected); tour Instagram → refused with the message
+  on the field, then W,T,T saved → rendered T W T; innovation 1 video; no other caravan got videos.
+  Test script note: accept the admin's "unsaved changes" dialog (Page.handleJavaScriptDialog) or
+  navigation hangs.
+- The previous turn's form change (Group Size / Requirements) had NOT been pushed — the build ran
+  while the dev server was still stopping. Pushed as 05190aa. Stop dev → wait → build.
+
 ### 2026-10-06 (day 9, cont.) — form: Group Size + Additional Requirements removed
 - Client: form fields are now only First / Last name, Email, Phone, (product list when opened
   plainly) and Budget Range (full row). `groupSize` + `requirements` hidden in the admin (data

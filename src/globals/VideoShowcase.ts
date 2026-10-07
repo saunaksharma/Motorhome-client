@@ -2,14 +2,13 @@ import type { GlobalConfig } from 'payload'
 
 import { videoListFields } from '../fields/videoList'
 
-// One row of videos shown on every caravan, tour and innovation page (client, Canva page 44: big rounded
-// tiles, tall + wide, scrolling sideways). Same videos everywhere — edited once, here.
-// YouTube links (not uploaded files): YouTube hosts and streams them for free, in the right
-// quality for each phone, and they don't use up the website's hosting/storage allowance.
+// RETIRED (client, 2026-10-07): videos are now per caravan / tour / innovation (`videosField`).
+// Hidden and unused; kept only so its database tables (and the old demo list) aren't dropped.
 export const VideoShowcase: GlobalConfig = {
   slug: 'video-showcase',
   label: 'Video Showcase',
   admin: {
+    hidden: true,
     group: 'Site Settings',
     description:
       'The "Watch it in action" row of videos, shown on every caravan, tour and innovation page (the same videos on each). Empty = the row is hidden.',

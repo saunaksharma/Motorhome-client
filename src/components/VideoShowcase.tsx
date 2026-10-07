@@ -1,34 +1,28 @@
 import React from 'react'
 
 import { SectionHeading } from '@/components/SectionHeading'
-import { getPayloadClient } from '@/lib/payload'
-
-import { VideoRow, type ShowcaseVideo } from './VideoRow'
 import { parseYouTube } from '@/lib/youtube'
 
-// The client's "Watch it in action" video row (Canva page 44): the SAME videos, in the same
-// order, ONLY on the product pages — a caravan, a tour, an innovation (client) — from Site
-// Settings → Video Showcase. Shows nothing when there are none.
-// Keeps the Canva rhythm (tall, wide, tall, wide…) whatever order videos were added in: the two
-// shapes alternate, each keeping its own order, starting with the first video's shape. When one
-// shape runs out, the rest follow.
-function alternate(videos: ShowcaseVideo[]): ShowcaseVideo[] {
+import { VideoRow, type ShowcaseVideo } from './VideoRow'
+
+type VideoItem = { url: string; title?: string | null; shape?: string | null; isShort?: boolean | null }
+
+// The same rhythm on every page (client, Canva page 44): tall, wide, tall, wide… — always starting
+// with a tall video when there is one; each shape keeps its own order; when one shape runs out, the
+// rest follow.
+function canvaRhythm(videos: ShowcaseVideo[]): ShowcaseVideo[] {
   const tall = videos.filter((v) => v.tall)
   const wide = videos.filter((v) => !v.tall)
   const out: ShowcaseVideo[] = []
-  let wantTall = videos[0]?.tall ?? true
-  while (tall.length || wide.length) {
-    const from = (wantTall && tall.length) || !wide.length ? tall : wide
-    out.push(from.shift()!)
-    wantTall = !wantTall
+  for (let wantTall = true; tall.length || wide.length; wantTall = !wantTall) {
+    out.push(((wantTall && tall.length) || !wide.length ? tall : wide).shift()!)
   }
   return out
 }
 
-export async function VideoShowcase() {
-  const payload = await getPayloadClient()
-  const { heading, videos: list } = await payload.findGlobal({ slug: 'video-showcase', depth: 0 })
-
+// One caravan / tour / innovation's own YouTube videos (its "Videos (YouTube)" box in the admin), as
+// the big tall/wide tile row from the Canva. Shows nothing when the item has no videos.
+export function VideoShowcase({ heading, videos: list }: { heading: string; videos?: VideoItem[] | null }) {
   const videos: ShowcaseVideo[] = (list ?? []).flatMap((v) => {
     const parsed = parseYouTube(v.url)
     if (!parsed?.id) return []
@@ -38,13 +32,11 @@ export async function VideoShowcase() {
   if (videos.length === 0) return null
 
   return (
-    <section aria-label={heading || 'Videos'} className="py-12">
-      {heading && (
-        <div className="mb-8">
-          <SectionHeading title={heading} />
-        </div>
-      )}
-      <VideoRow videos={alternate(videos)} />
+    <section aria-label={heading} className="py-12">
+      <div className="mb-8">
+        <SectionHeading title={heading} />
+      </div>
+      <VideoRow videos={canvaRhythm(videos)} />
     </section>
   )
 }

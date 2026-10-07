@@ -2,7 +2,7 @@ import type { CollectionConfig, Field } from 'payload'
 
 import { listingMetaWithFeatured } from '../fields/listingMeta'
 import { slugField } from '../fields/slugField'
-import { retiredVideosField } from '../fields/videoList'
+import { videosField } from '../fields/videoList'
 
 // --- small local helpers so each section reads as one line ---
 
@@ -98,6 +98,13 @@ export const Caravans: CollectionConfig = {
       ],
     },
 
+    // This caravan's own videos (layout-only collapsible: the stored field is still `relatedVideos`).
+    {
+      type: 'collapsible',
+      label: 'Videos — Watch it in action',
+      fields: [videosField('relatedVideos', 'caravan', 'Watch it in action')],
+    },
+
     {
       type: 'collapsible',
       label: 'Description & quick facts',
@@ -170,7 +177,6 @@ export const Caravans: CollectionConfig = {
             { name: 'answer', type: 'textarea', required: true },
           ],
         },
-        retiredVideosField('relatedVideos'),
         // "Tales & Snaps" (2022 brief): stories + photo albums from trips with this caravan.
         {
           name: 'relatedArticles',

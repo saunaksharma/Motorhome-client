@@ -267,6 +267,9 @@ export interface Tour {
   ctaLink?: string | null;
   tales?: (number | null) | BlogArticle;
   snaps?: (number | null) | Gallery;
+  /**
+   * YouTube videos for this tour only — shown on its page under "Moments from the Road". Paste the link; tall Shorts and wide videos are sorted automatically. Leave empty for no video section. Drag to reorder.
+   */
   videos?:
     | {
         /**
@@ -508,6 +511,24 @@ export interface Caravan {
       }[]
     | null;
   /**
+   * YouTube videos for this caravan only — shown on its page under "Watch it in action". Paste the link; tall Shorts and wide videos are sorted automatically. Leave empty for no video section. Drag to reorder.
+   */
+  relatedVideos?:
+    | {
+        /**
+         * Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)
+         */
+        url: string;
+        /**
+         * Optional, shown on the tile.
+         */
+        title?: string | null;
+        shape?: ('auto' | 'tall' | 'wide') | null;
+        isShort?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * One or two lines — shown on the caravan's card in listings.
    */
   shortDescription?: string | null;
@@ -582,21 +603,6 @@ export interface Caravan {
     | {
         question: string;
         answer: string;
-        id?: string | null;
-      }[]
-    | null;
-  relatedVideos?:
-    | {
-        /**
-         * Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)
-         */
-        url: string;
-        /**
-         * Optional, shown on the tile.
-         */
-        title?: string | null;
-        shape?: ('auto' | 'tall' | 'wide') | null;
-        isShort?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -721,6 +727,9 @@ export interface Innovation {
         id?: string | null;
       }[]
     | null;
+  /**
+   * YouTube videos for this vehicle only — shown on its page under "Watch it in action". Paste the link; tall Shorts and wide videos are sorted automatically. Leave empty for no video section. Drag to reorder.
+   */
   videos?:
     | {
         /**
@@ -1236,6 +1245,15 @@ export interface CaravansSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  relatedVideos?:
+    | T
+    | {
+        url?: T;
+        title?: T;
+        shape?: T;
+        isShort?: T;
+        id?: T;
+      };
   shortDescription?: T;
   description?: T;
   sleeps?: T;
@@ -1260,15 +1278,6 @@ export interface CaravansSelect<T extends boolean = true> {
     | {
         question?: T;
         answer?: T;
-        id?: T;
-      };
-  relatedVideos?:
-    | T
-    | {
-        url?: T;
-        title?: T;
-        shape?: T;
-        isShort?: T;
         id?: T;
       };
   relatedArticles?: T;
