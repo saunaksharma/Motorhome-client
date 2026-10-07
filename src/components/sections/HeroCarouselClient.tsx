@@ -98,7 +98,7 @@ export function HeroCarouselClient({ title, slides }: { title: string; slides: H
       <div className="relative z-10 flex h-full flex-col items-start justify-end gap-3 px-5 pb-12 text-left text-white sm:items-center sm:justify-center sm:gap-5 sm:px-4 sm:pb-0 sm:pt-16 sm:text-center">
         {/* The page's one h1: fixed (not rotating) and in the server HTML — says what the company
             offers and where (SEO + a first-time visitor's first five seconds). */}
-        <h1 className="font-display text-[13px] font-bold uppercase leading-snug tracking-[0.18em] text-gold [text-shadow:0_1px_8px_rgb(0_0_0/0.75)] sm:text-base md:text-lg">
+        <h1 className="font-display text-balance text-[13px] font-bold uppercase leading-snug tracking-[0.18em] text-gold [text-shadow:0_1px_8px_rgb(0_0_0/0.75)] sm:text-base md:text-lg">
           {title}
         </h1>
 

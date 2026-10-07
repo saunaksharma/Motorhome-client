@@ -155,6 +155,16 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-07 (day 10, cont.) — hero heading wording + font consolidation tried (reverted)
+- Default hero h1 is now **"Caravan Rentals & Tours across India"** (the old "Caravan & Motorhome
+  Rentals and Tours…" read clumsily); `text-balance` so phones split it evenly, not "INDIA" alone.
+  `heroTitle` in the CMS still overrides it (empty today).
+- **Fonts stay 4 families** (Cinzel, Lato + Anton title / Bebas Neue arches, both homepage-only in
+  `Footprint.tsx`, 86.3 KB fonts on the homepage). Tried Bebas for the title too (−11.7 KB): at
+  the Canva's width (~41% of the frame) Bebas — one weight only — reads thin and tall next to the
+  Canva's heavy title; Anton is closer. Anton for the arches would be too heavy. Reverted — don't
+  retry without a heavier single face that matches both.
+
 ### 2026-10-07 (day 10, cont.) — one descriptive h1 per page (SEO)
 - **Homepage:** fixed h1 in the hero, server-rendered, not rotating: Homepage global `heroTitle`
   ("Main heading (top of the homepage)", additive column), empty → "Caravan & Motorhome Rentals

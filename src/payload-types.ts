@@ -1737,7 +1737,7 @@ export interface Footer {
 export interface Homepage {
   id: number;
   /**
-   * One line saying what you offer — shown small above the slideshow text, and the main heading Google reads. Leave empty for "Caravan & Motorhome Rentals and Tours across India".
+   * One line saying what you offer — shown small above the slideshow text, and the main heading Google reads. Leave empty for "Caravan Rentals & Tours across India".
    */
   heroTitle?: string | null;
   reviewsIntro?: {

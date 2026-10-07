@@ -5,7 +5,7 @@ import { focalPosition } from '@/lib/utils'
 import { HeroCarouselClient, type HeroSlide } from './HeroCarouselClient'
 
 // The homepage h1 when the admin's "Main heading" is empty — the site's own description.
-const DEFAULT_TITLE = 'Caravan & Motorhome Rentals and Tours across India'
+const DEFAULT_TITLE = 'Caravan Rentals & Tours across India'
 
 // Loads the active hero slides (in sort order) and renders the carousel.
 export async function HeroCarousel() {
