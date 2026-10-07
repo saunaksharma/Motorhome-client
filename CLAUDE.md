@@ -155,6 +155,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-07 (day 10, cont.) — real 404s (no more soft 404)
+- Unknown URLs returned **200** (+noindex): `(frontend)/loading.tsx` is a Suspense boundary, so the
+  response started streaming (status committed to 200) before `notFound()` ran (Next docs:
+  streaming.md "The HTTP contract"). Every [slug] route already called `notFound()` and
+  `(frontend)/not-found.tsx` exists — the fix was **deleting `loading.tsx`**. Don't add a
+  segment-wide loading.tsx back above the [slug] routes (or 404s turn into 200s again).
+  Verified: fake root / tours / caravans / blog / innovations / gallery / nested URLs → 404;
+  17 real pages (incl. product pages, legal, admin login, sitemap) → 200.
+
 ### 2026-10-07 (day 10) — videos per caravan / tour / innovation (supersedes the shared-row notes below)
 - **Each item has its own YouTube videos (client):** visible field "Videos (YouTube)" =
   `videosField(name, what, sectionTitle)` in `src/fields/videoList.ts` — caravans `relatedVideos`
