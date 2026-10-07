@@ -33,9 +33,7 @@ export const notifyNewEnquiry: CollectionAfterChangeHook = async ({ doc, operati
       ['Phone', doc.phone],
       ['Enquiry about', doc.enquiryType],
       ['Interested in', doc.destination],
-      ['Group size', doc.groupSize],
       ['Budget', doc.budgetRange],
-      ['Requirements', doc.requirements],
     ]
     const html = `<h2>New enquiry from the website</h2><table cellpadding="6">${rows
       .filter(([, v]) => v)

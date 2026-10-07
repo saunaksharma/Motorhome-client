@@ -158,27 +158,16 @@ export function BookingForm({ choices }: { choices: EnquiryChoices }) {
           </Field>
         </div>
       )}
-      <Field label="Group Size">
-        <select name="groupSize" className={inputClass} defaultValue="">
-          <option value="">Select…</option>
-          <option>1-2</option>
-          <option>3-4</option>
-          <option>5-6</option>
-          <option>7+</option>
-        </select>
-      </Field>
-      <Field label="Budget Range">
-        <select name="budgetRange" className={inputClass} defaultValue="">
-          <option value="">Select…</option>
-          <option>Under ₹50,000</option>
-          <option>₹50,000 – ₹1,00,000</option>
-          <option>₹1,00,000 – ₹2,00,000</option>
-          <option>₹2,00,000+</option>
-        </select>
-      </Field>
+      {/* Group Size + Additional Requirements removed too (client); Budget gets the full row. */}
       <div className="sm:col-span-2">
-        <Field label="Additional Requirements">
-          <textarea name="requirements" rows={4} className={inputClass} />
+        <Field label="Budget Range">
+          <select name="budgetRange" className={inputClass} defaultValue="">
+            <option value="">Select…</option>
+            <option>Under ₹50,000</option>
+            <option>₹50,000 – ₹1,00,000</option>
+            <option>₹1,00,000 – ₹2,00,000</option>
+            <option>₹2,00,000+</option>
+          </select>
         </Field>
       </div>
 

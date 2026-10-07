@@ -155,6 +155,11 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-06 (day 9, cont.) — form: Group Size + Additional Requirements removed
+- Client: form fields are now only First / Last name, Email, Phone, (product list when opened
+  plainly) and Budget Range (full row). `groupSize` + `requirements` hidden in the admin (data
+  kept) and dropped from the alert email.
+
 ### 2026-10-06 (day 9, cont.) — video row ONLY on product pages; Footprint frame = one continuous line
 - **"Watch it in action" only on the 3 product pages (client):** a single caravan, tour or innovation
   page renders `<VideoShowcase />` itself. NOT on the homepage, listings (/caravans /tours

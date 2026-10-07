@@ -69,8 +69,8 @@ export const Enquiries: CollectionConfig = {
       admin: { description: 'The tour, caravan or vehicle they chose (or "Not sure yet").' },
     },
     { name: 'preferredTravelDates', type: 'text', admin: { hidden: true } }, // removed from the form (client) — hidden, data kept
-    { name: 'groupSize', type: 'text' },
+    { name: 'groupSize', type: 'text', admin: { hidden: true } }, // removed from the form (client) — hidden, data kept
     { name: 'budgetRange', type: 'text' },
-    { name: 'requirements', type: 'textarea' },
+    { name: 'requirements', type: 'textarea', admin: { hidden: true } }, // removed from the form (client) — hidden, data kept
   ],
 }
