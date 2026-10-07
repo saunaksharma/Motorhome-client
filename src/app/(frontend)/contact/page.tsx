@@ -63,7 +63,8 @@ export default async function ContactPage() {
 
   return (
     <div className="mx-auto max-w-[800px] px-4 py-12">
-      <SectionHeading as="h1"
+      <SectionHeading
+        pageTitle="Book a Call with Our Caravan Specialist"
         title="RESERVE YOUR ADVENTURE"
         subtitle="Tell us about your trip and we’ll be in touch"
       />

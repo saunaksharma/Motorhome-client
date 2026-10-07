@@ -55,7 +55,7 @@ export default async function BlogPage({ searchParams }: { searchParams: SearchP
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">
-      <SectionHeading as="h1" title="BLOGS" />
+      <SectionHeading pageTitle="Caravan Travel Blog: Stories & Guides" title="BLOGS" />
 
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <SearchBox placeholder="Search articles…" />

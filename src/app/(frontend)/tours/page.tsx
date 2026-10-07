@@ -57,7 +57,7 @@ export default async function ToursPage() {
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">
-      <SectionHeading as="h1" title="TOURS" />
+      <SectionHeading pageTitle="Caravan Tours across India, Nepal & Bhutan" title="TOURS" />
 
       {/* The filters read the URL in the browser (Suspense); until then the
           pre-built page shows a same-height placeholder and every tour. */}

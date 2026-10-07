@@ -1736,6 +1736,10 @@ export interface Footer {
  */
 export interface Homepage {
   id: number;
+  /**
+   * One line saying what you offer — shown small above the slideshow text, and the main heading Google reads. Leave empty for "Caravan & Motorhome Rentals and Tours across India".
+   */
+  heroTitle?: string | null;
   reviewsIntro?: {
     heading?: string | null;
     aboutBlurb?: {
@@ -2003,6 +2007,7 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "homepage_select".
  */
 export interface HomepageSelect<T extends boolean = true> {
+  heroTitle?: T;
   reviewsIntro?:
     | T
     | {

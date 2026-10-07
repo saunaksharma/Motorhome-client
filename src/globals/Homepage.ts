@@ -20,6 +20,16 @@ export const Homepage: GlobalConfig = {
     read: () => true,
   },
   fields: [
+    // The homepage's one h1 (SEO + clarity): fixed, not rotating, above the slideshow text.
+    {
+      name: 'heroTitle',
+      label: 'Main heading (top of the homepage)',
+      type: 'text',
+      admin: {
+        description:
+          'One line saying what you offer — shown small above the slideshow text, and the main heading Google reads. Leave empty for "Caravan & Motorhome Rentals and Tours across India".',
+      },
+    },
     // "Where Every Journey Finds a Story" (SPEC page 16)
     {
       name: 'reviewsIntro',

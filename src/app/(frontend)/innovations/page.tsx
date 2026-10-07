@@ -26,7 +26,7 @@ export default async function InnovationsPage() {
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">
-      <SectionHeading as="h1" title="OUR INNOVATIONS" subtitle="Specialized vehicles for unique experiences" />
+      <SectionHeading pageTitle="Specialised Custom-Built Vehicles" title="OUR INNOVATIONS" subtitle="Specialized vehicles for unique experiences" />
 
       {docs.length > 0 ? (
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

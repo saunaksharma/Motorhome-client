@@ -25,7 +25,7 @@ export default async function AboutPage() {
 
   return (
     <article>
-      <PageBanner title={about.headline || 'About Us'} />
+      <PageBanner pageTitle="About Motorhome Adventures" title={about.headline || 'About Us'} />
 
       <div className="mx-auto max-w-[1100px] space-y-16 px-4 py-14">
         {/* Story + optional intro video/photo */}

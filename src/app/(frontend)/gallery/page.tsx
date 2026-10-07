@@ -28,7 +28,7 @@ export default async function GalleryPage() {
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">
-      <SectionHeading as="h1" title="GALLERY" subtitle="Snaps from the road" />
+      <SectionHeading pageTitle="Photos from Our Caravan Trips & Expeditions" title="GALLERY" subtitle="Snaps from the road" />
 
       {docs.length > 0 ? (
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

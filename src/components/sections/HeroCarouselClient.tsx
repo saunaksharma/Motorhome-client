@@ -28,7 +28,7 @@ const AUTOPLAY_MS = 6000
 // line without a box) and a small outline button. FULL SCREEN on every size — LOCKED
 // (tried ¾ and screen-minus-an-inch; both rejected). Each photo is cropped around its admin
 // focal point so the vehicle stays in frame on tall phone screens.
-export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
+export function HeroCarouselClient({ title, slides }: { title: string; slides: HeroSlide[] }) {
   const [current, setCurrent] = useState(0)
   const count = slides.length
 
@@ -95,28 +95,34 @@ export function HeroCarouselClient({ slides }: { slides: HeroSlide[] }) {
       {/* Soft top-to-bottom scrim: keeps the text crisp without hiding the photo. */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/5 via-40% to-black/75 sm:from-black/45 sm:via-black/15 sm:via-50% sm:to-black/55" />
 
-      {/* Foreground text for the active slide — keyed so it rises in on every change. */}
-      <div
-        key={current}
-        className="rise-in relative z-10 flex h-full flex-col items-start justify-end gap-5 px-5 pb-12 text-left text-white sm:items-center sm:justify-center sm:gap-8 sm:px-4 sm:pb-0 sm:pt-16 sm:text-center"
-      >
-        <h1 className="font-display text-[1.9rem] leading-[1.08] drop-shadow-md sm:text-6xl sm:leading-tight md:text-7xl">
-          {active.headingLine1}
-          {active.headingLine2 && (
-            <>
-              <br />
-              <span className="inline-block text-gold sm:mt-3 sm:rounded-2xl sm:border-2 sm:border-gold sm:bg-green/90 sm:px-7 sm:py-2 sm:shadow-lg">
-                {active.headingLine2}
-              </span>
-            </>
-          )}
+      <div className="relative z-10 flex h-full flex-col items-start justify-end gap-3 px-5 pb-12 text-left text-white sm:items-center sm:justify-center sm:gap-5 sm:px-4 sm:pb-0 sm:pt-16 sm:text-center">
+        {/* The page's one h1: fixed (not rotating) and in the server HTML — says what the company
+            offers and where (SEO + a first-time visitor's first five seconds). */}
+        <h1 className="font-display text-[13px] font-bold uppercase leading-snug tracking-[0.18em] text-gold [text-shadow:0_1px_8px_rgb(0_0_0/0.75)] sm:text-base md:text-lg">
+          {title}
         </h1>
-        {/* One main action: the slide's own button (solid gold). No other links — client's choice. */}
-        {active.ctaLabel && (
-          <div className="*:px-7 *:py-3 *:text-sm sm:*:px-9 sm:*:py-4 sm:*:text-base">
-            <CtaButton href={active.ctaLink ?? '#'} label={active.ctaLabel} gold solid />
-          </div>
-        )}
+
+        {/* Foreground text for the active slide — keyed so it rises in on every change. A styled
+            paragraph, not a heading (the h1 above names the page). */}
+        <div key={current} className="rise-in flex flex-col items-start gap-5 sm:items-center sm:gap-8">
+          <p className="font-display text-[1.9rem] leading-[1.08] drop-shadow-md sm:text-6xl sm:leading-tight md:text-7xl">
+            {active.headingLine1}
+            {active.headingLine2 && (
+              <>
+                <br />
+                <span className="inline-block text-gold sm:mt-3 sm:rounded-2xl sm:border-2 sm:border-gold sm:bg-green/90 sm:px-7 sm:py-2 sm:shadow-lg">
+                  {active.headingLine2}
+                </span>
+              </>
+            )}
+          </p>
+          {/* One main action: the slide's own button (solid gold). No other links — client's choice. */}
+          {active.ctaLabel && (
+            <div className="*:px-7 *:py-3 *:text-sm sm:*:px-9 sm:*:py-4 sm:*:text-base">
+              <CtaButton href={active.ctaLink ?? '#'} label={active.ctaLabel} gold solid />
+            </div>
+          )}
+        </div>
       </div>
     </section>
   )

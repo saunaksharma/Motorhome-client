@@ -1,6 +1,15 @@
+import Link from 'next/link'
 import React from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
+
+const SECTIONS = [
+  { label: 'Tours', href: '/tours' },
+  { label: 'Caravans', href: '/caravans' },
+  { label: 'Innovations', href: '/innovations' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
+]
 
 export default function NotFound() {
   return (
@@ -13,6 +22,18 @@ export default function NotFound() {
       <div className="mt-2">
         <CtaButton href="/" label="Back Home" />
       </div>
+      {/* Or straight to a main section. */}
+      <nav aria-label="Main sections" className="mt-4 flex flex-wrap justify-center gap-2">
+        {SECTIONS.map((s) => (
+          <Link
+            key={s.href}
+            href={s.href}
+            className="rounded-full border border-green/25 px-4 py-2 font-heading text-xs uppercase tracking-wider text-green transition-colors hover:border-green hover:bg-green hover:text-white"
+          >
+            {s.label}
+          </Link>
+        ))}
+      </nav>
     </div>
   )
 }

@@ -155,6 +155,21 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-07 (day 10, cont.) — one descriptive h1 per page (SEO)
+- **Homepage:** fixed h1 in the hero, server-rendered, not rotating: Homepage global `heroTitle`
+  ("Main heading (top of the homepage)", additive column), empty → "Caravan & Motorhome Rentals
+  and Tours across India" (= the site's own meta description wording; no new claims). Small gold
+  Cinzel caps with a text-shadow above the slide text; the rotating slide headline is now a `<p>`
+  (was the h1). Counts unchanged: 1 h1, 8 h2, 19 h3. Hero size untouched.
+- **Other pages:** `SectionHeading` / `PageBanner` got `pageTitle` — a small line above the big
+  title that IS the h1 (big title becomes a styled `<p>`, looks as before). Tours "Caravan Tours
+  across India, Nepal & Bhutan", Caravans "Caravans & Motorhomes for Rent in India", About "About
+  Motorhome Adventures", Gallery "Photos from Our Caravan Trips & Expeditions", Contact "Book a Call
+  with Our Caravan Specialist", Innovations "Specialised Custom-Built Vehicles", Blog "Caravan
+  Travel Blog: Stories & Guides". (Before: WEEKEND GETAWAY/HARPER slide, TOURS, CARAVANS, About Us,
+  GALLERY, RESERVE YOUR ADVENTURE, OUR INNOVATIONS, BLOGS.)
+- 404 page: added links to Tours / Caravans / Innovations / Blog / Contact.
+
 ### 2026-10-07 (day 10, cont.) — real 404s (no more soft 404)
 - Unknown URLs returned **200** (+noindex): `(frontend)/loading.tsx` is a Suspense boundary, so the
   response started streaming (status committed to 200) before `notFound()` ran (Next docs:

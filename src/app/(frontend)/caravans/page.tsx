@@ -59,7 +59,7 @@ export default async function CaravansPage() {
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12">
-      <SectionHeading as="h1" title="CARAVANS" />
+      <SectionHeading pageTitle="Caravans & Motorhomes for Rent in India" title="CARAVANS" />
 
       {/* The filters read the URL in the browser (Suspense); until then the
           pre-built page shows a same-height placeholder and every caravan. */}
