@@ -14,7 +14,7 @@ import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { ZoomCollage } from '@/components/ZoomCollage'
 import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
-import { pageMetadata } from '@/lib/seo'
+import { pageMetadata, plainText } from '@/lib/seo'
 import { relName } from '@/lib/utils'
 
 type Params = Promise<{ slug: string }>
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params
   const caravan = await getCaravan(slug)
   if (!caravan) return {}
-  return pageMetadata(caravan.meta, { title: caravan.name, path: `/caravans/${slug}`, description: caravan.shortDescription, image: caravan.heroImage })
+  return pageMetadata(caravan.meta, { title: caravan.name, path: `/caravans/${slug}`, description: caravan.shortDescription || plainText(caravan.description), image: caravan.heroImage })
 }
 
 export default async function CaravanDetailPage({ params }: { params: Params }) {

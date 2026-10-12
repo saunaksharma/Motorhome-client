@@ -27,9 +27,9 @@ const nextConfig: NextConfig = {
   images: {
     // 75 = default for cards/thumbnails; 90 for full-screen photos (heroes, collage centre).
     qualities: [75, 90],
-    // Media is served same-origin at /api/media/file/** (relative URLs), so a
-    // localPattern is all next/image needs. In production, media will move to
-    // cloud storage (S3/R2) and its CDN host gets added to remotePatterns.
+    // Photos load from the R2 bucket's public address (MEDIA_PUBLIC_URL); /api/media/file/** is
+    // the same-origin address used when no bucket is set (local /media folder).
+    remotePatterns: process.env.MEDIA_PUBLIC_URL ? [new URL(`${process.env.MEDIA_PUBLIC_URL.replace(/\/$/, '')}/**`)] : [],
     localPatterns: [
       {
         pathname: '/api/media/file/**',

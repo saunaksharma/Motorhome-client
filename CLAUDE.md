@@ -155,6 +155,28 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-12 (day 15) — photos moved to Cloudflare R2 (Vercel Blob was blocked)
+- **Why:** the Vercel Blob store hit its free-plan operations limit and was **blocked** ("Your store
+  is blocked"); live photos survived only in Vercel's CDN cache. Cause: photos went through
+  Payload's `/api/media/file/…` route, which does a Blob `head()` + an uncached read on every cache
+  miss — and that cache resets on each deploy (~138 so far); local test runs hit Blob directly.
+- **Now:** `@payloadcms/storage-s3` → R2 bucket `motorhome-media` (free: 10 GB, ~10M reads/mo, no
+  egress). `disablePayloadAccessControl` + `generateFileURL` → pages load photos straight from
+  `MEDIA_PUBLIC_URL` (the bucket's r2.dev address; swap for e.g. images.motorhome.co.in once the
+  domain is on Cloudflare — one env change). next.config `remotePatterns` from that env.
+  Env (local `.env` + Vercel): `S3_BUCKET`, `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`,
+  `S3_SECRET_ACCESS_KEY`, `MEDIA_PUBLIC_URL`. `@payloadcms/storage-vercel-blob` removed; importMap
+  regenerated. Bucket CORS allows GET/PUT/HEAD from the site origins (admin uploads go
+  browser → R2).
+- **Migration:** all 362 files uploaded from verified local copies (`tmp-drive/web`, gitignored, +
+  `../media-backup`), each checked at its public URL (size + type) — 362/362. No DB change.
+- **Tested (local prod build + dev):** 6 pages × phone/desktop, 0 broken images; admin upload
+  (Media → Create) lands in R2 (Payload stores new uploads under a unique folder), delete removes
+  it from R2. Throwaway test admin + temp route removed.
+- Also shipped: Tales/Snaps skip switched-off articles/albums (the Ladakh tour linked a hidden
+  post → 404); caravan meta description falls back to its full description, innovations prefer
+  it over the 2-word badge; tour JSON-LD image URL works with absolute photo URLs.
+
 ### 2026-10-07 (day 10, cont.) — hero heading wording + font consolidation tried (reverted)
 - Default hero h1 is now **"Caravan Rentals & Tours across India"** (the old "Caravan & Motorhome
   Rentals and Tours…" read clumsily); `text-balance` so phones split it evenly, not "INDIA" alone.

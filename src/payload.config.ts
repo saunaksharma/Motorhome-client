@@ -2,7 +2,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { s3Storage } from '@payloadcms/storage-s3'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -59,16 +59,33 @@ const allowedOrigins = [
   ]),
 ]
 
-// Uploaded files go to Vercel Blob when its token is set (on Vercel it is added
-// automatically when a Blob store is connected); otherwise to the local /media folder.
-// alwaysInsertFields keeps the database schema identical either way — but when the
-// plugin is ON it only keeps the `prefix` column if a prefix is set, hence the explicit
-// empty prefix (files stay at the store root, where they were uploaded). clientUploads
-// sends big photos straight from the browser to storage (Vercel caps requests at 4.5 MB).
-const storage = vercelBlobStorage({
-  enabled: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
-  token: process.env.BLOB_READ_WRITE_TOKEN,
-  collections: { media: { prefix: '' } },
+// Uploaded files go to Cloudflare R2 (S3-compatible: free tier, no bandwidth fees) when its
+// bucket is set in .env; otherwise to the local /media folder. Pages load photos straight from
+// the bucket's public address (MEDIA_PUBLIC_URL), not through /api/media/file — that route cost
+// a storage lookup + read per uncached photo (it used up Vercel Blob's free quota).
+// alwaysInsertFields keeps the database schema identical either way — but when the plugin is
+// ON it only keeps the `prefix` column if a prefix is set, hence the explicit empty prefix
+// (files at the bucket root). clientUploads sends big photos straight from the browser to
+// storage (Vercel caps requests at 4.5 MB).
+const mediaPublicURL = (process.env.MEDIA_PUBLIC_URL ?? '').replace(/\/$/, '')
+const storage = s3Storage({
+  enabled: Boolean(process.env.S3_BUCKET),
+  bucket: process.env.S3_BUCKET ?? '',
+  config: {
+    endpoint: process.env.S3_ENDPOINT,
+    region: 'auto',
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY_ID ?? '',
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY ?? '',
+    },
+  },
+  collections: {
+    media: {
+      prefix: '',
+      disablePayloadAccessControl: true,
+      generateFileURL: ({ filename, prefix }) => `${mediaPublicURL}/${prefix ? `${prefix}/` : ''}${filename}`,
+    },
+  },
   alwaysInsertFields: true,
   clientUploads: true,
 })

@@ -54,7 +54,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
     name: tour.name,
     url: `${siteURL}/tours/${slug}`,
     ...(tour.shortDescription && { description: tour.shortDescription }),
-    ...(heroUrl && { image: `${siteURL}${heroUrl}` }),
+    ...(heroUrl && { image: new URL(heroUrl, siteURL).href }),
     ...(itinerary.length > 0 && {
       itinerary: {
         '@type': 'ItemList',

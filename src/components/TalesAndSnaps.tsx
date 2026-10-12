@@ -15,14 +15,16 @@ type Album = {
 }
 
 const isObject = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null
+// A linked article / album switched off in the admin (active: false) is skipped — its page is a 404.
+const isShown = (value: unknown): value is Record<string, unknown> => isObject(value) && value.active !== false
 
 // "Tales & Snaps" (the client's own naming, 2022 brief): Tales = stories from the
 // road (article cards), Snaps = photo albums (photo grid + link to the full album).
 // Used on tour and caravan pages. A tab only appears when it has content, and the
 // whole section is hidden when both are empty.
 export function TalesAndSnaps({ tales = [], snaps = [] }: { tales?: unknown[]; snaps?: unknown[] }) {
-  const articles = tales.filter(isObject) as unknown as BlogCardData[]
-  const albums = (snaps.filter(isObject) as unknown as Album[]).filter((a) => (a.images ?? []).length > 0)
+  const articles = tales.filter(isShown) as unknown as BlogCardData[]
+  const albums = (snaps.filter(isShown) as unknown as Album[]).filter((a) => (a.images ?? []).length > 0)
   if (articles.length === 0 && albums.length === 0) return null
 
   const talesPanel = (
