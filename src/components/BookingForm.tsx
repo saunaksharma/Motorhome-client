@@ -37,7 +37,7 @@ const isType = (v: string | null): v is EnquiryType => TYPES.some((t) => t.value
 // "Reserve Your Adventure" booking form → public Enquiries endpoint.
 // Opened from a tour / caravan / vehicle page (/contact?type=caravan&destination=Willow) it is
 // LOCKED to that one product (client): no Tour/Caravan/Innovation switch, no list — just the
-// product. Opened plainly (header "Book your call") the visitor picks the type and the product.
+// product. Opened plainly (/contact) the visitor picks the type and the product.
 export function BookingForm({ choices }: { choices: EnquiryChoices }) {
   const [type, setType] = useState<EnquiryType>('tour')
   const [destination, setDestination] = useState('')

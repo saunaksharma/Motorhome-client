@@ -27,6 +27,7 @@ import { Subscribers } from './collections/Subscribers'
 import { Pages } from './collections/Pages'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
+import { DreamBig } from './globals/DreamBig'
 import { Homepage } from './globals/Homepage'
 import { About } from './globals/About'
 import { VideoShowcase } from './globals/VideoShowcase'
@@ -165,7 +166,7 @@ export default buildConfig({
     ...[Features, CaravanFilterOptions, TourFilterOptions, BlogCategories, Media].map(withSiteRevalidation),
     Users,
   ],
-  globals: [BusinessDetails, Header, Footer, Homepage, About, VideoShowcase].map(withGlobalRevalidation),
+  globals: [BusinessDetails, Header, Footer, Homepage, DreamBig, About, VideoShowcase].map(withGlobalRevalidation),
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

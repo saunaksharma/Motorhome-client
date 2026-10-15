@@ -11,6 +11,15 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Standard browser protections on every page, admin included: no framing by other sites
   // (clickjacking), no MIME sniffing, no full URLs leaked to other sites, no camera/mic/location.
+  // About Us = the homepage's Our Story (Canva page 53); the old /about page repeated it.
+  // B2B = the client's Brevo B2B booking page; Partner With Us = the Dream Big page (client).
+  async redirects() {
+    return [
+      { source: '/about', destination: '/#our-story', permanent: false },
+      { source: '/b2b', destination: 'https://meet.brevo.com/motorhome-adventures/b2b', permanent: false },
+      { source: '/partner-with-us', destination: '/dream-big-with-us', permanent: false },
+    ]
+  },
   async headers() {
     return [
       {

@@ -155,6 +155,48 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-15 (day 18) — client change batch (Sam's WhatsApp list) + full audit
+- **Videos:** any number 1–7 works. A row whose link is cleared is dropped on save (it used to block
+  the whole page: "Paste a YouTube link here" — reproduced in the admin, then fixed; `url` no longer
+  required, `videosField` beforeChange filters empty rows). Short rows sit centred
+  (`justify-center-safe`); ← → only when the row overflows. Demo videos removed everywhere except
+  her own on Harper/Willow; Ladakh got her 3 Shorts.
+- **Honest Review:** reviews take a YouTube link (`video`) — the card shows the thumbnail + play and
+  plays in place (same card design). Her 2 Shorts added; order = Sort order: Akon (photo), video,
+  Mandira Bedi (photo), video, then the rest.
+- **Booking:** header "Book your call" button removed (client). "Go Caravanning!" / "Reserve Your
+  Ride" / "Enquire Now" → **Book Your Call**, opening Business Details → `callBookingLink` (her
+  Brevo "Let's Get Caravanning"); empty = the site's own form. External links open in a new tab
+  (CtaButton, footer). Contact page: calendar + HQ-visit links (`mapUrl`, relabelled "Book an HQ
+  visit link") + hours 9am – 6pm; phone/WhatsApp/address cleared (client) → no WhatsApp button.
+- **Footer:** Partner Programme + "Partner With Us" (→ /dream-big-with-us) + "B2B" (→ Brevo B2B);
+  new "Visit Headquarters → Book Your Visit" (Canva page 49). /b2b → Brevo, /partner-with-us →
+  /dream-big-with-us (next.config redirects; both pages switched off).
+- **Dream Big With Us page** (`/dream-big-with-us`, global `dream-big` under Homepage, all fields
+  editable): her PDF word for word — opening + photo, "how it works" on the green band, benefits,
+  closing + Book Your Consultation (Brevo B2B). Homepage Dream Big: one Know More → this page.
+- **About Us duplication:** /about repeated the homepage's Our Story; the Canva says About = Home.
+  /about redirects to /#our-story (section got `id="our-story"`), header link points there
+  directly (a redirect with #anchor lost the anchor on client-side navigation), About global
+  hidden (data kept), page + sitemap entry removed.
+- **Cards:** PhotoCard = landscape photo (16:10, whole photo shows — client: "too zoomed") + green
+  text panel below with the card text always shown (Canva tour-card layout).
+- **Features:** every feature icon is now the Canva's own (pages 45/46, cut to transparent green
+  PNGs, uploaded as `feature-icon-*.png` media and set on each feature — swappable in the admin).
+  "Not included" no strikethrough. Caravans' inclusions/exclusions = Willow's. Innovations got
+  "What's included" (shared `src/fields/featureList.ts`): Driver & Helper + Start up Cleaning
+  Supplies + Fuel up to 250 kms (+ Cooking Utensils on Food Fusion Express).
+- **Text:** her new descriptions + Google titles on Harper, Willow, Reisender-Rogue, Rambler, Aurum
+  (card text from her first sentence where empty). Ladakh Tales → the real Ladakh article. Long
+  titles (> 45 chars) skip the "| Motorhome Adventures" suffix.
+- **Held for the client:** OutRider / Royal Cadet / Sliding Drone (new caravans or new names for
+  Kástro / Shiloh / Aegis? her message was cut at "Read more"); Canva page 55 (header brand) not
+  in our exports; 2 voice notes; Food Fusion Express's gallery holds Arcade on Wheels photos.
+- **Audit (local prod build):** lint/tsc/build clean; 69 pages 200 + one h1 + links OK; 0 issues
+  at 360 px and 1440 px (overflow, broken images, console errors); fake URLs 404; 37 admin screens
+  open; real edits save + restore; review create/delete; anonymous writes 403; enquiry email private.
+  Backup of all touched data: scratchpad `backup-2026-10-15.json`.
+
 ### 2026-10-12 (day 15) — photos moved to Cloudflare R2 (Vercel Blob was blocked)
 - **Why:** the Vercel Blob store hit its free-plan operations limit and was **blocked** ("Your store
   is blocked"); live photos survived only in Vercel's CDN cache. Cause: photos went through

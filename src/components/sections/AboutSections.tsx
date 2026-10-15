@@ -40,7 +40,8 @@ export async function AboutSections() {
 
   // overflow-clip (not -hidden) crops the glows without breaking the sticky photo.
   return (
-    <section className="story relative overflow-clip text-green">
+    // id: "About Us" lands here (/about redirects to /#our-story — the Canva's About = Home).
+    <section id="our-story" className="story relative scroll-mt-[92px] overflow-clip text-green">
       {/* Stage: the page's Canva pattern + soft green/gold aurora glows. */}
       {/* Glows are radial gradients, not blur(120px) circles: same look, but big blurred
           layers can flicker in iPhone Safari as they scroll past the section's edge. */}

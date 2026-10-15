@@ -104,7 +104,7 @@ export const Homepage: GlobalConfig = {
       fields: [
         { name: 'heading', type: 'text' },
         { name: 'ctaLabel', label: 'Button 1 text (outlined)', type: 'text' },
-        { name: 'ctaLink', label: 'Button 1 link', type: 'text', admin: { description: 'e.g. /blog/… or /about' } },
+        { name: 'ctaLink', label: 'Button 1 link', type: 'text', admin: { description: 'e.g. /blog/… or /#our-story' } },
         { name: 'secondCtaLabel', label: 'Button 2 text (white)', type: 'text' },
         { name: 'secondCtaLink', label: 'Button 2 link', type: 'text', admin: { description: 'e.g. /blog/… or /contact' } },
       ],

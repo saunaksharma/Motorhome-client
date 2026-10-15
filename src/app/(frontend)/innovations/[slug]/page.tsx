@@ -3,10 +3,11 @@ import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
 import { ClosingCta } from '@/components/ClosingCta'
+import { IconFeatureList } from '@/components/IconFeatureList'
 import { VideoShowcase } from '@/components/VideoShowcase'
 import { DetailHero } from '@/components/DetailHero'
 import { PhotoGallery } from '@/components/PhotoGallery'
-import { getPayloadClient } from '@/lib/payload'
+import { getBusiness, getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata, plainText } from '@/lib/seo'
 
@@ -21,7 +22,7 @@ const getInnovation = cache(async (slug: string) => {
   const { docs } = await payload.find({
     collection: 'innovations',
     where: { slug: { equals: slug }, active: { equals: true } },
-    depth: 1,
+    depth: 2, // each included feature's own icon
     limit: 1,
   })
   return docs[0] ?? null
@@ -39,7 +40,9 @@ export default async function InnovationDetailPage({ params }: { params: Params 
   const item = await getInnovation(slug)
   if (!item) notFound()
 
-  const enquire = `/contact?type=innovation&destination=${encodeURIComponent(item.name)}`
+  // "Book Your Call" opens the booking page set in Business Details (client: her Brevo calendar);
+  // without one, the site's own enquiry form, locked to this vehicle.
+  const enquire = (await getBusiness()).callBookingLink?.trim() || `/contact?type=innovation&destination=${encodeURIComponent(item.name)}`
 
   return (
     <article>
@@ -52,7 +55,7 @@ export default async function InnovationDetailPage({ params }: { params: Params 
           { label: 'Sleeps', value: item.sleeps },
           { label: 'Based in', value: item.baseLocation },
         ]}
-        cta={{ href: enquire, label: 'Enquire Now' }}
+        cta={{ href: enquire, label: 'Book Your Call' }}
       />
 
       <div className="mx-auto max-w-[1100px] px-4 py-12">
@@ -65,11 +68,15 @@ export default async function InnovationDetailPage({ params }: { params: Params 
           )}
         </div>
 
+        <div className="mx-auto mt-12 max-w-[760px]">
+          <IconFeatureList title="What's included" features={item.inclusions} extra={item.additionalInclusions} />
+        </div>
+
         <PhotoGallery cover={item.heroImage} gallery={item.gallery} />
 
         <VideoShowcase heading="Watch it in action" videos={item.videos} />
       </div>
-      <ClosingCta name={item.name} href={enquire} label="Enquire Now" />
+      <ClosingCta name={item.name} href={enquire} label="Book Your Call" />
     </article>
   )
 }

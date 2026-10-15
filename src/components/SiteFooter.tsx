@@ -59,8 +59,8 @@ const linkIcon = (label: string) => LINK_ICONS.find(([re]) => re.test(label))?.[
 // with bold white headings on a 2px gold rule and white capital links with an icon (gold +
 // nudge right on hover); a centred row of social icons above a thin gold line; copyright.
 // The newsletter is its own band above (the old footer had none). All of it is edited in
-// the admin (Site Settings → Footer). No contact block here (client: the Contact page is
-// reached from the header's "Book your call" button).
+// the admin (Site Settings → Footer). No contact block here (client: visitors book a call
+// from the "Book Your Call" buttons; the HQ-visit and B2B booking links are footer links).
 export function SiteFooter({ data }: { data: FooterData }) {
   const nl = data?.newsletter ?? {}
   const logo = asMedia(data?.logo)
@@ -116,6 +116,7 @@ export function SiteFooter({ data }: { data: FooterData }) {
                       <Link
                         key={l!.label}
                         href={l!.link || '#'}
+                        {...(/^https?:\/\//.test(l!.link ?? '') && { target: '_blank', rel: 'noopener noreferrer' })}
                         className="inline-flex items-center gap-2 py-1 text-xs uppercase text-white transition-all duration-300 hover:translate-x-[5px] hover:text-brand-gold sm:text-[13px] md:py-[5px] md:text-sm"
                       >
                         <Icon aria-hidden className="size-4 shrink-0" />

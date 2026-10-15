@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
 
-import { cn } from '@/lib/utils'
 import { featureIcon } from './featureIcon'
 
 type Feature = {
@@ -19,7 +18,6 @@ const PLACEHOLDER_ICON = 'feature-icon.svg'
 // Adria highlights):
 //   variant "tiles" — highlight tiles (icon above label) for specs / unique features
 //   variant "list"  — two-column icon list for inclusions / add-ons
-//   exclude         — "not included" items: muted and struck through
 // `extra` is the admin's free-text "Additional …" box (comma- or line-separated).
 // `labels` is the caravan's own wording for a feature ({ featureId: "90 L Fridge" }).
 export function IconFeatureList({
@@ -27,14 +25,12 @@ export function IconFeatureList({
   features,
   extra,
   labels,
-  exclude = false,
   variant = 'list',
 }: {
   title: string
   features?: unknown
   extra?: string | null
   labels?: unknown
-  exclude?: boolean
   variant?: 'tiles' | 'list'
 }) {
   const wording = labels && typeof labels === 'object' ? (labels as Record<string, unknown>) : {}
@@ -83,12 +79,8 @@ export function IconFeatureList({
         <ul className="mt-5 grid gap-x-10 sm:grid-cols-2">
           {rows.map((row) => (
             <li key={row.key} className="flex items-center gap-4 border-b border-green/[0.07] py-3.5">
-              <span className={cn('shrink-0', exclude ? 'text-green/35' : 'text-green')}>
-                {renderIcon(row, 'size-6')}
-              </span>
-              <span className={cn('text-[15px]', exclude ? 'text-green/50 line-through decoration-green/30' : 'text-green')}>
-                {row.name}
-              </span>
+              <span className="shrink-0 text-green">{renderIcon(row, 'size-6')}</span>
+              <span className="text-[15px] text-green">{row.name}</span>
             </li>
           ))}
         </ul>

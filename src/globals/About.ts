@@ -1,10 +1,11 @@
 import type { GlobalConfig } from 'payload'
 
-// The About Us page (2022 brief, page 11): story, the team (photo + "who is who"),
-// a growing-family / hiring block, and social embeds. All client-editable.
+// RETIRED (client, 2026-10-15: "About us duplication"): its story repeated the homepage's Our Story,
+// and the Canva says About Us = the homepage — /about now redirects to /#our-story (next.config).
+// Hidden and unused; kept only so its database table (and content) isn't dropped.
 export const About: GlobalConfig = {
   slug: 'about',
-  admin: { group: 'Site Settings', preview: () => '/about' },
+  admin: { group: 'Site Settings', hidden: true },
   access: {
     read: () => true,
   },

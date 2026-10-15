@@ -12,7 +12,7 @@ import { CaravanFaqs } from '@/components/CaravanFaqs'
 import { Tabs } from '@/components/Tabs'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { ZoomCollage } from '@/components/ZoomCollage'
-import { getPayloadClient } from '@/lib/payload'
+import { getBusiness, getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata, plainText } from '@/lib/seo'
 import { relName } from '@/lib/utils'
@@ -60,7 +60,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
       <IconFeatureList title="Specifications" variant="tiles" features={caravan.specifications} extra={caravan.additionalSpecifications} labels={caravan.featureLabels} />
       <IconFeatureList title="Unique features" variant="tiles" features={caravan.uniqueFeatures} extra={caravan.additionalUniqueFeatures} labels={caravan.featureLabels} />
       <IconFeatureList title="What's included" features={caravan.inclusions} extra={caravan.additionalInclusions} />
-      <IconFeatureList title="Not included" features={caravan.exclusions} extra={caravan.additionalExclusions} exclude />
+      <IconFeatureList title="Not included" features={caravan.exclusions} extra={caravan.additionalExclusions} />
     </div>
   )
 
@@ -92,7 +92,9 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
     })),
   }
 
-  const enquire = `/contact?type=caravan&destination=${encodeURIComponent(caravan.name)}`
+  // "Book Your Call" opens the booking page set in Business Details (client: her Brevo calendar);
+  // without one, the site's own enquiry form, locked to this caravan.
+  const enquire = (await getBusiness()).callBookingLink?.trim() || `/contact?type=caravan&destination=${encodeURIComponent(caravan.name)}`
 
   return (
     <article>
@@ -107,7 +109,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
           { label: 'Based in', value: relName(caravan.baseLocation) },
           { label: 'Base vehicle', value: caravan.baseVehicle },
         ]}
-        cta={{ href: enquire, label: 'Go Caravanning!' }}
+        cta={{ href: enquire, label: 'Book Your Call' }}
       />
 
       {caravan.description && (
@@ -150,7 +152,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
           <CaravanFaqs faqs={faqs} />
         </div>
       </div>
-      <ClosingCta name={caravan.name} href={enquire} label="Go Caravanning!" />
+      <ClosingCta name={caravan.name} href={enquire} label="Book Your Call" />
     </article>
   )
 }

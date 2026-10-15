@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { listingMetaWithFeatured } from '../fields/listingMeta'
 import { slugField } from '../fields/slugField'
+import { additional, featureList } from '../fields/featureList'
 import { videosField } from '../fields/videoList'
 
 // "Our Innovations" — specialized vehicles (Arcade on Wheels, Vanity Van, …).
@@ -37,6 +38,9 @@ export const Innovations: CollectionConfig = {
     { name: 'seats', type: 'text', admin: { description: 'e.g. "6".' } },
     { name: 'sleeps', type: 'text', admin: { description: 'e.g. "6 people".' } },
     { name: 'baseLocation', type: 'text', admin: { description: 'e.g. "Delhi".' } },
+    // What the hire includes (client) — the same tick-list as caravans.
+    featureList('inclusions', "What's included", 'inclusion'),
+    additional('additionalInclusions', 'Other inclusions (not in the list above)', 'vehicle'),
     ...listingMetaWithFeatured,
   ],
 }

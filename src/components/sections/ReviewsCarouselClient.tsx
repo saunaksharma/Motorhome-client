@@ -1,14 +1,68 @@
 'use client'
 
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Play, Star } from 'lucide-react'
 import Image from 'next/image'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+
+import { parseYouTube, youTubeEmbedUrl } from '@/lib/youtube'
 
 export type Review = {
   reviewerName: string
   rating?: number | null
   quote?: string | null
   photoUrl?: string | null
+  video?: string | null
+}
+
+// A video testimonial: the video's picture fills the card with a play button; clicking plays it
+// right in the card (with sound) over the text. Scrolling the card out of view stops it.
+function ReviewVideo({ link, name }: { link: string; name: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [playing, setPlaying] = useState(false)
+  useEffect(() => {
+    const card = ref.current
+    if (!playing || !card) return
+    const observer = new IntersectionObserver(([entry]) => entry.isIntersecting || setPlaying(false))
+    observer.observe(card)
+    return () => observer.disconnect()
+  }, [playing])
+
+  const id = parseYouTube(link)?.id
+  const src = youTubeEmbedUrl(link)
+  if (!id || !src) return <div className="pattern-green absolute inset-0" />
+  return (
+    <div ref={ref} className="absolute inset-0">
+      {/* eslint-disable-next-line @next/next/no-img-element -- YouTube's own thumbnail */}
+      <img
+        src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+        alt=""
+        onError={(e) => (e.currentTarget.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`)}
+        className="absolute inset-0 size-full object-cover"
+      />
+      {playing ? (
+        <iframe
+          src={`${src}&autoplay=1`}
+          title={`Review by ${name}`}
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+          referrerPolicy="strict-origin-when-cross-origin"
+          className="absolute inset-0 z-20 size-full border-0 bg-black"
+        />
+      ) : (
+        <button
+          type="button"
+          onClick={() => setPlaying(true)}
+          aria-label={`Play review by ${name}`}
+          // Covers the picture only, so the text below (and its "Read more") stays clickable.
+          className="group absolute inset-x-0 top-0 bottom-40 z-10 grid place-items-center"
+        >
+          <span className="grid size-14 place-items-center rounded-full bg-white/90 text-green shadow-lg transition group-hover:scale-110 group-hover:bg-white">
+            <Play className="size-6 translate-x-0.5 fill-current" />
+          </span>
+        </button>
+      )}
+    </div>
+  )
 }
 
 const Stars = ({ count }: { count?: number | null }) => (
@@ -52,7 +106,9 @@ export function ReviewsCarouselClient({ reviews }: { reviews: Review[] }) {
             key={index}
             className="relative h-[440px] shrink-0 basis-[85%] snap-start overflow-hidden rounded-3xl bg-green text-white sm:basis-[45%] lg:basis-[31%]"
           >
-            {review.photoUrl ? (
+            {review.video ? (
+              <ReviewVideo link={review.video} name={review.reviewerName} />
+            ) : review.photoUrl ? (
               <Image
                 src={review.photoUrl}
                 alt={review.reviewerName}

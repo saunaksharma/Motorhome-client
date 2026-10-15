@@ -23,7 +23,22 @@ export const BusinessDetails: GlobalConfig = {
     },
     { name: 'email', type: 'email' },
     { name: 'address', type: 'textarea', admin: { description: 'Office / garage address.' } },
-    { name: 'mapUrl', label: 'Google Maps link', type: 'text' },
+    {
+      name: 'callBookingLink',
+      label: 'Book Your Call link',
+      type: 'text',
+      admin: {
+        description:
+          'Where every "Book Your Call" button on caravan, tour and vehicle pages goes, e.g. the Brevo "Lets Get Caravanning" page. Leave empty to use the website enquiry form instead.',
+      },
+    },
+    // Stored as `mapUrl` (was "Google Maps link"); now the HQ-visit booking page (client).
+    {
+      name: 'mapUrl',
+      label: 'Book an HQ visit link',
+      type: 'text',
+      admin: { description: 'The booking page for visiting the headquarters (e.g. the Brevo "Visit HQ" link). Shown on the contact page.' },
+    },
     { name: 'hours', label: 'Opening hours', type: 'text', admin: { description: 'e.g. "Mon–Sat, 10am–7pm".' } },
     {
       name: 'enquiryNotifyEmail',

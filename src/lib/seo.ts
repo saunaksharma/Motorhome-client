@@ -19,7 +19,8 @@ export function pageMetadata(
   const description = meta?.description || fallback.description || undefined
   const image = urlOf(meta?.image) || urlOf(fallback.image)
   return {
-    title,
+    // Long titles skip the " | Motorhome Adventures" ending, so search results show the words that matter.
+    title: title.length > 45 ? { absolute: title } : title,
     description,
     alternates: { canonical: fallback.path },
     // A page's openGraph replaces the layout's, so repeat the site-wide fields.

@@ -12,3 +12,9 @@ export const getHomepage = cache(async () => {
   const payload = await getPayloadClient()
   return payload.findGlobal({ slug: 'homepage', depth: 1 })
 })
+
+// Business details (contact + booking links), cached per request.
+export const getBusiness = cache(async () => {
+  const payload = await getPayloadClient()
+  return payload.findGlobal({ slug: 'business', depth: 0 })
+})

@@ -92,7 +92,7 @@ export const Tours: CollectionConfig = {
     },
 
     // Call to action
-    { name: 'ctaLabel', label: 'Button text', type: 'text', defaultValue: 'RESERVE YOUR RIDE', admin: { description: 'Text on the booking buttons of this tour.' } },
+    { name: 'ctaLabel', label: 'Button text', type: 'text', defaultValue: 'BOOK YOUR CALL', admin: { description: 'Text on the booking buttons of this tour.' } },
     { name: 'ctaLink', type: 'text', admin: { hidden: true } }, // not used — buttons always open the booking form
 
     // Tales & Snaps tabs (SPEC page 51): related blog article + related gallery

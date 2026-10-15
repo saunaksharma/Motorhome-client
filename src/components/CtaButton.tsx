@@ -21,9 +21,12 @@ export function CtaButton({
   // `solid` + `onGreen` = filled white pill with green text (Dream Big, design page 39).
   solid?: boolean
 }) {
+  // Booking pages (Brevo etc.) open in a new tab so the site stays open.
+  const external = /^https?:\/\//.test(href)
   return (
     <Link
       href={href}
+      {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
       className={cn(
         'inline-block rounded-full border-2 px-8 py-3.5 font-heading font-semibold uppercase tracking-wider transition-colors',
         gold && solid

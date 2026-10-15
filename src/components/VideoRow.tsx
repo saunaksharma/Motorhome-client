@@ -84,22 +84,35 @@ function VideoTile({ video }: { video: ShowcaseVideo }) {
   )
 }
 
-// The sideways-scrolling row (Canva page 44). Swipe on phones; ← → buttons on larger screens.
+// The sideways-scrolling row (Canva page 44). Swipe on phones; ← → buttons on larger screens, only
+// when the videos don't all fit. A short row (1–3 videos) sits centred.
 export function VideoRow({ videos }: { videos: ShowcaseVideo[] }) {
   const track = useRef<HTMLDivElement>(null)
+  const [overflows, setOverflows] = useState(false)
+
+  useEffect(() => {
+    const el = track.current
+    if (!el) return
+    const measure = () => setOverflows(el.scrollWidth > el.clientWidth + 1)
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [videos.length])
+
   const scroll = (direction: 1 | -1) => track.current?.scrollBy({ left: direction * track.current.clientWidth * 0.8, behavior: 'smooth' })
 
   return (
     <div className="relative">
       <div
         ref={track}
-        className="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden"
+        className="-mx-4 flex justify-center-safe snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden"
       >
         {videos.map((video, i) => (
           <VideoTile key={`${video.id}-${i}`} video={video} />
         ))}
       </div>
-      {videos.length > 1 && (
+      {overflows && (
         <div className="mt-5 hidden justify-end gap-2 sm:flex">
           {([-1, 1] as const).map((direction) => (
             <button

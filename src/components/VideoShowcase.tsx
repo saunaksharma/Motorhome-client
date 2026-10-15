@@ -5,7 +5,7 @@ import { parseYouTube } from '@/lib/youtube'
 
 import { VideoRow, type ShowcaseVideo } from './VideoRow'
 
-type VideoItem = { url: string; title?: string | null; shape?: string | null; isShort?: boolean | null }
+type VideoItem = { url?: string | null; title?: string | null; shape?: string | null; isShort?: boolean | null }
 
 // The same rhythm on every page (client, Canva page 44): tall, wide, tall, wide… — always starting
 // with a tall video when there is one; each shape keeps its own order; when one shape runs out, the
@@ -24,8 +24,8 @@ function canvaRhythm(videos: ShowcaseVideo[]): ShowcaseVideo[] {
 // the big tall/wide tile row from the Canva. Shows nothing when the item has no videos.
 export function VideoShowcase({ heading, videos: list }: { heading: string; videos?: VideoItem[] | null }) {
   const videos: ShowcaseVideo[] = (list ?? []).flatMap((v) => {
-    const parsed = parseYouTube(v.url)
-    if (!parsed?.id) return []
+    const parsed = v.url ? parseYouTube(v.url) : null
+    if (!v.url || !parsed?.id) return []
     const tall = v.shape === 'tall' || (v.shape !== 'wide' && (v.isShort ?? parsed.short))
     return [{ id: parsed.id, url: v.url, title: v.title?.trim() || null, tall }]
   })

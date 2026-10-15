@@ -8,7 +8,8 @@ export const videoListFields: Field[] = [
     name: 'url',
     label: 'YouTube link',
     type: 'text',
-    required: true,
+    // Not required: a row whose link is cleared is dropped on save (videosField below) instead of
+    // blocking the whole page from saving.
     validate: validateYouTube,
     admin: { description: 'Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)' },
   },
@@ -43,6 +44,10 @@ export const videosField = (name: string, what: string, sectionTitle: string): F
   label: 'Videos (YouTube)',
   type: 'array',
   labels: { singular: 'Video', plural: 'Videos' },
+  hooks: {
+    // Rows left without a link are removed on save — any number of videos (1–7…) saves fine.
+    beforeChange: [({ value }) => (Array.isArray(value) ? value.filter((row) => String(row?.url ?? '').trim()) : value)],
+  },
   admin: {
     description: `YouTube videos for this ${what} only — shown on its page under "${sectionTitle}". Paste the link; tall Shorts and wide videos are sorted automatically. Leave empty for no video section. Drag to reorder.`,
   },

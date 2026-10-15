@@ -8,7 +8,7 @@ import { DetailHero } from '@/components/DetailHero'
 import { JsonLd } from '@/components/JsonLd'
 import { SectionHeading } from '@/components/SectionHeading'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
-import { getPayloadClient } from '@/lib/payload'
+import { getBusiness, getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
 import { siteURL } from '@/lib/siteUrl'
@@ -68,7 +68,9 @@ export default async function TourDetailPage({ params }: { params: Params }) {
     provider: { '@type': 'TravelAgency', name: 'Motorhome Adventures', url: siteURL },
   }
 
-  const enquire = `/contact?type=tour&destination=${encodeURIComponent(tour.name)}`
+  // "Book Your Call" opens the booking page set in Business Details (client: her Brevo calendar);
+  // without one, the site's own enquiry form, locked to this tour.
+  const enquire = (await getBusiness()).callBookingLink?.trim() || `/contact?type=tour&destination=${encodeURIComponent(tour.name)}`
 
   return (
     <article>
@@ -83,7 +85,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
           { label: 'Style', value: tour.category },
           { label: 'Route', value: tour.routeLabel },
         ]}
-        cta={{ href: enquire, label: tour.ctaLabel ?? 'Reserve Your Ride' }}
+        cta={{ href: enquire, label: tour.ctaLabel || 'Book Your Call' }}
       />
 
       <div className="mx-auto max-w-[1100px] px-4 py-12">
@@ -121,7 +123,7 @@ export default async function TourDetailPage({ params }: { params: Params }) {
 
         <VideoShowcase heading="Moments from the Road" videos={tour.videos} />
       </div>
-      <ClosingCta name={tour.name} href={enquire} label={tour.ctaLabel ?? 'Reserve Your Ride'} />
+      <ClosingCta name={tour.name} href={enquire} label={tour.ctaLabel || 'Book Your Call'} />
     </article>
   )
 }

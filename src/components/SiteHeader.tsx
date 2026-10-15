@@ -118,14 +118,6 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
             </nav>
 
             <div className="flex items-center gap-2">
-              {/* Client's wording; two lines so it fits beside the menu (one line overflows at 1280px). */}
-              <Link
-                href="/contact"
-                className="hidden shrink-0 flex-col items-center whitespace-nowrap rounded-2xl bg-gold px-4 py-1.5 font-heading leading-tight text-green transition hover:bg-[#d8b457] xl:flex"
-              >
-                <span className="text-[12px] font-bold uppercase tracking-wider">Book your call</span>
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-green/80">with our specialist</span>
-              </Link>
               <button
                 className="rounded-full p-2 text-white transition hover:bg-white/10 lg:hidden"
                 aria-label={open ? 'Close menu' : 'Open menu'}
@@ -158,12 +150,6 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
                     {item.label}
                   </Link>
                 ))}
-                <Link
-                  href="/contact"
-                  className="mt-2 rounded-full bg-gold px-5 py-3 text-center font-heading font-semibold uppercase tracking-wider text-green"
-                >
-                  Book your call with our specialist
-                </Link>
               </div>
             </nav>
           </div>

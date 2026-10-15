@@ -122,6 +122,7 @@ export interface Config {
     header: Header;
     footer: Footer;
     homepage: Homepage;
+    'dream-big': DreamBig;
     about: About;
     'video-showcase': VideoShowcase;
   };
@@ -130,6 +131,7 @@ export interface Config {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     homepage: HomepageSelect<false> | HomepageSelect<true>;
+    'dream-big': DreamBigSelect<false> | DreamBigSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
     'video-showcase': VideoShowcaseSelect<false> | VideoShowcaseSelect<true>;
   };
@@ -275,7 +277,7 @@ export interface Tour {
         /**
          * Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)
          */
-        url: string;
+        url?: string | null;
         /**
          * Optional, shown on the tile.
          */
@@ -518,7 +520,7 @@ export interface Caravan {
         /**
          * Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)
          */
-        url: string;
+        url?: string | null;
         /**
          * Optional, shown on the tile.
          */
@@ -735,7 +737,7 @@ export interface Innovation {
         /**
          * Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)
          */
-        url: string;
+        url?: string | null;
         /**
          * Optional, shown on the tile.
          */
@@ -779,6 +781,11 @@ export interface Innovation {
    * e.g. "Delhi".
    */
   baseLocation?: string | null;
+  inclusions?: (number | Feature)[] | null;
+  /**
+   * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
+   */
+  additionalInclusions?: string | null;
   /**
    * Lower numbers show first (1, 2, 3…).
    */
@@ -904,6 +911,10 @@ export interface Review {
    */
   quote?: string | null;
   photo?: (number | null) | Media;
+  /**
+   * Paste a YouTube link (a Short is fine) and this card plays the video instead of showing the photo. The cards follow "Sort order", so any pattern works — e.g. photo, video, photo, video.
+   */
+  video?: string | null;
   /**
    * Lower numbers show first (1, 2, 3…).
    */
@@ -1335,6 +1346,8 @@ export interface InnovationsSelect<T extends boolean = true> {
   seats?: T;
   sleeps?: T;
   baseLocation?: T;
+  inclusions?: T;
+  additionalInclusions?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;
@@ -1445,6 +1458,7 @@ export interface ReviewsSelect<T extends boolean = true> {
   rating?: T;
   quote?: T;
   photo?: T;
+  video?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;
@@ -1651,6 +1665,13 @@ export interface Business {
    * Office / garage address.
    */
   address?: string | null;
+  /**
+   * Where every "Book Your Call" button on caravan, tour and vehicle pages goes, e.g. the Brevo "Lets Get Caravanning" page. Leave empty to use the website enquiry form instead.
+   */
+  callBookingLink?: string | null;
+  /**
+   * The booking page for visiting the headquarters (e.g. the Brevo "Visit HQ" link). Shown on the contact page.
+   */
   mapUrl?: string | null;
   /**
    * e.g. "Mon–Sat, 10am–7pm".
@@ -1823,7 +1844,7 @@ export interface Homepage {
     heading?: string | null;
     ctaLabel?: string | null;
     /**
-     * e.g. /blog/… or /about
+     * e.g. /blog/… or /#our-story
      */
     ctaLink?: string | null;
     secondCtaLabel?: string | null;
@@ -1832,6 +1853,75 @@ export interface Homepage {
      */
     secondCtaLink?: string | null;
   };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * The "Dream Big With Us" page (partner programme), opened by the homepage Dream Big button and the footer.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dream-big".
+ */
+export interface DreamBig {
+  id: number;
+  heading: string;
+  /**
+   * One line under the heading, e.g. "Turn Your Caravan into a Smart Investment".
+   */
+  tagline?: string | null;
+  /**
+   * The photo beside the opening text.
+   */
+  photo?: (number | null) | Media;
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  howHeading?: string | null;
+  how?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Shown large at the end of "How it works", e.g. "No marketing. No management. No stress."
+   */
+  statement?: string | null;
+  statementNote?: string | null;
+  benefitsHeading?: string | null;
+  benefits?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  closing?: string | null;
+  ctaLabel?: string | null;
+  /**
+   * e.g. the Brevo booking page.
+   */
+  ctaLink?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1918,7 +2008,7 @@ export interface VideoShowcase {
         /**
          * Paste the link from YouTube — a normal video or a Short. (Instagram links cannot play on the website.)
          */
-        url: string;
+        url?: string | null;
         /**
          * Optional, shown on the tile.
          */
@@ -1940,6 +2030,7 @@ export interface BusinessSelect<T extends boolean = true> {
   whatsapp?: T;
   email?: T;
   address?: T;
+  callBookingLink?: T;
   mapUrl?: T;
   hours?: T;
   enquiryNotifyEmail?: T;
@@ -2043,6 +2134,33 @@ export interface HomepageSelect<T extends boolean = true> {
         secondCtaLabel?: T;
         secondCtaLink?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dream-big_select".
+ */
+export interface DreamBigSelect<T extends boolean = true> {
+  heading?: T;
+  tagline?: T;
+  photo?: T;
+  intro?: T;
+  howHeading?: T;
+  how?: T;
+  statement?: T;
+  statementNote?: T;
+  benefitsHeading?: T;
+  benefits?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  closing?: T;
+  ctaLabel?: T;
+  ctaLink?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
