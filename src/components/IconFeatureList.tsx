@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
 
+import { cn } from '@/lib/utils'
+
 import { featureIcon } from './featureIcon'
 
 type Feature = {
@@ -18,6 +20,7 @@ const PLACEHOLDER_ICON = 'feature-icon.svg'
 // Adria highlights):
 //   variant "tiles" — highlight tiles (icon above label) for specs / unique features
 //   variant "list"  — two-column icon list for inclusions / add-ons
+//   faded           — "not included" items: lighter text and icons (client: no strikethrough)
 // `extra` is the admin's free-text "Additional …" box (comma- or line-separated).
 // `labels` is the caravan's own wording for a feature ({ featureId: "90 L Fridge" }).
 export function IconFeatureList({
@@ -26,12 +29,14 @@ export function IconFeatureList({
   extra,
   labels,
   variant = 'list',
+  faded = false,
 }: {
   title: string
   features?: unknown
   extra?: string | null
   labels?: unknown
   variant?: 'tiles' | 'list'
+  faded?: boolean
 }) {
   const wording = labels && typeof labels === 'object' ? (labels as Record<string, unknown>) : {}
   const list = (Array.isArray(features) ? features : []).filter(
@@ -79,8 +84,8 @@ export function IconFeatureList({
         <ul className="mt-5 grid gap-x-10 sm:grid-cols-2">
           {rows.map((row) => (
             <li key={row.key} className="flex items-center gap-4 border-b border-green/[0.07] py-3.5">
-              <span className="shrink-0 text-green">{renderIcon(row, 'size-6')}</span>
-              <span className="text-[15px] text-green">{row.name}</span>
+              <span className={cn('shrink-0 text-green', faded && 'opacity-45')}>{renderIcon(row, 'size-6')}</span>
+              <span className={cn('text-[15px]', faded ? 'text-green/55' : 'text-green')}>{row.name}</span>
             </li>
           ))}
         </ul>

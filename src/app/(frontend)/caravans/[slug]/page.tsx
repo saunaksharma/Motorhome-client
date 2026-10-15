@@ -60,7 +60,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
       <IconFeatureList title="Specifications" variant="tiles" features={caravan.specifications} extra={caravan.additionalSpecifications} labels={caravan.featureLabels} />
       <IconFeatureList title="Unique features" variant="tiles" features={caravan.uniqueFeatures} extra={caravan.additionalUniqueFeatures} labels={caravan.featureLabels} />
       <IconFeatureList title="What's included" features={caravan.inclusions} extra={caravan.additionalInclusions} />
-      <IconFeatureList title="Not included" features={caravan.exclusions} extra={caravan.additionalExclusions} />
+      <IconFeatureList title="Not included" features={caravan.exclusions} extra={caravan.additionalExclusions} faded />
     </div>
   )
 

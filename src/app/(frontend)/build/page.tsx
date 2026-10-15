@@ -47,7 +47,7 @@ export default async function BuildPage() {
           <SectionHeading title="BUILT BY US" subtitle="Specialized vehicles for unique experiences" />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {builds.map((item) => (
-              <InnovationCard key={item.id} item={item} />
+              <InnovationCard key={item.id} item={item} layout="panel" />
             ))}
           </div>
           <div className="mt-14 text-center">

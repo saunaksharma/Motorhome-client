@@ -31,7 +31,7 @@ export default async function InnovationsPage() {
       {docs.length > 0 ? (
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {docs.map((item) => (
-            <InnovationCard key={item.id} item={item} />
+            <InnovationCard key={item.id} item={item} layout="panel" />
           ))}
         </div>
       ) : (

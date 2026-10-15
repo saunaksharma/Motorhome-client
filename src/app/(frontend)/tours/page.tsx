@@ -44,7 +44,7 @@ export default async function ToursPage() {
       location: relIds(tour.location),
       preference: relIds(tour.preference), // hasMany
     },
-    card: <TourCard tour={tour} />,
+    card: <TourCard tour={tour} layout="panel" />,
   }))
 
   const allCards = (

@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronLeft, ChevronRight, Play, Star } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Star, Volume2, VolumeX } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 
@@ -14,53 +14,63 @@ export type Review = {
   video?: string | null
 }
 
-// A video testimonial: the video's picture fills the card with a play button; clicking plays it
-// right in the card (with sound) over the text. Scrolling the card out of view stops it.
+// A video testimonial (client): plays by itself, muted, on loop — like a moving photo in the same
+// card, under the usual fade, stars and name. The corner button turns the sound on/off. The player
+// loads only while the card is on screen, so the page stays light.
 function ReviewVideo({ link, name }: { link: string; name: string }) {
   const ref = useRef<HTMLDivElement>(null)
-  const [playing, setPlaying] = useState(false)
+  const player = useRef<HTMLIFrameElement>(null)
+  const [onScreen, setOnScreen] = useState(false)
+  const [muted, setMuted] = useState(true)
   useEffect(() => {
     const card = ref.current
-    if (!playing || !card) return
-    const observer = new IntersectionObserver(([entry]) => entry.isIntersecting || setPlaying(false))
+    if (!card) return
+    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting), { rootMargin: '200px' })
     observer.observe(card)
     return () => observer.disconnect()
-  }, [playing])
+  }, [])
 
-  const id = parseYouTube(link)?.id
-  const src = youTubeEmbedUrl(link)
-  if (!id || !src) return <div className="pattern-green absolute inset-0" />
+  const parsed = parseYouTube(link)
+  const src = youTubeEmbedUrl(link, true)
+  if (!parsed?.id || !src) return <div className="pattern-green absolute inset-0" />
+  const toggleSound = () => {
+    player.current?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func: muted ? 'unMute' : 'mute', args: [] }), '*')
+    setMuted(!muted)
+  }
+
   return (
-    <div ref={ref} className="absolute inset-0">
-      {/* eslint-disable-next-line @next/next/no-img-element -- YouTube's own thumbnail */}
+    <div ref={ref} className="absolute inset-0 overflow-hidden">
+      {/* eslint-disable-next-line @next/next/no-img-element -- YouTube's own thumbnail, shown until the video starts */}
       <img
-        src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+        src={`https://i.ytimg.com/vi/${parsed.id}/maxresdefault.jpg`}
         alt=""
-        onError={(e) => (e.currentTarget.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`)}
+        onError={(e) => (e.currentTarget.src = `https://i.ytimg.com/vi/${parsed.id}/hqdefault.jpg`)}
         className="absolute inset-0 size-full object-cover"
       />
-      {playing ? (
+      {onScreen && (
         <iframe
-          src={`${src}&autoplay=1`}
+          ref={player}
+          src={`${src}&controls=0&enablejsapi=1`}
           title={`Review by ${name}`}
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
+          tabIndex={-1}
+          allow="autoplay; encrypted-media; picture-in-picture"
           referrerPolicy="strict-origin-when-cross-origin"
-          className="absolute inset-0 z-20 size-full border-0 bg-black"
+          // Sized to cover the card like a photo: a Short (9:16) fills the width, a wide video the height.
+          className={
+            parsed.short
+              ? 'pointer-events-none absolute left-0 top-1/2 aspect-[9/16] w-full -translate-y-1/2 border-0'
+              : 'pointer-events-none absolute left-1/2 top-0 aspect-video h-full -translate-x-1/2 border-0'
+          }
         />
-      ) : (
-        <button
-          type="button"
-          onClick={() => setPlaying(true)}
-          aria-label={`Play review by ${name}`}
-          // Covers the picture only, so the text below (and its "Read more") stays clickable.
-          className="group absolute inset-x-0 top-0 bottom-40 z-10 grid place-items-center"
-        >
-          <span className="grid size-14 place-items-center rounded-full bg-white/90 text-green shadow-lg transition group-hover:scale-110 group-hover:bg-white">
-            <Play className="size-6 translate-x-0.5 fill-current" />
-          </span>
-        </button>
       )}
+      <button
+        type="button"
+        onClick={toggleSound}
+        aria-label={muted ? `Turn on the sound of the review by ${name}` : `Mute the review by ${name}`}
+        className="absolute right-4 top-4 z-10 grid size-10 place-items-center rounded-full bg-black/40 text-white backdrop-blur-sm transition hover:bg-black/60"
+      >
+        {muted ? <VolumeX className="size-5" /> : <Volume2 className="size-5" />}
+      </button>
     </div>
   )
 }

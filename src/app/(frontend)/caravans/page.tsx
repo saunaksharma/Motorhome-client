@@ -46,7 +46,7 @@ export default async function CaravansPage() {
       berth: relIds(caravan.berthRange),
       class: relIds(caravan.class),
     },
-    card: <CaravanCard caravan={caravan} />,
+    card: <CaravanCard caravan={caravan} layout="panel" />,
   }))
 
   const allCards = (

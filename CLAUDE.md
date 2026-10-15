@@ -179,8 +179,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   /about redirects to /#our-story (section got `id="our-story"`), header link points there
   directly (a redirect with #anchor lost the anchor on client-side navigation), About global
   hidden (data kept), page + sitemap entry removed.
-- **Cards:** PhotoCard = landscape photo (16:10, whole photo shows — client: "too zoomed") + green
-  text panel below with the card text always shown (Canva tour-card layout).
+- **Cards:** PhotoCard has two layouts (client). `panel` on the Tours / Caravans / Innovations /
+  Build pages: landscape photo (16:10, whole photo shows — client: "too zoomed") + green text panel
+  below, card text always shown (Canva tour-card layout). `overlay` (default) on the homepage
+  strips: the original look (text on the photo, hover reveal), now square (was 4:5) so landscape
+  photos lose less. Both use each photo's focus point (Media focalX/focalY) as object-position.
+- **Review videos** play by themselves, muted, on loop (client), covering the card like a photo
+  (Short = 9:16 iframe across the width); corner button toggles sound (YouTube iframe API
+  postMessage, `enablejsapi=1`); the player loads only while the card is on screen.
+- **Not included:** faded text + icons (`faded` prop), no strikethrough (client).
 - **Features:** every feature icon is now the Canva's own (pages 45/46, cut to transparent green
   PNGs, uploaded as `feature-icon-*.png` media and set on each feature — swappable in the admin).
   "Not included" no strikethrough. Caravans' inclusions/exclusions = Willow's. Innovations got
