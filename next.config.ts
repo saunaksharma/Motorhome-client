@@ -34,6 +34,10 @@ const nextConfig: NextConfig = {
     ]
   },
   images: {
+    // On Vercel's free plan the image-resizing quota ran out (new sizes answered 402 → blank
+    // photos), so there photos are served as uploaded, straight from R2. On our own server
+    // (Hostinger) Next.js resizes them itself with no quota — VERCEL is unset there.
+    unoptimized: Boolean(process.env.VERCEL),
     // 75 = default for cards/thumbnails; 90 for full-screen photos (heroes, collage centre).
     qualities: [75, 90],
     // Photos load from the R2 bucket's public address (MEDIA_PUBLIC_URL); /api/media/file/** is
