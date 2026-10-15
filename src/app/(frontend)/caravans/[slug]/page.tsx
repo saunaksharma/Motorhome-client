@@ -12,7 +12,7 @@ import { CaravanFaqs } from '@/components/CaravanFaqs'
 import { Tabs } from '@/components/Tabs'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { ZoomCollage } from '@/components/ZoomCollage'
-import { getBusiness, getPayloadClient } from '@/lib/payload'
+import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata, plainText } from '@/lib/seo'
 import { relName } from '@/lib/utils'
@@ -92,9 +92,9 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
     })),
   }
 
-  // "Book Your Call" opens the booking page set in Business Details (client: her Brevo calendar);
-  // without one, the site's own enquiry form, locked to this caravan.
-  const enquire = (await getBusiness()).callBookingLink?.trim() || `/contact?type=caravan&destination=${encodeURIComponent(caravan.name)}`
+  // "Book Your Call" opens the booking form locked to this caravan; once it's sent, the visitor goes on
+  // to the booking calendar (Business Details → Book Your Call link).
+  const enquire = `/contact?type=caravan&destination=${encodeURIComponent(caravan.name)}`
 
   return (
     <article>

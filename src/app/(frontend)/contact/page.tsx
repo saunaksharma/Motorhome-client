@@ -1,4 +1,4 @@
-import { CalendarDays, Clock, MapPin, MessageCircle } from 'lucide-react'
+import { Clock, MapPin, MessageCircle } from 'lucide-react'
 import React from 'react'
 
 import { BookingForm } from '@/components/BookingForm'
@@ -59,7 +59,8 @@ export default async function ContactPage() {
     ).docs.map((doc) => doc.name)
   const [tour, caravan, innovation] = await Promise.all([names('tours'), names('caravans'), names('innovations')])
   const { whatsapp, hours, callBookingLink, mapUrl: hqVisitLink } = business ?? {}
-  const hasDetails = Boolean(whatsapp || hours || callBookingLink || hqVisitLink)
+  // No direct calendar link here: the call is booked through the form, so every enquiry is saved first.
+  const hasDetails = Boolean(whatsapp || hours || hqVisitLink)
 
   return (
     <div className="mx-auto max-w-[800px] px-4 py-12">
@@ -80,11 +81,6 @@ export default async function ContactPage() {
               Chat with us on WhatsApp
             </Detail>
           )}
-          {callBookingLink && (
-            <Detail icon={<CalendarDays className="size-4" />} href={callBookingLink} external>
-              Pick a time for a call
-            </Detail>
-          )}
           {hqVisitLink && (
             <Detail icon={<MapPin className="size-4" />} href={hqVisitLink} external>
               Book a visit to our headquarters
@@ -95,7 +91,7 @@ export default async function ContactPage() {
       )}
 
       <div className="mt-10">
-        <BookingForm choices={{ tour, caravan, innovation }} />
+        <BookingForm choices={{ tour, caravan, innovation }} bookingLink={callBookingLink} />
       </div>
     </div>
   )

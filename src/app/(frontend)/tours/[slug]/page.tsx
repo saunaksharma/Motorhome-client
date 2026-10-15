@@ -8,7 +8,7 @@ import { DetailHero } from '@/components/DetailHero'
 import { JsonLd } from '@/components/JsonLd'
 import { SectionHeading } from '@/components/SectionHeading'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
-import { getBusiness, getPayloadClient } from '@/lib/payload'
+import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata } from '@/lib/seo'
 import { siteURL } from '@/lib/siteUrl'
@@ -68,9 +68,9 @@ export default async function TourDetailPage({ params }: { params: Params }) {
     provider: { '@type': 'TravelAgency', name: 'Motorhome Adventures', url: siteURL },
   }
 
-  // "Book Your Call" opens the booking page set in Business Details (client: her Brevo calendar);
-  // without one, the site's own enquiry form, locked to this tour.
-  const enquire = (await getBusiness()).callBookingLink?.trim() || `/contact?type=tour&destination=${encodeURIComponent(tour.name)}`
+  // "Book Your Call" opens the booking form locked to this tour; once it's sent, the visitor goes on
+  // to the booking calendar (Business Details → Book Your Call link).
+  const enquire = `/contact?type=tour&destination=${encodeURIComponent(tour.name)}`
 
   return (
     <article>

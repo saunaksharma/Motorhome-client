@@ -7,7 +7,7 @@ import { IconFeatureList } from '@/components/IconFeatureList'
 import { VideoShowcase } from '@/components/VideoShowcase'
 import { DetailHero } from '@/components/DetailHero'
 import { PhotoGallery } from '@/components/PhotoGallery'
-import { getBusiness, getPayloadClient } from '@/lib/payload'
+import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata, plainText } from '@/lib/seo'
 
@@ -40,9 +40,9 @@ export default async function InnovationDetailPage({ params }: { params: Params 
   const item = await getInnovation(slug)
   if (!item) notFound()
 
-  // "Book Your Call" opens the booking page set in Business Details (client: her Brevo calendar);
-  // without one, the site's own enquiry form, locked to this vehicle.
-  const enquire = (await getBusiness()).callBookingLink?.trim() || `/contact?type=innovation&destination=${encodeURIComponent(item.name)}`
+  // "Book Your Call" opens the booking form locked to this vehicle; once it's sent, the visitor goes on
+  // to the booking calendar (Business Details → Book Your Call link).
+  const enquire = `/contact?type=innovation&destination=${encodeURIComponent(item.name)}`
 
   return (
     <article>

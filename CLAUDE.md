@@ -165,10 +165,14 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   plays in place (same card design). Her 2 Shorts added; order = Sort order: Akon (photo), video,
   Mandira Bedi (photo), video, then the rest.
 - **Booking:** header "Book your call" button removed (client). "Go Caravanning!" / "Reserve Your
-  Ride" / "Enquire Now" → **Book Your Call**, opening Business Details → `callBookingLink` (her
-  Brevo "Let's Get Caravanning"); empty = the site's own form. External links open in a new tab
-  (CtaButton, footer). Contact page: calendar + HQ-visit links (`mapUrl`, relabelled "Book an HQ
-  visit link") + hours 9am – 6pm; phone/WhatsApp/address cleared (client) → no WhatsApp button.
+  Ride" / "Enquire Now" → **Book Your Call**, opening the site's booking form locked to that
+  product (as before). On submit the enquiry is saved (Inbox → Enquiries + alert email), a
+  thank-you shows, then the visitor goes to Business Details → `callBookingLink` (her Brevo "Let's
+  Get Caravanning") to pick a time (client: "enquiry saved AND redirected to Brevo"; tested end to
+  end — enquiry stored, browser on Brevo). Empty link = thank-you only. No direct calendar link on
+  /contact, so every booking passes through the form. External links open in a new tab (CtaButton,
+  footer). Contact page: HQ-visit link (`mapUrl`, relabelled "Book an HQ visit link") + hours
+  9am – 6pm; phone/WhatsApp/address cleared (client) → no WhatsApp button.
 - **Footer:** Partner Programme + "Partner With Us" (→ /dream-big-with-us) + "B2B" (→ Brevo B2B);
   new "Visit Headquarters → Book Your Visit" (Canva page 49). /b2b → Brevo, /partner-with-us →
   /dream-big-with-us (next.config redirects; both pages switched off).

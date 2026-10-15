@@ -29,7 +29,7 @@ export const BusinessDetails: GlobalConfig = {
       type: 'text',
       admin: {
         description:
-          'Where every "Book Your Call" button on caravan, tour and vehicle pages goes, e.g. the Brevo "Lets Get Caravanning" page. Leave empty to use the website enquiry form instead.',
+          'After someone sends the booking form (from any "Book Your Call" button), the enquiry is saved and they are taken here to pick a time, e.g. the Brevo "Lets Get Caravanning" page. Leave empty to just show a thank-you message.',
       },
     },
     // Stored as `mapUrl` (was "Google Maps link"); now the HQ-visit booking page (client).

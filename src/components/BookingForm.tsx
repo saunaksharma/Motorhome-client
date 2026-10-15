@@ -34,11 +34,12 @@ const TYPES: { value: EnquiryType; label: string; field: string }[] = [
 const NOT_SURE = 'Not sure yet'
 const isType = (v: string | null): v is EnquiryType => TYPES.some((t) => t.value === v)
 
-// "Reserve Your Adventure" booking form → public Enquiries endpoint.
+// "Reserve Your Adventure" booking form → public Enquiries endpoint. Once the enquiry is saved, the
+// visitor is taken to `bookingLink` (the booking calendar, client: Brevo) to pick a time for the call.
 // Opened from a tour / caravan / vehicle page (/contact?type=caravan&destination=Willow) it is
 // LOCKED to that one product (client): no Tour/Caravan/Innovation switch, no list — just the
 // product. Opened plainly (/contact) the visitor picks the type and the product.
-export function BookingForm({ choices }: { choices: EnquiryChoices }) {
+export function BookingForm({ choices, bookingLink }: { choices: EnquiryChoices; bookingLink?: string | null }) {
   const [type, setType] = useState<EnquiryType>('tour')
   const [destination, setDestination] = useState('')
   // null until the link has been read, so neither version flashes before the other.
@@ -77,6 +78,8 @@ export function BookingForm({ choices }: { choices: EnquiryChoices }) {
       if (res.ok) {
         setDone(true)
         form.reset()
+        // A moment to read the thank-you, then on to the calendar (same tab: a new one would be blocked).
+        if (bookingLink) setTimeout(() => window.location.assign(bookingLink), 1500)
       } else {
         const body = await res.json().catch(() => ({}))
         setError(body?.errors?.[0]?.message || 'Something went wrong. Please try again.')
@@ -92,7 +95,18 @@ export function BookingForm({ choices }: { choices: EnquiryChoices }) {
     return (
       <div className="rounded-2xl border border-border bg-card p-8 text-center">
         <h3 className="font-display text-2xl text-green">Thank you!</h3>
-        <p className="mt-2 text-muted-foreground">We&apos;ve got your request and will be in touch shortly.</p>
+        <p className="mt-2 text-muted-foreground">
+          {bookingLink ? (
+            <>
+              We&apos;ve got your request. Taking you to our calendar to pick a time for your call…{' '}
+              <a href={bookingLink} className="text-green underline underline-offset-4">
+                Open the calendar
+              </a>
+            </>
+          ) : (
+            <>We&apos;ve got your request and will be in touch shortly.</>
+          )}
+        </p>
       </div>
     )
   }
