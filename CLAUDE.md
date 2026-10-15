@@ -155,6 +155,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-15 (day 18, cont.) — blank photos: Vercel image-optimization quota used up
+- Some Kástro gallery photos showed blank on live: `/_next/image` answered **402
+  OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED** (Hobby quota used up — the R2 move made every photo
+  a new source, so every size was re-optimized). The photos themselves were fine on R2.
+- Fix: `images.unoptimized: Boolean(process.env.VERCEL)` — on Vercel photos are served as
+  uploaded, straight from R2 (median 205 KB, 13 over 1 MB); on our own server (Hostinger, VERCEL
+  unset) Next.js resizes them itself, no quota. Live Kástro: 52 photos, 0 broken.
+- **When moving to the VPS:** nothing to change — resizing switches back on by itself.
+
 ### 2026-10-15 (day 18) — client change batch (Sam's WhatsApp list) + full audit
 - **Videos:** any number 1–7 works. A row whose link is cleared is dropped on save (it used to block
   the whole page: "Paste a YouTube link here" — reproduced in the admin, then fixed; `url` no longer
