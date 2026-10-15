@@ -19,6 +19,7 @@ export function CtaButton({
   gold?: boolean
   // `solid` + `gold` = filled gold pill: the page's one main action (hero).
   // `solid` + `onGreen` = filled white pill with green text (Dream Big, design page 39).
+  // `solid` alone = filled green pill that turns white on hover (Book Your Call, client).
   solid?: boolean
 }) {
   // Booking pages (Brevo etc.) open in a new tab so the site stays open.
@@ -37,7 +38,9 @@ export function CtaButton({
               ? 'border-white bg-white text-green hover:bg-transparent hover:text-white'
               : onGreen
               ? 'border-white text-white hover:bg-white hover:text-green'
-              : 'border-green text-green hover:bg-green hover:text-white',
+              : solid
+                ? 'border-green bg-green text-white hover:bg-white hover:text-green'
+                : 'border-green text-green hover:bg-green hover:text-white',
       )}
     >
       {label}

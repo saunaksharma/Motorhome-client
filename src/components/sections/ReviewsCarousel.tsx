@@ -33,7 +33,7 @@ export async function ReviewsCarousel() {
       </div>
       <div className="mt-10 text-center">
         <p className="mb-4 font-heading text-lg text-green">We&apos;d love to hear about your motorhome adventure!</p>
-        <CtaButton href="/contact?subject=Share%20Your%20Experience" label="Share Your Experience" />
+        <CtaButton href="/returning-customer-benefits" label="Share Your Experience" />
       </div>
     </section>
   )

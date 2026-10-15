@@ -32,15 +32,41 @@ export const Innovations: CollectionConfig = {
       labels: { singular: 'Image', plural: 'Gallery images' },
       fields: [{ name: 'image', type: 'upload', relationTo: 'media', required: true }],
     },
-    videosField('videos', 'vehicle', 'Watch it in action'),
+    // Videos + Tales & Snaps — the same as on caravans (client), in one box (layout only).
+    {
+      type: 'collapsible',
+      label: 'Videos, Tales & Snaps',
+      admin: { description: 'Each part shows on the vehicle page once filled in: videos as "Watch it in action", then the Tales & Snaps tabs.' },
+      fields: [
+        videosField('videos', 'vehicle', 'Watch it in action'),
+        {
+          name: 'relatedArticles',
+          label: 'Tales (related blog posts)',
+          type: 'relationship',
+          relationTo: 'blog-articles',
+          hasMany: true,
+          admin: { description: 'Blog posts about this vehicle — shown in the "Tales" tab.' },
+        },
+        {
+          name: 'snaps',
+          label: 'Snaps (photo albums)',
+          type: 'relationship',
+          relationTo: 'galleries',
+          hasMany: true,
+          admin: { description: 'Gallery albums with this vehicle — shown in the "Snaps" tab.' },
+        },
+      ],
+    },
     { name: 'shortDescription', label: 'Card text', type: 'textarea', admin: { description: 'One or two lines shown on the vehicle card.' } },
     { name: 'description', label: 'Full description', type: 'richText', admin: { description: 'The text on the vehicle page.' } },
     { name: 'seats', type: 'text', admin: { description: 'e.g. "6".' } },
     { name: 'sleeps', type: 'text', admin: { description: 'e.g. "6 people".' } },
     { name: 'baseLocation', type: 'text', admin: { description: 'e.g. "Delhi".' } },
-    // What the hire includes (client) — the same tick-list as caravans.
+    // What the hire includes / doesn't (client) — the same tick-lists as caravans.
     featureList('inclusions', "What's included", 'inclusion'),
     additional('additionalInclusions', 'Other inclusions (not in the list above)', 'vehicle'),
+    featureList('exclusions', 'Not included', 'exclusion'),
+    additional('additionalExclusions', 'Other exclusions (not in the list above)', 'vehicle'),
     ...listingMetaWithFeatured,
   ],
 }

@@ -30,7 +30,12 @@ export default async function DreamBigPage() {
   if (!page.heading) notFound()
   const photo = typeof page.photo === 'object' && page.photo ? page.photo : null
   const benefits = (page.benefits ?? []).filter((b) => b.text?.trim())
-  const cta = page.ctaLabel && page.ctaLink ? <CtaButton href={page.ctaLink} label={page.ctaLabel} gold solid /> : null
+  // Up to two actions (client: B2B + get a caravan built), shown at the top and at the end.
+  const buttons = [
+    page.ctaLabel && page.ctaLink && <CtaButton key="1" href={page.ctaLink} label={page.ctaLabel} gold solid />,
+    page.secondCtaLabel && page.secondCtaLink && <CtaButton key="2" href={page.secondCtaLink} label={page.secondCtaLabel} />,
+  ].filter(Boolean)
+  const cta = buttons.length > 0 ? <div className="flex flex-wrap items-center gap-4">{buttons}</div> : null
 
   return (
     <article className="text-green">
@@ -95,7 +100,7 @@ export default async function DreamBigPage() {
       {(page.closing || cta) && (
         <section className="mx-auto max-w-[820px] px-4 pb-20 text-center md:pb-28">
           {page.closing && <p className="font-display text-2xl leading-snug text-balance sm:text-3xl">{page.closing}</p>}
-          {cta && <div className="mt-10">{cta}</div>}
+          {cta && <div className="mt-10 flex justify-center">{cta}</div>}
         </section>
       )}
     </article>

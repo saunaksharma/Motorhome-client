@@ -119,9 +119,9 @@ export default async function TourDetailPage({ params }: { params: Params }) {
           </div>
         )}
 
-        <TalesAndSnaps tales={tour.tales ? [tour.tales] : []} snaps={tour.snaps ? [tour.snaps] : []} />
-
         <VideoShowcase heading="Moments from the Road" videos={tour.videos} />
+
+        <TalesAndSnaps tales={tour.tales ? [tour.tales] : []} snaps={tour.snaps ? [tour.snaps] : []} />
       </div>
       <ClosingCta name={tour.name} href={enquire} label={tour.ctaLabel || 'Book Your Call'} />
     </article>

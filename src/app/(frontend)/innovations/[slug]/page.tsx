@@ -7,6 +7,7 @@ import { IconFeatureList } from '@/components/IconFeatureList'
 import { VideoShowcase } from '@/components/VideoShowcase'
 import { DetailHero } from '@/components/DetailHero'
 import { PhotoGallery } from '@/components/PhotoGallery'
+import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata, plainText } from '@/lib/seo'
@@ -70,11 +71,17 @@ export default async function InnovationDetailPage({ params }: { params: Params 
 
         <div className="mx-auto mt-12 max-w-[760px]">
           <IconFeatureList title="What's included" features={item.inclusions} extra={item.additionalInclusions} />
+          <IconFeatureList title="Not included" features={item.exclusions} extra={item.additionalExclusions} faded />
         </div>
 
         <PhotoGallery cover={item.heroImage} gallery={item.gallery} />
 
         <VideoShowcase heading="Watch it in action" videos={item.videos} />
+
+        <TalesAndSnaps
+          tales={Array.isArray(item.relatedArticles) ? item.relatedArticles : []}
+          snaps={Array.isArray(item.snaps) ? item.snaps : []}
+        />
       </div>
       <ClosingCta name={item.name} href={enquire} label="Book Your Call" />
     </article>

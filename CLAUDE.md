@@ -155,6 +155,31 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-15 (day 18, late) — client follow-up list (14 points)
+- **About page restored** (client: needed for staff photos/names) — page, About global (Site
+  Settings → About), sitemap entry and header link `/about` back; the /about redirect and the
+  homepage `#our-story` anchor removed. (Reverses the morning's "About = Our Story".)
+- **Footer:** "Visit Headquarters" column removed (client) — back to 3 columns; Partner With Us
+  (→ /dream-big-with-us) and B2B (→ Brevo) stay.
+- **Homepage cards** back to 4:5 (client: "1080x1350", square looked bad) + focus point; listing
+  pages keep the full-photo `panel` cards. PhotoCard uses the shared `focalPosition()`.
+- **Book Your Call** (DetailHero + ClosingCta): filled green, white on hover — CtaButton `solid`.
+- **Order on caravan / tour / innovation pages:** photos or tour info → videos (Watch it in action /
+  Moments from the Road) → Tales & Snaps. Innovations got Tales & Snaps (`relatedArticles` +
+  `snaps`, hasMany, like caravans). Tours + innovations editors: one "Videos, Tales & Snaps" box
+  (layout only). Tales & Snaps show only once linked (Willow, Ladakh today) — client fills the rest.
+- **Innovations "Not included"** (`exclusions` + `additionalExclusions`, faded): Willow's 13 for all 6.
+- **Dream Big page:** optional Button 2 (`secondCtaLabel/Link`) = "Build Your Caravan" →
+  caravanconversion.com; Button 1 stays Book Your Consultation → Brevo B2B. Homepage Know More
+  unchanged (client: already right).
+- **Share Your Experience** (Honest Review) → /returning-customer-benefits.
+- **Aurum cover** is a portrait photo (van in its lower half): focus point 50% / 68% (Media 73).
+- **Review video links:** tested in the admin — Shorts with `?si=`, youtu.be, watch links all save
+  (she likely tried before the field went live). Videos play from YouTube (not downloaded).
+- **Not included strikethrough:** none on live (fixed earlier today; she looked before the deploy).
+- **Waiting on the client:** Canva page 55 (header brand text); tour photos/descriptions; Tales &
+  Snaps links per item.
+
 ### 2026-10-15 (day 18, cont.) — blank photos: Vercel image-optimization quota used up
 - Some Kástro gallery photos showed blank on live: `/_next/image` answered **402
   OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED** (Hobby quota used up — the R2 move made every photo

@@ -267,8 +267,6 @@ export interface Tour {
    */
   ctaLabel?: string | null;
   ctaLink?: string | null;
-  tales?: (number | null) | BlogArticle;
-  snaps?: (number | null) | Gallery;
   /**
    * YouTube videos for this tour only — shown on its page under "Moments from the Road". Paste the link; tall Shorts and wide videos are sorted automatically. Leave empty for no video section. Drag to reorder.
    */
@@ -287,6 +285,8 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
+  tales?: (number | null) | BlogArticle;
+  snaps?: (number | null) | Gallery;
   /**
    * Lower numbers show first (1, 2, 3…).
    */
@@ -748,6 +748,14 @@ export interface Innovation {
       }[]
     | null;
   /**
+   * Blog posts about this vehicle — shown in the "Tales" tab.
+   */
+  relatedArticles?: (number | BlogArticle)[] | null;
+  /**
+   * Gallery albums with this vehicle — shown in the "Snaps" tab.
+   */
+  snaps?: (number | Gallery)[] | null;
+  /**
    * One or two lines shown on the vehicle card.
    */
   shortDescription?: string | null;
@@ -786,6 +794,11 @@ export interface Innovation {
    * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
    */
   additionalInclusions?: string | null;
+  exclusions?: (number | Feature)[] | null;
+  /**
+   * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
+   */
+  additionalExclusions?: string | null;
   /**
    * Lower numbers show first (1, 2, 3…).
    */
@@ -1218,8 +1231,6 @@ export interface ToursSelect<T extends boolean = true> {
       };
   ctaLabel?: T;
   ctaLink?: T;
-  tales?: T;
-  snaps?: T;
   videos?:
     | T
     | {
@@ -1229,6 +1240,8 @@ export interface ToursSelect<T extends boolean = true> {
         isShort?: T;
         id?: T;
       };
+  tales?: T;
+  snaps?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;
@@ -1341,6 +1354,8 @@ export interface InnovationsSelect<T extends boolean = true> {
         isShort?: T;
         id?: T;
       };
+  relatedArticles?: T;
+  snaps?: T;
   shortDescription?: T;
   description?: T;
   seats?: T;
@@ -1348,6 +1363,8 @@ export interface InnovationsSelect<T extends boolean = true> {
   baseLocation?: T;
   inclusions?: T;
   additionalInclusions?: T;
+  exclusions?: T;
+  additionalExclusions?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;
@@ -1844,7 +1861,7 @@ export interface Homepage {
     heading?: string | null;
     ctaLabel?: string | null;
     /**
-     * e.g. /blog/… or /#our-story
+     * e.g. /blog/… or /about
      */
     ctaLink?: string | null;
     secondCtaLabel?: string | null;
@@ -1919,9 +1936,14 @@ export interface DreamBig {
   closing?: string | null;
   ctaLabel?: string | null;
   /**
-   * e.g. the Brevo booking page.
+   * e.g. the Brevo B2B booking page.
    */
   ctaLink?: string | null;
+  secondCtaLabel?: string | null;
+  /**
+   * e.g. the caravan-building website. Leave the text empty to hide this button.
+   */
+  secondCtaLink?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2161,6 +2183,8 @@ export interface DreamBigSelect<T extends boolean = true> {
   closing?: T;
   ctaLabel?: T;
   ctaLink?: T;
+  secondCtaLabel?: T;
+  secondCtaLink?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

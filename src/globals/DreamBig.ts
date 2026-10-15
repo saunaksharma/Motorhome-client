@@ -36,7 +36,9 @@ export const DreamBig: GlobalConfig = {
       fields: [{ name: 'text', type: 'text', required: true }],
     },
     { name: 'closing', label: 'Closing text', type: 'textarea' },
-    { name: 'ctaLabel', label: 'Button text', type: 'text', defaultValue: 'Book Your Consultation' },
-    { name: 'ctaLink', label: 'Button link', type: 'text', admin: { description: 'e.g. the Brevo booking page.' } },
+    { name: 'ctaLabel', label: 'Button 1 text', type: 'text', defaultValue: 'Book Your Consultation' },
+    { name: 'ctaLink', label: 'Button 1 link', type: 'text', admin: { description: 'e.g. the Brevo B2B booking page.' } },
+    { name: 'secondCtaLabel', label: 'Button 2 text (optional)', type: 'text' },
+    { name: 'secondCtaLink', label: 'Button 2 link', type: 'text', admin: { description: 'e.g. the caravan-building website. Leave the text empty to hide this button.' } },
   ],
 }

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import React from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn, focalPosition } from '@/lib/utils'
 
 export type PhotoCardLayout = 'overlay' | 'panel'
 
@@ -42,7 +42,7 @@ export function PhotoCard({ href, image, title, tag, badge, subtitle, meta, desc
       alt={photo.alt ?? title}
       fill
       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-      style={{ objectPosition: `${photo.focalX ?? 50}% ${photo.focalY ?? 50}%` }}
+      style={{ objectPosition: focalPosition(photo) }}
       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
     />
   ) : (
@@ -73,8 +73,8 @@ export function PhotoCard({ href, image, title, tag, badge, subtitle, meta, desc
       href={href}
       className={cn(
         'reveal group overflow-hidden rounded-3xl bg-green shadow-sm transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgb(13_71_63/0.6)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold',
-        // Homepage: square (was 4:5) — landscape cover photos lose less of their sides.
-        panel ? 'flex h-full flex-col' : 'relative block aspect-square',
+        // Homepage: 4:5 (client: "like 1080x1350"); the photo's focus point keeps the vehicle in view.
+        panel ? 'flex h-full flex-col' : 'relative block aspect-[4/5]',
       )}
     >
       {panel ? (

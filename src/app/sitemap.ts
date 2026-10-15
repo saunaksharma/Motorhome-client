@@ -16,7 +16,7 @@ const detailCollections = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayloadClient()
 
-  const staticPaths = ['', '/dream-big-with-us', '/caravans', '/tours', '/innovations', '/blog', '/gallery', '/build', '/contact']
+  const staticPaths = ['', '/about', '/dream-big-with-us', '/caravans', '/tours', '/innovations', '/blog', '/gallery', '/build', '/contact']
   const entries: MetadataRoute.Sitemap = staticPaths.map((path) => ({
     url: `${serverURL}${path}`,
     changeFrequency: 'weekly',

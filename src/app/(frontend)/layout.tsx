@@ -56,7 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
 // Shown until the client fills in the Header global's nav items.
 const FALLBACK_NAV = [
   { label: 'Home', link: '/' },
-  { label: 'About Us', link: '/#our-story' },
+  { label: 'About Us', link: '/about' },
   { label: 'Tours', link: '/tours' },
   { label: 'Caravans', link: '/caravans' },
   { label: 'Innovations', link: '/innovations' },

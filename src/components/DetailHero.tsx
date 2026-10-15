@@ -95,7 +95,7 @@ export function DetailHero({
             </dl>
           )}
           <div className="shrink-0 *:block *:w-full *:text-center sm:*:inline-block sm:*:w-auto">
-            <CtaButton href={cta.href} label={cta.label} />
+            <CtaButton href={cta.href} label={cta.label} solid />
           </div>
         </div>
       </div>

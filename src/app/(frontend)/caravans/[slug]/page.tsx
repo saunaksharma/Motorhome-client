@@ -140,13 +140,13 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
           <PhotoGallery cover={caravan.heroImage} gallery={caravan.gallery} />
         </div>
 
+        {/* This caravan's own videos (client: above Tales & Snaps). */}
+        <VideoShowcase heading="Watch it in action" videos={caravan.relatedVideos} />
+
         <TalesAndSnaps
           tales={Array.isArray(caravan.relatedArticles) ? caravan.relatedArticles : []}
           snaps={Array.isArray(caravan.snaps) ? caravan.snaps : []}
         />
-
-        {/* This caravan's own videos (client). */}
-        <VideoShowcase heading="Watch it in action" videos={caravan.relatedVideos} />
 
         <div className="mt-16">
           <CaravanFaqs faqs={faqs} />

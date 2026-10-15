@@ -95,20 +95,17 @@ export const Tours: CollectionConfig = {
     { name: 'ctaLabel', label: 'Button text', type: 'text', defaultValue: 'BOOK YOUR CALL', admin: { description: 'Text on the booking buttons of this tour.' } },
     { name: 'ctaLink', type: 'text', admin: { hidden: true } }, // not used — buttons always open the booking form
 
-    // Tales & Snaps tabs (SPEC page 51): related blog article + related gallery
+    // Videos + Tales & Snaps (SPEC page 51), in one box like the caravan's (layout only).
     {
-      name: 'tales',
-      label: 'Tales (related article)',
-      type: 'relationship',
-      relationTo: 'blog-articles',
+      type: 'collapsible',
+      label: 'Videos, Tales & Snaps',
+      admin: { description: 'Each part shows on the tour page once filled in: videos as "Moments from the Road", then the Tales & Snaps tabs.' },
+      fields: [
+        videosField('videos', 'tour', 'Moments from the Road'),
+        { name: 'tales', label: 'Tales (related blog article)', type: 'relationship', relationTo: 'blog-articles' },
+        { name: 'snaps', label: 'Snaps (related photo album)', type: 'relationship', relationTo: 'galleries' },
+      ],
     },
-    {
-      name: 'snaps',
-      label: 'Snaps (related gallery)',
-      type: 'relationship',
-      relationTo: 'galleries',
-    },
-    videosField('videos', 'tour', 'Moments from the Road'),
 
     ...listingMetaWithFeatured,
   ],
