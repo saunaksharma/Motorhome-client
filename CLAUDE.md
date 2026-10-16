@@ -159,6 +159,9 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - **Tales & Snaps** drawn as the Canva (pages 45/46/51): a green rule with the two tabs hanging
   under it, flared where they meet it (Tabs `hanging` variant: radial-gradient cut-outs); labels
   "Tales" / "Snaps" without counts; no section title. Heading font kept (no slanted text).
+- **Innovations' What's included + Not included = exactly Willow's** (client, overriding her earlier
+  per-vehicle inclusion list): 10 + 13 items on all 6. The "Fuel up to 250 kms" feature made for
+  that list is now unused (still offered in the tick-lists).
 - **Book your visit** (HQ-visit link) removed from the contact page too (client: "don't add it
   anywhere"); `mapUrl` hidden in the admin, data kept.
 - **Aurum photo "from Canva" + header brand (Canva page 55):** our exports stop at page 53 and
