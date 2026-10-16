@@ -155,6 +155,17 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-16 (day 19) — Tales & Snaps = the Canva tabs; no "Book your visit" anywhere
+- **Tales & Snaps** drawn as the Canva (pages 45/46/51): a green rule with the two tabs hanging
+  under it, flared where they meet it (Tabs `hanging` variant: radial-gradient cut-outs); labels
+  "Tales" / "Snaps" without counts; no section title. Heading font kept (no slanted text).
+- **Book your visit** (HQ-visit link) removed from the contact page too (client: "don't add it
+  anywhere"); `mapUrl` hidden in the admin, data kept.
+- **Aurum photo "from Canva" + header brand (Canva page 55):** our exports stop at page 53 and
+  hold no Aurum photo — waiting for the client's newer Canva pages (54+).
+- Book Your Call is green → white on hover everywhere (Tailwind v4 `hover:` only on devices that
+  hover, so no sticky state on phones); the friend saw the pre-update version.
+
 ### 2026-10-15 (day 18, late) — client follow-up list (14 points)
 - **About page restored** (client: needed for staff photos/names) — page, About global (Site
   Settings → About), sitemap entry and header link `/about` back; the /about redirect and the

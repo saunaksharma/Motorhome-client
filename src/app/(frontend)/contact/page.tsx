@@ -1,4 +1,4 @@
-import { Clock, MapPin, MessageCircle } from 'lucide-react'
+import { Clock, MessageCircle } from 'lucide-react'
 import React from 'react'
 
 import { BookingForm } from '@/components/BookingForm'
@@ -58,9 +58,10 @@ export default async function ContactPage() {
       await payload.find({ collection, where: { active: { equals: true } }, sort: 'sortOrder', select: { name: true }, depth: 0, limit: 200 })
     ).docs.map((doc) => doc.name)
   const [tour, caravan, innovation] = await Promise.all([names('tours'), names('caravans'), names('innovations')])
-  const { whatsapp, hours, callBookingLink, mapUrl: hqVisitLink } = business ?? {}
-  // No direct calendar link here: the call is booked through the form, so every enquiry is saved first.
-  const hasDetails = Boolean(whatsapp || hours || hqVisitLink)
+  const { whatsapp, hours, callBookingLink } = business ?? {}
+  // No direct calendar or HQ-visit link here (client): the call is booked through the form, so every
+  // enquiry is saved first.
+  const hasDetails = Boolean(whatsapp || hours)
 
   return (
     <div className="mx-auto max-w-[800px] px-4 py-12">
@@ -79,11 +80,6 @@ export default async function ContactPage() {
               external
             >
               Chat with us on WhatsApp
-            </Detail>
-          )}
-          {hqVisitLink && (
-            <Detail icon={<MapPin className="size-4" />} href={hqVisitLink} external>
-              Book a visit to our headquarters
             </Detail>
           )}
           {hours && <Detail icon={<Clock className="size-4" />}>{hours}</Detail>}

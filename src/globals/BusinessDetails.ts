@@ -32,13 +32,8 @@ export const BusinessDetails: GlobalConfig = {
           'After someone sends the booking form (from any "Book Your Call" button), the enquiry is saved and they are taken here to pick a time, e.g. the Brevo "Lets Get Caravanning" page. Leave empty to just show a thank-you message.',
       },
     },
-    // Stored as `mapUrl` (was "Google Maps link"); now the HQ-visit booking page (client).
-    {
-      name: 'mapUrl',
-      label: 'Book an HQ visit link',
-      type: 'text',
-      admin: { description: 'The booking page for visiting the headquarters (e.g. the Brevo "Visit HQ" link). Shown on the contact page.' },
-    },
+    // Not shown anywhere (client: no "Book your visit" on the site) — hidden, data kept.
+    { name: 'mapUrl', label: 'Book an HQ visit link', type: 'text', admin: { hidden: true } },
     { name: 'hours', label: 'Opening hours', type: 'text', admin: { description: 'e.g. "Mon–Sat, 10am–7pm".' } },
     {
       name: 'enquiryNotifyEmail',

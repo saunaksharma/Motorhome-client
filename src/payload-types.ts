@@ -1686,9 +1686,6 @@ export interface Business {
    * After someone sends the booking form (from any "Book Your Call" button), the enquiry is saved and they are taken here to pick a time, e.g. the Brevo "Lets Get Caravanning" page. Leave empty to just show a thank-you message.
    */
   callBookingLink?: string | null;
-  /**
-   * The booking page for visiting the headquarters (e.g. the Brevo "Visit HQ" link). Shown on the contact page.
-   */
   mapUrl?: string | null;
   /**
    * e.g. "Mon–Sat, 10am–7pm".

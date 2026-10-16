@@ -4,7 +4,6 @@ import React from 'react'
 
 import { BlogCard, type BlogCardData } from '@/components/BlogCard'
 import { GalleryGrid, type GalleryImage } from '@/components/GalleryGrid'
-import { SectionHeading } from '@/components/SectionHeading'
 import { Tabs } from '@/components/Tabs'
 
 type Album = {
@@ -20,7 +19,7 @@ const isShown = (value: unknown): value is Record<string, unknown> => isObject(v
 
 // "Tales & Snaps" (the client's own naming, 2022 brief): Tales = stories from the
 // road (article cards), Snaps = photo albums (photo grid + link to the full album).
-// Used on tour and caravan pages. A tab only appears when it has content, and the
+// Used on tour, caravan and innovation pages. A tab only appears when it has content, and the
 // whole section is hidden when both are empty.
 export function TalesAndSnaps({ tales = [], snaps = [] }: { tales?: unknown[]; snaps?: unknown[] }) {
   const articles = tales.filter(isShown) as unknown as BlogCardData[]
@@ -65,16 +64,14 @@ export function TalesAndSnaps({ tales = [], snaps = [] }: { tales?: unknown[]; s
   )
 
   const tabs = [
-    ...(articles.length > 0 ? [{ label: `Tales (${articles.length})`, content: talesPanel }] : []),
-    ...(albums.length > 0 ? [{ label: `Snaps (${albums.length})`, content: snapsPanel }] : []),
+    ...(articles.length > 0 ? [{ label: 'Tales', content: talesPanel }] : []),
+    ...(albums.length > 0 ? [{ label: 'Snaps', content: snapsPanel }] : []),
   ]
 
+  // As the Canva draws it: no section title, just the two tabs hanging under a green rule.
   return (
-    <section className="mt-16">
-      <SectionHeading title="Tales & Snaps" subtitle="Stories and photos from the road" />
-      <div className="mt-8">
-        <Tabs tabs={tabs} />
-      </div>
+    <section aria-label="Tales & Snaps" className="mt-16">
+      <Tabs tabs={tabs} hanging />
     </section>
   )
 }
