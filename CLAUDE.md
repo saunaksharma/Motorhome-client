@@ -155,6 +155,17 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-16 (day 19, cont.) — security updates + pre-launch audit
+- **next 16.3.5 → 16.3.8** (+ eslint-config-next) and **sharp 0.35.4 → 0.35.5** (patch releases).
+  16.3.8 fixes the advisories that matter once we self-host: ISR cache poisoning, SSRF in image
+  optimization (on again on the VPS), the next/og RCE. `npm audit`: no critical; the remaining
+  "high" are build tooling / Payload internals (sass, chokidar, braces…), not served.
+- Regression on the new build (local prod): lint/tsc/build clean; 70 pages + links; 0 issues at
+  360 / 1440 px; 38 admin screens; save → show for a caravan, tour and innovation (videos → Tales &
+  Snaps) and exact restore; review with video (Instagram refused); new feature; Dream Big edit;
+  photo upload (sharp + R2); booking form → enquiry saved → Brevo. Test data removed.
+- Live (before this push): 70 pages, 0 issues at 390 / 1440 px; anonymous writes 403; headers set.
+
 ### 2026-10-16 (day 19) — Tales & Snaps = the Canva tabs; no "Book your visit" anywhere
 - **Tales & Snaps** drawn as the Canva (pages 45/46/51): a green rule with the two tabs hanging
   under it, flared where they meet it (Tabs `hanging` variant: radial-gradient cut-outs); labels
