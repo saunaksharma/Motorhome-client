@@ -68,10 +68,10 @@ export function TalesAndSnaps({ tales = [], snaps = [] }: { tales?: unknown[]; s
     ...(albums.length > 0 ? [{ label: 'Snaps', content: snapsPanel }] : []),
   ]
 
-  // As the Canva draws it: no section title, just the two tabs hanging under a green rule.
+  // The same tabs as the caravan's Overview / Add Ons+ (client).
   return (
     <section aria-label="Tales & Snaps" className="mt-16">
-      <Tabs tabs={tabs} hanging />
+      <Tabs tabs={tabs} />
     </section>
   )
 }

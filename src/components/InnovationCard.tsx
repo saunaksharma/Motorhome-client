@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { PhotoCard, type PhotoCardLayout } from '@/components/PhotoCard'
+import { plainText } from '@/lib/seo'
 
 export type InnovationCardData = {
   id: number | string
@@ -11,6 +12,7 @@ export type InnovationCardData = {
   seats?: string | null
   baseLocation?: string | null
   shortDescription?: string | null
+  description?: unknown
 }
 
 // An innovation (specialised vehicle) as a photo card, same treatment as tours (client
@@ -25,7 +27,7 @@ export function InnovationCard({ item, layout }: { item: InnovationCardData; lay
       title={item.name}
       tag={item.category}
       subtitle={specs.join(' · ')}
-      description={item.shortDescription}
+      description={item.shortDescription?.trim() || plainText(item.description, 140)}
       layout={layout}
     />
   )

@@ -22,6 +22,13 @@ export const Pages: CollectionConfig = {
     { name: 'title', type: 'text', required: true },
     slugField('title'),
     { name: 'body', type: 'richText' },
+    {
+      name: 'form',
+      label: 'Form below the text',
+      type: 'select',
+      options: [{ label: 'Customer review form (Returning Customer Benefits)', value: 'review' }],
+      admin: { description: 'Optional. The review form saves each review in Inbox → Customer reviews.' },
+    },
     { name: 'active', type: 'checkbox', defaultValue: true },
   ],
 }

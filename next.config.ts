@@ -45,6 +45,8 @@ const nextConfig: NextConfig = {
       {
         pathname: '/api/media/file/**',
       },
+      // The site's own brand files (the header wordmark).
+      { pathname: '/brand/**' },
     ],
   },
   webpack: (webpackConfig) => {

@@ -70,6 +70,7 @@ export default async function InnovationDetailPage({ params }: { params: Params 
         </div>
 
         <div className="mx-auto mt-12 max-w-[760px]">
+          <IconFeatureList title="Specifications" variant="tiles" features={item.specifications} extra={item.additionalSpecifications} labels={item.featureLabels} />
           <IconFeatureList title="What's included" features={item.inclusions} extra={item.additionalInclusions} />
           <IconFeatureList title="Not included" features={item.exclusions} extra={item.additionalExclusions} faded />
         </div>

@@ -24,6 +24,7 @@ import { Tips } from './collections/Tips'
 import { Innovations } from './collections/Innovations'
 import { Enquiries } from './collections/Enquiries'
 import { Subscribers } from './collections/Subscribers'
+import { ReviewSubmissions } from './collections/ReviewSubmissions'
 import { Pages } from './collections/Pages'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
@@ -163,6 +164,7 @@ export default buildConfig({
     ),
     Enquiries,
     Subscribers,
+    ReviewSubmissions,
     ...[Features, CaravanFilterOptions, TourFilterOptions, BlogCategories, Media].map(withSiteRevalidation),
     Users,
   ],

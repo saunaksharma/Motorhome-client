@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
 import { PageBanner } from '@/components/PageBanner'
+import { ReviewForm } from '@/components/ReviewForm'
 import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
 import { pageMetadata, plainText } from '@/lib/seo'
@@ -35,6 +36,13 @@ export default async function ContentPage({ params }: { params: Params }) {
   const { slug } = await params
   const page = await getPage(slug)
   if (!page) notFound()
+  // The page's optional form (Pages → "Form below the text"), e.g. the returning-customer review.
+  const caravans =
+    page.form === 'review'
+      ? (
+          await (await getPayloadClient()).find({ collection: 'caravans', where: { active: { equals: true } }, sort: 'sortOrder', select: { name: true }, depth: 0, limit: 100 })
+        ).docs.map((doc) => doc.name)
+      : []
 
   return (
     <article>
@@ -46,6 +54,11 @@ export default async function ContentPage({ params }: { params: Params }) {
           </div>
         ) : (
           <p className="text-muted-foreground">This page is being written. Please check back soon.</p>
+        )}
+        {page.form === 'review' && (
+          <div className="mt-10">
+            <ReviewForm caravans={caravans} />
+          </div>
         )}
       </div>
     </article>

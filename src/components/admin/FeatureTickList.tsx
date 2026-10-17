@@ -134,14 +134,14 @@ export function FeatureTickList({
                   )}
                   <span>{feature.name}</span>
                 </label>
-                {/* Ticked + editable list: this caravan's own wording (e.g. "90 L Fridge"). */}
+                {/* Ticked + editable list: this caravan's / vehicle's own wording (e.g. "90 L Fridge"). */}
                 {editable && checked && (
                   <input
                     type="text"
                     value={labels?.[String(feature.id)] ?? feature.name}
                     onChange={(e) => setLabel(feature, e.target.value)}
-                    aria-label={`Wording for ${feature.name} on this caravan`}
-                    title="Change the wording for this caravan only, e.g. 90 L Fridge"
+                    aria-label={`Wording for ${feature.name} here`}
+                    title="Change the wording for this one only, e.g. 90 L Fridge"
                     style={{
                       width: '100%',
                       marginTop: 6,

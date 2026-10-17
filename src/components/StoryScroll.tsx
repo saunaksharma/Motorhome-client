@@ -1,13 +1,16 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 // Brings the story section to life (after 21st.dev's "Sticky Scroll Reveal" + "Timeline"):
 // marks the chapter nearest the middle of the screen (and its photo) with `data-on`, and
 // sets `--story-progress` (0 → 1) for the gold timeline beam. Without JS everything is
 // simply shown — the section only dims/crossfades once `data-ready` is set.
-export function StoryScroll({ children, className }: { children: React.ReactNode; className?: string }) {
+// `collapsed`: only the first chapter shows, with a "Read more" that opens the rest in place
+// (client: homepage). The other chapters are in the page all along, just hidden.
+export function StoryScroll({ children, className, collapsed = false }: { children: React.ReactNode; className?: string; collapsed?: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(!collapsed)
 
   useEffect(() => {
     const root = ref.current
@@ -54,8 +57,19 @@ export function StoryScroll({ children, className }: { children: React.ReactNode
   }, [])
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} className={className} data-collapsed={open ? undefined : ''}>
       {children}
+      {!open && (
+        <div className="text-center lg:col-span-2">
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="rounded-full border-2 border-green px-8 py-3 font-heading font-semibold uppercase tracking-wider text-green transition-colors hover:bg-green hover:text-white"
+          >
+            Read more
+          </button>
+        </div>
+      )}
     </div>
   )
 }

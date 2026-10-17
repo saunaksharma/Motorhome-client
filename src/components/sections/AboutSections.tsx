@@ -23,7 +23,8 @@ function yearIn(body: unknown): string | null {
 // and crossfades to the chapter being read; a gold beam fills down the timeline as you scroll, each chapter's node lights
 // up, and the chapter in view is bright while the others dim. Phones: one column, each
 // chapter with its own photo. Behaviour in `StoryScroll`, styles `.story*` in globals.css.
-export async function AboutSections() {
+// `preview` (homepage): the first chapter + "Read more"; the About page shows the whole story.
+export async function AboutSections({ preview = false }: { preview?: boolean }) {
   const home = await getHomepage()
   const sections = home?.aboutSections ?? []
   if (sections.length === 0) return null
@@ -52,7 +53,7 @@ export async function AboutSections() {
           <p className="font-heading text-xs font-bold uppercase tracking-[0.4em] text-gold">Our Story</p>
         </div>
 
-        <StoryScroll className="story-scroll relative mt-14 grid gap-12 lg:mt-20 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+        <StoryScroll collapsed={preview && chapters.length > 1} className="story-scroll relative mt-14 grid gap-12 lg:mt-20 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           {/* Chapters + timeline */}
           <div className="relative">
             <div aria-hidden className="absolute bottom-3 left-[7px] top-3 w-px bg-green/15" />
@@ -112,7 +113,7 @@ export async function AboutSections() {
                       <div className="pattern-green absolute inset-0 grid place-items-center p-6">
                         <YouTubeEmbed url={chapter.video} title={chapter.heading} ambient className="rounded-2xl shadow-lg" />
                       </div>
-                    ) : chapter.photo?.url && (
+                    ) : chapter.photo?.url ? (
                       <Image
                         src={chapter.photo.url}
                         alt={chapter.photo.alt ?? chapter.heading}
@@ -121,6 +122,9 @@ export async function AboutSections() {
                         className="object-cover"
                         style={{ objectPosition: focalPosition(chapter.photo) }}
                       />
+                    ) : (
+                      // No photo yet: the brand pattern rather than an empty panel.
+                      <div className="pattern-green absolute inset-0" />
                     )}
                     {!chapter.video && (
                     <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent px-7 pb-6 pt-16 font-heading text-xs font-bold uppercase tracking-[0.3em] text-white/85">

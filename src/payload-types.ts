@@ -78,6 +78,7 @@ export interface Config {
     tips: Tip;
     enquiries: Enquiry;
     subscribers: Subscriber;
+    'review-submissions': ReviewSubmission;
     features: Feature;
     'caravan-filter-options': CaravanFilterOption;
     'tour-filter-options': TourFilterOption;
@@ -102,6 +103,7 @@ export interface Config {
     tips: TipsSelect<false> | TipsSelect<true>;
     enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
+    'review-submissions': ReviewSubmissionsSelect<false> | ReviewSubmissionsSelect<true>;
     features: FeaturesSelect<false> | FeaturesSelect<true>;
     'caravan-filter-options': CaravanFilterOptionsSelect<false> | CaravanFilterOptionsSelect<true>;
     'tour-filter-options': TourFilterOptionsSelect<false> | TourFilterOptionsSelect<true>;
@@ -285,7 +287,13 @@ export interface Tour {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Pick from your blog articles (a web link can't be pasted here; to use a new story, first add it in Blog Articles).
+   */
   tales?: (number | null) | BlogArticle;
+  /**
+   * Pick from your photo albums (to use new photos, first add an album in Galleries).
+   */
   snaps?: (number | null) | Gallery;
   /**
    * Lower numbers show first (1, 2, 3…).
@@ -609,11 +617,11 @@ export interface Caravan {
       }[]
     | null;
   /**
-   * Blog posts about this caravan — shown in the "Tales" tab.
+   * Blog posts about this caravan, shown in the Tales tab. Pick from your blog articles (a web link can't be pasted here; to use a new story, first add it in Blog Articles).
    */
   relatedArticles?: (number | BlogArticle)[] | null;
   /**
-   * Gallery albums from trips with this caravan — shown in the "Snaps" tab.
+   * Albums from trips with this caravan, shown in the Snaps tab. Pick from your photo albums (to use new photos, first add an album in Galleries).
    */
   snaps?: (number | Gallery)[] | null;
   highlights?:
@@ -748,11 +756,11 @@ export interface Innovation {
       }[]
     | null;
   /**
-   * Blog posts about this vehicle — shown in the "Tales" tab.
+   * Blog posts about this vehicle, shown in the Tales tab. Pick from your blog articles (a web link can't be pasted here; to use a new story, first add it in Blog Articles).
    */
   relatedArticles?: (number | BlogArticle)[] | null;
   /**
-   * Gallery albums with this vehicle — shown in the "Snaps" tab.
+   * Albums with this vehicle, shown in the Snaps tab. Pick from your photo albums (to use new photos, first add an album in Galleries).
    */
   snaps?: (number | Gallery)[] | null;
   /**
@@ -789,6 +797,20 @@ export interface Innovation {
    * e.g. "Delhi".
    */
   baseLocation?: string | null;
+  specifications?: (number | Feature)[] | null;
+  /**
+   * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
+   */
+  additionalSpecifications?: string | null;
+  featureLabels?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   inclusions?: (number | Feature)[] | null;
   /**
    * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
@@ -850,6 +872,10 @@ export interface Page {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Optional. The review form saves each review in Inbox → Customer reviews.
+   */
+  form?: 'review' | null;
   active?: boolean | null;
   meta?: {
     title?: string | null;
@@ -1032,6 +1058,30 @@ export interface Subscriber {
   createdAt: string;
 }
 /**
+ * Reviews sent from the Returning Customer Benefits page. To show one on the homepage, add it in Homepage → Reviews.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "review-submissions".
+ */
+export interface ReviewSubmission {
+  id: number;
+  name: string;
+  email: string;
+  caravan: string;
+  days?: string | null;
+  travelledTo?: string | null;
+  caravanExperience?: string | null;
+  staffExperience?: string | null;
+  chooseAgain?: ('yes' | 'maybe' | 'no') | null;
+  recommendReason: string;
+  /**
+   * Private notes — never shown on the website.
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -1124,6 +1174,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'subscribers';
         value: number | Subscriber;
+      } | null)
+    | ({
+        relationTo: 'review-submissions';
+        value: number | ReviewSubmission;
       } | null)
     | ({
         relationTo: 'features';
@@ -1361,6 +1415,9 @@ export interface InnovationsSelect<T extends boolean = true> {
   seats?: T;
   sleeps?: T;
   baseLocation?: T;
+  specifications?: T;
+  additionalSpecifications?: T;
+  featureLabels?: T;
   inclusions?: T;
   additionalInclusions?: T;
   exclusions?: T;
@@ -1438,6 +1495,7 @@ export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   body?: T;
+  form?: T;
   active?: T;
   meta?:
     | T
@@ -1523,6 +1581,24 @@ export interface EnquiriesSelect<T extends boolean = true> {
  */
 export interface SubscribersSelect<T extends boolean = true> {
   email?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "review-submissions_select".
+ */
+export interface ReviewSubmissionsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  caravan?: T;
+  days?: T;
+  travelledTo?: T;
+  caravanExperience?: T;
+  staffExperience?: T;
+  chooseAgain?: T;
+  recommendReason?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1951,9 +2027,6 @@ export interface DreamBig {
 export interface About {
   id: number;
   headline?: string | null;
-  /**
-   * The opening story / who we are.
-   */
   intro?: {
     root: {
       type: string;
@@ -1969,9 +2042,6 @@ export interface About {
     };
     [k: string]: unknown;
   } | null;
-  /**
-   * Optional photo shown beside the story.
-   */
   video?: (number | null) | Media;
   team?:
     | {

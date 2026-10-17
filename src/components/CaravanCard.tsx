@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { PhotoCard, type PhotoCardLayout } from '@/components/PhotoCard'
+import { plainText } from '@/lib/seo'
 import { relName } from '@/lib/utils'
 
 export type CaravanCardData = {
@@ -13,6 +14,7 @@ export type CaravanCardData = {
   baseLocation?: unknown
   sleeps?: string | null
   shortDescription?: string | null
+  description?: unknown
 }
 
 // A caravan as a photo card, same treatment as tours (client request; see PhotoCard).
@@ -32,7 +34,7 @@ export function CaravanCard({ caravan, layout }: { caravan: CaravanCardData; lay
       title={caravan.name}
       tag={className && `${className} class`}
       subtitle={specs.join(' · ')}
-      description={caravan.shortDescription}
+      description={caravan.shortDescription?.trim() || plainText(caravan.description, 140)}
       layout={layout}
     />
   )

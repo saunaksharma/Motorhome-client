@@ -32,7 +32,7 @@ export const Caravans: CollectionConfig = {
   defaultSort: 'sortOrder',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'class', 'driveType', 'baseLocation', 'featured', 'active'],
+    defaultColumns: ['name', 'sortOrder', 'class', 'driveType', 'baseLocation', 'featured', 'active'],
     group: 'Website Content',
     // "Preview" button in the editor opens the live page.
     preview: (doc) => `/caravans/${doc.slug}`,
@@ -151,7 +151,7 @@ export const Caravans: CollectionConfig = {
           type: 'relationship',
           relationTo: 'blog-articles',
           hasMany: true,
-          admin: { description: 'Blog posts about this caravan — shown in the "Tales" tab.' },
+          admin: { description: "Blog posts about this caravan, shown in the Tales tab. Pick from your blog articles (a web link can't be pasted here; to use a new story, first add it in Blog Articles)." },
         },
         {
           name: 'snaps',
@@ -159,7 +159,7 @@ export const Caravans: CollectionConfig = {
           type: 'relationship',
           relationTo: 'galleries',
           hasMany: true,
-          admin: { description: 'Gallery albums from trips with this caravan — shown in the "Snaps" tab.' },
+          admin: { description: "Albums from trips with this caravan, shown in the Snaps tab. Pick from your photo albums (to use new photos, first add an album in Galleries)." },
         },
       ],
     },

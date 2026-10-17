@@ -1,8 +1,8 @@
-import { RichText } from '@payloadcms/richtext-lexical/react'
 import Image from 'next/image'
 import React from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
+import { AboutSections } from '@/components/sections/AboutSections'
 import { PageBanner } from '@/components/PageBanner'
 import { SectionHeading } from '@/components/SectionHeading'
 import { getPayloadClient } from '@/lib/payload'
@@ -19,7 +19,6 @@ export default async function AboutPage() {
   const payload = await getPayloadClient()
   const about = await payload.findGlobal({ slug: 'about', depth: 1 })
 
-  const video = typeof about.video === 'object' ? about.video : null
   const team = (Array.isArray(about.team) ? about.team : []).filter((m) => m.name)
   const hiring = about.hiring
 
@@ -27,24 +26,10 @@ export default async function AboutPage() {
     <article>
       <PageBanner pageTitle="About Motorhome Adventures" title={about.headline || 'About Us'} />
 
+      {/* The whole Our Story (Homepage → Our Story; the homepage shows its first chapter). */}
+      <AboutSections />
+
       <div className="mx-auto max-w-[1100px] space-y-16 px-4 py-14">
-        {/* Story + optional intro video/photo */}
-        {(about.intro || video?.url) && (
-          <section className="grid items-center gap-8 md:grid-cols-2">
-            {video?.url && (
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-green/10">
-                <Image src={video.url} alt={video.alt ?? 'Motorhome Adventures'} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
-              </div>
-            )}
-            {about.intro && (
-              <div className={video?.url ? '' : 'md:col-span-2'}>
-                <div className="rich-text space-y-3 leading-relaxed">
-                  <RichText data={about.intro} />
-                </div>
-              </div>
-            )}
-          </section>
-        )}
 
         {/* The team */}
         {team.length > 0 && (

@@ -27,6 +27,7 @@ import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { FeatureTickList as FeatureTickList_88914839d7e6af929e57fbbe9b30e80a } from '../../../components/admin/FeatureTickList'
+import { ExportCsvButton as ExportCsvButton_2dfe7781dd7a6a92ade5b2e032cf2af4 } from '../../../components/admin/ExportCsvButton'
 import { Icon as Icon_dfe4008080d895d460898c3a6155e9ba } from '../../../components/admin/Icon'
 import { Logo as Logo_91a09b539d3c86b0aebf520e7564ce08 } from '../../../components/admin/Logo'
 import { Welcome as Welcome_72e830871eb26c77002633e2e2cc9dea } from '../../../components/admin/Welcome'
@@ -64,6 +65,7 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "/components/admin/FeatureTickList#FeatureTickList": FeatureTickList_88914839d7e6af929e57fbbe9b30e80a,
+  "/components/admin/ExportCsvButton#ExportCsvButton": ExportCsvButton_2dfe7781dd7a6a92ade5b2e032cf2af4,
   "/components/admin/Icon#Icon": Icon_dfe4008080d895d460898c3a6155e9ba,
   "/components/admin/Logo#Logo": Logo_91a09b539d3c86b0aebf520e7564ce08,
   "/components/admin/Welcome#Welcome": Welcome_72e830871eb26c77002633e2e2cc9dea,

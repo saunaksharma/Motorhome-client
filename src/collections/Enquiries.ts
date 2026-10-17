@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { notifyNewEnquiry, rejectBots } from '../hooks/formProtection'
+import { brevoPhone, csvExport, isoDate } from '../lib/csvExport'
 
 // Booking-form submissions — the old site's "Reserve Your Adventure" modal
 // (SPEC page 3) and the client's required "Customer Data" (design page 53).
@@ -15,7 +16,21 @@ export const Enquiries: CollectionConfig = {
     listSearchableFields: ['firstName', 'lastName', 'email', 'phone'],
     group: 'Inbox',
     description: 'Booking requests sent from the website forms. Update the status as you follow up.',
+    components: { beforeListTable: [{ path: '/components/admin/ExportCsvButton#ExportCsvButton', clientProps: { collection: 'enquiries' } }] },
   },
+  endpoints: [
+    csvExport('enquiries', [
+      ['EMAIL', (d) => d.email],
+      ['FIRSTNAME', (d) => d.firstName],
+      ['LASTNAME', (d) => d.lastName],
+      ['SMS', (d) => brevoPhone(d.phone)],
+      ['ENQUIRY_TYPE', (d) => d.enquiryType],
+      ['INTERESTED_IN', (d) => d.destination],
+      ['BUDGET', (d) => d.budgetRange],
+      ['STATUS', (d) => d.status],
+      ['DATE', (d) => isoDate(d.createdAt)],
+    ]),
+  ],
   access: {
     create: () => true,
   },

@@ -44,7 +44,6 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
 
   const solid = !isHome || scrolled || open
   const isActive = (link: string) => (link === '/' ? pathname === '/' : pathname.startsWith(link))
-  const [word1, ...rest] = brand.split(' ')
 
   return (
     <>
@@ -81,17 +80,16 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
                   className={cn('w-auto object-contain transition-all duration-500', solid ? 'h-11 max-[389px]:h-10 max-[359px]:h-9' : 'h-14 max-[639px]:h-12 max-[389px]:h-11 max-[359px]:h-9 lg:h-12')}
                 />
               )}
-              <span className="flex flex-col leading-none">
-                {/* Brand name in Cinzel + the old site's gold, as on the previous site. */}
-                {[word1, rest.join(' ')].map((word) => (
-                  <span
-                    key={word}
-                    className="font-brand text-[22px] font-bold uppercase tracking-wide text-brand-gold max-[389px]:text-[21px] max-[359px]:text-lg sm:text-[26px] lg:text-[22px]"
-                  >
-                    {word}
-                  </span>
-                ))}
-              </span>
+              {/* The client's gold wordmark (her brand file, 2026-10-17), the height of the two lines of
+                  text it replaces at each width. The link's label names the brand. */}
+              <Image
+                src="/brand/wordmark.webp"
+                alt=""
+                width={519}
+                height={120}
+                priority
+                className="h-11 w-auto max-[389px]:h-[42px] max-[359px]:h-9 sm:h-[52px] lg:h-11"
+              />
             </Link>
 
             {/* Desktop nav */}

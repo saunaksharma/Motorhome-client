@@ -155,6 +155,44 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-17 (day 20) — client batch: brand wordmark, Our Story, review form, Brevo export
+- **Header:** the client's gold wordmark (`public/brand/wordmark.webp`, from her MA.png, trimmed,
+  519×120, 30 KB) replaces the brand text, same heights per breakpoint. `next.config`
+  `localPatterns` now allows `/brand/**` — without it the VPS image optimizer would 400 it.
+- **Tales & Snaps** = the same Tabs as Overview / Add Ons+ (client); the "hanging" variant removed.
+- **Our Story:** 11 chapters of her text (years 1993 → Today highlighted); homepage shows chapter 1 +
+  "Read more" (StoryScroll `collapsed`; CSS hides `[data-chapter] ~ [data-chapter]`); About page
+  shows the whole story (AboutSections) + team / hiring / socials; About global `intro` + `video`
+  hidden (data kept). Chapters without a photo show the green pattern. **Photos still to come:**
+  1998 trip, 2000s garage, 2009 Bhutan monk's caravan, What We Do old caravan. 2014 = Queens photo
+  (uploaded as `mp-tourism-caravan-queens.jpg`), 2016 = Club on Wheels, Today = Ladakh cover.
+- **Returning customers:** Pages got "Form below the text" (`form: 'review'`) → `ReviewForm` →
+  new collection **Customer reviews** (`review-submissions`, Inbox, public create, admin read).
+  Blank optional answers aren't sent (an empty "choose again" select was rejected — fixed).
+  Page text: Instagram / Facebook / YouTube linked separately (footer socials).
+- **Brevo export:** `src/lib/csvExport.ts` → `/api/<collection>/export` (admin only, 401 otherwise),
+  columns EMAIL, FIRSTNAME, LASTNAME, SMS (+91 for 10-digit numbers)… UTF-8 with BOM; "Download for
+  Brevo (CSV)" button above Enquiries / Subscribers / Customer reviews (`ExportCsvButton`).
+- **Booking form:** required "I agree to the Terms & Conditions" (link, not stored).
+- **Innovations:** Specifications tick-list (editable wording, `featureLabels`) shown as tiles; her
+  6 descriptions + Google titles; included = Fuel up to 250 kms, Driver & Helper, Start up Cleaning
+  Supplies (her latest message, overriding "same as Willow"); not included in the Canva order.
+  Caravans' included / not included re-sorted to the Canva order (same items).
+- **Cards:** no card text → the first 140 characters of the full description.
+- **Admin:** Order column in Caravans / Tours / Innovations lists; Tales / Snaps notes say they're
+  pick-from-a-list (her "link wouldn't save" — likely a web address pasted there, or a non-YouTube
+  video link); tick-list hints say "this one" not "this caravan".
+- **Pages:** Dream Big = one button "Start Building Your Dream Caravan" → caravanconversion.com;
+  Collaborations: her Brevo collab link, bulleted questions removed; Cancellation: + "All
+  cancellations are subject to the Terms and Conditions" (→ /terms-and-conditions; her Drive links
+  were private search URLs).
+- **Client is editing:** she added videos to Ladakh (9), Mukteshwar (6, + Tales & Snaps) and Weekend
+  Getaway (4) today — playlist links work. Batch scripts only touch fields she didn't edit.
+- Tested on a local prod build: lint/tsc/build clean; 70 pages + links; 0 issues at 360 / 1440 px;
+  40 admin screens; review form → saved; exports CSV (logged in) / 401 (anonymous); booking form
+  blocked without T&C, then enquiry → Brevo; Read more 1 → 11; About 11 chapters. Test data removed.
+  Backup: scratchpad `backup-2026-10-17.json`.
+
 ### 2026-10-16 (day 19, cont.) — security updates + pre-launch audit
 - **next 16.3.5 → 16.3.8** (+ eslint-config-next) and **sharp 0.35.4 → 0.35.5** (patch releases).
   16.3.8 fixes the advisories that matter once we self-host: ISR cache poisoning, SSRF in image

@@ -12,7 +12,7 @@ export const Innovations: CollectionConfig = {
   defaultSort: 'sortOrder',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'category', 'active', 'featured'],
+    defaultColumns: ['name', 'sortOrder', 'category', 'active', 'featured'],
     group: 'Website Content',
     // "Preview" button in the editor opens the live page.
     preview: (doc) => `/innovations/${doc.slug}`,
@@ -45,7 +45,7 @@ export const Innovations: CollectionConfig = {
           type: 'relationship',
           relationTo: 'blog-articles',
           hasMany: true,
-          admin: { description: 'Blog posts about this vehicle — shown in the "Tales" tab.' },
+          admin: { description: "Blog posts about this vehicle, shown in the Tales tab. Pick from your blog articles (a web link can't be pasted here; to use a new story, first add it in Blog Articles)." },
         },
         {
           name: 'snaps',
@@ -53,7 +53,7 @@ export const Innovations: CollectionConfig = {
           type: 'relationship',
           relationTo: 'galleries',
           hasMany: true,
-          admin: { description: 'Gallery albums with this vehicle — shown in the "Snaps" tab.' },
+          admin: { description: "Albums with this vehicle, shown in the Snaps tab. Pick from your photo albums (to use new photos, first add an album in Galleries)." },
         },
       ],
     },
@@ -62,7 +62,11 @@ export const Innovations: CollectionConfig = {
     { name: 'seats', type: 'text', admin: { description: 'e.g. "6".' } },
     { name: 'sleeps', type: 'text', admin: { description: 'e.g. "6 people".' } },
     { name: 'baseLocation', type: 'text', admin: { description: 'e.g. "Delhi".' } },
-    // What the hire includes / doesn't (client) — the same tick-lists as caravans.
+    // Specifications + what the hire includes / doesn't (client) — the same tick-lists as caravans;
+    // a ticked specification can be re-worded for this vehicle (stored in `featureLabels`).
+    featureList('specifications', 'Specifications', 'spec', true),
+    additional('additionalSpecifications', 'Other specifications (not in the list above)', 'vehicle'),
+    { name: 'featureLabels', type: 'json', admin: { hidden: true } },
     featureList('inclusions', "What's included", 'inclusion'),
     additional('additionalInclusions', 'Other inclusions (not in the list above)', 'vehicle'),
     featureList('exclusions', 'Not included', 'exclusion'),

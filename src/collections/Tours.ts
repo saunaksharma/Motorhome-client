@@ -19,7 +19,7 @@ export const Tours: CollectionConfig = {
   defaultSort: 'sortOrder',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'durationLabel', 'location', 'featured', 'active'],
+    defaultColumns: ['name', 'sortOrder', 'durationLabel', 'location', 'featured', 'active'],
     group: 'Website Content',
     // "Preview" button in the editor opens the live page.
     preview: (doc) => `/tours/${doc.slug}`,
@@ -102,8 +102,8 @@ export const Tours: CollectionConfig = {
       admin: { description: 'Each part shows on the tour page once filled in: videos as "Moments from the Road", then the Tales & Snaps tabs.' },
       fields: [
         videosField('videos', 'tour', 'Moments from the Road'),
-        { name: 'tales', label: 'Tales (related blog article)', type: 'relationship', relationTo: 'blog-articles' },
-        { name: 'snaps', label: 'Snaps (related photo album)', type: 'relationship', relationTo: 'galleries' },
+        { name: 'tales', label: 'Tales (related blog article)', type: 'relationship', relationTo: 'blog-articles', admin: { description: "Pick from your blog articles (a web link can't be pasted here; to use a new story, first add it in Blog Articles)." } },
+        { name: 'snaps', label: 'Snaps (related photo album)', type: 'relationship', relationTo: 'galleries', admin: { description: "Pick from your photo albums (to use new photos, first add an album in Galleries)." } },
       ],
     },
 

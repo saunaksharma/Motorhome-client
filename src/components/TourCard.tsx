@@ -2,6 +2,7 @@ import { CalendarDays } from 'lucide-react'
 import React from 'react'
 
 import { PhotoCard, type PhotoCardLayout } from '@/components/PhotoCard'
+import { plainText } from '@/lib/seo'
 
 export type TourCardData = {
   id: number | string
@@ -13,6 +14,7 @@ export type TourCardData = {
   routeLabel?: string | null
   season?: string | null
   shortDescription?: string | null
+  description?: unknown
 }
 
 // A tour as a travel-magazine photo card (see PhotoCard).
@@ -32,7 +34,7 @@ export function TourCard({ tour, layout }: { tour: TourCardData; layout?: PhotoC
           </>
         )
       }
-      description={tour.shortDescription}
+      description={tour.shortDescription?.trim() || plainText(tour.description, 140)}
       layout={layout}
     />
   )

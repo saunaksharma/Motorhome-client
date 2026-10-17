@@ -10,8 +10,9 @@ export const About: GlobalConfig = {
   },
   fields: [
     { name: 'headline', type: 'text', defaultValue: 'About Us' },
-    { name: 'intro', type: 'richText', admin: { description: 'The opening story / who we are.' } },
-    { name: 'video', label: 'Photo', type: 'upload', relationTo: 'media', admin: { description: 'Optional photo shown beside the story.' } },
+    // The story itself now comes from Homepage → Our Story (shown in full here) — hidden, data kept.
+    { name: 'intro', type: 'richText', admin: { hidden: true } },
+    { name: 'video', label: 'Photo', type: 'upload', relationTo: 'media', admin: { hidden: true } },
     {
       name: 'team',
       label: 'The Team',

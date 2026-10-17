@@ -24,7 +24,7 @@ export default function HomePage() {
       <FeaturedTours />
       <FeaturedCaravans />
       <InnovationsStrip />
-      <AboutSections />
+      <AboutSections preview />
       <TipsAccordion />
       <Footprint />
       <DreamBigCta />

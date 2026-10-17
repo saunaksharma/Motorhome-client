@@ -6,10 +6,10 @@ import { cn } from '@/lib/utils'
 
 import { Honeypot } from './Honeypot'
 
-const inputClass = 'w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm'
+export const inputClass = 'w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm'
 
 // One labelled field wrapper.
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+export function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <label className="flex flex-col gap-1 text-sm">
       <span className="font-heading uppercase tracking-wide text-green">
@@ -184,6 +184,18 @@ export function BookingForm({ choices, bookingLink }: { choices: EnquiryChoices;
           </select>
         </Field>
       </div>
+
+      {/* Client: the Terms & Conditions with the form. Checked by the browser; nothing is stored. */}
+      <label className="flex items-start gap-3 text-sm text-green sm:col-span-2">
+        <input type="checkbox" required className="mt-0.5 size-4 shrink-0 accent-green" />
+        <span>
+          I agree to the{' '}
+          <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-gold">
+            Terms &amp; Conditions
+          </a>
+          .
+        </span>
+      </label>
 
       {error && (
         <p className="text-sm text-destructive sm:col-span-2" role="status">
