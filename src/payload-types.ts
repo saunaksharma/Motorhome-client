@@ -873,7 +873,7 @@ export interface Page {
     [k: string]: unknown;
   } | null;
   /**
-   * Optional. The review form saves each review in Inbox → Customer reviews.
+   * Optional. Opens the Google review link from Site Settings → Business Details.
    */
   form?: 'review' | null;
   active?: boolean | null;
@@ -1058,8 +1058,6 @@ export interface Subscriber {
   createdAt: string;
 }
 /**
- * Reviews sent from the Returning Customer Benefits page. To show one on the homepage, add it in Homepage → Reviews.
- *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "review-submissions".
  */
@@ -1762,6 +1760,10 @@ export interface Business {
    * After someone sends the booking form (from any "Book Your Call" button), the enquiry is saved and they are taken here to pick a time, e.g. the Brevo "Lets Get Caravanning" page. Leave empty to just show a thank-you message.
    */
   callBookingLink?: string | null;
+  /**
+   * Where "Share Your Experience" takes customers to review you on Google. In your Google Business Profile, click "Ask for reviews" and copy the link (it looks like https://g.page/r/…/review). Leave empty to hide the button.
+   */
+  googleReviewLink?: string | null;
   mapUrl?: string | null;
   /**
    * e.g. "Mon–Sat, 10am–7pm".
@@ -2120,6 +2122,7 @@ export interface BusinessSelect<T extends boolean = true> {
   email?: T;
   address?: T;
   callBookingLink?: T;
+  googleReviewLink?: T;
   mapUrl?: T;
   hours?: T;
   enquiryNotifyEmail?: T;

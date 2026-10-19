@@ -24,10 +24,11 @@ export const Pages: CollectionConfig = {
     { name: 'body', type: 'richText' },
     {
       name: 'form',
-      label: 'Form below the text',
+      label: 'Button below the text',
       type: 'select',
-      options: [{ label: 'Customer review form (Returning Customer Benefits)', value: 'review' }],
-      admin: { description: 'Optional. The review form saves each review in Inbox → Customer reviews.' },
+      // Was a review form; the client now takes reviews on Google only (value kept, so saved pages still work).
+      options: [{ label: '"Write a review on Google" (Returning Customer Benefits)', value: 'review' }],
+      admin: { description: 'Optional. Opens the Google review link from Site Settings → Business Details.' },
     },
     { name: 'active', type: 'checkbox', defaultValue: true },
   ],

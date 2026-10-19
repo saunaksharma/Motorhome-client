@@ -32,6 +32,16 @@ export const BusinessDetails: GlobalConfig = {
           'After someone sends the booking form (from any "Book Your Call" button), the enquiry is saved and they are taken here to pick a time, e.g. the Brevo "Lets Get Caravanning" page. Leave empty to just show a thank-you message.',
       },
     },
+    {
+      name: 'googleReviewLink',
+      label: 'Google review link',
+      type: 'text',
+      validate: (value: unknown) => !value || /^https:\/\/\S+$/.test(String(value).trim()) || 'Paste the full link, starting with https://',
+      admin: {
+        description:
+          'Where "Share Your Experience" takes customers to review you on Google. In your Google Business Profile, click "Ask for reviews" and copy the link (it looks like https://g.page/r/…/review). Leave empty to hide the button.',
+      },
+    },
     // Not shown anywhere (client: no "Book your visit" on the site) — hidden, data kept.
     { name: 'mapUrl', label: 'Book an HQ visit link', type: 'text', admin: { hidden: true } },
     { name: 'hours', label: 'Opening hours', type: 'text', admin: { description: 'e.g. "Mon–Sat, 10am–7pm".' } },

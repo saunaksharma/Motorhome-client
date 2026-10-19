@@ -155,6 +155,22 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-19 (day 22) — Our Story text fixed; reviews go to Google
+- **Our Story bug (live since 6ea61f2):** the Read-more CSS rule was pasted *inside* the
+  `.story-copy, .story-node::after, .story-photo { transition }` selector list, so `display:none`
+  hit every chapter's text + timeline dot (live About: 0 of 11 chapters with text). Rule moved out;
+  now home 1 → 11 after Read more, About 11/11, at 390 and 1440 px.
+- **Share Your Experience → Google only (client):** new Business Details → **Google review link**
+  (`googleReviewLink`, https:// only). Homepage button opens it in a new tab and is **hidden while
+  empty**. Returning Customer Benefits: Pages' `form: 'review'` now means a "Write a review on
+  Google" button (label "Button below the text"; value kept); page text now says "on Google using
+  the button below". **Waiting on the client's link** (GBP → "Ask for reviews", g.page/r/…/review).
+- **Review form retired:** `ReviewForm` deleted; `review-submissions` hidden + no public create (403),
+  table kept (0 reviews ever); its export endpoint removed; BookingForm's `Field`/`inputClass`
+  private again.
+- Tested on a local prod build: lint/tsc/build clean; 38 admin screens; Google link validation
+  rejects a non-link without saving; crawl + every page at 390 / 1440 px.
+
 ### 2026-10-17 (day 20) — client batch: brand wordmark, Our Story, review form, Brevo export
 - **Header:** the client's gold wordmark (`public/brand/wordmark.webp`, from her MA.png, trimmed,
   519×120, 30 KB) replaces the brand text, same heights per breakpoint. `next.config`

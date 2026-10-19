@@ -413,12 +413,12 @@ html {
   background: var(--color-gold);
   box-shadow: 0 0 12px 3px rgb(201 162 62 / 0.55);
 }
-.story-copy,
-.story-node::after,
 /* Homepage "Read more": only the first chapter until it's opened (StoryScroll `collapsed`). */
 .story-scroll[data-collapsed] [data-chapter] ~ [data-chapter] {
   display: none;
 }
+.story-copy,
+.story-node::after,
 .story-photo {
   transition:
     opacity 0.6s ease,

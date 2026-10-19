@@ -1,11 +1,8 @@
 import type { CollectionConfig } from 'payload'
 
-import { rejectBots } from '../hooks/formProtection'
-import { csvExport, isoDate } from '../lib/csvExport'
-
-// Reviews sent by returning customers from the website (client: Returning Customer Benefits page,
-// in her review format). Private: anyone can send one, only the admin can read them. To show one
-// on the homepage, copy it into Homepage → Reviews.
+// RETIRED: the website's own review form (client: reviews go to their Google Business Profile
+// instead — Business Details → Google review link). Hidden and closed to visitors; the table is
+// kept so nothing is dropped (it never received a review).
 export const ReviewSubmissions: CollectionConfig = {
   slug: 'review-submissions',
   labels: { singular: 'Customer review', plural: 'Customer reviews' },
@@ -15,23 +12,8 @@ export const ReviewSubmissions: CollectionConfig = {
     defaultColumns: ['name', 'caravan', 'travelledTo', 'chooseAgain', 'createdAt'],
     listSearchableFields: ['name', 'email', 'caravan'],
     group: 'Inbox',
-    description: 'Reviews sent from the Returning Customer Benefits page. To show one on the homepage, add it in Homepage → Reviews.',
-    components: { beforeListTable: [{ path: '/components/admin/ExportCsvButton#ExportCsvButton', clientProps: { collection: 'review-submissions' } }] },
+    hidden: true,
   },
-  access: {
-    create: () => true,
-  },
-  hooks: {
-    beforeOperation: [rejectBots],
-  },
-  endpoints: [
-    csvExport('review-submissions', [
-      ['EMAIL', (d) => d.email],
-      ['FIRSTNAME', (d) => d.name],
-      ['CARAVAN', (d) => d.caravan],
-      ['DATE', (d) => isoDate(d.createdAt)],
-    ]),
-  ],
   fields: [
     { name: 'name', label: 'Name', type: 'text', required: true },
     { name: 'email', type: 'email', required: true },

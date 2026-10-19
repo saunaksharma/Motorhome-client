@@ -16,6 +16,8 @@ export async function ReviewsCarousel() {
   })
 
   if (docs.length === 0) return null
+  // Client: "Share Your Experience" = a review on their Google Business Profile (Business Details).
+  const googleReviewLink = (await payload.findGlobal({ slug: 'business', depth: 0 })).googleReviewLink?.trim()
 
   const reviews: Review[] = docs.map((r) => ({
     reviewerName: r.reviewerName,
@@ -31,10 +33,12 @@ export async function ReviewsCarousel() {
       <div className="mt-10">
         <ReviewsCarouselClient reviews={reviews} />
       </div>
-      <div className="mt-10 text-center">
-        <p className="mb-4 font-heading text-lg text-green">We&apos;d love to hear about your motorhome adventure!</p>
-        <CtaButton href="/returning-customer-benefits" label="Share Your Experience" />
-      </div>
+      {googleReviewLink && (
+        <div className="mt-10 text-center">
+          <p className="mb-4 font-heading text-lg text-green">We&apos;d love to hear about your motorhome adventure!</p>
+          <CtaButton href={googleReviewLink} label="Share Your Experience" />
+        </div>
+      )}
     </section>
   )
 }
