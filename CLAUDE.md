@@ -170,6 +170,14 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   private again.
 - Tested on a local prod build: lint/tsc/build clean; 38 admin screens; Google link validation
   rejects a non-link without saving; crawl + every page at 390 / 1440 px.
+- **Google link set:** the main listing (4.3★, 37 reviews, E-210 Kewalkunj, Rohini; website
+  motorhome.co.in) → `https://search.google.com/local/writereview?placeid=ChIJAQAAQGkBDTkRylgNZrSB7to`.
+  Place ID built from the Maps link's `0x390d016940000001:0xdaee81b4660d58ca` and checked: it opens
+  that same listing. (Two other "Motorhome Adventures" listings exist: 5.0★ (8) RV dealer at the
+  Khevat no. 515 garage and 3.8★ (9) — not used.)
+- **Add-ons = Willow's for everything (client):** all caravans + innovations now have Willow's 14
+  add-ons (same order). Innovations got `addOns` + `additionalAddOns` and the same Overview /
+  Add Ons+ tabs as the caravan pages. Backup: scratchpad `backup-addons-2026-10-19.json`.
 
 ### 2026-10-17 (day 20) — client batch: brand wordmark, Our Story, review form, Brevo export
 - **Header:** the client's gold wordmark (`public/brand/wordmark.webp`, from her MA.png, trimmed,

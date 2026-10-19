@@ -71,6 +71,9 @@ export const Innovations: CollectionConfig = {
     additional('additionalInclusions', 'Other inclusions (not in the list above)', 'vehicle'),
     featureList('exclusions', 'Not included', 'exclusion'),
     additional('additionalExclusions', 'Other exclusions (not in the list above)', 'vehicle'),
+    // Optional extras (client: the same as the caravans') — the "Add Ons+" tab, shown only when one is set.
+    featureList('addOns', 'Add-ons', 'add-on'),
+    additional('additionalAddOns', 'Other add-ons (not in the list above)', 'vehicle'),
     ...listingMetaWithFeatured,
   ],
 }

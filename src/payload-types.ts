@@ -821,6 +821,11 @@ export interface Innovation {
    * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
    */
   additionalExclusions?: string | null;
+  addOns?: (number | Feature)[] | null;
+  /**
+   * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
+   */
+  additionalAddOns?: string | null;
   /**
    * Lower numbers show first (1, 2, 3…).
    */
@@ -1420,6 +1425,8 @@ export interface InnovationsSelect<T extends boolean = true> {
   additionalInclusions?: T;
   exclusions?: T;
   additionalExclusions?: T;
+  addOns?: T;
+  additionalAddOns?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;

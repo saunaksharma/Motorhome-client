@@ -7,6 +7,7 @@ import { IconFeatureList } from '@/components/IconFeatureList'
 import { VideoShowcase } from '@/components/VideoShowcase'
 import { DetailHero } from '@/components/DetailHero'
 import { PhotoGallery } from '@/components/PhotoGallery'
+import { Tabs } from '@/components/Tabs'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { getPayloadClient } from '@/lib/payload'
 import { slugParams } from '@/lib/staticParams'
@@ -45,6 +46,28 @@ export default async function InnovationDetailPage({ params }: { params: Params 
   // to the booking calendar (Business Details → Book Your Call link).
   const enquire = `/contact?type=innovation&destination=${encodeURIComponent(item.name)}`
 
+  // Overview / Add Ons+ tabs, as on the caravan pages (client: same as Willow).
+  const overview = (
+    <div>
+      <IconFeatureList title="Specifications" variant="tiles" features={item.specifications} extra={item.additionalSpecifications} labels={item.featureLabels} />
+      <IconFeatureList title="What's included" features={item.inclusions} extra={item.additionalInclusions} />
+      <IconFeatureList title="Not included" features={item.exclusions} extra={item.additionalExclusions} faded />
+    </div>
+  )
+  const addOns = (
+    <div>
+      <IconFeatureList title="Add-ons" variant="tiles" features={item.addOns} extra={item.additionalAddOns} />
+      <p className="mt-2 font-display text-lg text-green">
+        Please mention the add-on&apos;s you require at the time of booking
+      </p>
+    </div>
+  )
+  const hasAddOns = (Array.isArray(item.addOns) && item.addOns.length > 0) || Boolean(item.additionalAddOns)
+  const tabs = [
+    { label: 'Overview', content: overview },
+    ...(hasAddOns ? [{ label: 'Add Ons+', content: addOns }] : []),
+  ]
+
   return (
     <article>
       <DetailHero
@@ -70,9 +93,7 @@ export default async function InnovationDetailPage({ params }: { params: Params 
         </div>
 
         <div className="mx-auto mt-12 max-w-[760px]">
-          <IconFeatureList title="Specifications" variant="tiles" features={item.specifications} extra={item.additionalSpecifications} labels={item.featureLabels} />
-          <IconFeatureList title="What's included" features={item.inclusions} extra={item.additionalInclusions} />
-          <IconFeatureList title="Not included" features={item.exclusions} extra={item.additionalExclusions} faded />
+          <Tabs tabs={tabs} />
         </div>
 
         <PhotoGallery cover={item.heroImage} gallery={item.gallery} />
