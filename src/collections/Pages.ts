@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
+import { faqsField } from '../fields/faqs'
 import { slugField } from '../fields/slugField'
 
 // Generic content pages the client can create unlimited of — Terms, Privacy, FAQ,
@@ -21,7 +22,14 @@ export const Pages: CollectionConfig = {
   fields: [
     { name: 'title', type: 'text', required: true },
     slugField('title'),
+    {
+      name: 'showTips',
+      label: 'Show the Tips first',
+      type: 'checkbox',
+      admin: { description: 'Shows your Tips (Homepage → Tips) at the top of this page, before the text — used by the Tips & FAQs page.' },
+    },
     { name: 'body', type: 'richText' },
+    faqsField('under the text, each answer opening on click (e.g. the Tips & FAQs page)'),
     {
       name: 'form',
       label: 'Button below the text',

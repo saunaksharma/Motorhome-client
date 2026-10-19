@@ -721,15 +721,14 @@ export interface Feature {
  */
 export interface Innovation {
   id: number;
+  /**
+   * The vehicle's name, e.g. "Vanity Van".
+   */
   name: string;
   /**
    * Filled in automatically from the name — leave it empty. Changing it later breaks old links to this page.
    */
   slug: string;
-  /**
-   * Badge, e.g. "Gaming", "Beauty".
-   */
-  category?: string | null;
   heroImage?: (number | null) | Media;
   gallery?:
     | {
@@ -756,19 +755,11 @@ export interface Innovation {
       }[]
     | null;
   /**
-   * Blog posts about this vehicle, shown in the Tales tab. Pick from your blog articles (a web link can't be pasted here; to use a new story, first add it in Blog Articles).
-   */
-  relatedArticles?: (number | BlogArticle)[] | null;
-  /**
-   * Albums with this vehicle, shown in the Snaps tab. Pick from your photo albums (to use new photos, first add an album in Galleries).
-   */
-  snaps?: (number | Gallery)[] | null;
-  /**
-   * One or two lines shown on the vehicle card.
+   * One or two lines — shown on the vehicle's card in listings, and in the scroll reel on its page.
    */
   shortDescription?: string | null;
   /**
-   * The text on the vehicle page.
+   * The full text under the photo on the vehicle's page.
    */
   description?: {
     root: {
@@ -786,15 +777,19 @@ export interface Innovation {
     [k: string]: unknown;
   } | null;
   /**
-   * e.g. "6".
+   * Shown on the card and above the name, e.g. "Gaming", "Beauty".
+   */
+  category?: string | null;
+  /**
+   * Shown as "Seats", e.g. "6".
    */
   seats?: string | null;
   /**
-   * e.g. "6 people".
+   * Shown as "Sleeps", e.g. "6 people".
    */
   sleeps?: string | null;
   /**
-   * e.g. "Delhi".
+   * Shown as "Based in", e.g. "Delhi".
    */
   baseLocation?: string | null;
   specifications?: (number | Feature)[] | null;
@@ -802,15 +797,11 @@ export interface Innovation {
    * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
    */
   additionalSpecifications?: string | null;
-  featureLabels?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  uniqueFeatures?: (number | Feature)[] | null;
+  /**
+   * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
+   */
+  additionalUniqueFeatures?: string | null;
   inclusions?: (number | Feature)[] | null;
   /**
    * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
@@ -826,6 +817,33 @@ export interface Innovation {
    * Only for something this vehicle has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.
    */
   additionalAddOns?: string | null;
+  featureLabels?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Questions & answers shown near the bottom of the vehicle's page.
+   */
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Blog posts about this vehicle, shown in the Tales tab. Pick from your blog articles (a web link can't be pasted here; to use a new story, first add it in Blog Articles).
+   */
+  relatedArticles?: (number | BlogArticle)[] | null;
+  /**
+   * Albums with this vehicle, shown in the Snaps tab. Pick from your photo albums (to use new photos, first add an album in Galleries).
+   */
+  snaps?: (number | Gallery)[] | null;
   /**
    * Lower numbers show first (1, 2, 3…).
    */
@@ -862,6 +880,10 @@ export interface Page {
    * Filled in automatically from the name — leave it empty. Changing it later breaks old links to this page.
    */
   slug: string;
+  /**
+   * Shows your Tips (Homepage → Tips) at the top of this page, before the text — used by the Tips & FAQs page.
+   */
+  showTips?: boolean | null;
   body?: {
     root: {
       type: string;
@@ -877,6 +899,16 @@ export interface Page {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Questions & answers shown under the text, each answer opening on click (e.g. the Tips & FAQs page).
+   */
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Optional. Opens the Google review link from Site Settings → Business Details.
    */
@@ -1394,7 +1426,6 @@ export interface CaravansSelect<T extends boolean = true> {
 export interface InnovationsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
-  category?: T;
   heroImage?: T;
   gallery?:
     | T
@@ -1411,22 +1442,32 @@ export interface InnovationsSelect<T extends boolean = true> {
         isShort?: T;
         id?: T;
       };
-  relatedArticles?: T;
-  snaps?: T;
   shortDescription?: T;
   description?: T;
+  category?: T;
   seats?: T;
   sleeps?: T;
   baseLocation?: T;
   specifications?: T;
   additionalSpecifications?: T;
-  featureLabels?: T;
+  uniqueFeatures?: T;
+  additionalUniqueFeatures?: T;
   inclusions?: T;
   additionalInclusions?: T;
   exclusions?: T;
   additionalExclusions?: T;
   addOns?: T;
   additionalAddOns?: T;
+  featureLabels?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  relatedArticles?: T;
+  snaps?: T;
   sortOrder?: T;
   featured?: T;
   active?: T;
@@ -1499,7 +1540,15 @@ export interface GalleriesSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  showTips?: T;
   body?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
   form?: T;
   active?: T;
   meta?:
@@ -1789,6 +1838,9 @@ export interface Business {
  */
 export interface Header {
   id: number;
+  /**
+   * The emblem beside "Motorhome Adventures" in the top bar. Upload it cropped close to the emblem (no empty space around it), as a PNG with a see-through background.
+   */
   logo?: (number | null) | Media;
   navItems?:
     | {

@@ -459,6 +459,83 @@ html {
   }
 }
 
+/* Innovation pages' showroom coverflow (InnovationReel). The card size fits the screen's height
+   too, so title, photo and button share one screen on short laptops; phones get narrower cards so
+   the turned neighbours peek in. Without JS (no data-ready) it is a swipeable row; once ready the
+   stage pins and JS moves the track, turns the cards and picks the backdrop's glow. */
+.reel {
+  --reel-card: min(74vw, 600px, calc((100svh - 400px) * 4 / 3));
+}
+@media (min-width: 640px) {
+  .reel {
+    --reel-card: min(56vw, 600px, calc((100svh - 480px) * 4 / 3));
+  }
+}
+.reel-card {
+  width: var(--reel-card);
+  box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.85);
+  /* Glossy showroom floor: a faint reflection of the bottom of each photo (Chrome / Safari). */
+  -webkit-box-reflect: below 10px linear-gradient(transparent 78%, rgb(255 255 255 / 0.16));
+}
+.reel-track {
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding-inline: calc((100% - var(--reel-card)) / 2);
+  padding-bottom: calc(var(--reel-card) * 0.08); /* room for the reflection */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.reel-track > * {
+  scroll-snap-align: center;
+}
+.reel-name {
+  transform: translate3d(-50%, -50%, 0);
+  font-size: clamp(4rem, 12vw, 11rem);
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(201 162 62 / 0.32);
+}
+/* Backdrop glow: each photo blurred once (a static filter per layer), only its opacity changes. */
+.reel-glow {
+  transform: scale(1.25);
+}
+.reel-glow > * {
+  opacity: 0;
+  filter: blur(80px) saturate(1.5);
+  will-change: opacity;
+}
+.reel-glow > :first-child {
+  opacity: 1;
+}
+.reel-vignette {
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 45%, rgb(10 14 13 / 0.35), rgb(10 14 13 / 0.92) 75%),
+    linear-gradient(to bottom, rgb(10 14 13 / 0.6), transparent 25%, transparent 75%, rgb(10 14 13 / 0.85));
+}
+.reel[data-ready] .reel-stage {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100svh;
+  align-items: center;
+}
+.reel[data-ready] .reel-content {
+  width: 100%;
+  padding-top: 5.5rem; /* clear of the floating header */
+}
+/* Photos melt into the dark at the screen edges instead of being cut off. */
+.reel[data-ready] .reel-window {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+}
+.reel[data-ready] .reel-track {
+  overflow: visible;
+  scroll-snap-type: none;
+  will-change: transform;
+}
+.reel[data-ready] .reel-card {
+  will-change: transform;
+}
+
 /* Hero headline entrance, replayed on each slide change (keyed in React). */
 @keyframes rise-in {
   from {

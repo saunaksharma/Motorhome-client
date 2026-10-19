@@ -2,18 +2,11 @@ import type { CollectionConfig, Field } from 'payload'
 
 import { listingMetaWithFeatured } from '../fields/listingMeta'
 import { slugField } from '../fields/slugField'
-import { additional, featureList } from '../fields/featureList'
+import { faqsField } from '../fields/faqs'
+import { additional, featureList, featureSection } from '../fields/featureList'
 import { videosField } from '../fields/videoList'
 
 // --- small local helpers so each section reads as one line ---
-
-// One feature section in the editor: its tick-list + its "other" box, with a plain-English note.
-const featureSection = (label: string, description: string, fields: Field[]): Field => ({
-  type: 'collapsible',
-  label,
-  admin: { initCollapsed: true, description },
-  fields,
-})
 
 // Kept in the database but not shown on the website — hidden so the editor stays simple.
 const unused = (field: Field): Field => ({ ...field, admin: { ...(field.admin ?? {}), hidden: true } }) as Field
@@ -133,17 +126,7 @@ export const Caravans: CollectionConfig = {
           'Leave empty to hide. Each part only appears on the page when filled in.',
       },
       fields: [
-        {
-          name: 'faqs',
-          label: "FAQ's",
-          type: 'array',
-          labels: { singular: 'FAQ', plural: 'FAQs' },
-          admin: { description: 'Questions & answers shown near the bottom of the caravan\'s page.' },
-          fields: [
-            { name: 'question', type: 'text', required: true },
-            { name: 'answer', type: 'textarea', required: true },
-          ],
-        },
+        faqsField("near the bottom of the caravan's page"),
         // "Tales & Snaps" (2022 brief): stories + photo albums from trips with this caravan.
         {
           name: 'relatedArticles',

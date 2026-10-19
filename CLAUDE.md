@@ -155,6 +155,35 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-19 (day 22, evening) — innovations = caravans (with their own scroll reel), header, Tips & FAQs
+- **Innovation pages laid out like caravan pages:** hero → description → scroll moment → Overview /
+  Add Ons+ tabs (Specifications, **Unique features** (new), included, not included) → #photos →
+  videos → Tales & Snaps → **FAQs** (new, + FAQPage JSON-LD) → closing CTA. The card text no longer
+  sits as a heading above the description (client's "double text"); it's in the reel.
+- **InnovationReel** (`components/InnovationReel.tsx`, `.reel*` CSS): the innovations' own scroll
+  moment (caravans keep ZoomCollage). Pinned "showroom coverflow": photos (cover + gallery, max 8,
+  needs ≥3 — Lounger has 1) glide right→left, centre one flat/bright, neighbours rotateY ±32° /
+  scale / dim, faint `-webkit-box-reflect` floor, edge mask, ambient blurred backdrop of the centre
+  photo (sm+ only — iOS blur flicker), outline name parallax, gold progress line. JS rAF,
+  transforms/opacity only; no JS / reduced motion → swipeable snap row. Card size also fits the
+  screen height (fits 1366×768 → 1920×1080, tablet, phone).
+- **Innovation admin = the caravan editor's sections** (Photos, Videos, Description & quick facts,
+  5 Features sections, Extras: FAQs / Tales / Snaps) — layout only. Shared `faqsField(where)`
+  (fields/faqs.ts) and `featureSection` (fields/featureList.ts); `faqJsonLd` in CaravanFaqs.
+- **Header:** the emblem file had ~22% empty margin each side (→ a ~28px gap). Cropped copy
+  `logo-emblem.png` (909×499, media 415, alpha-trimmed, nothing visible lost) set as Header → Logo;
+  SiteHeader heights ×0.706 so the emblem's size is unchanged; gap now 6px; real width/height passed.
+- **Tours' white line:** "Sun, Sand & Sea" covers (media 141 + 13, same image) had a 4px white strip
+  baked into the file → cropped to 1600×896 and replaced in place (alt + focus kept).
+- **Tips & FAQs (client: one footer link, Tips then FAQs):** Pages got `showTips` ("Show the Tips
+  first") + `faqs`; the FAQ page (/faq) → title "Tips & FAQs", Tips panel first, its 4 "Q — A"
+  paragraphs moved into FAQ items; footer Tips + FAQ → one "Tips & FAQs" → /faq. Backups:
+  scratchpad `backup-switch-2026-10-19.json`.
+- **Client's add-ons edits:** after Willow's 14 were copied to all, Sam's saves (19:30–20:35 IST)
+  left Willow, Kástro, Club on Wheels, Food Fusion, Election Express, Arcade with 0. Tested: an admin
+  save keeps add-ons (also with the section closed) → her own unticks; not overridden — ask her.
+- Test notes: local admin saves need port 3000 (CSRF allows SERVER_URL only → 403 on 3100).
+
 ### 2026-10-19 (day 22) — Our Story text fixed; reviews go to Google
 - **Our Story bug (live since 6ea61f2):** the Read-more CSS rule was pasted *inside* the
   `.story-copy, .story-node::after, .story-photo { transition }` selector list, so `display:none`

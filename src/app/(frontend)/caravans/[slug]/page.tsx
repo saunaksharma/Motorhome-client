@@ -8,7 +8,7 @@ import { DetailHero } from '@/components/DetailHero'
 import { IconFeatureList } from '@/components/IconFeatureList'
 import { JsonLd } from '@/components/JsonLd'
 import { PhotoGallery } from '@/components/PhotoGallery'
-import { CaravanFaqs } from '@/components/CaravanFaqs'
+import { CaravanFaqs, faqJsonLd } from '@/components/CaravanFaqs'
 import { Tabs } from '@/components/Tabs'
 import { TalesAndSnaps } from '@/components/TalesAndSnaps'
 import { ZoomCollage } from '@/components/ZoomCollage'
@@ -82,15 +82,6 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
   // Search engines: the FAQ answers shown on this page (only when there are some).
   const faqs = Array.isArray(caravan.faqs) ? caravan.faqs : []
-  const faqLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-    })),
-  }
 
   // "Book Your Call" opens the booking form locked to this caravan; once it's sent, the visitor goes on
   // to the booking calendar (Business Details → Book Your Call link).
@@ -98,7 +89,7 @@ export default async function CaravanDetailPage({ params }: { params: Params }) 
 
   return (
     <article>
-      {faqs.length > 0 && <JsonLd data={faqLd} />}
+      {faqs.length > 0 && <JsonLd data={faqJsonLd(faqs)} />}
       <DetailHero
         image={caravan.heroImage}
         eyebrow={className ? `${className} class` : undefined}

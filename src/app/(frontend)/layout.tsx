@@ -76,7 +76,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const nav = (header?.navItems?.length ? header.navItems : FALLBACK_NAV).map(
     (i: { label: string; link?: string | null }) => ({ label: i.label, link: i.link || '/' }),
   )
-  const headerLogo = typeof header?.logo === 'object' && header.logo ? header.logo.url : null
+  // The emblem's own size, so the header reserves the right width before it loads.
+  const headerLogo =
+    typeof header?.logo === 'object' && header.logo?.url
+      ? { url: header.logo.url, width: header.logo.width ?? 909, height: header.logo.height ?? 499 }
+      : null
 
   // Tells Google this is a travel business and how to reach it (structured data).
   // Built only from details filled in the admin; empty ones are left out.
@@ -104,7 +108,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           Skip to content
         </a>
         <JsonLd data={jsonLd} />
-        <SiteHeader brand="MOTORHOME ADVENTURES" logoUrl={headerLogo} nav={nav} />
+        <SiteHeader brand="MOTORHOME ADVENTURES" logo={headerLogo} nav={nav} />
         <main id="main">{children}</main>
         <SiteFooter data={footer} />
         <WhatsAppButton number={business?.whatsapp} />

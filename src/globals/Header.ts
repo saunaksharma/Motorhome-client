@@ -10,7 +10,12 @@ export const Header: GlobalConfig = {
     read: () => true,
   },
   fields: [
-    { name: 'logo', type: 'upload', relationTo: 'media' },
+    {
+      name: 'logo',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { description: 'The emblem beside "Motorhome Adventures" in the top bar. Upload it cropped close to the emblem (no empty space around it), as a PNG with a see-through background.' },
+    },
     {
       name: 'navItems',
       type: 'array',

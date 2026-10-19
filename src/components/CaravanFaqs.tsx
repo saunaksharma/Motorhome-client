@@ -4,7 +4,14 @@ import { SectionHeading } from '@/components/SectionHeading'
 
 export type Faq = { question?: string | null; answer?: string | null }
 
-// FAQs near the foot of a caravan page (related articles live in "Tales & Snaps"). Native
+// Google's FAQ data for a page's FAQs (rendered with JsonLd only when there are some).
+export const faqJsonLd = (faqs: Faq[]) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })),
+})
+
+// FAQs near the foot of a caravan or innovation page (related articles live in "Tales & Snaps"). Native
 // <details> = accordion with no JS. The caravan's own "Watch it in action" videos were removed
 // (client): that title now heads the shared video row (VideoShowcase) above this.
 export function CaravanFaqs({ faqs = [] }: { faqs?: Faq[] }) {

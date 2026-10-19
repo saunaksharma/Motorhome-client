@@ -35,3 +35,11 @@ export const additional = (name: string, label: string, what = 'caravan'): Field
       `Only for something this ${what} has that is NOT in the tick-list above. Separate items with commas (e.g. "Solar panel, Roof deck"). Each one appears on the website just like a ticked item.`,
   },
 })
+
+// One feature section in the editor: its tick-list + its "other" box, with a plain-English note.
+export const featureSection = (label: string, description: string, fields: Field[]): Field => ({
+  type: 'collapsible',
+  label,
+  admin: { initCollapsed: true, description },
+  fields,
+})

@@ -13,7 +13,7 @@ type NavItem = { label: string; link: string }
 // Floating glass navbar (after 21st.dev's "resizable navbar" pattern). On the
 // homepage it starts see-through over the hero photo and turns solid on scroll;
 // elsewhere it's solid, with a spacer so page content starts below it.
-export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: string | null; nav: NavItem[] }) {
+export function SiteHeader({ brand, logo, nav }: { brand: string; logo?: { url: string; width: number; height: number } | null; nav: NavItem[] }) {
   const pathname = usePathname()
   const isHome = pathname === '/'
   const [open, setOpen] = useState(false)
@@ -68,16 +68,21 @@ export function SiteHeader({ brand, logoUrl, nav }: { brand: string; logoUrl?: s
         >
           <div className={cn('flex items-center justify-between gap-4 px-4 transition-all duration-500 max-[389px]:gap-2 max-[359px]:px-3', solid ? 'h-16' : 'h-20')}>
             {/* Logo lockup (a touch smaller below 390px wide, where it didn't fit beside the menu). */}
-            {/* Client: both words the same size, emblem + words close; whole logo a little bigger (2026-10-06). */}
+            {/* Client: both words the same size, emblem + words close; whole logo a little bigger (2026-10-06).
+                Emblem + wordmark closer still (2026-10-19): the emblem file is cropped to the emblem itself
+                (Header → Logo), so these heights are the emblem's own — same size on screen as before. */}
             <Link href="/" className="flex shrink-0 items-center gap-1.5" aria-label={`${brand} — home`}>
-              {logoUrl && (
+              {logo && (
                 <Image
-                  src={logoUrl}
+                  src={logo.url}
                   alt=""
-                  width={148}
-                  height={80}
+                  width={logo.width}
+                  height={logo.height}
                   priority
-                  className={cn('w-auto object-contain transition-all duration-500', solid ? 'h-11 max-[389px]:h-10 max-[359px]:h-9' : 'h-14 max-[639px]:h-12 max-[389px]:h-11 max-[359px]:h-9 lg:h-12')}
+                  className={cn(
+                    'w-auto object-contain transition-all duration-500',
+                    solid ? 'h-[31px] max-[389px]:h-7 max-[359px]:h-[25px]' : 'h-10 max-[639px]:h-[34px] max-[389px]:h-[31px] max-[359px]:h-[25px] lg:h-[34px]',
+                  )}
                 />
               )}
               {/* The client's gold wordmark (her brand file, 2026-10-17), the height of the two lines of
