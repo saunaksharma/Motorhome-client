@@ -119,7 +119,7 @@ export const Caravans: CollectionConfig = {
 
     {
       type: 'collapsible',
-      label: 'Extras (optional)',
+      label: 'Extras — FAQs, Tales & Snaps',
       admin: {
         initCollapsed: true,
         description:

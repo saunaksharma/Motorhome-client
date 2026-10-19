@@ -183,6 +183,8 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   left Willow, Kástro, Club on Wheels, Food Fusion, Election Express, Arcade with 0. Tested: an admin
   save keeps add-ons (also with the section closed) → her own unticks; not overridden — ask her.
 - Test notes: local admin saves need port 3000 (CSRF allows SERVER_URL only → 403 on 3100).
+- Editor section "Extras (optional)" renamed **"Extras — FAQs, Tales & Snaps"** (caravans + innovations): the user
+  couldn't find Tales / Snaps / Add-ons — they were inside closed sections (label only).
 
 ### 2026-10-19 (day 22) — Our Story text fixed; reviews go to Google
 - **Our Story bug (live since 6ea61f2):** the Read-more CSS rule was pasted *inside* the

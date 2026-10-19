@@ -97,7 +97,7 @@ export const Innovations: CollectionConfig = {
 
     {
       type: 'collapsible',
-      label: 'Extras (optional)',
+      label: 'Extras — FAQs, Tales & Snaps',
       admin: { initCollapsed: true, description: 'Leave empty to hide. Each part only appears on the page when filled in.' },
       fields: [
         faqsField("near the bottom of the vehicle's page"),
