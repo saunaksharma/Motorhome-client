@@ -1,0 +1,9 @@
+# Caddy: HTTPS (certificates renew themselves) in front of the site on 127.0.0.1:3000.
+# Installed by deploy/deploy.sh to /etc/caddy/Caddyfile.
+
+# Hostinger's own address for the server — testing only, kept out of search engines.
+srv2079105.hstgr.cloud {
+	encode zstd gzip
+	header X-Robots-Tag "noindex, nofollow"
+	reverse_proxy 127.0.0.1:3000
+}

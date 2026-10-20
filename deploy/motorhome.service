@@ -1,0 +1,20 @@
+# The website as a service (systemd). Installed by deploy/deploy.sh to /etc/systemd/system/.
+[Unit]
+Description=Motorhome Adventures website (Next.js + Payload)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=app
+Group=app
+WorkingDirectory=/srv/motorhome/current
+EnvironmentFile=/srv/motorhome/.env
+Environment=NODE_OPTIONS=--no-deprecation --max-old-space-size=1536
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 3000
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
