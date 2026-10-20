@@ -171,6 +171,9 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   frame (separate media, the Ladakh tour's cover untouched). Her photos are portrait 3:4 →
   AboutSections' phone frame now follows each photo's ratio (clamped 4:5 … 3:2) instead of 4:3.
   Backup: scratchpad `backup-photos-2026-10-20.json`.
+- **Add-ons restored (user):** all 8 caravans + 6 innovations = Willow's original 14 add-ons again
+  (6 had 0 after the client's edits). Before-state: scratchpad `backup-addons-2026-10-20.json`.
+  All 14 pages show Add Ons+ live.
 
 ### 2026-10-19 (day 22, evening) — innovations = caravans (with their own scroll reel), header, Tips & FAQs
 - **Innovation pages laid out like caravan pages:** hero → description → scroll moment → Overview /
