@@ -173,6 +173,12 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   release by deploy.sh) so a deploy doesn't throw them away — first resize ~3 s on 1 vCPU, then ~0.3 s.
 - **Tested on the server (2026-10-20):** 70 pages ×2 widths, 104 About images all 200, login + API
   upload → R2 (public 200, test file deleted), 38 admin screens via the test host. Test admin removed.
+- **Old-site redirects** (`oldSiteRedirects.ts`, used by next.config): the previous PHP site's
+  fleet.php / item.php / page.php / gallery.php ?id=… → their new pages (308), unknown ids → the
+  section; titles checked against the live old site. Next carries ?id= along (pages have a canonical).
+- **DNS (GoDaddy, ns0x.domaincontrol.com):** A @ 103.191.208.92 (old host) → change to 187.126.126.115;
+  www = CNAME @ (keep); Google MX ×5 + 2 google-site-verification TXT (keep); MX 100 motorhome.co.in
+  (old host mail — delete). No SPF yet → add with the Brevo setup.
 - **Admin accounts** (Vidushi, Richa, motorhomweb@ manager) NOT created yet — the user creates them in
   Users → Create New (we never set real people's passwords). All users are full admins (no roles yet).
 - **Test host** has `X-Robots-Tag: noindex`. Caddy has no motorhome.co.in block yet — add it at the

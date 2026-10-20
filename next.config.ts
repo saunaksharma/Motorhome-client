@@ -3,6 +3,8 @@ import type { NextConfig } from 'next'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
+import { oldSiteRedirects } from './oldSiteRedirects'
+
 const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
@@ -16,6 +18,8 @@ const nextConfig: NextConfig = {
     return [
       { source: '/b2b', destination: 'https://meet.brevo.com/motorhome-adventures/b2b', permanent: false },
       { source: '/partner-with-us', destination: '/dream-big-with-us', permanent: false },
+      // The previous site's addresses (fleet.php?id=…, item.php, page.php…) → their new pages.
+      ...oldSiteRedirects,
     ]
   },
   async headers() {
