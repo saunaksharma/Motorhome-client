@@ -65,12 +65,16 @@ export function PhotoCard({ href, image, title, tag, badge, subtitle, meta, desc
   const explore = (
     <span className="mt-3 inline-flex items-center gap-1.5 font-heading text-sm uppercase tracking-wider text-gold">
       Explore <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+      <span className="sr-only">(opens in a new tab)</span>
     </span>
   )
 
   return (
+    // Client: a caravan / tour / innovation opens in a new tab (the list stays open behind it).
     <Link
       href={href}
+      target="_blank"
+      rel="noopener"
       className={cn(
         'reveal group overflow-hidden rounded-3xl bg-green shadow-sm transition-[translate,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgb(13_71_63/0.6)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold',
         // Homepage: 4:5 (client: "like 1080x1350"); the photo's focus point keeps the vehicle in view.

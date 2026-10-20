@@ -160,6 +160,8 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   their WhatsApp requests — **not** the owner. The site is Motorhome Adventures' (the Saini family).
   The VPS is in Sam's Hostinger account; the domain is in the client's GoDaddy. Earlier entries that
   say "Sam" mean "the client's requests, relayed by Sam".
+- **Cards open in a new tab (client):** PhotoCard (all caravan / tour / innovation cards — homepage rows,
+  listings, Build Your Own) has `target="_blank" rel="noopener"` + a screen-reader "(opens in a new tab)".
 - **Vercel after launch:** not a fallback (rollback happens on the server) and its Hobby plan isn't
   for commercial sites → once motorhome.co.in works on the VPS, disconnect the GitHub auto-deploy and
   delete the Vercel project the same day (one site, one admin).
