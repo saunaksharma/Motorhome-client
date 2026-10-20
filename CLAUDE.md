@@ -174,6 +174,9 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - **Add-ons restored (user):** all 8 caravans + 6 innovations = Willow's original 14 add-ons again
   (6 had 0 after the client's edits). Before-state: scratchpad `backup-addons-2026-10-20.json`.
   All 14 pages show Add Ons+ live.
+- **Brand name = "Motorhome Adventures" everywhere (client):** 4 all-caps spellings fixed (Ladakh blog
+  excerpt/body, Terms & Conditions ×2); header aria label. **Opening hours → 11am – 6pm** (contact page).
+  Backup: scratchpad `backup-brand-2026-10-20.json`.
 
 ### 2026-10-19 (day 22, evening) — innovations = caravans (with their own scroll reel), header, Tips & FAQs
 - **Innovation pages laid out like caravan pages:** hero → description → scroll moment → Overview /

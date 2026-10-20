@@ -108,7 +108,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           Skip to content
         </a>
         <JsonLd data={jsonLd} />
-        <SiteHeader brand="MOTORHOME ADVENTURES" logo={headerLogo} nav={nav} />
+        <SiteHeader brand="Motorhome Adventures" logo={headerLogo} nav={nav} />
         <main id="main">{children}</main>
         <SiteFooter data={footer} />
         <WhatsAppButton number={business?.whatsapp} />
