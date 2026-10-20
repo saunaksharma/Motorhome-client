@@ -156,7 +156,14 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   first — possible reorder). Remaining gaps tracked in §9.
 
 ### 2026-10-20 (day 23, cont.) — VPS live on its test address; innovation card texts
-- **Server:** Hostinger KVM 1 (bought in Sam's account), Ubuntu 24.04, `187.126.126.115`,
+- **Who's who (user, 2026-10-20):** *Sam* is the user's friend who referred the client and relays
+  their WhatsApp requests — **not** the owner. The site is Motorhome Adventures' (the Saini family).
+  The VPS is in Sam's Hostinger account; the domain is in the client's GoDaddy. Earlier entries that
+  say "Sam" mean "the client's requests, relayed by Sam".
+- **Vercel after launch:** not a fallback (rollback happens on the server) and its Hobby plan isn't
+  for commercial sites → once motorhome.co.in works on the VPS, disconnect the GitHub auto-deploy and
+  delete the Vercel project the same day (one site, one admin).
+- **Server:** Hostinger KVM 1 (bought in Sam's account — Sam = the friend who referred the client), Ubuntu 24.04, `187.126.126.115`,
   `srv2079105.hstgr.cloud`, 1 vCPU / 3.8 GB + 4 GB swap, Asia/Kolkata. ufw (22, 80, 443),
   fail2ban, unattended-upgrades, SSH keys only (`/etc/ssh/sshd_config.d/01-hardening.conf` — must
   sort before Hostinger's 50-cloud-init.conf, which turns passwords back on). Key: `~/.ssh/motorhome_vps`.
