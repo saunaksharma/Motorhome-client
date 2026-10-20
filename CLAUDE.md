@@ -165,8 +165,16 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   from the repo (ships HEAD, builds beside the live copy, switches + restarts, keeps 3 releases).
   ~2 min. `.env` = DB, PAYLOAD_SECRET, R2, SERVER_URL=https://motorhome.co.in,
   EXTRA_ORIGINS=test host + www. Image optimizer works here (not on Vercel).
-- **Gotcha:** the first .env was piped from Windows with CRLF → every value ended in `` (sitemap URLs
-  `https://motorhome.co.in`, would also break R2 keys). Stripped + rebuilt; deploy.sh now strips CRs.
+- **Gotcha:** the first .env was piped from Windows with CRLF → every value ended in `
+` (sitemap URLs
+  `https://motorhome.co.in
+`, would also break R2 keys). Stripped + rebuilt; deploy.sh now strips CRs.
+- **Image cache:** next/image's resized copies live in `/srv/motorhome/image-cache` (linked into each
+  release by deploy.sh) so a deploy doesn't throw them away — first resize ~3 s on 1 vCPU, then ~0.3 s.
+- **Tested on the server (2026-10-20):** 70 pages ×2 widths, 104 About images all 200, login + API
+  upload → R2 (public 200, test file deleted), 38 admin screens via the test host. Test admin removed.
+- **Admin accounts** (Vidushi, Richa, motorhomweb@ manager) NOT created yet — the user creates them in
+  Users → Create New (we never set real people's passwords). All users are full admins (no roles yet).
 - **Test host** has `X-Robots-Tag: noindex`. Caddy has no motorhome.co.in block yet — add it at the
   DNS switch (and a www → apex redirect), then `systemctl reload caddy`.
 - **Still to do for launch:** GoDaddy @ + www → 187.126.126.115; Brevo SMTP for emails (keys typed
