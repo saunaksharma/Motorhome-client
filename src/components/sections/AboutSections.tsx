@@ -7,7 +7,11 @@ import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 import { getHomepage } from '@/lib/payload'
 import { focalPosition } from '@/lib/utils'
 
-type Photo = { url?: string | null; alt?: string | null; focalX?: number | null; focalY?: number | null }
+type Photo = { url?: string | null; alt?: string | null; focalX?: number | null; focalY?: number | null; width?: number | null; height?: number | null }
+
+// Phones: each chapter's photo in its own shape (client's Canva photos are upright 3:4, older ones
+// wide), kept between 4:5 and 3:2 so the column stays even.
+const phoneRatio = (photo: Photo) => (photo.width && photo.height ? Math.min(1.5, Math.max(0.8, photo.width / photo.height)) : 4 / 3)
 
 // First year mentioned in a chapter's own text (e.g. "Delhi, 1993") — the fallback when the
 // chapter's "Year" box is empty. Nothing is shown when neither has one; nothing is invented.
@@ -73,7 +77,7 @@ export async function AboutSections({ preview = false }: { preview?: boolean }) 
                     <YouTubeEmbed url={chapter.video} title={chapter.heading} ambient />
                   </div>
                 ) : chapter.photo?.url && (
-                  <div className="relative mb-6 aspect-[4/3] overflow-hidden rounded-2xl border border-green/10 bg-green/5 shadow-[0_24px_60px_-30px_rgb(13_71_63/0.45)] lg:hidden">
+                  <div style={{ aspectRatio: phoneRatio(chapter.photo) }} className="relative mb-6 overflow-hidden rounded-2xl border border-green/10 bg-green/5 shadow-[0_24px_60px_-30px_rgb(13_71_63/0.45)] lg:hidden">
                     <Image
                       src={chapter.photo.url}
                       alt={chapter.photo.alt ?? chapter.heading}

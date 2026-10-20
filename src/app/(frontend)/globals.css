@@ -63,7 +63,6 @@
   --font-display: var(--font-cinzel), serif; /* headings + titles */
   --font-heading: var(--font-lato), sans-serif; /* nav, buttons, small uppercase labels */
   --font-body: var(--font-lato), sans-serif; /* body text */
-  --font-brand: var(--font-cinzel), serif; /* the MOTORHOME ADVENTURES name (old site: Cinzel) */
   --color-brand-gold: #d4af37; /* the old site's gold for the brand name */
 
   --radius-lg: var(--radius);

@@ -23,7 +23,7 @@ import React from 'react'
 import { NewsletterForm } from './NewsletterForm'
 import { SocialIcon } from './SocialIcon'
 
-type Media = { url?: string | null; alt?: string | null }
+type Media = { url?: string | null; alt?: string | null; width?: number | null; height?: number | null }
 type FooterData = {
   logo?: Media | number | null
   backgroundImage?: Media | number | null
@@ -92,14 +92,14 @@ export function SiteFooter({ data }: { data: FooterData }) {
         />
 
         <div className="relative mx-auto max-w-[1200px]">
-          {/* Logo + brand name */}
-          <div className="mb-8 flex flex-wrap items-center justify-center gap-3 md:mb-10 md:gap-4">
+          {/* Logo + brand name: the emblem (Footer → Logo, cropped close like the header's) and the
+              client's gold one-line wordmark (her brand file, 2026-10-20). Side by side from sm,
+              stacked on phones. */}
+          <div className="mb-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4 md:mb-10">
             {logo?.url && (
-              <Image src={logo.url} alt="Motorhome Adventures logo" width={88} height={88} className="size-12 object-contain sm:size-16 md:size-[5.5rem]" />
+              <Image src={logo.url} alt="" width={logo.width ?? 909} height={logo.height ?? 499} className="h-10 w-auto sm:h-11 md:h-12 lg:h-14" />
             )}
-            <span className="text-center font-brand text-[clamp(1.2rem,4vw,2rem)] font-bold uppercase leading-[1.2] tracking-[0.2em] text-brand-gold">
-              Motorhome Adventures
-            </span>
+            <Image src="/brand/wordmark-line.webp" alt="Motorhome Adventures" width={1770} height={96} className="h-[17px] w-auto sm:h-6 md:h-7 lg:h-8" />
           </div>
 
           {/* Link columns */}

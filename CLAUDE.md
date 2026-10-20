@@ -155,6 +155,23 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-20 (day 23) — footer wordmark, Aurum full-res photos, Our Story photos (Sam's list)
+- **Footer:** the client's gold one-line wordmark (`public/brand/wordmark-line.webp`, from her
+  "Footer Brand Name.png", alpha-trimmed 1770×96) replaces the typed name; emblem = Footer → Logo
+  switched to the cropped `logo-emblem.png` (like the header) with real dimensions; side by side
+  from sm, stacked on phones. `--font-brand` (only used there) removed.
+- **Aurum:** her Drive zip = 13 full-res photos (2160 px) replacing 7 portrait 768×1024 collages.
+  Cover = wide exterior `aurum-exterior-mountains.jpg` (focus 52/56 — fits the wide hero + 16:10
+  cards); gallery = the other 12 in story order. Old media kept (unlinked). One photo had a 3 px
+  white strip on its right edge → trimmed. All re-encoded JPEG q84 ≤2000 px, metadata stripped.
+- **Our Story photos (Sam's WhatsApp):** 1998, 2000s ("Old Headquarters"), 2009 Bhutan, 2014 (the
+  two MP Tourism caravans), 2016 (Club on Wheels at night), People Behind the Wheel, Backseat Guides,
+  What We Do (Ladakh 2005, focus at the top so its badge shows); Why Travel ← the old Backseat photo
+  (her "the pic now on backseat"); Today = a crop of the Ladakh photo so the whole caravan is in
+  frame (separate media, the Ladakh tour's cover untouched). Her photos are portrait 3:4 →
+  AboutSections' phone frame now follows each photo's ratio (clamped 4:5 … 3:2) instead of 4:3.
+  Backup: scratchpad `backup-photos-2026-10-20.json`.
+
 ### 2026-10-19 (day 22, evening) — innovations = caravans (with their own scroll reel), header, Tips & FAQs
 - **Innovation pages laid out like caravan pages:** hero → description → scroll moment → Overview /
   Add Ons+ tabs (Specifications, **Unique features** (new), included, not included) → #photos →
