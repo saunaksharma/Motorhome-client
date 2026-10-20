@@ -155,6 +155,24 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-20 (day 23, cont.) — VPS live on its test address; innovation card texts
+- **Server:** Hostinger KVM 1 (bought in Sam's account), Ubuntu 24.04, `187.126.126.115`,
+  `srv2079105.hstgr.cloud`, 1 vCPU / 3.8 GB + 4 GB swap, Asia/Kolkata. ufw (22, 80, 443),
+  fail2ban, unattended-upgrades, SSH keys only (`/etc/ssh/sshd_config.d/01-hardening.conf` — must
+  sort before Hostinger's 50-cloud-init.conf, which turns passwords back on). Key: `~/.ssh/motorhome_vps`.
+- **App:** user `app`, `/srv/motorhome/{.env, releases/<sha>, current}`; systemd `motorhome`
+  (next start on 127.0.0.1:3000); Caddy (auto HTTPS). Files in `deploy/`; **deploy = `deploy/deploy.sh`**
+  from the repo (ships HEAD, builds beside the live copy, switches + restarts, keeps 3 releases).
+  ~2 min. `.env` = DB, PAYLOAD_SECRET, R2, SERVER_URL=https://motorhome.co.in,
+  EXTRA_ORIGINS=test host + www. Image optimizer works here (not on Vercel).
+- **Test host** has `X-Robots-Tag: noindex`. Caddy has no motorhome.co.in block yet — add it at the
+  DNS switch (and a www → apex redirect), then `systemctl reload caddy`.
+- **Still to do for launch:** GoDaddy @ + www → 187.126.126.115; Brevo SMTP for emails (keys typed
+  into /srv/motorhome/.env by the user); DB backups; Search Console; old-URL redirects.
+- **Innovation cards (client):** like Club on Wheels, each card text = its description's opening
+  sentence, moved out of the description (no repeat on the page). Backup:
+  scratchpad `backup-innovation-cards-2026-10-20.json`. "FOOD FUSION" → "Food Fusion".
+
 ### 2026-10-20 (day 23) — footer wordmark, Aurum full-res photos, Our Story photos (Sam's list)
 - **Footer:** the client's gold one-line wordmark (`public/brand/wordmark-line.webp`, from her
   "Footer Brand Name.png", alpha-trimmed 1770×96) replaces the typed name; emblem = Footer → Logo
