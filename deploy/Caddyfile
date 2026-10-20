@@ -5,7 +5,9 @@
 motorhome.co.in {
 	encode zstd gzip
 	header Strict-Transport-Security "max-age=31536000"
-	reverse_proxy 127.0.0.1:3000
+	reverse_proxy 127.0.0.1:3000 {
+		lb_try_duration 15s # during a deploy restart (~5 s), wait for the site instead of erroring
+	}
 }
 
 # www → the main address, so Google sees one site.
@@ -17,5 +19,7 @@ www.motorhome.co.in {
 srv2079105.hstgr.cloud {
 	encode zstd gzip
 	header X-Robots-Tag "noindex, nofollow"
-	reverse_proxy 127.0.0.1:3000
+	reverse_proxy 127.0.0.1:3000 {
+		lb_try_duration 15s # during a deploy restart (~5 s), wait for the site instead of erroring
+	}
 }
