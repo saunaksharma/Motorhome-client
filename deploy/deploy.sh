@@ -22,6 +22,9 @@ sed -i 's/\r\$//' /srv/motorhome/.env  # a .env written from Windows has CRLFs -
 ln -sfn /srv/motorhome/.env .env
 sudo -u app npm ci --no-audit --no-fund --loglevel=error
 sudo -u app bash -c 'set -a; . /srv/motorhome/.env; set +a; NODE_OPTIONS="--no-deprecation --max-old-space-size=3072" node node_modules/next/dist/bin/next build' | tail -5
+# Resized photos (next/image) are kept across deploys, so visitors don't wait for them again.
+install -d -o app -g app /srv/motorhome/image-cache
+rm -rf .next/cache/images && ln -s /srv/motorhome/image-cache .next/cache/images
 install -m 644 deploy/motorhome.service /etc/systemd/system/motorhome.service
 install -m 644 deploy/Caddyfile /etc/caddy/Caddyfile
 systemctl daemon-reload
