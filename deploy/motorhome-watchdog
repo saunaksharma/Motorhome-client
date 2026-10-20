@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Every 2 minutes (motorhome-watchdog.timer): is the site answering? Two misses in a row → restart it.
+# (systemd already restarts it if it crashes; this catches it hanging.) Logs: journalctl -u motorhome-watchdog
+set -u
+STATE=/run/motorhome-watchdog.misses
+if curl -sf -o /dev/null --max-time 15 http://127.0.0.1:3000/; then
+  rm -f "$STATE"; exit 0
+fi
+misses=$(( $(cat "$STATE" 2>/dev/null || echo 0) + 1 ))
+echo "$misses" > "$STATE"
+echo "site not answering (miss $misses)"
+if [ "$misses" -ge 2 ]; then
+  echo "restarting motorhome"; systemctl restart motorhome; rm -f "$STATE"
+fi

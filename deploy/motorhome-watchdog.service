@@ -1,0 +1,5 @@
+[Unit]
+Description=Check the Motorhome Adventures site answers; restart it if it hangs
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/motorhome-watchdog

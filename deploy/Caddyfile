@@ -1,7 +1,19 @@
 # Caddy: HTTPS (certificates renew themselves) in front of the site on 127.0.0.1:3000.
-# Installed by deploy/deploy.sh to /etc/caddy/Caddyfile.
+# Installed by deploy/go-live.sh (and by deploy/deploy.sh once the site is live).
 
-# Hostinger's own address for the server — testing only, kept out of search engines.
+# The live site.
+motorhome.co.in {
+	encode zstd gzip
+	header Strict-Transport-Security "max-age=31536000"
+	reverse_proxy 127.0.0.1:3000
+}
+
+# www → the main address, so Google sees one site.
+www.motorhome.co.in {
+	redir https://motorhome.co.in{uri} permanent
+}
+
+# Hostinger's own address for the server — for checks only, kept out of search engines.
 srv2079105.hstgr.cloud {
 	encode zstd gzip
 	header X-Robots-Tag "noindex, nofollow"

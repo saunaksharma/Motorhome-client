@@ -26,7 +26,9 @@ sudo -u app bash -c 'set -a; . /srv/motorhome/.env; set +a; NODE_OPTIONS="--no-d
 install -d -o app -g app /srv/motorhome/image-cache
 rm -rf .next/cache/images && ln -s /srv/motorhome/image-cache .next/cache/images
 install -m 644 deploy/motorhome.service /etc/systemd/system/motorhome.service
-install -m 644 deploy/Caddyfile /etc/caddy/Caddyfile
+# The domain config goes in with deploy/go-live.sh (before that, Caddy would keep failing to get
+# certificates for a domain that still points at the old host).
+[ -f /srv/motorhome/LIVE ] && install -m 644 deploy/Caddyfile /etc/caddy/Caddyfile
 systemctl daemon-reload
 ln -sfn $REL /srv/motorhome/current
 systemctl enable --now motorhome >/dev/null 2>&1 || true

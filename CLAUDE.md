@@ -205,8 +205,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   /srv/motorhome/.env (then `systemctl restart motorhome`) and Vercel.
 - **Admin accounts** (Vidushi, Richa, motorhomweb@ manager) NOT created yet — the user creates them in
   Users → Create New (we never set real people's passwords). All users are full admins (no roles yet).
-- **Test host** has `X-Robots-Tag: noindex`. Caddy has no motorhome.co.in block yet — add it at the
-  DNS switch (and a www → apex redirect), then `systemctl reload caddy`.
+- **Go-live = `deploy/go-live.sh`** (after GoDaddy A @ → 187.126.126.115): checks DNS via 8.8.8.8 +
+  1.1.1.1 and refuses until both names resolve to the server; then installs `deploy/Caddyfile`
+  (motorhome.co.in + HSTS, www → apex 308, test host kept noindex), touches `/srv/motorhome/LIVE`
+  (from then on deploy.sh also installs the Caddyfile), waits for HTTPS and prints the certificate.
+  Dry-run 2026-10-20: correctly refused (still 103.191.208.92), nothing changed.
+- **Watchdog:** `deploy/motorhome-watchdog` + timer, every 2 min curls 127.0.0.1:3000; 2 misses → restart.
+  Tested (stopped the site → restarted on the 2nd miss).
+- **Forms tested on the server:** Willow → Book Your Call (locked to Willow, blocked without T&C) →
+  enquiry saved → Brevo calendar; newsletter sign-up 201. Test entries (example.test) deleted.
 - **Still to do for launch:** GoDaddy @ + www → 187.126.126.115; Brevo SMTP for emails (keys typed
   into /srv/motorhome/.env by the user); DB backups; Search Console; old-URL redirects.
 - **Innovation cards (client):** like Club on Wheels, each card text = its description's opening
