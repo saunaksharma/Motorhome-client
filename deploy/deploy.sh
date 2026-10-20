@@ -18,6 +18,7 @@ echo "→ building on the server (a few minutes)"
 ssh_ "bash -s" <<REMOTE
 set -euo pipefail
 cd $REL
+sed -i 's/\$//' /srv/motorhome/.env  # a .env written from Windows gets CRLFs → "value" (broke SERVER_URL once)
 ln -sfn /srv/motorhome/.env .env
 sudo -u app npm ci --no-audit --no-fund --loglevel=error
 sudo -u app bash -c 'set -a; . /srv/motorhome/.env; set +a; NODE_OPTIONS="--no-deprecation --max-old-space-size=3072" node node_modules/next/dist/bin/next build' | tail -5

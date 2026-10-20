@@ -165,6 +165,8 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   from the repo (ships HEAD, builds beside the live copy, switches + restarts, keeps 3 releases).
   ~2 min. `.env` = DB, PAYLOAD_SECRET, R2, SERVER_URL=https://motorhome.co.in,
   EXTRA_ORIGINS=test host + www. Image optimizer works here (not on Vercel).
+- **Gotcha:** the first .env was piped from Windows with CRLF → every value ended in `` (sitemap URLs
+  `https://motorhome.co.in`, would also break R2 keys). Stripped + rebuilt; deploy.sh now strips CRs.
 - **Test host** has `X-Robots-Tag: noindex`. Caddy has no motorhome.co.in block yet — add it at the
   DNS switch (and a www → apex redirect), then `systemctl reload caddy`.
 - **Still to do for launch:** GoDaddy @ + www → 187.126.126.115; Brevo SMTP for emails (keys typed
