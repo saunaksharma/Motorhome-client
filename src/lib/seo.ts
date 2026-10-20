@@ -17,7 +17,8 @@ export function pageMetadata(
 ): Metadata {
   const title = meta?.title || fallback.title
   const description = meta?.description || fallback.description || undefined
-  const image = urlOf(meta?.image) || urlOf(fallback.image)
+  // No photo of its own (Terms, FAQ, …) → the branded share card, so links shared on WhatsApp still show one.
+  const image = urlOf(meta?.image) || urlOf(fallback.image) || '/brand/share.jpg'
   return {
     // Long titles skip the " | Motorhome Adventures" ending, so search results show the words that matter.
     title: title.length > 45 ? { absolute: title } : title,
@@ -30,7 +31,7 @@ export function pageMetadata(
       url: fallback.path,
       title,
       description,
-      images: image ? [image] : undefined,
+      images: [image],
     },
   }
 }

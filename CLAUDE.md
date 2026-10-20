@@ -162,6 +162,14 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   say "Sam" mean "the client's requests, relayed by Sam".
 - **Cards open in a new tab (client):** PhotoCard (all caravan / tour / innovation cards — homepage rows,
   listings, Build Your Own) has `target="_blank" rel="noopener"` + a screen-reader "(opens in a new tab)".
+- **Share card:** `public/brand/share.jpg` (1200×630: Aurum photo under a dark film + emblem + gold
+  wordmark) = og:image for pages without a photo of their own (pageMetadata fallback) and the site
+  default if no hero slide. The 7 text pages had none.
+- **Admin accounts:** Vidushi, Richa and motorhomweb@ created by the user (5 accounts total).
+- **Email:** already wired (payload.config nodemailer, turns on when SMTP_HOST/PORT/USER/PASS/FROM are in
+  the server .env); enquiry alerts go to Business Details → "Send new enquiries to" (set, a gmail).
+  Brevo: smtp-relay.brevo.com:587, login + SMTP key; sender must be a Brevo-verified address/domain.
+- FAQ answer: "any BOOK NOW button" → "any Book Your Call button".
 - **Vercel after launch:** not a fallback (rollback happens on the server) and its Hobby plan isn't
   for commercial sites → once motorhome.co.in works on the VPS, disconnect the GitHub auto-deploy and
   delete the Vercel project the same day (one site, one admin).

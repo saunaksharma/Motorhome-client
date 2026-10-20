@@ -47,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'Motorhome Adventures',
       title: 'Motorhome Adventures',
       description,
-      images: shareImage ? [shareImage] : undefined,
+      images: [shareImage ?? '/brand/share.jpg'],
     },
     twitter: { card: 'summary_large_image' },
   }
