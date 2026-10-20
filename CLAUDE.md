@@ -212,6 +212,10 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   Dry-run 2026-10-20: correctly refused (still 103.191.208.92), nothing changed.
 - **Watchdog:** `deploy/motorhome-watchdog` + timer, every 2 min curls 127.0.0.1:3000; 2 misses → restart.
   Tested (stopped the site → restarted on the 2nd miss).
+- **Pre-launch checks (2026-10-20, all on the server):** 70 pages ×390/1440 → 0 issues; robots.txt
+  allows the live domain (blocks /admin, /api), sitemap = 70 motorhome.co.in URLs; http→https;
+  restart under load = 0 failed requests (Caddy `lb_try_duration 15s`); reboot → every service and
+  timer back by itself, site 200 in 0.37 s; health: 3.2 GB free RAM, 20 % disk, 0 site errors.
 - **Forms tested on the server:** Willow → Book Your Call (locked to Willow, blocked without T&C) →
   enquiry saved → Brevo calendar; newsletter sign-up 201. Test entries (example.test) deleted.
 - **Still to do for launch:** GoDaddy @ + www → 187.126.126.115; Brevo SMTP for emails (keys typed
