@@ -179,6 +179,13 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
 - **DNS (GoDaddy, ns0x.domaincontrol.com):** A @ 103.191.208.92 (old host) → change to 187.126.126.115;
   www = CNAME @ (keep); Google MX ×5 + 2 google-site-verification TXT (keep); MX 100 motorhome.co.in
   (old host mail — delete). No SPF yet → add with the Brevo setup.
+- **DB backups:** `deploy/motorhome-db-backup` (+ .service/.timer, installed by hand on the server):
+  pg_dump (postgresql-client-17, PGDG) of Neon → `/srv/motorhome/backups/*.dump`, Sundays 03:30 IST,
+  keeps 8. Needs `PGSSLROOTCERT=system` (Neon verify-full) and strips the quotes around DATABASE_URI.
+  First run OK (58 tables). Restore: `pg_restore --clean --no-owner -d "$URI" <file>`.
+- ⚠ **Rotate the Neon DB password before launch:** a psql error printed the full connection string into
+  a local session log on 2026-10-20 (not shared anywhere). New password → update .env locally,
+  /srv/motorhome/.env (then `systemctl restart motorhome`) and Vercel.
 - **Admin accounts** (Vidushi, Richa, motorhomweb@ manager) NOT created yet — the user creates them in
   Users → Create New (we never set real people's passwords). All users are full admins (no roles yet).
 - **Test host** has `X-Robots-Tag: noindex`. Caddy has no motorhome.co.in block yet — add it at the

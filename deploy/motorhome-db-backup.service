@@ -1,0 +1,5 @@
+[Unit]
+Description=Weekly copy of the Motorhome Adventures database
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/motorhome-db-backup

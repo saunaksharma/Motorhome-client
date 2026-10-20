@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Weekly copy of the Neon database onto this server (keeps the last 8). Restore:
+#   pg_restore --clean --no-owner -d "$DATABASE_URI" /srv/motorhome/backups/<file>.dump
+set -euo pipefail
+URI=$(sed -n 's/^DATABASE_URI=//p' /srv/motorhome/.env | tr -d '\r' | sed -e 's/^"//' -e 's/"$//' -e "s/^'//" -e "s/'$//")
+export PGSSLROOTCERT=system  # Neon asks for full certificate checks: use the system CA store
+DIR=/srv/motorhome/backups; install -d -m 700 "$DIR"
+FILE="$DIR/motorhome-$(date +%Y-%m-%d).dump"
+# Errors go to the journal without the connection string (it holds the password).
+if ! pg_dump --format=custom --no-owner --no-privileges --dbname="$URI" --file="$FILE.part" 2> >(sed -E 's#postgres(ql)?://[^ "]+#<database>#g' >&2); then
+  rm -f "$FILE.part"; echo "backup FAILED" >&2; exit 1
+fi
+mv "$FILE.part" "$FILE"; chmod 600 "$FILE"
+ls -1t "$DIR"/motorhome-*.dump | tail -n +9 | xargs -r rm -f
+echo "backup ok: $FILE ($(du -h "$FILE" | cut -f1))"
