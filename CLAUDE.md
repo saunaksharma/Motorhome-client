@@ -167,6 +167,10 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   covers NodeSource (22.x) and Caddy (`deploy/52unattended-upgrades-motorhome`) — Ubuntu's default
   only patched Ubuntu's own packages. Hostinger's Monarx malware-scanner repo is pre-installed (normal).
 - **Local PC:** Node 24.14.1 → should be updated to ≥ 24.22.1 (builds work, EBADENGINE warnings).
+- **On the server after deploy (4a8fac6):** next 16.4.2 / payload 3.92.0 / undici 7.30.1 / nodemailer 10.2.1 /
+  Node 22.23.4; 70 pages ×2 widths OK (one /about image flag didn't reproduce in 2 direct reruns, 0/25
+  broken, no server errors); booking form → enquiry → Brevo and newsletter OK (test rows deleted);
+  rebooted: all services + timers back, 0 pending security updates.
 - Lesson: `npm audit fix --omit=dev` is fine for prod deps; never `--force` (would jump majors).
 - **Incident (fixed):** a save test re-sent Business Details → hours read through the Windows console
   (cp1252), storing "11am ï¿½ 6pm" for a few minutes, live. Restored to "11am – 6pm" via
