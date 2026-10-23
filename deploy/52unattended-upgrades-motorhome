@@ -1,0 +1,6 @@
+// Also patch Node.js (NodeSource, stays on 22.x) and Caddy automatically — Ubuntu's defaults only
+// cover Ubuntu's own packages. needrestart then restarts the site / web server.
+Unattended-Upgrade::Origins-Pattern {
+	"origin=. nodistro,codename=nodistro";
+	"origin=cloudsmith/caddy/stable";
+};

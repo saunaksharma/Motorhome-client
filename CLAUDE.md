@@ -155,6 +155,25 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-23 (day 26) — security round (Next.js critical RCE, Node.js, Payload)
+- **Why:** Oct 2026 advisories — Next.js 16.0–16.4.0 critical unauthenticated RCE in the image
+  optimizer via SVG (+ use-cache RCE, Server Actions DoS; fixed 16.4.1, out-of-band 14 Oct); Node.js
+  22.23.4 / 24.22.1 (10 CVEs); undici + nodemailer fixes. The VPS runs the image optimizer → exposed.
+- **Upgraded:** next + eslint-config-next 16.3.8 → 16.4.2; payload + all @payloadcms/* 3.90.1 → 3.92.0
+  (pulls undici 7.30.1, nodemailer 10.2.1); source-map-js 1.2.2. npm audit (prod): critical 0; the
+  remaining "high" are build-time tooling Payload bundles (sass → chokidar → braces, find-node-modules),
+  not reachable from requests, no upstream fix yet. Payload 3.92 requires Node ^22.23.4 || >=24.22.1.
+- **Server:** Node 22.23.3 → 22.23.4, zlib1g security fix; 0 pending. Unattended-upgrades now also
+  covers NodeSource (22.x) and Caddy (`deploy/52unattended-upgrades-motorhome`) — Ubuntu's default
+  only patched Ubuntu's own packages. Hostinger's Monarx malware-scanner repo is pre-installed (normal).
+- **Local PC:** Node 24.14.1 → should be updated to ≥ 24.22.1 (builds work, EBADENGINE warnings).
+- Lesson: `npm audit fix --omit=dev` is fine for prod deps; never `--force` (would jump majors).
+- **Incident (fixed):** a save test re-sent Business Details → hours read through the Windows console
+  (cp1252), storing "11am ï¿½ 6pm" for a few minutes, live. Restored to "11am – 6pm" via
+  `payload run`. Never round-trip text through console output; read responses as UTF-8 bytes /
+  PYTHONIOENCODING=utf8. Tested on 16.4.2 / 3.92.0 locally: build, lint, tsc, 38 admin screens,
+  API save 200, all page images load (sweep flags were R2 download timeouts under load from the PC).
+
 ### 2026-10-20 (day 23, cont.) — VPS live on its test address; innovation card texts
 - **Who's who (user, 2026-10-20):** *Sam* is the user's friend who referred the client and relays
   their WhatsApp requests — **not** the owner. The site is Motorhome Adventures' (the Saini family).
