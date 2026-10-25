@@ -155,6 +155,21 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-25 (day 28) — 🚀 LIVE on motorhome.co.in (Hostinger VPS); clickable hero
+- **Launched:** GoDaddy A @ → 187.126.126.115, MX 100 (old host) deleted, Google MX/TXT kept;
+  `deploy/go-live.sh` → Let's Encrypt cert, www → 301 apex, HSTS. Verified on the real domain: all main
+  pages + admin 200 (0.1–0.9 s), old ?id= links 308 → new pages, no noindex, sitemap/robots OK.
+- **Client edits the same morning** (Food Fusion, Election Express, Lounger on Wheels + 22 photos) are
+  in the one DB → live; all 22 photos load (names with spaces are fine in browsers).
+- **Hero (client):** each slide links to its page — Weekend Getaway → /tours/weekend-getaway-to-the-wild,
+  Home Away Home → /caravans, Harper → /caravans/harper, Ladakh → /tours/the-adventures-of-ladakh,
+  Election → /innovations/election-express, Willow → /caravans/willow (Self Drive unchanged → /caravans);
+  backup scratchpad `backup-hero-links-2026-10-25.json`. The whole slide is clickable (an aria-hidden
+  overlay Link under the text; text layer pointer-events-none, button re-enabled); a drag sets `swiped`
+  so it changes slides without opening the link. Photo + button open in a new tab (CtaButton `newTab`).
+- **Still to do:** Neon password reset (exposed 2026-10-20), Brevo SMTP + SPF/DKIM, Search Console
+  sitemap, delete the Vercel project, cancel the old hosting after a few days.
+
 ### 2026-10-23 (day 26) — security round (Next.js critical RCE, Node.js, Payload)
 - **Why:** Oct 2026 advisories — Next.js 16.0–16.4.0 critical unauthenticated RCE in the image
   optimizer via SVG (+ use-cache RCE, Server Actions DoS; fixed 16.4.1, out-of-band 14 Oct); Node.js

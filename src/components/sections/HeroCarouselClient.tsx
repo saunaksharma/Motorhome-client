@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
@@ -39,16 +40,22 @@ export function HeroCarouselClient({ title, slides }: { title: string; slides: H
     return () => clearTimeout(timer)
   }, [count, current])
 
-  // Swipe: a horizontal drag of more than 50px moves one slide (left = next).
+  // Swipe: a horizontal drag of more than 50px moves one slide (left = next). `swiped` stops the
+  // click that ends a drag from also opening the slide's link.
   const startX = useRef<number | null>(null)
+  const swiped = useRef(false)
   const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX
+    swiped.current = false
   }
   const onPointerUp = (e: React.PointerEvent) => {
     if (startX.current === null) return
     const dx = e.clientX - startX.current
     startX.current = null
-    if (count > 1 && Math.abs(dx) > 50) setCurrent((c) => (c + (dx < 0 ? 1 : -1) + count) % count)
+    if (count > 1 && Math.abs(dx) > 50) {
+      swiped.current = true
+      setCurrent((c) => (c + (dx < 0 ? 1 : -1) + count) % count)
+    }
   }
 
   if (count === 0) return null
@@ -95,7 +102,22 @@ export function HeroCarouselClient({ title, slides }: { title: string; slides: H
       {/* Soft top-to-bottom scrim: keeps the text crisp without hiding the photo. */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/5 via-40% to-black/75 sm:from-black/45 sm:via-black/15 sm:via-50% sm:to-black/55" />
 
-      <div className="relative z-10 flex h-full flex-col items-start justify-end gap-3 px-5 pb-12 text-left text-white sm:items-center sm:justify-center sm:gap-5 sm:px-4 sm:pb-0 sm:pt-16 sm:text-center">
+      {/* Client: the whole slide is clickable — it goes where the slide's button goes, in a new tab
+          like the cards. The button stays the accessible link; this layer is for the mouse / finger. */}
+      {active.ctaLink && (
+        <Link
+          href={active.ctaLink}
+          target="_blank"
+          rel="noopener"
+          aria-hidden
+          tabIndex={-1}
+          draggable={false}
+          onClick={(e) => swiped.current && e.preventDefault()}
+          className="absolute inset-0 z-[5]"
+        />
+      )}
+
+      <div className="pointer-events-none relative z-10 flex h-full flex-col items-start justify-end gap-3 px-5 pb-12 text-left text-white sm:items-center sm:justify-center sm:gap-5 sm:px-4 sm:pb-0 sm:pt-16 sm:text-center">
         {/* The page's one h1: fixed (not rotating) and in the server HTML — says what the company
             offers and where (SEO + a first-time visitor's first five seconds). */}
         <h1 className="font-display text-balance text-[13px] font-bold uppercase leading-snug tracking-[0.18em] text-gold [text-shadow:0_1px_8px_rgb(0_0_0/0.75)] sm:text-base md:text-lg">
@@ -118,8 +140,8 @@ export function HeroCarouselClient({ title, slides }: { title: string; slides: H
           </p>
           {/* One main action: the slide's own button (solid gold). No other links — client's choice. */}
           {active.ctaLabel && (
-            <div className="*:px-7 *:py-3 *:text-sm sm:*:px-9 sm:*:py-4 sm:*:text-base">
-              <CtaButton href={active.ctaLink ?? '#'} label={active.ctaLabel} gold solid />
+            <div className="pointer-events-auto *:px-7 *:py-3 *:text-sm sm:*:px-9 sm:*:py-4 sm:*:text-base">
+              <CtaButton href={active.ctaLink ?? '#'} label={active.ctaLabel} gold solid newTab />
             </div>
           )}
         </div>

@@ -11,6 +11,7 @@ export function CtaButton({
   onGreen = false,
   gold = false,
   solid = false,
+  newTab = false,
 }: {
   href?: string
   label: string
@@ -21,9 +22,11 @@ export function CtaButton({
   // `solid` + `onGreen` = filled white pill with green text (Dream Big, design page 39).
   // `solid` alone = filled green pill that turns white on hover (Book Your Call, client).
   solid?: boolean
+  // Open in a new tab even for a page on this site (the hero, like the cards).
+  newTab?: boolean
 }) {
   // Booking pages (Brevo etc.) open in a new tab so the site stays open.
-  const external = /^https?:\/\//.test(href)
+  const external = newTab || /^https?:\/\//.test(href)
   return (
     <Link
       href={href}
