@@ -167,6 +167,11 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   backup scratchpad `backup-hero-links-2026-10-25.json`. The whole slide is clickable (an aria-hidden
   overlay Link under the text; text layer pointer-events-none, button re-enabled); a drag sets `swiped`
   so it changes slides without opening the link. Photo + button open in a new tab (CtaButton `newTab`).
+- **Enquiry emails (client):** Business Details → "Send new enquiries to" = motorhomweb@gmail.com (no "e" —
+  the user confirmed the spelling; same as the manager admin login). Sending: plan = that Gmail with an
+  App Password (SMTP_HOST=smtp.gmail.com, PORT=465, USER/FROM=motorhomweb@gmail.com) → user puts it in
+  the local .env, I copy to /srv/motorhome/.env + restart + test booking. Email = name, email, phone,
+  enquiry type, which one, budget (everything the form asks); reply-to = the customer.
 - **Still to do:** Neon password reset (exposed 2026-10-20), Brevo SMTP + SPF/DKIM, Search Console
   sitemap, delete the Vercel project, cancel the old hosting after a few days.
 
