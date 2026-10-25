@@ -172,6 +172,11 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   App Password (SMTP_HOST=smtp.gmail.com, PORT=465, USER/FROM=motorhomweb@gmail.com) → user puts it in
   the local .env, I copy to /srv/motorhome/.env + restart + test booking. Email = name, email, phone,
   enquiry type, which one, budget (everything the form asks); reply-to = the customer.
+- **Enquiry email = CSV attachment (client: "Excel or CSV only"):** body is one line; the details come as
+  `enquiry-<date>-<name>.csv` (UTF-8 + BOM, opens in Excel) with the same columns as the admin's
+  "Download for Brevo" — both use `enquiryColumns` + `toCsv` in lib/csvExport.ts (one definition).
+  Export re-tested (200 logged in, 401 without). DB had 0 enquiries / 0 subscribers on 2026-10-25 (the one
+  earlier real enquiry was deleted in the admin; test cleanups only ever matched @example.test).
 - **Still to do:** Neon password reset (exposed 2026-10-20), Brevo SMTP + SPF/DKIM, Search Console
   sitemap, delete the Vercel project, cancel the old hosting after a few days.
 

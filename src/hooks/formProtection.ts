@@ -1,5 +1,7 @@
 import { APIError, type CollectionAfterChangeHook, type CollectionBeforeOperationHook } from 'payload'
 
+import { enquiryColumns, isoDate, toCsv } from '../lib/csvExport'
+
 // The public forms include a hidden "website" input that people never see.
 // Bots fill every field, so a value there means the submission is spam.
 export const HONEYPOT_FIELD = 'website'
@@ -18,8 +20,9 @@ const escapeHtml = (value: unknown) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
 
-// Email the business about every new booking enquiry (address set in
-// Site Settings → Business Details). A failed email never blocks the enquiry.
+// Email the business about every new booking enquiry (address set in Site Settings → Business
+// Details). Client: the details come as a CSV file (opens in Excel; same columns as the admin's
+// "Download for Brevo"). A failed email never blocks the enquiry.
 export const notifyNewEnquiry: CollectionAfterChangeHook = async ({ doc, operation, req }) => {
   if (operation !== 'create') return doc
   try {
@@ -27,24 +30,15 @@ export const notifyNewEnquiry: CollectionAfterChangeHook = async ({ doc, operati
     const to = business?.enquiryNotifyEmail
     if (!to) return doc
 
-    const rows: [string, unknown][] = [
-      ['Name', `${doc.firstName} ${doc.lastName}`],
-      ['Email', doc.email],
-      ['Phone', doc.phone],
-      ['Enquiry about', doc.enquiryType],
-      ['Interested in', doc.destination],
-      ['Budget', doc.budgetRange],
-    ]
-    const html = `<h2>New enquiry from the website</h2><table cellpadding="6">${rows
-      .filter(([, v]) => v)
-      .map(([k, v]) => `<tr><td><b>${k}</b></td><td>${escapeHtml(v)}</td></tr>`)
-      .join('')}</table>`
+    const name = `${doc.firstName} ${doc.lastName}`
+    const file = `enquiry-${isoDate(doc.createdAt)}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.csv`
 
     await req.payload.sendEmail({
       to,
       replyTo: doc.email,
-      subject: `New enquiry: ${doc.firstName} ${doc.lastName}${doc.destination ? ` — ${doc.destination}` : ''}`,
-      html,
+      subject: `New enquiry: ${name}${doc.destination ? ` — ${doc.destination}` : ''}`,
+      html: `<p>New enquiry from <b>${escapeHtml(name)}</b> on the website. The details are in the attached file (opens in Excel). Reply to this email to answer them.</p>`,
+      attachments: [{ filename: file, content: toCsv(enquiryColumns, [doc]), contentType: 'text/csv; charset=utf-8' }],
     })
   } catch (error) {
     req.payload.logger.error({ err: error, msg: 'Enquiry notification email failed' })
