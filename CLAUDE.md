@@ -155,6 +155,21 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-10-26 (day 29) — staff section on About; About's Our Story = homepage view
+- **Staff (client):** `components/sections/TeamSection.tsx` — round photo (gold ring, focal point,
+  hover lift/zoom), name (Cinzel), designation (small gold caps); rows centred (flex-wrap) so any
+  number looks balanced; no photo → initials on pattern-green. Backend = the existing Site Settings →
+  About → The Team array (now "People": Photo / Name / Designation, drag to reorder) + new
+  `teamHeading` (default "Meet Our Team") and optional `teamIntro`. Hidden while empty (0 people now).
+  Design checked on a temporary local preview page (deleted, never committed).
+- **About page Our Story:** `<AboutSections preview />` — first chapter (1993, its video plays) +
+  "Read more", same as the homepage (client).
+- **Search Console:** the domain property already existed (≈4.5k clicks / 3 months from the old
+  site); sitemap submitted as the full URL https://motorhome.co.in/sitemap.xml (Domain property needs
+  it); indexing requested for /, /caravans, /tours (+ innovations, about, contact, gallery, Willow,
+  Ladakh suggested). Watch Pages → Not found (404) for old URLs to add to oldSiteRedirects.ts.
+- **Email ON** (see 10-26 entry below).
+
 ### 2026-10-25 (day 28) — 🚀 LIVE on motorhome.co.in (Hostinger VPS); clickable hero
 - **Launched:** GoDaddy A @ → 187.126.126.115, MX 100 (old host) deleted, Google MX/TXT kept;
   `deploy/go-live.sh` → Let's Encrypt cert, www → 301 apex, HSTS. Verified on the real domain: all main

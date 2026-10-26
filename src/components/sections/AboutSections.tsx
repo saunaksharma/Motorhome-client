@@ -27,7 +27,7 @@ function yearIn(body: unknown): string | null {
 // and crossfades to the chapter being read; a gold beam fills down the timeline as you scroll, each chapter's node lights
 // up, and the chapter in view is bright while the others dim. Phones: one column, each
 // chapter with its own photo. Behaviour in `StoryScroll`, styles `.story*` in globals.css.
-// `preview` (homepage): the first chapter + "Read more"; the About page shows the whole story.
+// `preview` (homepage and About page, client): the first chapter + "Read more" opens the rest.
 export async function AboutSections({ preview = false }: { preview?: boolean }) {
   const home = await getHomepage()
   const sections = home?.aboutSections ?? []

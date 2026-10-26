@@ -13,15 +13,35 @@ export const About: GlobalConfig = {
     // The story itself now comes from Homepage → Our Story (shown in full here) — hidden, data kept.
     { name: 'intro', type: 'richText', admin: { hidden: true } },
     { name: 'video', label: 'Photo', type: 'upload', relationTo: 'media', admin: { hidden: true } },
+    // The staff section (client): a circle per person — photo, name, designation. Add as many as you like.
+    {
+      name: 'teamHeading',
+      label: 'Team section — title',
+      type: 'text',
+      defaultValue: 'Meet Our Team',
+      admin: { description: 'The title above the circles, e.g. "Meet Our Team" or "Our Staff".' },
+    },
+    {
+      name: 'teamIntro',
+      label: 'Team section — short line (optional)',
+      type: 'textarea',
+      admin: { description: 'One or two lines under the title. Leave empty to show none.' },
+    },
     {
       name: 'team',
       label: 'The Team',
       type: 'array',
-      labels: { singular: 'Member', plural: 'Team members' },
+      labels: { singular: 'Person', plural: 'People' },
+      admin: { description: 'Each person shows as a round photo with their name and designation on the About Us page, in this order (drag to reorder). "Add Person" for more.' },
       fields: [
+        {
+          name: 'photo',
+          type: 'upload',
+          relationTo: 'media',
+          admin: { description: 'A square photo, about 800 × 800, face in the centre. No photo yet? Their initials show instead.' },
+        },
         { name: 'name', type: 'text', required: true },
-        { name: 'role', type: 'text', admin: { description: 'e.g. "Founder", "Head Driver".' } },
-        { name: 'photo', type: 'upload', relationTo: 'media' },
+        { name: 'role', label: 'Designation', type: 'text', admin: { description: 'e.g. "Founder", "Operations Manager", "Head Driver".' } },
       ],
     },
     {

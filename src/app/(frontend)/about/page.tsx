@@ -1,10 +1,9 @@
-import Image from 'next/image'
 import React from 'react'
 
 import { CtaButton } from '@/components/CtaButton'
 import { AboutSections } from '@/components/sections/AboutSections'
 import { PageBanner } from '@/components/PageBanner'
-import { SectionHeading } from '@/components/SectionHeading'
+import { TeamSection } from '@/components/sections/TeamSection'
 import { getPayloadClient } from '@/lib/payload'
 
 export const revalidate = 60
@@ -19,40 +18,20 @@ export default async function AboutPage() {
   const payload = await getPayloadClient()
   const about = await payload.findGlobal({ slug: 'about', depth: 1 })
 
-  const team = (Array.isArray(about.team) ? about.team : []).filter((m) => m.name)
   const hiring = about.hiring
 
   return (
     <article>
       <PageBanner pageTitle="About Motorhome Adventures" title={about.headline || 'About Us'} />
 
-      {/* The whole Our Story (Homepage → Our Story; the homepage shows its first chapter). */}
-      <AboutSections />
+      {/* Our Story as on the homepage (client): the first chapter with its video, then "Read more"
+          opens the rest (Homepage → Our Story). */}
+      <AboutSections preview />
 
       <div className="mx-auto max-w-[1100px] space-y-16 px-4 py-14">
 
-        {/* The team */}
-        {team.length > 0 && (
-          <section>
-            <SectionHeading title="Meet the Team" />
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {team.map((member, index) => {
-                const photo = typeof member.photo === 'object' ? member.photo : null
-                return (
-                  <div key={index} className="text-center">
-                    <div className="relative mx-auto aspect-square w-40 overflow-hidden rounded-full bg-green/10 ring-4 ring-gold/30">
-                      {photo?.url && (
-                        <Image src={photo.url} alt={member.name} fill sizes="160px" className="object-cover" />
-                      )}
-                    </div>
-                    <p className="mt-4 font-heading text-lg font-semibold text-green">{member.name}</p>
-                    {member.role && <p className="text-sm text-muted-foreground">{member.role}</p>}
-                  </div>
-                )
-              })}
-            </div>
-          </section>
-        )}
+        {/* The staff — Site Settings → About → The Team (client). */}
+        <TeamSection heading={about.teamHeading} intro={about.teamIntro} people={Array.isArray(about.team) ? about.team : []} />
 
         {/* Join our family / hiring */}
         {hiring?.heading && (

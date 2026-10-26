@@ -2109,14 +2109,28 @@ export interface About {
     [k: string]: unknown;
   } | null;
   video?: (number | null) | Media;
+  /**
+   * The title above the circles, e.g. "Meet Our Team" or "Our Staff".
+   */
+  teamHeading?: string | null;
+  /**
+   * One or two lines under the title. Leave empty to show none.
+   */
+  teamIntro?: string | null;
+  /**
+   * Each person shows as a round photo with their name and designation on the About Us page, in this order (drag to reorder). "Add Person" for more.
+   */
   team?:
     | {
+        /**
+         * A square photo, about 800 × 800, face in the centre. No photo yet? Their initials show instead.
+         */
+        photo?: (number | null) | Media;
         name: string;
         /**
-         * e.g. "Founder", "Head Driver".
+         * e.g. "Founder", "Operations Manager", "Head Driver".
          */
         role?: string | null;
-        photo?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
@@ -2331,12 +2345,14 @@ export interface AboutSelect<T extends boolean = true> {
   headline?: T;
   intro?: T;
   video?: T;
+  teamHeading?: T;
+  teamIntro?: T;
   team?:
     | T
     | {
+        photo?: T;
         name?: T;
         role?: T;
-        photo?: T;
         id?: T;
       };
   hiring?:
