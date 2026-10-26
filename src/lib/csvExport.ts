@@ -50,4 +50,5 @@ export const enquiryColumns: Column[] = [
   ['BUDGET', (d) => d.budgetRange],
   ['STATUS', (d) => d.status],
   ['DATE', (d) => isoDate(d.createdAt)],
+  ['PAGE', (d) => d.sourcePage],
 ]

@@ -10,6 +10,9 @@ import { cn } from '@/lib/utils'
 
 type NavItem = { label: string; link: string }
 
+// A menu link to another website (e.g. Build Your Own → caravanconversion.com) opens in a new tab (client).
+const newTab = (link: string) => (/^https?:\/\//.test(link) ? { target: '_blank', rel: 'noopener noreferrer' } : {})
+
 // Floating glass navbar (after 21st.dev's "resizable navbar" pattern). On the
 // homepage it starts see-through over the hero photo and turns solid on scroll;
 // elsewhere it's solid, with a spacer so page content starts below it.
@@ -33,6 +36,15 @@ export function SiteHeader({ brand, logo, nav }: { brand: string; logo?: { url: 
     setMenuPath(pathname)
     setOpen(false)
   }
+
+  // Remember the last page viewed (this tab only) so the booking form can say which page an
+  // enquiry came from — pages switch without a reload, so document.referrer doesn't change.
+  useEffect(() => {
+    if (pathname === '/contact') return
+    try {
+      sessionStorage.setItem('mh:lastPage', pathname)
+    } catch {}
+  }, [pathname])
 
   // While the mobile menu is open, the page behind it can't scroll.
   useEffect(() => {
@@ -103,6 +115,7 @@ export function SiteHeader({ brand, logo, nav }: { brand: string; logo?: { url: 
                 <Link
                   key={item.label}
                   href={item.link}
+                  {...newTab(item.link)}
                   className={cn(
                     // Tighter at lg so all 8 items fit on one line down to 1024px (iPad landscape).
                     'group relative whitespace-nowrap px-1.5 py-2 font-heading text-[12px] uppercase tracking-[0.08em] transition-colors xl:px-2 xl:text-[13px] xl:tracking-[0.12em]',
@@ -145,6 +158,7 @@ export function SiteHeader({ brand, logo, nav }: { brand: string; logo?: { url: 
                   <Link
                     key={item.label}
                     href={item.link}
+                    {...newTab(item.link)}
                     className={cn(
                       'rounded-xl px-3 py-2.5 font-heading uppercase tracking-[0.12em] transition-colors',
                       isActive(item.link) ? 'bg-white/10 text-gold' : 'text-white/90 hover:bg-white/5 hover:text-gold',

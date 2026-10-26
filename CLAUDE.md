@@ -177,6 +177,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   "Download for Brevo" — both use `enquiryColumns` + `toCsv` in lib/csvExport.ts (one definition).
   Export re-tested (200 logged in, 401 without). DB had 0 enquiries / 0 subscribers on 2026-10-25 (the one
   earlier real enquiry was deleted in the admin; test cleanups only ever matched @example.test).
+- **"Sent from page" (client: enquiries didn't say where they came from):** enquiries.sourcePage (readOnly,
+  list column, CSV column PAGE, email line "about the caravan Willow (sent from /caravans/willow)").
+  Client-side page switches don't update document.referrer → SiteHeader stores the last non-/contact path
+  in sessionStorage `mh:lastPage`; BookingForm reads it (referrer as fallback). Server hook keeps only
+  `^/[\w\-/]*$` (returns null otherwise — undefined would keep the posted value). Tested: Willow →
+  Book Your Call → "/caravans/willow"; javascript:/https:// junk → null. A real enquiry arrived after
+  launch (1 in the DB, untouched).
+- **Header:** menu links to other websites (Build Your Own → caravanconversion.com) open in a new tab
+  (desktop + phone menu).
 - **Still to do:** Neon password reset (exposed 2026-10-20), Brevo SMTP + SPF/DKIM, Search Console
   sitemap, delete the Vercel project, cancel the old hosting after a few days.
 

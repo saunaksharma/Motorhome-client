@@ -44,6 +44,8 @@ export function BookingForm({ choices, bookingLink }: { choices: EnquiryChoices;
   const [destination, setDestination] = useState('')
   // null until the link has been read, so neither version flashes before the other.
   const [locked, setLocked] = useState<boolean | null>(null)
+  // The page on this site the visitor came from (client: "which page is the enquiry from?").
+  const [sourcePage, setSourcePage] = useState('')
   const [sending, setSending] = useState(false)
 
   // Read the link in the browser, so the page itself can be pre-built and load instantly.
@@ -56,6 +58,15 @@ export function BookingForm({ choices, bookingLink }: { choices: EnquiryChoices;
     if (isType(linkType)) setType(linkType)
     setDestination(linkDestination)
     setLocked(isType(linkType) && linkDestination !== '')
+    // The page they were on: remembered by SiteHeader (moves inside the site), or the referrer
+    // (arrived from another tab / a full load).
+    let last = ''
+    try {
+      last = sessionStorage.getItem('mh:lastPage') ?? ''
+    } catch {}
+    const from = document.referrer ? new URL(document.referrer) : null
+    if (!last && from?.origin === window.location.origin && from.pathname !== '/contact') last = from.pathname
+    setSourcePage(last)
   }, [])
   const field = TYPES.find((t) => t.value === type)!
   // A pre-filled name that isn't in the list (e.g. "Custom Build") is still offered.
@@ -115,6 +126,7 @@ export function BookingForm({ choices, bookingLink }: { choices: EnquiryChoices;
     <form onSubmit={onSubmit} className="relative grid gap-4 sm:grid-cols-2">
       <Honeypot />
       <input type="hidden" name="enquiryType" value={type} />
+      {sourcePage && <input type="hidden" name="sourcePage" value={sourcePage} />}
       {locked && (
         <div className="rounded-2xl border-l-4 border-green bg-card px-5 py-4 shadow-sm ring-1 ring-green/10 sm:col-span-2">
           <input type="hidden" name="destination" value={destination} />

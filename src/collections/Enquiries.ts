@@ -12,7 +12,7 @@ export const Enquiries: CollectionConfig = {
   defaultSort: '-createdAt',
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['firstName', 'lastName', 'phone', 'enquiryType', 'destination', 'status', 'createdAt'],
+    defaultColumns: ['firstName', 'lastName', 'phone', 'enquiryType', 'destination', 'sourcePage', 'status', 'createdAt'],
     listSearchableFields: ['firstName', 'lastName', 'email', 'phone'],
     group: 'Inbox',
     description: 'Booking requests sent from the website forms. Update the status as you follow up.',
@@ -72,6 +72,14 @@ export const Enquiries: CollectionConfig = {
       label: 'Itinerary / Caravan / Vehicle',
       type: 'text',
       admin: { description: 'The tour, caravan or vehicle they chose (or "Not sure yet").' },
+    },
+    {
+      name: 'sourcePage',
+      label: 'Sent from page',
+      type: 'text',
+      // Only a path on this site (the form fills it in); anything else a visitor might post is dropped.
+      hooks: { beforeChange: [({ value }) => (typeof value === 'string' && /^\/[\w\-/]*$/.test(value) ? value.slice(0, 200) : null)] },
+      admin: { readOnly: true, description: 'The page on the website they were on when they clicked "Book Your Call", e.g. /caravans/willow (empty if they opened the contact page directly).' },
     },
     { name: 'preferredTravelDates', type: 'text', admin: { hidden: true } }, // removed from the form (client) — hidden, data kept
     { name: 'groupSize', type: 'text', admin: { hidden: true } }, // removed from the form (client) — hidden, data kept

@@ -1075,6 +1075,10 @@ export interface Enquiry {
    * The tour, caravan or vehicle they chose (or "Not sure yet").
    */
   destination?: string | null;
+  /**
+   * The page on the website they were on when they clicked "Book Your Call", e.g. /caravans/willow (empty if they opened the contact page directly).
+   */
+  sourcePage?: string | null;
   preferredTravelDates?: string | null;
   groupSize?: string | null;
   budgetRange?: string | null;
@@ -1622,6 +1626,7 @@ export interface EnquiriesSelect<T extends boolean = true> {
   company?: T;
   enquiryType?: T;
   destination?: T;
+  sourcePage?: T;
   preferredTravelDates?: T;
   groupSize?: T;
   budgetRange?: T;
