@@ -184,6 +184,10 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   `^/[\w\-/]*$` (returns null otherwise — undefined would keep the posted value). Tested: Willow →
   Book Your Call → "/caravans/willow"; javascript:/https:// junk → null. A real enquiry arrived after
   launch (1 in the DB, untouched).
+- **Email is ON (2026-10-26):** Gmail App Password for motorhomweb@gmail.com (user pasted it into the local
+  .env; copied to /srv/motorhome/.env — SMTP_HOST smtp.gmail.com:465, USER/FROM motorhomweb@). nodemailer
+  verify → OK; live test booking (Willow) → no email errors; test enquiry deleted. Also enables the admin's
+  "Forgot password". To change the sender: new app password in both .env files + `systemctl restart motorhome`.
 - **Header:** menu links to other websites (Build Your Own → caravanconversion.com) open in a new tab
   (desktop + phone menu).
 - **Still to do:** Neon password reset (exposed 2026-10-20), Brevo SMTP + SPF/DKIM, Search Console
