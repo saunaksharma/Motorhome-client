@@ -20,10 +20,19 @@ const escapeHtml = (value: unknown) =>
 
 const KIND: Record<string, string> = { tour: 'Tour', caravan: 'Caravan', innovation: 'Innovation (vehicle)' }
 
+// "91-9871063984", as in the client's old enquiry emails; anything else as typed.
+const contactNo = (phone: unknown) => {
+  const digits = String(phone ?? '').replace(/\D/g, '').replace(/^0(\d{10})$/, '$1')
+  if (digits.length === 10) return `91-${digits}`
+  if (digits.length === 12 && digits.startsWith('91')) return `91-${digits.slice(2)}`
+  return String(phone ?? '')
+}
+
 // Email the business about every new booking enquiry (address set in Site Settings → Business
-// Details). Client: the details written out in the email (no attachment), like Brevo's form emails;
-// the sender name is the customer's (Gmail still shows "me" for mail from your own address).
-// A failed email never blocks the enquiry.
+// Details), laid out like the client's old enquiry emails (her screenshots, 2026-10-28): plain
+// "Label: value" lines starting with the name (so Gmail's preview shows the details), a rule, then
+// where it was sent from. The sender name is the customer's — Gmail shows it only when the site sends
+// from an address other than the inbox's own (else "me"). A failed email never blocks the enquiry.
 export const notifyNewEnquiry: CollectionAfterChangeHook = async ({ doc, operation, req }) => {
   if (operation !== 'create') return doc
   try {
@@ -32,31 +41,30 @@ export const notifyNewEnquiry: CollectionAfterChangeHook = async ({ doc, operati
     if (!to) return doc
 
     const name = `${doc.firstName} ${doc.lastName}`.trim()
-    const rows: [string, string][] = [
-      ['Name', escapeHtml(name)],
-      ['Phone', escapeHtml(doc.phone)],
+    const lines: [string, string][] = [
+      ['Full Name', escapeHtml(name)],
       ['Email', doc.email ? `<a href="mailto:${escapeHtml(doc.email)}">${escapeHtml(doc.email)}</a>` : ''],
-      ['Enquiry about', escapeHtml(KIND[doc.enquiryType] ?? doc.enquiryType)],
-      ['Interested in', escapeHtml(doc.destination)],
-      ['Budget', escapeHtml(doc.budgetRange)],
-      ['Sent from page', escapeHtml(doc.sourcePage)],
-      ['Date', escapeHtml(new Date(doc.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' }))],
+      ['Contact No', escapeHtml(contactNo(doc.phone))],
+      ['Budget Range', escapeHtml(doc.budgetRange)],
+      ['Enquiry About', escapeHtml(KIND[doc.enquiryType] ?? doc.enquiryType)],
+      ['Interested In', escapeHtml(doc.destination)],
     ]
-    const cell = 'padding:8px 12px;border-bottom:1px solid #eee'
-    const html = `<div style="font-family:Arial,sans-serif;font-size:15px;color:#222">
-<h2 style="margin:0 0 12px;color:#0d473f">New enquiry from the website</h2>
-<table style="border-collapse:collapse">${rows
-      .filter(([, value]) => value)
-      .map(([label, value]) => `<tr><td style="${cell};color:#666">${label}</td><td style="${cell}"><b>${value}</b></td></tr>`)
-      .join('')}</table>
-<p style="color:#666">Reply to this email to answer ${escapeHtml(doc.firstName || 'them')} directly.</p>
+    const p = (label: string, value: string) => `<p style="margin:0 0 14px">${label}: ${value}</p>`
+    const sentFrom = doc.sourcePage
+      ? `<a href="${escapeHtml(process.env.SERVER_URL || '')}${escapeHtml(doc.sourcePage)}">${escapeHtml((doc.destination || doc.sourcePage).toUpperCase())}</a>`
+      : escapeHtml(String(doc.destination || 'Contact page').toUpperCase())
+    const html = `<div style="font-family:Arial,sans-serif;font-size:16px;color:#222">
+${lines.filter(([, value]) => value).map(([label, value]) => p(label, value)).join('')}
+<hr style="border:0;border-top:1px solid #bbb;margin:18px 0">
+${p('Sent From Link', sentFrom)}
+<hr style="border:0;border-top:1px solid #bbb;margin:18px 0">
 </div>`
 
     await req.payload.sendEmail({
-      from: { name: `${name} (website enquiry)`, address: process.env.SMTP_FROM || process.env.SMTP_USER || '' },
+      from: { name, address: process.env.SMTP_FROM || process.env.SMTP_USER || '' },
       to,
       replyTo: doc.email,
-      subject: `New enquiry: ${name}${doc.destination ? ` — ${doc.destination}` : ''}`,
+      subject: `Let's Get Caravanning with Motorhome Adventures${doc.destination ? ` — ${doc.destination}` : ''} (${name})`,
       html,
     })
   } catch (error) {

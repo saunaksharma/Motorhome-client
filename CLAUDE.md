@@ -175,6 +175,15 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   page, date IST); From name = "<customer> (website enquiry)". Gmail still lists it as "me" (sent from
   her own address) — a customer name in that column needs a different sender (e.g. Brevo SMTP from
   website@motorhome.co.in). The admin's Download for Brevo CSV is unchanged.
+- **Then (client screenshots, same day):** layout = her old enquiry emails — plain "Label: value" lines
+  (Full Name, Email, Contact No "91-…", Budget Range, Enquiry About, Interested In), a rule, "Sent From
+  Link: WILLOW" (linked to the page), a rule; body starts with "Full Name:" so Gmail's preview shows the
+  details. Subject "Let's Get Caravanning with Motorhome Adventures — <item> (<name>)" (name keeps
+  enquiries from threading together). From name = the customer.
+- **Delivery finding:** Gmail SMTP accepts every send (250 OK; direct test from the PC), but the site
+  sends FROM motorhomweb@ TO motorhomweb@ — Gmail files self-sent mail under Sent/All Mail (often not
+  Inbox) and shows "me". Fix = a different sender address (a second Gmail with an app password, or
+  Brevo SMTP from website@motorhome.co.in) — waiting on the user.
 
 ### 2026-10-25 (day 28) — 🚀 LIVE on motorhome.co.in (Hostinger VPS); clickable hero
 - **Launched:** GoDaddy A @ → 187.126.126.115, MX 100 (old host) deleted, Google MX/TXT kept;
