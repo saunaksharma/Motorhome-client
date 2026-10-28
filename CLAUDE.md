@@ -184,6 +184,10 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   sends FROM motorhomweb@ TO motorhomweb@ — Gmail files self-sent mail under Sent/All Mail (often not
   Inbox) and shows "me". Fix = a different sender address (a second Gmail with an app password, or
   Brevo SMTP from website@motorhome.co.in) — waiting on the user.
+- **Fixed (2026-10-28):** the site now sends FROM a separate Gmail made for the website (its own app
+  password; SMTP_USER/SMTP_FROM in both .env files — not motorhomweb@), TO motorhomweb@gmail.com. So
+  bookings arrive as normal incoming mail (Inbox) with the customer's name as the sender. Login
+  verified, server switched + restarted, live test booking sent with no errors (test row deleted).
 
 ### 2026-10-25 (day 28) — 🚀 LIVE on motorhome.co.in (Hostinger VPS); clickable hero
 - **Launched:** GoDaddy A @ → 187.126.126.115, MX 100 (old host) deleted, Google MX/TXT kept;
