@@ -1,7 +1,5 @@
 import { APIError, type CollectionAfterChangeHook, type CollectionBeforeOperationHook } from 'payload'
 
-import { enquiryColumns, isoDate, toCsv } from '../lib/csvExport'
-
 // The public forms include a hidden "website" input that people never see.
 // Bots fill every field, so a value there means the submission is spam.
 export const HONEYPOT_FIELD = 'website'
@@ -20,15 +18,12 @@ const escapeHtml = (value: unknown) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
 
-// " about the caravan Willow (sent from /caravans/willow)" — what and where, in the email's one line.
-const KIND: Record<string, string> = { tour: 'the tour ', caravan: 'the caravan ', innovation: 'the vehicle ' }
-const about = (doc: { enquiryType?: string | null; destination?: string | null; sourcePage?: string | null }) =>
-  (doc.destination ? ` about ${KIND[doc.enquiryType ?? ''] ?? ''}<b>${escapeHtml(doc.destination)}</b>` : '') +
-  (doc.sourcePage ? ` (sent from ${escapeHtml(doc.sourcePage)})` : '')
+const KIND: Record<string, string> = { tour: 'Tour', caravan: 'Caravan', innovation: 'Innovation (vehicle)' }
 
 // Email the business about every new booking enquiry (address set in Site Settings → Business
-// Details). Client: the details come as a CSV file (opens in Excel; same columns as the admin's
-// "Download for Brevo"). A failed email never blocks the enquiry.
+// Details). Client: the details written out in the email (no attachment), like Brevo's form emails;
+// the sender name is the customer's (Gmail still shows "me" for mail from your own address).
+// A failed email never blocks the enquiry.
 export const notifyNewEnquiry: CollectionAfterChangeHook = async ({ doc, operation, req }) => {
   if (operation !== 'create') return doc
   try {
@@ -36,15 +31,33 @@ export const notifyNewEnquiry: CollectionAfterChangeHook = async ({ doc, operati
     const to = business?.enquiryNotifyEmail
     if (!to) return doc
 
-    const name = `${doc.firstName} ${doc.lastName}`
-    const file = `enquiry-${isoDate(doc.createdAt)}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.csv`
+    const name = `${doc.firstName} ${doc.lastName}`.trim()
+    const rows: [string, string][] = [
+      ['Name', escapeHtml(name)],
+      ['Phone', escapeHtml(doc.phone)],
+      ['Email', doc.email ? `<a href="mailto:${escapeHtml(doc.email)}">${escapeHtml(doc.email)}</a>` : ''],
+      ['Enquiry about', escapeHtml(KIND[doc.enquiryType] ?? doc.enquiryType)],
+      ['Interested in', escapeHtml(doc.destination)],
+      ['Budget', escapeHtml(doc.budgetRange)],
+      ['Sent from page', escapeHtml(doc.sourcePage)],
+      ['Date', escapeHtml(new Date(doc.createdAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' }))],
+    ]
+    const cell = 'padding:8px 12px;border-bottom:1px solid #eee'
+    const html = `<div style="font-family:Arial,sans-serif;font-size:15px;color:#222">
+<h2 style="margin:0 0 12px;color:#0d473f">New enquiry from the website</h2>
+<table style="border-collapse:collapse">${rows
+      .filter(([, value]) => value)
+      .map(([label, value]) => `<tr><td style="${cell};color:#666">${label}</td><td style="${cell}"><b>${value}</b></td></tr>`)
+      .join('')}</table>
+<p style="color:#666">Reply to this email to answer ${escapeHtml(doc.firstName || 'them')} directly.</p>
+</div>`
 
     await req.payload.sendEmail({
+      from: { name: `${name} (website enquiry)`, address: process.env.SMTP_FROM || process.env.SMTP_USER || '' },
       to,
       replyTo: doc.email,
       subject: `New enquiry: ${name}${doc.destination ? ` — ${doc.destination}` : ''}`,
-      html: `<p>New enquiry from <b>${escapeHtml(name)}</b>${about(doc)}. The details are in the attached file (opens in Excel). Reply to this email to answer them.</p>`,
-      attachments: [{ filename: file, content: toCsv(enquiryColumns, [doc]), contentType: 'text/csv; charset=utf-8' }],
+      html,
     })
   } catch (error) {
     req.payload.logger.error({ err: error, msg: 'Enquiry notification email failed' })

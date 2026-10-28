@@ -169,6 +169,12 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   it); indexing requested for /, /caravans, /tours (+ innovations, about, contact, gallery, Willow,
   Ladakh suggested). Watch Pages → Not found (404) for old URLs to add to oldSiteRedirects.ts.
 - **Email ON** (see 10-26 entry below).
+- **Enquiry email = written-out details, no attachment (client voice note 2026-10-28, transcribed locally
+  with faster-whisper "small"):** "don't want the attachment, just text — name, number, email", like
+  Brevo's form emails. Body = a table (name, phone, email, enquiry about, interested in, budget, sent from
+  page, date IST); From name = "<customer> (website enquiry)". Gmail still lists it as "me" (sent from
+  her own address) — a customer name in that column needs a different sender (e.g. Brevo SMTP from
+  website@motorhome.co.in). The admin's Download for Brevo CSV is unchanged.
 
 ### 2026-10-25 (day 28) — 🚀 LIVE on motorhome.co.in (Hostinger VPS); clickable hero
 - **Launched:** GoDaddy A @ → 187.126.126.115, MX 100 (old host) deleted, Google MX/TXT kept;
