@@ -155,6 +155,18 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-11-09 (day 41) — Search Console "Not found (404)": legacy addresses from older sites
+- Client forwarded Search Console's new "Not found (404)" reason (not-indexed jumped at launch).
+  Old host files are gone, so the domain's old URLs came from the Internet Archive (CDX API: 757 URLs,
+  329 page-like). The domain had several earlier sites: the PHP one (already redirected), a WordPress
+  site (/queen-motorhome-camper/, /tour/…, /rajasthan-11-nights-12-days…), plain .html/.htm pages
+  (01_home.html, 2_berth/image-1.html, nepal1.htm…) and ASP (homeview.asp…).
+- `legacyRedirects` in oldSiteRedirects.ts (after oldSiteRedirects): each to its nearest page (Ladakh,
+  Char Dham, Nepal, Kumaon, Buddhist trail tours; caravans; Food Fusion; Lounger; about/contact/faq/
+  terms/blog/gallery/build); any other `*.html|htm|asp` → /. WordPress admin/API, images, scripts,
+  cpanel probes left 404 (correct). Before → after on all 329: 193 → 36 404s (only junk remains).
+  Note: a regex in a Next redirect source needs `\.` in the TS string (a single `\.` becomes `.`).
+
 ### 2026-10-26 (day 29) — staff section on About; About's Our Story = homepage view
 - **Staff (client):** `components/sections/TeamSection.tsx` — round photo (gold ring, focal point,
   hover lift/zoom), name (Cinzel), designation (small gold caps); rows centred (flex-wrap) so any

@@ -3,7 +3,7 @@ import type { NextConfig } from 'next'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import { oldSiteRedirects } from './oldSiteRedirects'
+import { legacyRedirects, oldSiteRedirects } from './oldSiteRedirects'
 
 const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
       { source: '/partner-with-us', destination: '/dream-big-with-us', permanent: false },
       // The previous site's addresses (fleet.php?id=…, item.php, page.php…) → their new pages.
       ...oldSiteRedirects,
+      ...legacyRedirects,
     ]
   },
   async headers() {

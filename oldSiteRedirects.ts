@@ -90,3 +90,50 @@ export const oldSiteRedirects: Redirect[] = [
   { source: '/rss-feeds.php', destination: '/blog', permanent: true },
   { source: '/index.php', destination: '/', permanent: true },
 ]
+
+// Even older sites on this domain (a WordPress site, plain .html/.htm pages, ASP) that Google still
+// knows — taken from the Internet Archive's list of the domain's pages (2026-11-09). Each goes to its
+// nearest page; leftovers ending .html/.htm/.asp go home. WordPress admin/API, image and script
+// addresses are left as 404 (bots and old files — correct for them).
+const legacy: Record<string, string[]> = {
+  '/about': ['/about-us', '/about.html', '/03_about.html', '/about_motorhome.html', '/aboutus.htm'],
+  '/contact': ['/contact-us.php', '/contact.php', '/contact_us.html', '/reachus.htm', '/booking.htm', '/booking1.htm', '/reservation.htm', '/feedback.htm'],
+  '/faq': ['/FAQ.html', '/faq.htm', '/guided_tour_booking_info.html'],
+  '/terms-and-conditions': ['/terms.html', '/terms_condition.html', '/booking_policy.html'],
+  '/blog': ['/10_blog.html', '/single-post.html', '/news', '/uncategorized/hello-world'],
+  '/gallery': ['/image-gallery.php', '/our-gallery.php', '/photoview.asp', '/tour-gallery', '/portfolio.html', '/single-project.html'],
+  '/caravans': [
+    '/11-berth-caravan', '/rentals.html', '/motorhome_rentals.html', '/motorhome_lease.html', '/caravanview.htm',
+    '/royal_cadet', '/SLIDING-DRONE', '/towing-trailer-hire.html', '/facility.htm', '/facility1.htm', '/pricing.htm',
+    '/two_berth_rental.html', '/four_berth_rental.html', '/five_berth_rental.html', '/six_berth_rental.html',
+    '/1_four_berth.html', '/2_four_berth.html', '/3_four_berth.html', '/1_six_berth.html', '/2_six_berth.html', '/3_six_berth.html',
+    '/2_berth/:image*', '/5_berth/:image*', '/six_berth/:image*', '/product/:name*',
+  ],
+  '/build': ['/buy-motor.html', '/buy_sale_motorhome.html', '/buy_sell_customize.html', '/customize_motorhome.html'],
+  '/innovations/food-fusion-express': ['/food-truck'],
+  '/innovations/lounger-on-wheels': ['/lounger-bus.html'],
+  '/tours/the-adventures-of-ladakh': [
+    '/lofty-ladakh-9nights10days', '/tour/lofty-ladakh', '/lofty_ladakh_tour.html', '/cultural_ladakh_tour.html',
+    '/motorhome_ladakh_tour.html', '/himachal_ladakh_leh.html', '/leh.htm', '/leh1.htm',
+  ],
+  '/tours/mystic-mountains-holy-rivers-the-char-dham-expedition': ['/char-dham-yatra', '/char_dham_yatra.html'],
+  '/tours/nepal-nomads-chitwan-pokhara-kathmandu-caraventure': ['/motorhome_nepal_tour.html', '/nepal.htm', '/nepal1.htm', '/nepal2.htm', '/nepal3.htm', '/indinep.htm', '/indinep1.htm', '/nepalsik.htm', '/sightnep.htm'],
+  '/tours/himalayan-escape-to-kumaon': ['/kumaun.htm'],
+  '/tours/buddhist-trail-caravan-calmventure': ['/himachal_buddhist_trail.html'],
+  '/tours': [
+    '/24-nights-25days-tour', '/rajasthan-11-nights-12-days', '/rajasthan-18-nights-19-days', '/adventures-of-himalyas',
+    '/best_rajasthan.html', '/entire_rajasthan.html', '/motorhome_rajasthan_tour.html', '/goraj.htm',
+    '/himachal.htm', '/himachal1.htm', '/motorhome_himachal_tour.html', '/sighthim.htm', '/sightgoa.htm',
+    '/beauty_of_kashmir.html', '/motorhome_tibet_tour.html', '/tajmahal_tour.html', '/India_tour.html', '/journey.html',
+    '/customize_tour.html', '/fixed_departure_tour.html', '/motorhome_guided_tour.html', '/motorbike_tour.html',
+    '/amazingholidays.asp', '/tour/:slug*',
+  ],
+  '/': ['/01_home.html', '/index.htm', '/index.html', '/homeview.asp', '/homeonwheels.asp', '/menu.htm', '/menu.html', '/layout.htm'],
+}
+
+export const legacyRedirects: Redirect[] = [
+  ...Object.entries(legacy).flatMap(([destination, sources]) => sources.map((source) => ({ source, destination, permanent: true }))),
+  { source: '/sitemap.php', destination: '/sitemap.xml', permanent: true },
+  // Any other old page file → the homepage (not images, scripts or WordPress — those stay 404).
+  { source: '/:page([^/]+\\.(?:html?|asp))', destination: '/', permanent: true },
+]
