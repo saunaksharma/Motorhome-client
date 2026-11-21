@@ -1,7 +1,7 @@
 [Unit]
-Description=Every Sunday 03:30 (IST)
+Description=Every day 03:30 (IST)
 [Timer]
-OnCalendar=Sun *-*-* 03:30:00
+OnCalendar=*-*-* 03:30:00
 Persistent=true
 [Install]
 WantedBy=timers.target

@@ -3,7 +3,7 @@
 # (systemd already restarts it if it crashes; this catches it hanging.) Logs: journalctl -u motorhome-watchdog
 set -u
 STATE=/run/motorhome-watchdog.misses
-if curl -sf -o /dev/null --max-time 15 http://127.0.0.1:3000/; then
+if curl -sf -o /dev/null --max-time 15 http://127.0.0.1:3000/robots.txt; then  # a page that never touches the database (checking "/" kept Neon awake 24/7)
   rm -f "$STATE"; exit 0
 fi
 misses=$(( $(cat "$STATE" 2>/dev/null || echo 0) + 1 ))
