@@ -13,6 +13,9 @@ const detailCollections = [
   ['pages', ''], // admin text pages (Terms, Privacy, FAQ…) live at /<slug>
 ] as const
 
+// Rebuilt hourly (not only on deploy), so pages the client edits show up with a fresh date.
+export const revalidate = 3600
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayloadClient()
 
@@ -29,10 +32,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       where: { active: { equals: true } },
       limit: 1000,
       depth: 0,
+      select: { slug: true, updatedAt: true },
     })
     for (const doc of docs) {
       if (doc.slug) {
-        entries.push({ url: `${serverURL}${base}/${doc.slug}`, changeFrequency: 'weekly', priority: 0.6 })
+        // lastModified = when it was last edited — Google uses it to decide what to re-crawl first.
+        entries.push({ url: `${serverURL}${base}/${doc.slug}`, lastModified: doc.updatedAt, changeFrequency: 'weekly', priority: 0.6 })
       }
     }
   }

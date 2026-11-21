@@ -155,6 +155,14 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-11-21 (day 53) — sitemap dates; Search Console check
+- Search Console: 71 indexed / 133 not — redirects 46 (someone clicked Validate on "Page with redirect" →
+  "Failed" by design; ignore), alternate canonical 32, discovered-not-indexed 39, crawled-not-indexed 8,
+  duplicate 6 (pre-launch crawls of old URLs, now redirecting), 404 2 (validation started). Re-tested the
+  333 archived old URLs: 287 redirect, 9 open, 36 junk 404s — unchanged, fine.
+- **sitemap.ts:** `lastModified` = each doc's updatedAt (Google uses it to prioritise crawling; it ignores
+  changefreq/priority) and `revalidate = 3600` (was only rebuilt on deploy). Static paths have no date.
+
 ### 2026-11-09 (day 41) — Search Console "Not found (404)": legacy addresses from older sites
 - Client forwarded Search Console's new "Not found (404)" reason (not-indexed jumped at launch).
   Old host files are gone, so the domain's old URLs came from the Internet Archive (CDX API: 757 URLs,
