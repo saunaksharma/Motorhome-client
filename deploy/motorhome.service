@@ -1,15 +1,17 @@
 # The website as a service (systemd). Installed by deploy/deploy.sh to /etc/systemd/system/.
 [Unit]
 Description=Motorhome Adventures website (Next.js + Payload)
-After=network-online.target
-Wants=network-online.target
+# The database lives on this server (since 2026-11-21): start after it, stop before it.
+After=network-online.target postgresql.service
+Wants=network-online.target postgresql.service
 
 [Service]
 User=app
 Group=app
 WorkingDirectory=/srv/motorhome/current
 EnvironmentFile=/srv/motorhome/.env
-Environment=NODE_OPTIONS=--no-deprecation --max-old-space-size=1536
+# Quoted: unquoted, systemd split at the space and silently dropped the memory cap (2026-10-20 → 11-21).
+Environment="NODE_OPTIONS=--no-deprecation --max-old-space-size=1536"
 ExecStart=/usr/bin/node node_modules/next/dist/bin/next start -H 127.0.0.1 -p 3000
 Restart=always
 RestartSec=5

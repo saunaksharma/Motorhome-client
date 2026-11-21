@@ -19,14 +19,16 @@ links, sort/featured/active, unlimited child pages). Design page-53 spells this 
 
 ## 1. Stack & structure
 
-- **Next.js 16 + Payload 3.90.1** (Payload embedded in the Next app) · **Neon Postgres** · TypeScript.
+- **Next.js 16 + Payload 3.92.0** (Payload embedded in the Next app) · **PostgreSQL 17 on the VPS**
+  (Neon until 2026-11-21 — see that day's log) · TypeScript.
 - **Frontend styling: Tailwind v4 + shadcn/ui** (brand theme in `(frontend)/globals.css`;
   `cn()` in `src/lib/utils.ts`; shadcn config in `components.json`; components land in
   `src/components/ui/`). We pull components from **21st.dev** (React + Tailwind + shadcn) and
   adapt them to the brand tokens. **Tailwind loads only on the public site** — the Payload
   admin keeps its own styling (verified). Icons: `lucide-react`.
 - Everything lives in **`motorhome-adventures/`**. `.env` is gitignored and holds
-  `DATABASE_URI` (Neon **direct** connection — Payload needs prepared statements) and `PAYLOAD_SECRET`.
+  `DATABASE_URI` and `PAYLOAD_SECRET`. The live DB is localhost-only on the VPS (local dev: SSH tunnel,
+  see 2026-11-21); the local .env still names the old Neon DB.
 - Key paths:
   - `src/payload.config.ts` — registers all collections/globals.
   - `src/collections/*` — one file per collection.
@@ -154,6 +156,42 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   OUR TOURS → OUR CARAVANS → OUR INNOVATION → **HOW IT ALL BEGAN** (origin story) → footer. We
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
+
+### 2026-11-21 (day 53, cont.) — Neon quota outage → database moved onto the VPS
+- **Outage 2026-11-18 05:52 → 11-21 10:25 IST:** Neon free plan "exceeded the quota" → every DB query
+  failed. Public pages kept serving from the ISR cache (200), but bookings, /api and the admin were
+  broken (9.5k errors/day); nobody could book for ~3.5 days. Found when the sitemap deploy's build failed.
+  **Cause (ours):** the watchdog curled `/` every 2 min → ISR re-rendered → Neon compute never
+  suspended. Watchdog now curls `/robots.txt` (never touches the DB).
+- **Fix (user's choice over paying Neon):** PostgreSQL 17 (PGDG) on the VPS, localhost-only (127.0.0.1/::1
+  :5432), role + db `motorhome`, random password generated on the server (never printed). Restored the
+  2026-11-15 03:30 backup (58 tables, pg_restore --no-owner --no-privileges, exit 0: 8 caravans / 25 tours
+  / 6 innovations / 456 media / 27 enquiries / 5 users). No schema change since 2026-10-26, so it matched.
+  `/srv/motorhome/.env` DATABASE_URI → local; the old Neon line kept in `/srv/motorhome/.env.neon` (root, 600).
+- **Backups:** now daily 03:30, keeps 14 (`PGSSLROOTCERT=system` removed — it forces verify-full, which
+  the local DB doesn't do). Still only on this server → an off-site copy is a to-do (NOT the public R2
+  photo bucket — anything there is downloadable). Unattended-upgrades also patches PGDG (Postgres 17).
+- **Verified:** all pages + /api 200 over HTTPS; deploy 5cb76d2 (incl. 02d5a34 sitemap: 70 URLs with
+  lastmod); test booking via /api/enquiries → 201, saved with sourcePage, no email error; test row
+  (example.test) deleted. Exit status 143 on `systemctl restart` = normal SIGTERM, not a crash.
+  Re-swept after the service fixes: 70/70 sitemap pages 200, collection totals match the restore, fake
+  login → 401, optimized photos 200, 0 site errors.
+- **motorhome.service:** starts after / stops before `postgresql.service` (cluster units are
+  `Before=postgresql.service`). Also fixed a go-live bug: `Environment=NODE_OPTIONS=--no-deprecation
+  --max-old-space-size=1536` unquoted → systemd split it and dropped the memory cap (`systemd-analyze
+  verify` warned); now quoted, cap active (site ~250 MB, Postgres ~70 MB, 3.2 GB free). Installed by hand;
+  the next deploy installs the same file.
+- **Kept forever:** `/srv/motorhome/backups/neon-final-2026-11-15.dump` (same sha256 as the 11-15 dump;
+  the rotation only deletes `motorhome-*.dump`).
+- **Missing 15 Nov 03:30 → 18 Nov 05:52:** anything changed in that window lives only in Neon. Those
+  enquiries were emailed at the time (so they're in the Gmail inbox). The 22 pages the old release
+  re-rendered from Neon in that window are identical to today's (no sign of admin edits); / and /about
+  couldn't be compared. **Once Neon's monthly quota resets:** dump it (URI in .env.neon), copy over
+  enquiries created after 15 Nov 03:30 *without their ids* (local ids continue from the backup — a test
+  row already used id 62), and diff updated_at > 15 Nov for content edits. Then the Neon project can go.
+- **Local dev:** the local .env still points at Neon (locked). To work against the live DB, tunnel:
+  `ssh -i ~/.ssh/motorhome_vps -N -L 5433:127.0.0.1:5432 root@187.126.126.115` + a local URI on port 5433.
+  `npm run dev` / `payload run` push schema changes to whatever DB the URI names — the live one.
 
 ### 2026-11-21 (day 53) — sitemap dates; Search Console check
 - Search Console: 71 indexed / 133 not — redirects 46 (someone clicked Validate on "Page with redirect" →
