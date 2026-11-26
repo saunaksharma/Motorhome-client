@@ -157,6 +157,21 @@ Commits: `scaffold → Features → filters → Caravans → Tours → galleries
   have all these sections; reviews sit right under the hero there (ours has featured strips
   first — possible reorder). Remaining gaps tracked in §9.
 
+### 2026-11-26 (day 58) — health check after the database move
+- **Backups:** daily 03:30 all "backup ok" (22–26 Nov, ~304 KB) + neon-final kept. **Restore test:** the
+  26 Nov dump into a scratch db `restore_check` → exit 0, 57/58 tables identical to live (enquiries
+  33 vs 36 = bookings after 03:30); scratch db dropped. Still all on this one server (off-site to-do).
+- **Bookings:** 9 real enquiries since the move (caravan/innovation/tour), 9/9 with sourcePage, 0 email
+  failures. Postgres log: 0 errors; db 14 MB.
+- **Site:** 70/70 sitemap pages 200 (all < 0.35 s warm; one 5 s first-visit re-render), APIs 200,
+  users/enquiries 403, redirects OK, Let's Encrypt cert to 2027-01-23, HSTS. Only site errors in 5 days:
+  4 next/image "upstream timed out" for one 2.7 MB PNG from r2.dev at night — now 200 at all widths
+  (r2.dev is Cloudflare's rate-limited dev URL; a custom R2 domain needs the zone on Cloudflare — later).
+- **Watchdog:** never needed to restart the site (the "restart" grep hits its Description). 0 site restarts.
+- **Server:** up since 10-23; kernel 6.8.0-151 + libc installed by unattended-upgrades → **reboot pending**.
+  A few security packages (krb5, expat, elfutils, libpcap) awaiting the next unattended run.
+- **Neon:** still "exceeded the quota" (needs `PGSSLROOTCERT=system` to connect) → 15–18 Nov recovery waits.
+
 ### 2026-11-21 (day 53, cont.) — Neon quota outage → database moved onto the VPS
 - **Outage 2026-11-18 05:52 → 11-21 10:25 IST:** Neon free plan "exceeded the quota" → every DB query
   failed. Public pages kept serving from the ISR cache (200), but bookings, /api and the admin were
